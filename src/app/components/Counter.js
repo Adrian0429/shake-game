@@ -6,20 +6,36 @@ const Counter = () => {
     const [count, setCount] = useState(0);
 
     useEffect(() => {
-        const myShakeEvent = new Shake({ threshold: 3, timeout: 0});
-        myShakeEvent.start();
+        if (typeof DeviceMotionEvent.requestPermission === 'function') {
+            DeviceMotionEvent.requestPermission()
+                .then(permissionState => {
+                    if (permissionState === 'granted') {
+                        setupShakeEvent();
+                    }
+                })
+                .catch(console.error);
+        } else {
+            // Non-iOS devices or older iOS versions
+            setupShakeEvent();
+        }
 
-        const handleShake = () => {
-            setCount((prevCount) => prevCount + 1);
-        };
+        function setupShakeEvent() {
+            const myShakeEvent = new Shake({ threshold: 7.5, timeout: 100 });
+            myShakeEvent.start();
 
-        window.addEventListener('shake', handleShake, false);
+            const handleShake = () => {
+                setCount((prevCount) => prevCount + 1);
+            };
 
-        return () => {
-            myShakeEvent.stop();
-            window.removeEventListener('shake', handleShake, false);
-        };
+            window.addEventListener('shake', handleShake, false);
+
+            return () => {
+                myShakeEvent.stop();
+                window.removeEventListener('shake', handleShake, false);
+            };
+        }
     }, []);
+
 
     return (
         <div style={{ textAlign: 'center', marginTop: '20px' }}>

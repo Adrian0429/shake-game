@@ -2,6 +2,7 @@
 import Head from "next/head";
 import Counter from "./components/Counter";
 
+
 export default function Home() {
   return (
     <div>
@@ -14,7 +15,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
+      <main >
         <Counter />
       </main>
     </div>

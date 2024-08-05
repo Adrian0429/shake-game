@@ -6,7 +6,7 @@ const Counter = () => {
     const [count, setCount] = useState(0);
 
     useEffect(() => {
-        const myShakeEvent = new Shake({ threshold: 5, timeout: -1});
+        const myShakeEvent = new Shake({ threshold: 15, timeout: -0.00001});
         myShakeEvent.start();
 
         const handleShake = () => {

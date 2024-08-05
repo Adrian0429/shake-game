@@ -1,5 +1,4 @@
 
-import { time } from 'console';
 import { useState, useEffect } from 'react';
 import Shake from 'shake.js';
 
@@ -7,7 +6,7 @@ const Counter = () => {
     const [count, setCount] = useState(0);
 
     useEffect(() => {
-        const myShakeEvent = new Shake({ threshold: 3, timeout: 2000 });
+        const myShakeEvent = new Shake({ threshold: 5, timeout: 2000});
         myShakeEvent.start();
 
         const handleShake = () => {

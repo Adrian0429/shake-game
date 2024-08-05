@@ -20,7 +20,7 @@ const Counter = () => {
         }
 
         function setupShakeEvent() {
-            const myShakeEvent = new Shake({ threshold: 9, timeout: 100 });
+            const myShakeEvent = new Shake({ threshold: 10, timeout: 150 });
             myShakeEvent.start();
 
             const handleShake = () => {

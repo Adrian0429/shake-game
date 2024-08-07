@@ -23,6 +23,7 @@ export default function Home() {
         setUserData(WebApp.initDataUnsafe.user as UserData);
       }
     }, []);
+
   return (
     <div>
       <Head>

@@ -57,7 +57,7 @@ const Counter = () => {
         script.async = true;
         script.setAttribute('data-telegram-login', 'shakeTongamebot'); // Replace with your bot's username
         script.setAttribute('data-size', 'large');
-        script.setAttribute('data-auth-url', 'https://your-domain.com/api/auth/telegram'); // Replace with your auth endpoint
+        script.setAttribute('data-auth-url', 'fendy-kocok.vercel.app/api/auth/telegram'); // Replace with your auth endpoint
         script.setAttribute('data-request-access', 'write');
         document.getElementById('telegram-login').appendChild(script);
     };

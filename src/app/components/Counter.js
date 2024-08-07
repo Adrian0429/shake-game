@@ -25,7 +25,6 @@ const Counter = () => {
                     if (btnRef.current) btnRef.current.style.display = 'block';
                 }
             } else {
-                // For non-iOS or iOS < 13 devices
                 setPermissionGranted(true);
                 setupShakeEvent();
             }

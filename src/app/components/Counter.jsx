@@ -8,7 +8,6 @@ import Link from 'next/link';
 const Counter = () => {
     const [count, setCount] = useState(0);
     const [permissionGranted, setPermissionGranted] = useState(false);
-    const btnRef = useRef(null);
 
     useEffect(() => {
         if (!permissionGranted){
@@ -66,15 +65,12 @@ const Counter = () => {
     return (
         <div className={`h-screen flex flex-col justify-center items-center text-center`}>
             {!permissionGranted && (
-                <Link href="?modal=true">
                     <button
                         className='bg-slate-500 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded mb-4'
-                        
+                        onClick={checkMotionPermission}
                     >
                         Allow Device Motion
-                    </button>
-                </Link>
-                
+                    </button>                
             )}
             <h1 className='font-bold text-2xl'>Shake to Increase Count</h1>
             <p>Shake your phone to increase the count:</p>

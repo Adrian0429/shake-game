@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 
-const secret = "7064814930:AAEjykd4sHl5F6iPfS6bXKXKYe4Uk521Wa8";
+const secret = process.env.TELEGRAM_BOT_SECRET;
 
 export default function handler(req, res) {
     const { hash, ...data } = req.query;

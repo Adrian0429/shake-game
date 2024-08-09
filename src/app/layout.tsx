@@ -2,8 +2,14 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
+import dynamic from "next/dynamic";
+import PrelineScript from "./components/PrelineScript";
 
 const inter = Inter({ subsets: ["latin"] });
+
+const Modal = dynamic(() => import("../app/components/Modal/Modal"), {
+  ssr: false,
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -23,7 +29,11 @@ export default function RootLayout({
           strategy="beforeInteractive"
         />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        {children}
+        <Modal />
+      </body>
+      <PrelineScript />
     </html>
   );
 }

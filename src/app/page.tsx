@@ -1,10 +1,12 @@
-"use client"
+"use client";
 import Head from "next/head";
 import Counter from "./components/Counter";
 import WebApp from "@twa-dev/sdk";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import dynamic from "next/dynamic";
 
-// Define the interface for user data
 interface UserData {
   id: number;
   first_name: string;
@@ -14,28 +16,24 @@ interface UserData {
   is_premium?: boolean;
 }
 
-
 export default function Home() {
     const [userData, setUserData] = useState<UserData | null>(null);
+    const [loggedIn, setLoggedIn] = useState(false);
+    
 
     useEffect(() => {
       if (WebApp.initDataUnsafe.user) {
         setUserData(WebApp.initDataUnsafe.user as UserData);
       }
     }, []);
-
+    
   return (
     <div>
-      <Head>
-        <title>Shake Counter</title>
-        <meta
-          name="description"
-          content="Shake your phone to increase the count."
-        />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
       <main>
+        <Link href="?modal=true">
+          <button>Open Modal</button>
+        </Link>
+
         {userData ? (
           <>
             <h1 className="text-2xl font-bold mb-4">User Data</h1>

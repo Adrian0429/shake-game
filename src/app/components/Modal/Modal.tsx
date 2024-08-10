@@ -69,7 +69,7 @@ function Modal() {
                 </button>
 
                 <div
-                  className="hs-dropdown-menu transition-[opacity,margin] max-h-[300px] overflow-y-scroll duration hs-dropdown-open:opacity-100 opacity-0 hidden bg-white shadow-md rounded-lg p-1 mt-2 after:h-4 after:absolute z-50 after:-bottom-4 after:start-0 after:w-full before:h-4 before:absolute before:start-0 before:w-full"
+                  className="hs-dropdown-menu transition-[opacity,margin] max-h-[300px] overflow-y-scroll duration hs-dropdown-open:opacity-100 opacity-0 hidden bg-white shadow-md rounded-lg p-1 mt-2 after:h-4 after:absolute z-30 after:-bottom-4 after:start-0 after:w-full before:h-4 before:absolute before:start-0 before:w-full"
                   aria-labelledby="hs-dropdown-default"
                 >
                   {countries.map((country, index) => (

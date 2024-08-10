@@ -63,7 +63,7 @@ const Counter = () => {
     };
 
     return (
-        <div className={`h-screen flex flex-col justify-center items-center text-center`}>
+        <div className={`border-4 border-blue-500 justify-center items-center text-center`}>
             {!permissionGranted && (
                     <button
                         className='bg-slate-500 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded mb-4'

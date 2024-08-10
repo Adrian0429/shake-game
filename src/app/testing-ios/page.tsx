@@ -1,5 +1,6 @@
 "use client"
 import { useEffect, useState, useRef } from "react";
+import FooterNav from "../components/Navigation/Footer";
 
 const MotionPage = () => {
   const [permissionGranted, setPermissionGranted] = useState(false);
@@ -57,18 +58,21 @@ const MotionPage = () => {
   };
 
   return (
-    <div style={{ textAlign: "center", marginTop: "20px" }}>
-      <button
-        ref={btnRef}
-        style={{ display: "none", padding: "2em" }}
-        onClick={checkMotionPermission}
-      >
-        Hey! This will be much better with sensors. Allow?
-      </button>
-      <div ref={outputMessageRef}>{shakeMessage}</div>
-      <h1>Shake to Detect Motion</h1>
-      <p>Shake your device to trigger a message.</p>
-    </div>
+    <>
+      <div style={{ textAlign: "center", marginTop: "20px" }}>
+        <button
+          ref={btnRef}
+          style={{ display: "none", padding: "2em" }}
+          onClick={checkMotionPermission}
+        >
+          Hey! This will be much better with sensors. Allow?
+        </button>
+        <div ref={outputMessageRef}>{shakeMessage}</div>
+        <h1>Shake to Detect Motion</h1>
+        <p>Shake your device to trigger a message.</p>
+      </div>
+      <FooterNav />
+    </>
   );
 };
 

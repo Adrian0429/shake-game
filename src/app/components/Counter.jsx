@@ -2,12 +2,14 @@
 import { useState, useEffect, useRef } from 'react';
 import Shake from 'shake.js';
 import Image from 'next/image';
-import logo from "../../../public/shakeLogo.jpeg";
+import logo from "../../../public/ShakeNoBg.png";
 import Link from 'next/link';
+import Header from './Navigation/Header';
 
 const Counter = () => {
     const [count, setCount] = useState(0);
     const [permissionGranted, setPermissionGranted] = useState(false);
+    const maxEnergy = process.env.NEXT_PUBLIC_MAX_ENERGY;
 
     useEffect(() => {
         if (!permissionGranted){
@@ -15,6 +17,12 @@ const Counter = () => {
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+    
+    const handleClick = () => {
+        if (count < maxEnergy) {
+            setCount((prevCount) => prevCount + 1);
+        }
+    };
 
     const checkMotionPermission = async () => {
         try {
@@ -39,12 +47,13 @@ const Counter = () => {
         myShakeEvent.start();
 
         const handleShake = () => {
-            setCount((prevCount) => prevCount + 1);
+            if(count < maxEnergy){
+                setCount((prevCount) => prevCount + 1);
+            }
         };
 
         window.addEventListener('shake', handleShake, false);
 
-        // Cleanup
         return () => {
             myShakeEvent.stop();
             window.removeEventListener('shake', handleShake, false);
@@ -63,20 +72,34 @@ const Counter = () => {
     };
 
     return (
-        <div className={`border-4 border-blue-500 justify-center items-center text-center`}>
-            {!permissionGranted && (
+        <>
+        <Header curEnergy={maxEnergy - count} maxEnergy={maxEnergy}/>
+        <div className={`h-[calc(100vh-4rem)] flex items-center`}>
+            <div className=''>
+                {!permissionGranted && (
                     <button
                         className='bg-slate-500 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded mb-4'
                         onClick={checkMotionPermission}
                     >
                         Allow Device Motion
-                    </button>                
-            )}
-            <h1 className='font-bold text-2xl'>Shake to Increase Count</h1>
-            <p>Shake your phone to increase the count:</p>
-            <h2 className='mt-2 text-4xl'>{count}</h2>
-            <Image className="mx-auto mt-5" src={logo} alt="Shake" width={450} height={450} />
+                    </button>
+                )}
+
+                <div className='w-full text-center'>
+                    <button onClick={handleClick}>klik</button>
+                    <h1 className='w-full font-bold text-2xl'>Shake to Increase Count</h1>
+                    <p>Shake your phone to increase the count:</p>
+                    <h2 className='mt-2 text-4xl'>{count}</h2>
+                </div>
+
+                    <div class="w-full bg-gray-200 rounded-full dark:bg-gray-700">
+                        {/* <div class="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style={"width: 45%;"}> 45%</div> */}
+                    </div>
+                <Image className="mx-auto mt-5" src={logo} alt="Shake" width={450} height={450} />
+            </div>
+            
         </div>
+        </>
     );
 };
 

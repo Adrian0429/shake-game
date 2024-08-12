@@ -1,6 +1,6 @@
 "use client"
 import { useEffect, useState, useRef } from "react";
-import FooterNav from "../components/Navigation/Footer";
+import FooterNav from "../../components/Navigation/Footer";
 
 const MotionPage = () => {
   const [permissionGranted, setPermissionGranted] = useState(false);

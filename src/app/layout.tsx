@@ -1,9 +1,11 @@
+
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
 import dynamic from "next/dynamic";
 import PrelineScript from "./components/PrelineScript";
+import FooterNav from "./components/Navigation/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,6 +33,7 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         {children}
+        <FooterNav />
         <Modal />
       </body>
       <PrelineScript />

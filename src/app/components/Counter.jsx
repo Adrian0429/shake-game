@@ -9,7 +9,7 @@ import Header from './Navigation/Header';
 const Counter = () => {
     const [count, setCount] = useState(0);
     const [permissionGranted, setPermissionGranted] = useState(false);
-    const maxEnergy = 100;
+    const maxEnergy = 10;
 
     useEffect(() => {
         if (!permissionGranted) {
@@ -39,12 +39,6 @@ const Counter = () => {
         const myShakeEvent = new Shake({ threshold: 10, timeout: 150 });
         myShakeEvent.start();
 
-        const handleShake = () => {
-            if (count < maxEnergy) {
-                setCount((prevCount) => prevCount + 1);
-            }
-        };
-
         window.addEventListener('shake', handleShake, false);
 
         return () => {
@@ -56,6 +50,8 @@ const Counter = () => {
     const handleShake = () => {
         if (count < maxEnergy) {
             setCount((prevCount) => prevCount + 1);
+        }else{
+            alert("You have reached the maximum energy");
         }
     };
 

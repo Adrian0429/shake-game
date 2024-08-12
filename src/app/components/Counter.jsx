@@ -58,17 +58,8 @@ const Counter = () => {
     return (
         <>
             <Header curEnergy={maxEnergy - count} maxEnergy={maxEnergy} />
-            <div className={`h-[calc(100vh-4rem)] flex items-center`}>
-                <div className=''>
-                    {!permissionGranted && (
-                        <button
-                            className='bg-slate-500 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded mb-4'
-                            onClick={checkMotionPermission}
-                        >
-                            Allow Device Motion
-                        </button>
-                    )}
-
+            <div className={`h-[90vh] flex items-center`}>
+                <div className='border'>
                     <div className='w-full text-center'>
                         <h1 className='w-full font-bold text-2xl'>Shake to Increase Count</h1>
                         <p>Shake your phone to increase the count:</p>
@@ -79,6 +70,14 @@ const Counter = () => {
                         >
                             Klik to Shake
                         </button>
+                        {!permissionGranted && (
+                            <button
+                                className='bg-slate-500 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded mb-4'
+                                onClick={checkMotionPermission}
+                            >
+                                Allow Device Motion
+                            </button>
+                        )}
                     </div>
 
                     <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700 mt-5">

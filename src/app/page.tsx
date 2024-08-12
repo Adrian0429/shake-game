@@ -11,7 +11,7 @@ export default function Home() {
 
     
   return (
-    <div className="relative h-[calc(90vh-4rem)]">
+    <div className="relative border border-red-600 items-center">
         <Counter />
     </div>
   );

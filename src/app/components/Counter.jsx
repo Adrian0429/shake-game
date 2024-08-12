@@ -9,7 +9,7 @@ import Header from './Navigation/Header';
 const Counter = () => {
     const [count, setCount] = useState(0);
     const [permissionGranted, setPermissionGranted] = useState(false);
-    const maxEnergy = process.env.NEXT_PUBLIC_MAX_ENERGY;
+    const maxEnergy = 100;
 
     useEffect(() => {
         if (!permissionGranted){

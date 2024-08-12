@@ -3,34 +3,26 @@ import { useState, useEffect, useRef } from 'react';
 import Shake from 'shake.js';
 import Image from 'next/image';
 import logo from "../../../public/ShakeNoBg.png";
+import Link from 'next/link';
 import Header from './Navigation/Header';
 
 const Counter = () => {
     const [count, setCount] = useState(0);
     const [permissionGranted, setPermissionGranted] = useState(false);
     const maxEnergy = 10;
-
-    // Define myShakeEvent outside the functions so it's accessible everywhere
     const myShakeEvent = useRef(null);
-
+    
     useEffect(() => {
+        if (count === maxEnergy) {
+            myShakeEvent.stop();
+            window.removeEventListener('shake', handleShake, false);
+        }
         if (!permissionGranted) {
             checkMotionPermission();
         }
-
-        if (count === maxEnergy && myShakeEvent.current) {
-            myShakeEvent.current.stop();
-            window.removeEventListener('shake', handleShake, false);
-        }
-
-        return () => {
-            if (myShakeEvent.current) {
-                myShakeEvent.current.stop();
-                window.removeEventListener('shake', handleShake, false);
-            }
-        };
+        
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [count, permissionGranted]);
+    }, []);
 
     const checkMotionPermission = async () => {
         try {
@@ -50,21 +42,25 @@ const Counter = () => {
     };
 
     const setupShakeEvent = () => {
-        myShakeEvent.current = new Shake({ threshold: 10, timeout: 150 });
-        myShakeEvent.current.start();
+        const myShakeEvent = new Shake({ threshold: 10, timeout: 150 });
+        myShakeEvent.start();
+
 
         window.addEventListener('shake', handleShake, false);
+
+        return () => {
+            myShakeEvent.stop();
+            window.removeEventListener('shake', handleShake, false);
+        };
     };
 
     const handleShake = () => {
         if (count < maxEnergy) {
             setCount((prevCount) => prevCount + 1);
-        } else {
+        }else{
             alert("You have reached the maximum energy");
-            if (myShakeEvent.current) {
-                myShakeEvent.current.stop();
-                window.removeEventListener('shake', handleShake, false);
-            }
+            myShakeEvent.stop();
+            window.removeEventListener('shake', handleShake, false);
         }
     };
 

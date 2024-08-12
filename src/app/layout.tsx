@@ -31,7 +31,7 @@ export default function RootLayout({
           strategy="beforeInteractive"
         />
       </head>
-      <body className={inter.className}>
+      <body className={inter.className + 'h-[90vh]'}>
         {children}
         <FooterNav />
         <Modal />

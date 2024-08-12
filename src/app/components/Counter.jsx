@@ -17,6 +17,7 @@ const Counter = () => {
         }
         if (count >= maxEnergy) {
             myShakeEvent.stop();
+            window.removeEventListener('shake', handleShake, false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -57,6 +58,7 @@ const Counter = () => {
         }else{
             alert("You have reached the maximum energy");
             myShakeEvent.stop();
+            window.removeEventListener('shake', handleShake, false);
         }
     };
 

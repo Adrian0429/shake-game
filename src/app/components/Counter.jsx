@@ -15,6 +15,9 @@ const Counter = () => {
         if (!permissionGranted) {
             checkMotionPermission();
         }
+        if (count >= maxEnergy) {
+            myShakeEvent.stop();
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -39,6 +42,7 @@ const Counter = () => {
         const myShakeEvent = new Shake({ threshold: 10, timeout: 150 });
         myShakeEvent.start();
 
+
         window.addEventListener('shake', handleShake, false);
 
         return () => {
@@ -52,11 +56,12 @@ const Counter = () => {
             setCount((prevCount) => prevCount + 1);
         }else{
             alert("You have reached the maximum energy");
+            myShakeEvent.stop();
         }
     };
 
     return (
-        <>
+        <div className='w-full h-full'>
             <Header curEnergy={maxEnergy - count} maxEnergy={maxEnergy} />
             <div className={`h-[90vh] flex items-center`}>
                 <div className='border'>
@@ -87,7 +92,7 @@ const Counter = () => {
                     <Image className="mx-auto mt-5" src={logo} alt="Shake" width={450} height={450} />
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 

@@ -16,7 +16,7 @@ export default function Header({ maxEnergy, curEnergy }: HeaderProps) {
   const pathname = usePathname();
 
   return (
-    <div className="fixed Top-0 z-10 w-full h-[4rem]">
+    <div className="w-full h-[4rem]">
       <div className="grid h-full max-w-lg grid-cols-3 mx-auto">
         <div className="border flex justify-center items-center">
           <FaBoltLightning className="text-xl text-yellow-400 mr-2" />

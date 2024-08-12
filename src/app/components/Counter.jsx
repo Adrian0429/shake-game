@@ -9,11 +9,13 @@ const Counter = () => {
     const [count, setCount] = useState(0);
     const [permissionGranted, setPermissionGranted] = useState(false);
     const maxEnergy = 10;
+    const frenzy = false
 
     // Define myShakeEvent outside the functions so it's accessible everywhere
     const myShakeEvent = useRef(null);
 
     useEffect(() => {
+        
         if (!permissionGranted) {
             checkMotionPermission();
         }
@@ -65,7 +67,7 @@ const Counter = () => {
         <div className='w-full h-full'>
             <Header curEnergy={maxEnergy - count} maxEnergy={maxEnergy} />
             <div className={`h-[90vh] flex items-center`}>
-                <div className='border'>
+                <div className='w-full'>
                     <div className='w-full text-center'>
                         <h1 className='w-full font-bold text-2xl'>Shake to Increase Count</h1>
                         <p>Shake your phone to increase the count:</p>
@@ -85,10 +87,12 @@ const Counter = () => {
                             </button>
                         )}
                     </div>
-
-                    <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700 mt-5">
-                        {/* <div className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style={{ width: `${(count / maxEnergy) * 100}%` }}> {`${(count / maxEnergy) * 100}%`} </div> */}
+                    <div className='w-[90%] mx-auto'>
+                        <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700 mt-5">
+                            <div className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style={{ width: `${(count / maxEnergy) * 100}%` }}> {`${(count / maxEnergy) * 100}%`} </div>
+                        </div>
                     </div>
+                    
 
                     <Image className="mx-auto mt-5" src={logo} alt="Shake" width={450} height={450} />
                 </div>

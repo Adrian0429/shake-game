@@ -42,7 +42,7 @@ const Counter = () => {
     const setupShakeEvent = () => {
         const myShakeEvent = new Shake({ threshold: 10, timeout: 150 });
         myShakeEvent.start();
-
+        myShakeEvent.stop();
 
         window.addEventListener('shake', handleShake, false);
 

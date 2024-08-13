@@ -18,13 +18,8 @@ const Counter = () => {
     const frenzyTimer = useRef(null); 
 
     useEffect(() => {
-        if (!permissionGranted) {
-            checkMotionPermission();
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []); 
+        checkMotionPermission()
 
-    useEffect(() => {
         if(count === maxEnergy / 2){
             triggerFrenzyMode();
         }
@@ -34,7 +29,7 @@ const Counter = () => {
             window.removeEventListener('shake', handleShake, false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [count]);
+    }, [count, permissionGranted]);
 
     const checkMotionPermission = async () => {
         try {
@@ -96,6 +91,14 @@ const Counter = () => {
                         >
                             Klik to Shake
                         </button> */}
+                        {!permissionGranted && (
+                            <button
+                                className='bg-slate-500 w-[50%] hover:bg-slate-700 text-white font-bold py-2 px-4 rounded mb-4'
+                                onClick={checkMotionPermission}
+                            >
+                                Allow Device Motion
+                            </button>
+                        )}
                     </div>
                     <div className='w-[90%] mx-auto'>
                         <div id='frenzybar' className="w-full bg-gray-200 rounded-full dark:bg-gray-700 mt-5">

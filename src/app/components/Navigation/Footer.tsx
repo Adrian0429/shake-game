@@ -33,7 +33,7 @@ export default function FooterNav() {
     const pathname = usePathname();
 
   return (
-    <div className="fixed bottom-0 left-0 z-50 w-full h-[4rem] bg-white border-t border-gray-200 dark:bg-black dark:border-gray-900">
+    <div className="fixed bottom-0 left-0 z-50 w-full h-[4.5rem] bg-white border-t rounded-t-2xl border-gray-200 dark:bg-slate-900 dark:border-gray-900">
       <div className="grid h-full max-w-lg grid-cols-3 mx-auto font-medium">
         {Footerdata.map((item, index) => {
           const isActive = pathname === item.link;

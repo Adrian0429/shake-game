@@ -2,78 +2,51 @@
 import { useEffect, useState, useRef } from "react";
 import FooterNav from "../../components/Navigation/Footer";
 
-const MotionPage = () => {
-  const [permissionGranted, setPermissionGranted] = useState(false);
-  const [shakeMessage, setShakeMessage] = useState("");
-  const btnRef = useRef<HTMLButtonElement>(null);
-  const outputMessageRef = useRef<HTMLDivElement>(null);
+const tasks = [
+  {
+    id: 1,
+    title: "Task 1",
+    description: "Follow Instagram",
+    link: "https://instagram.com/_adriankaruna",
+    completed: false,
+  },
+  {
+    id: 2,
+    title: "Task 2",
+    description: "This is the second task",
+    completed: false,
+  },
+  {
+    id: 3,
+    title: "Task 3",
+    description: "This is the third task",
+    completed: false,
+  },
+];
 
-  useEffect(() => {
-    checkMotionPermission();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const checkMotionPermission = async () => {
-    try {
-      if (typeof (DeviceOrientationEvent as any).requestPermission === "function") {
-        // @ts-ignore (to suppress TypeScript error)
-        const permissionState =
-          await (DeviceOrientationEvent as any).requestPermission();
-        if (permissionState === "granted") {
-          setPermissionGranted(true);
-          setMotionListeners();
-        } else {
-          if (btnRef.current) btnRef.current.style.display = "block";
-        }
-      } else {
-        setMotionListeners();
-      }
-    } catch (error) {
-      console.error("Error getting sensor permission:", error);
-      if (btnRef.current) btnRef.current.style.display = "block";
-    }
-  };
-
-  const setMotionListeners = () => {
-    window.addEventListener("devicemotion", handleMotionEvent);
-  };
-
-  const handleMotionEvent = (event: DeviceMotionEvent) => {
-    console.log("Device motion event:", event);
-
-    if (
-      event.rotationRate &&
-      event.rotationRate.alpha !== null &&
-      event.rotationRate.beta !== null &&
-      event.rotationRate.gamma !== null &&
-      (event.rotationRate.alpha > 256 ||
-        event.rotationRate.beta > 256 ||
-        event.rotationRate.gamma > 256)
-    ) {
-      setShakeMessage("SHAKEN!");
-      setTimeout(() => {
-        setShakeMessage("");
-      }, 2000);
-    }
-  };
-
+const TaskPage = () => {
   return (
-    <>
-      <div style={{ textAlign: "center", marginTop: "20px" }}>
-        <button
-          ref={btnRef}
-          style={{ display: "none", padding: "2em" }}
-          onClick={checkMotionPermission}
-        >
-          Hey! This will be much better with sensors. Allow?
-        </button>
-        <div ref={outputMessageRef}>{shakeMessage}</div>
-        <h1>Shake to Detect Motion</h1>
-        <p>Shake your device to trigger a message.</p>
+    <div className="w-full h-full py-20 ">
+      <div className="flex flex-col gap-y-4">
+        <h2>Daily Tasks</h2>
+        
+        {tasks.map((task) => { 
+          return (
+            <div key={task.id} className="w-[80%]">
+              <h3 className="text-H4">{task.title}</h3>
+              <div className="w-full bg-blue-300">
+                <p>{task.description}</p>
+                <a href={task.link} target="_blank">
+                  Go to task
+                </a>
+              </div>
+            </div>
+          );
+        })}
+        
       </div>
-      <FooterNav />
-    </>
+    </div>
   );
 };
 
-export default MotionPage;
+export default TaskPage;

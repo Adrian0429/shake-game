@@ -82,7 +82,7 @@ const Counter = () => {
     return (
         <div className='w-full h-full'>
             <Header curEnergy={maxEnergy - count} maxEnergy={maxEnergy} />
-            <div className={`h-[calc(100vh-10rem)] mt-5 flex items-center`}>
+            <div className={`h-[calc(100vh-9rem)] mt-5 flex items-center`}>
                 <div className='w-full'>
                     <div className='flex flex-col text-center items-center gap-y-3'>
                         <h1 className='w-full font-bold text-2xl'>Shake to Increase Count</h1>
@@ -108,9 +108,7 @@ const Counter = () => {
                             <div className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-1 leading-none rounded-full" style={{ width: `${(count / (maxEnergy / 2)) * 100}%` }}></div>
                         </div>
                     </div>
-                    
-
-                    <Image className="h-auto w-[80%] mt-3 border mx-auto" src={logo} alt="Shake" width={400} height={400} />
+                    <Image className="h-auto w-[80%] mt-3 mx-auto" src={logo} alt="Shake" width={400} height={400} />
                 </div>
             </div>
         </div>

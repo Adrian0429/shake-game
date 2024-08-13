@@ -18,6 +18,8 @@ export const metadata: Metadata = {
   description: "Shake TON Game",
 };
 
+
+
 export default function RootLayout({
   children,
 }: Readonly<{

@@ -17,7 +17,7 @@ export default function Header({ maxEnergy, curEnergy }: HeaderProps) {
 
   return (
     <div className="w-screen h-[4rem]">
-      <div className="grid h-fullgrid-cols-3 mx-auto">
+      <div className="grid h-full grid-cols-3 mx-auto">
         <div className="border flex justify-center items-center">
           <FaBoltLightning className="text-xl text-yellow-400 mr-2" />
           <span className="text-sm font-medium">

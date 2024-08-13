@@ -7,17 +7,24 @@ import Header from './Navigation/Header';
 
 const Counter = () => {
     const [count, setCount] = useState(0);
+    const [frenzy, setFrenzy] = useState(false);
+    const [increment, setIncrement] = useState(1);  
     const [permissionGranted, setPermissionGranted] = useState(false);
-    const maxEnergy = 10;
-    const frenzy = false
+    const maxEnergy = 100;
+    const frenzyDuration = 2000;
 
     // Define myShakeEvent outside the functions so it's accessible everywhere
     const myShakeEvent = useRef(null);
+    const frenzyTimer = useRef(null); 
 
     useEffect(() => {
         
         if (!permissionGranted) {
             checkMotionPermission();
+        }
+
+        if(count === maxEnergy / 2){
+            triggerFrenzyMode();
         }
 
         if (count === maxEnergy && myShakeEvent.current) {
@@ -53,7 +60,7 @@ const Counter = () => {
 
     const handleShake = () => {
         if (count < maxEnergy) {
-            setCount((prevCount) => prevCount + 1);
+            setCount((prevCount) => prevCount + increment);
         } else {
             alert("You have reached the maximum energy");
             if (myShakeEvent.current) {
@@ -63,24 +70,33 @@ const Counter = () => {
         }
     };
 
+    const triggerFrenzyMode = () => {
+        setFrenzy(true);
+        setIncrement(2);
+        frenzyTimer.current = setTimeout(() => {
+            setFrenzy(false);
+            setIncrement(1);
+        }, frenzyDuration);
+    };
+
     return (
         <div className='w-full h-full'>
             <Header curEnergy={maxEnergy - count} maxEnergy={maxEnergy} />
-            <div className={`h-[90vh] flex items-center`}>
+            <div className={`h-[calc(100vh-10rem)] mt-5 flex items-center`}>
                 <div className='w-full'>
-                    <div className='w-full text-center'>
+                    <div className='flex flex-col text-center items-center gap-y-3'>
                         <h1 className='w-full font-bold text-2xl'>Shake to Increase Count</h1>
                         <p>Shake your phone to increase the count:</p>
                         <h2 className='mt-2 text-4xl'>{count}</h2>
-                        <button
+                        {/* <button
                             onClick={handleShake}
-                            className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4'
+                            className='bg-blue-500 w-[50%] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4'
                         >
                             Klik to Shake
-                        </button>
-                        {!permissionGranted && (
+                        </button> */}
+                        {permissionGranted && (
                             <button
-                                className='bg-slate-500 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded mb-4'
+                                className='bg-slate-500 w-[50%] hover:bg-slate-700 text-white font-bold py-2 px-4 rounded mb-4'
                                 onClick={checkMotionPermission}
                             >
                                 Allow Device Motion
@@ -88,13 +104,13 @@ const Counter = () => {
                         )}
                     </div>
                     <div className='w-[90%] mx-auto'>
-                        <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700 mt-5">
-                            <div className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style={{ width: `${(count / maxEnergy) * 100}%` }}> {`${(count / maxEnergy) * 100}%`} </div>
+                        <div id='frenzybar' className="w-full bg-gray-200 rounded-full dark:bg-gray-700 mt-5">
+                            <div className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-1 leading-none rounded-full" style={{ width: `${(count / (maxEnergy / 2)) * 100}%` }}></div>
                         </div>
                     </div>
                     
 
-                    <Image className="mx-auto mt-5" src={logo} alt="Shake" width={450} height={450} />
+                    <Image className="h-auto w-[80%] mt-3 border mx-auto" src={logo} alt="Shake" width={400} height={400} />
                 </div>
             </div>
         </div>

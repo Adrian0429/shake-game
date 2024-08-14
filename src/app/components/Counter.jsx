@@ -7,23 +7,11 @@ import Header from './Navigation/Header';
 
 const Counter = () => {
     const [count, setCount] = useState(0);
-    const [frenzy, setFrenzy] = useState(false);
-    const [increment, setIncrement] = useState(1);  
     const [permissionGranted, setPermissionGranted] = useState(false);
     const maxEnergy = 100;
-    const frenzyDuration = 2000;
-
-    // Define myShakeEvent outside the functions so it's accessible everywhere
     const myShakeEvent = useRef(null);
-    const frenzyTimer = useRef(null); 
 
     useEffect(() => {
-        checkMotionPermission()
-
-        if(count === maxEnergy / 2){
-            triggerFrenzyMode();
-        }
-
         if (count === maxEnergy && myShakeEvent.current) {
             myShakeEvent.current.stop();
             window.removeEventListener('shake', handleShake, false);
@@ -65,15 +53,6 @@ const Counter = () => {
                 window.removeEventListener('shake', handleShake, false);
             }
         }
-    };
-
-    const triggerFrenzyMode = () => {
-        setFrenzy(true);
-        setIncrement(2);
-        frenzyTimer.current = setTimeout(() => {
-            setFrenzy(false);
-            setIncrement(1);
-        }, frenzyDuration);
     };
 
     return (

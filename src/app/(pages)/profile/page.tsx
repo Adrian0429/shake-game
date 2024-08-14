@@ -19,7 +19,7 @@ export default function Profile() {
     }, []);
 
   return (
-    <div className="h-[calc(100vh-4.5rem)] w-full border p-4">
+    <div className="h-[calc(100vh-4.5rem)] w-full p-4">
       <h1 className="text-H2 w-full text-center">Profile User</h1>
       <ul className="text-S2 mt-5">
         <li>User ID: {userData?.id}</li>
@@ -36,7 +36,7 @@ export default function Profile() {
       <h2 className="text-H3 mt-10">Redeem Referral Code</h2>
       <div className="flex mt-2 flex-row h-16 bg-white rounded-lg items-center">
         <input type="text" className="w-full h-full rounded-l-lg text-black px-4" />
-        <button className="bg-primary text-black rounded-r-lg px-5 h-full">Redeem</button>
+        <button className="bg-primary rounded-r-lg px-5 h-full text-white bg-slate-900">Redeem</button>
       </div>
     </div>
   );

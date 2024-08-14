@@ -57,7 +57,7 @@ const Counter = () => {
 
     const handleShake = () => {
         if (count < maxEnergy) {
-            setCount((prevCount) => prevCount + increment);
+            setCount((prevCount) => prevCount + 1);
         } else {
             alert("You have reached the maximum energy");
             if (myShakeEvent.current) {

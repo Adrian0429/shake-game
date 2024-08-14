@@ -33,10 +33,10 @@ const TaskPage = () => {
           return (
             <div key={task.id} className="w-[80%]">
               <h3 className="text-H4">{task.title}</h3>
-              <div className="w-full flex flex-row justify-between bg-blue-300 p-4 rounded-lg">
-                <p>{task.description}</p>
+              <div className="flex flex-row justify-between items-center bg-blue-600 rounded-lg w-full px-4 h-16 mt-2">
+                <p className="text-S2">{task.description}</p>
                 {task.link && (
-                  <Link href={task.link} target="_blank">
+                  <Link href={task.link} target="_blank" className="text-S2 px-5 py-3 bg-blue-700 rounded-lg">
                     GO
                   </Link>
                 )}

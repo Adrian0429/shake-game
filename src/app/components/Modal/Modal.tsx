@@ -4,10 +4,19 @@ import { useSearchParams, usePathname } from "next/navigation";
 import Link from "next/link";
 import { FiAlertTriangle, FiChevronDown, FiX } from "react-icons/fi";
 import countries from "@/app/constant/Country";
+import WebApp from "@twa-dev/sdk";
+import axios from "axios";
 
 interface Country {
     name: string;
     code: string;
+}
+
+interface UserData {
+  id: number;
+  username?: string;
+  language_code: string;
+  is_premium?: boolean;
 }
 
 function Modal() {
@@ -16,6 +25,36 @@ function Modal() {
   const [isClient, setIsClient] = useState(false);
   const [SelectedCountry, setSelectedCountry] = useState<Country | null>(null);
   const modal = searchParams.get("modal");
+  const [userData, setUserData] = useState<UserData | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = {
+      email: e.currentTarget.email.value,
+      region: SelectedCountry?.name,
+    };
+
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/endpoint",
+        formData
+      );
+
+      // Handle successful response
+      console.log("Form submitted successfully", response.data);
+
+    } catch (error) {
+      console.error("Error submitting form:", error.response || error.message);
+    }
+  };
+
+
+    useEffect(() => {
+      if (WebApp.initDataUnsafe.user) {
+        setUserData(WebApp.initDataUnsafe.user as UserData);
+      }
+    }, []);
 
   useEffect(() => {
     setIsClient(true);
@@ -28,17 +67,10 @@ function Modal() {
       {modal && (
         <dialog className="fixed left-0 top-0 w-full h-full bg-black bg-opacity-50 z-50 overflow-auto flex justify-center items-center">
           <div className="relative flex flex-col items-center mx-auto p-8 bg-white min-h-[300px] w-[85%] rounded-lg z-100">
-            <Link
-              href={pathname}
-              className="absolute top-2 right-2 p-2 text-gray-700 hover:text-gray-900"
-            >
-              <FiX className="text-xl" />
-            </Link>
             <h1 className="text-xl font-bold my-4 text-center">
               Welcome To The Best Shaking Game Ever !
             </h1>
-
-            <form action="" className="w-full h-full">
+            <form onSubmit={handleSubmit} className="w-full h-full">
               <div className="w-full my-3">
                 <div className="flex justify-between items-center">
                   <label className="text-sm font-medium mb-2">Email</label>
@@ -54,6 +86,24 @@ function Modal() {
                 />
               </div>
 
+              <input
+                type="text"
+                value={userData?.id}
+                name="tele_id"
+                className="hidden"
+              />
+              <input
+                type="text"
+                value={userData?.username}
+                name="name"
+                className="hidden"
+              />
+              <input
+                type="text"
+                value={SelectedCountry?.code}
+                name="region"
+                className="hidden"
+              />
               {/* dropdown */}
               <div className="z-10 hs-dropdown relative inline-flex flex-col w-full mt-2">
                 <p className="text-sm font-medium mb-2 text-start">Region</p>
@@ -82,24 +132,19 @@ function Modal() {
                       {country.name}
                     </a>
                   ))}
-                  <input type="text" value={SelectedCountry?.code} className="hidden"/>
+                  <input
+                    type="text"
+                    value={SelectedCountry?.code}
+                    className="hidden"
+                  />
                 </div>
               </div>
+
+              <button className="mt-5 border bg-blue-500 py-3 w-full rounded-lg text-white font-semibold">
+                Confirm
+              </button>
             </form>
 
-            <div className="mt-4 flex w-full flex-row justify-center space-x-5">
-              <Link href={pathname}>
-                <button className="border bg-red-500 py-3 px-6 rounded-lg text-white font-semibold">
-                  Cancel
-                </button>
-              </Link>
-
-              <Link href={pathname}>
-                <button className="border bg-blue-500 py-3 px-6 rounded-lg text-white font-semibold">
-                  Confirm
-                </button>
-              </Link>
-            </div>
           </div>
         </dialog>
       )}

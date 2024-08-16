@@ -10,7 +10,6 @@ interface UserData {
 }
 export default function Profile() {
     const [userData, setUserData] = useState<UserData | null>(null);
-    const [loggedIn, setLoggedIn] = useState(false);
 
     useEffect(() => {
       if (WebApp.initDataUnsafe.user) {

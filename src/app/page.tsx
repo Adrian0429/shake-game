@@ -4,11 +4,19 @@ import Counter from "./components/Counter";
 import WebApp from "@twa-dev/sdk";
 import { useEffect, useState } from "react";
 import Header from "./components/Navigation/Header";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [isMobile, setIsMobile] = useState(false);
+  const [login, setLogin] = useState(false);
+  const token = localStorage.getItem("token");
+  const router = useRouter();
+  
 
   useEffect(() => {
+    if (!token) {
+      router.push("?modal=true");
+    }
     const isMobileDevice =
       /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(
         navigator.userAgent
@@ -21,7 +29,7 @@ export default function Home() {
     } else {
       setIsMobile(true);
     }
-  }, []);
+  }, [token, router]);
 
   return (
     <div className="h-[calc(100vh-4.5rem)]">

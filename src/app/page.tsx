@@ -42,7 +42,6 @@ const Footerdata = [
 export default function Home() {
   const [count, setCount] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
-  const token = localStorage.getItem("token");
   const router = useRouter();
   const [Page, setPage] = useState("Home");
   const [userData, setUserData] = useState<UserData | null>(null);
@@ -102,7 +101,7 @@ export default function Home() {
     } else {
       setIsMobile(true);
     }
-  }, [token, router]);
+  }, [router]);
 
   return (
     <div className="h-[calc(100vh-4.5rem)]">

@@ -108,7 +108,6 @@ export default function Home() {
           setIncrement(2);
           alert("Frenzy Mode Activated");
           startFrenzyTimer();
-
         } else {
           setCount((prevCount) => prevCount + increment);
           setEnergy((prevEnergy) => ({
@@ -117,15 +116,17 @@ export default function Home() {
           }));
 
           if (frenzy.isActive) {
-            setFrenzy({
-              isActive: frenzy.isActive,
+            // If frenzy is active, reset the frenzy count
+            setFrenzy((prevFrenzy) => ({
+              ...prevFrenzy,
               count: 0,
-            });
+            }));
           } else {
-            setFrenzy({
-              isActive: false,
-              count: frenzy.count + increment,
-            });
+            // If frenzy is not active, increment the frenzy count
+            setFrenzy((prevFrenzy) => ({
+              ...prevFrenzy,
+              count: prevFrenzy.count + increment,
+            }));
           }
         }
       } else {
@@ -136,6 +137,7 @@ export default function Home() {
         }
       }
     };
+
 
   useEffect(() => {
 

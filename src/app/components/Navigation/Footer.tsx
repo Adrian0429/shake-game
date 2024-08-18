@@ -37,7 +37,6 @@ export default function FooterNav() {
       <div className="grid h-full max-w-lg grid-cols-3 mx-auto font-medium">
         {Footerdata.map((item, index) => {
           const isActive = pathname === item.link;
-
           return (
             <Link
               href={item.link}

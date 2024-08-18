@@ -45,7 +45,7 @@ function Modal() {
       console.log("Form submitted successfully", response.data);
 
     } catch (error) {
-      console.error("Error submitting form:", error.response || error.message);
+      console.error("Error submitting form:", error);
     }
   };
 

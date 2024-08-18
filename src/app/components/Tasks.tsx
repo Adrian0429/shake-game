@@ -1,3 +1,4 @@
+
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 
@@ -23,20 +24,24 @@ const tasks = [
   },
 ];
 
-const TaskPage = () => {
+const Tasks = () => {
   return (
     <div className="w-full h-full py-20 ">
       <div className="flex flex-col gap-y-4 items-center">
         <h2 className="text-H2">Daily Tasks</h2>
-        
-        {tasks.map((task) => { 
+
+        {tasks.map((task) => {
           return (
             <div key={task.id} className="w-[80%]">
               <h3 className="text-H4">{task.title}</h3>
               <div className="flex flex-row justify-between items-center bg-blue-600 rounded-lg w-full px-4 h-16 mt-2">
                 <p className="text-S2">{task.description}</p>
                 {task.link && (
-                  <Link href={task.link} target="_blank" className="text-S2 px-5 py-3 bg-blue-700 rounded-lg">
+                  <Link
+                    href={task.link}
+                    target="_blank"
+                    className="text-S2 px-5 py-3 bg-blue-700 rounded-lg"
+                  >
                     GO
                   </Link>
                 )}
@@ -44,10 +49,9 @@ const TaskPage = () => {
             </div>
           );
         })}
-        
       </div>
     </div>
   );
 };
 
-export default TaskPage;
+export default Tasks;

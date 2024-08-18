@@ -18,8 +18,6 @@ export const metadata: Metadata = {
   description: "Shake TON Game",
 };
 
-
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -35,7 +33,6 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         {children}
-        <FooterNav />
         <Modal />
       </body>
       <PrelineScript />

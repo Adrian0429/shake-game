@@ -42,11 +42,11 @@ const Footerdata = [
 export default function Home() {
   const [count, setCount] = useState(0);
   const [energy, setEnergy] = useState({
-    current: 100,
-    max: 100,
+    current: 2000,
+    max: 2000,
   });
   const [increment, setIncrement] = useState(1);
-  const frenzyBar = energy.max * 0.8;
+  const frenzyBar = energy.max * 0.2;
   const [frenzy, setFrenzy] = useState({
     isActive: false,
     count: 0,

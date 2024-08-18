@@ -29,17 +29,10 @@ const Counter = ({
                         <h1 className='w-full font-bold text-2xl'>Shake to Increase Count</h1>
                         <p>Shake your phone to increase the count:</p>
                         <h2 className='mt-2 text-4xl'>{count}</h2>
-                        <button
-                            onClick={handleShake}
-                            className='bg-blue-500 w-[50%] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4'
-                        >
-                            Click to Shake
-                        </button>
-                        {frenzy.count}
                     </div>
                     <div className='w-[90%] mx-auto'>
                         <div id='frenzybar' className="w-full bg-gray-200 rounded-full dark:bg-gray-700 mt-5">
-                            <div className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-1 leading-none rounded-full" style={{ width: `${frenzy.count / frenzyBar * 100}%` }}>{frenzy.count}</div>
+                            <div className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-1 leading-none rounded-full" style={{ width: `${frenzy.count / frenzyBar * 100}%` }}></div>
                         </div>
                     </div>
                     <Image className="h-auto w-[80%] mt-3 mx-auto" src={logo} alt="Shake" width={400} height={400} />

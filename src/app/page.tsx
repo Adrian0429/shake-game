@@ -9,6 +9,7 @@ import Tasks from "./components/Tasks";
 import Profiles from "./components/Profiles";
 import Shake from "shake.js";
 import ModalAllow from "./components/Modal/ModalAllow";
+import axios from "axios";
 
 interface UserData {
   id: number;
@@ -138,13 +139,25 @@ export default function Home() {
       }
     };
 
+    const login = async () => {
+      try {
+        const response = await axios.post("/api/user/login", {
+          tele_id: userData?.id
+        });
 
+        if (response.status === 200 && response.data.success) {
+          console.log("Login successful:", response.data);
+        } else {
+          router.push("?modal=true");
+        }
+      } catch (error) {
+        console.error("Login error:", error);
+        router.push("?modal=true");
+      }
+    };
+
+    
   useEffect(() => {
-
-    // if (!token) {
-    //   router.push("?modal=true");
-    // }
-
     if(!permissionGranted){
       router.push("?ModalPermission=true");
     }
@@ -166,6 +179,8 @@ export default function Home() {
       setIsMobile(true);
     }
   }, [router, permissionGranted]);
+  
+  login();
 
   return (
     <div className="h-[calc(100vh-4.5rem)]">

@@ -1,9 +1,7 @@
 "use client";
-import FooterNav from "./components/Navigation/Footer";
 import Counter from "./components/Counter";
 import WebApp from "@twa-dev/sdk";
 import { useEffect, useRef, useState } from "react";
-import Header from "./components/Navigation/Header";
 import { useRouter } from "next/navigation";
 import { HiHome } from "react-icons/hi";
 import { FaTasks, FaUser } from "react-icons/fa";
@@ -142,7 +140,7 @@ export default function Home() {
     // if (!token) {
     //   router.push("?modal=true");
     // }
-    
+
     if(!permissionGranted){
       router.push("?ModalPermission=true");
     }

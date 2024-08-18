@@ -1,12 +1,12 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
 interface ModalAllowProps {
   onAllowPermission: () => void;
 }
 
-function ModalAllow({ onAllowPermission }: ModalAllowProps) {
+function ModalAllowComponent({ onAllowPermission }: ModalAllowProps) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const [isClient, setIsClient] = useState(false);
@@ -40,4 +40,12 @@ function ModalAllow({ onAllowPermission }: ModalAllowProps) {
   );
 }
 
-export default ModalAllow;
+export default function ModalAllowWrapper({
+  onAllowPermission,
+}: ModalAllowProps) {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ModalAllowComponent onAllowPermission={onAllowPermission} />
+    </Suspense>
+  );
+}

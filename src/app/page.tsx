@@ -10,6 +10,7 @@ import { FaTasks, FaUser } from "react-icons/fa";
 import Tasks from "./components/Tasks";
 import Profiles from "./components/Profiles";
 import Shake from "shake.js";
+import ModalAllow from "./components/Modal/ModalAllow";
 
 interface UserData {
   id: number;
@@ -41,6 +42,19 @@ const Footerdata = [
 
 export default function Home() {
   const [count, setCount] = useState(0);
+  const [energy, setEnergy] = useState({
+    current: 100,
+    max: 100,
+  });
+  const [increment, setIncrement] = useState(1);
+  const frenzyBar = energy.max * 0.8;
+  const [frenzy, setFrenzy] = useState({
+    isActive: false,
+    count: 0,
+  });
+  const frenzyTimer = useRef<NodeJS.Timeout | null>(null);
+  const frenzyDuration = 5000;
+  
   const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
   const [Page, setPage] = useState("Home");
@@ -55,10 +69,12 @@ export default function Home() {
           if (permissionState === "granted") {
             setPermissionGranted(true);
             setupShakeEvent();
+            router.push("/");
           }
         } else {
           setPermissionGranted(true);
           setupShakeEvent();
+          router.push("/");
         }
       } catch (error) {
         console.error("Error requesting DeviceMotionEvent permission:", error);
@@ -72,18 +88,64 @@ export default function Home() {
       window.addEventListener("shake", handleShake, false);
     };
 
+    const startFrenzyTimer = () => {
+      frenzyTimer.current = setTimeout(() => {
+        setFrenzy((prevFrenzy) => ({
+          ...prevFrenzy,
+          isActive: false,
+        }));
+        setIncrement(1);
+        alert("Frenzy Mode Deactivated");
+      }, frenzyDuration);
+    };
+
     const handleShake = () => {
-      setCount((prev) => prev + 1); 
-    }
+      if (energy.current > 0) {
+        if (frenzy.count >= frenzyBar && !frenzy.isActive) {
+          setFrenzy({
+            isActive: true,
+            count: 0,
+          });
+          setIncrement(2);
+          alert("Frenzy Mode Activated");
+          startFrenzyTimer();
+        } else {
+          setCount((prevCount) => prevCount + increment);
+          setEnergy((prevEnergy) => ({
+            ...prevEnergy,
+            current: prevEnergy.current - 1,
+          }));
 
-    
-
+          if (frenzy.isActive) {
+            setFrenzy({
+              isActive: frenzy.isActive,
+              count: 0,
+            });
+          } else {
+            setFrenzy({
+              isActive: false,
+              count: frenzy.count + increment,
+            });
+          }
+        }
+      } else {
+        alert("You have reached the maximum energy");
+        if (myShakeEvent.current) {
+          myShakeEvent.current.stop();
+          window.removeEventListener("shake", handleShake, false);
+        }
+      }
+    };
 
   useEffect(() => {
 
     // if (!token) {
     //   router.push("?modal=true");
     // }
+    
+    if(!permissionGranted){
+      router.push("?ModalPermission=true");
+    }
 
     if (WebApp.initDataUnsafe.user) {
       setUserData(WebApp.initDataUnsafe.user as UserData);
@@ -101,23 +163,34 @@ export default function Home() {
     } else {
       setIsMobile(true);
     }
-  }, [router]);
+  }, [router, permissionGranted]);
 
   return (
     <div className="h-[calc(100vh-4.5rem)]">
-      {!permissionGranted && (
-        <button
-          className="bg-slate-500 w-[50%] hover:bg-slate-700 text-white font-bold py-2 px-4 rounded mb-4"
-          onClick={checkMotionPermission}
-        >
-          Allow Device Motion
-        </button>
+      {isMobile ? (
+        <>
+          {Page === "Home" && (
+            <Counter
+              count={count}
+              energy={energy}
+              frenzy={frenzy}
+              frenzyBar={frenzyBar}
+              increment={increment}
+              permissionGranted={permissionGranted}
+              handleShake={handleShake}
+              checkMotionPermission={checkMotionPermission}
+            />
+          )}
+          {Page === "Tasks" && <Tasks />}
+          {userData && Page === "Profiles" && <Profiles userData={userData} />}
+        </>
+      ) : (
+        <div className="w-full h-full py-20">
+          <div className="flex flex-col gap-y-4 items-center">
+            <h2 className="text-H2">Change To Desktop</h2>
+          </div>
+        </div>
       )}
-
-      {count}
-      {Page === "Home" && <Counter />}
-      {Page === "Tasks" && <Tasks />}
-      {userData && Page === "Profiles" && <Profiles userData={userData} />}
 
       <div className="fixed bottom-0 left-0 z-50 w-full h-[4.5rem] bg-white border-t rounded-t-2xl border-gray-200 dark:bg-slate-900 dark:border-gray-900">
         <div className="grid h-full max-w-lg grid-cols-3 mx-auto font-medium">
@@ -152,6 +225,7 @@ export default function Home() {
           })}
         </div>
       </div>
+      <ModalAllow onAllowPermission={checkMotionPermission} />
     </div>
   );
 }

@@ -96,7 +96,7 @@ export default function Home() {
         alert("Frenzy Mode Deactivated");
       }, frenzyDuration);
     };
-
+    
     const handleShake = () => {
       if (energy.current > 0) {
         if (frenzy.count >= frenzyBar && !frenzy.isActive) {
@@ -104,9 +104,11 @@ export default function Home() {
             isActive: true,
             count: 0,
           });
+
           setIncrement(2);
           alert("Frenzy Mode Activated");
           startFrenzyTimer();
+
         } else {
           setCount((prevCount) => prevCount + increment);
           setEnergy((prevEnergy) => ({
@@ -174,9 +176,7 @@ export default function Home() {
               frenzy={frenzy}
               frenzyBar={frenzyBar}
               increment={increment}
-              permissionGranted={permissionGranted}
               handleShake={handleShake}
-              checkMotionPermission={checkMotionPermission}
             />
           )}
           {Page === "Tasks" && <Tasks />}

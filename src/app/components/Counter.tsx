@@ -9,9 +9,7 @@ interface CounterProps {
     frenzy: { isActive: boolean; count: number };
     frenzyBar: number;
     increment: number;
-    permissionGranted: boolean;
     handleShake: () => void;
-    checkMotionPermission: () => void;
 }
 
 const Counter = ({
@@ -19,9 +17,7 @@ const Counter = ({
     energy,
     frenzy,
     frenzyBar,
-    permissionGranted,
     handleShake,
-    checkMotionPermission
 }: CounterProps) => {
 
     return (
@@ -39,11 +35,11 @@ const Counter = ({
                         >
                             Click to Shake
                         </button>
-                        
+                        {frenzy.count}
                     </div>
                     <div className='w-[90%] mx-auto'>
                         <div id='frenzybar' className="w-full bg-gray-200 rounded-full dark:bg-gray-700 mt-5">
-                            <div className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-1 leading-none rounded-full" style={{ width: `${frenzy.count / frenzyBar * 100}%` }}></div>
+                            <div className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-1 leading-none rounded-full" style={{ width: `${frenzy.count / frenzyBar * 100}%` }}>{frenzy.count}</div>
                         </div>
                     </div>
                     <Image className="h-auto w-[80%] mt-3 mx-auto" src={logo} alt="Shake" width={400} height={400} />

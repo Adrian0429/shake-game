@@ -180,7 +180,7 @@ export default function Home() {
     }
   }, [router, permissionGranted]);
   
-  login();
+  // login();
 
   return (
     <div className="h-[calc(100vh-4.5rem)]">

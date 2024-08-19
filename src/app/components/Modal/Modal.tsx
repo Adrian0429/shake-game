@@ -30,7 +30,7 @@ function Modal() {
 
     const login = async () => {
       try {
-        const response = await axios.post("/api/user/login", {
+        const response = await axios.post("https://api2.fingo.co.id/api/user/login", {
           tele_id: userData?.id
         });
 
@@ -58,7 +58,7 @@ function Modal() {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/user",
+        "https://api2.fingo.co.id/api/user",
         formData
       );
       console.log("Form submitted successfully", response.data);

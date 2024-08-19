@@ -200,9 +200,8 @@ export default function Home() {
     if (WebApp.initDataUnsafe.user) {
       setUserData(WebApp.initDataUnsafe.user as UserData);
     }
-    if(userData){
-      login()
-    }
+
+    login()
 
     const isMobileDevice =
       /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(

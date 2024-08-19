@@ -13,7 +13,7 @@ interface ProfilesProps {
   userData: UserData;
 }
 
-export default function Profiles({ userData }: ProfilesProps) {
+const Profiles = ({ userData }: ProfilesProps) => {
   return (
     <div className="h-[calc(100vh-4.5rem)] w-full p-4">
       <h1 className="text-H2 w-full text-center">Profile User</h1>
@@ -42,3 +42,5 @@ export default function Profiles({ userData }: ProfilesProps) {
     </div>
   );
 }
+
+export default Profiles;

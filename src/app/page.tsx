@@ -32,7 +32,7 @@ const Footerdata = [
     ),
   },
   {
-    name: "Profile",
+    name: "Profiles",
     icon: (
       <FaUser className="text-2xl mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-500" />
     ),

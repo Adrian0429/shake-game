@@ -70,7 +70,7 @@ const Register = (telegramID : UserData) => {
           <h1 className="text-xl font-bold my-4 text-center">
             Welcome To The Best Shaking Game Ever!
           </h1>
-          <form className="w-full h-full">
+          <form onSubmit={handleSubmit} className="w-full h-full">
             <div className="w-full my-3">
               <label className="text-sm font-medium mb-2">Email</label>
               <input

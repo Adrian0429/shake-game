@@ -207,7 +207,7 @@ export default function Home() {
       {isMobile ? (
         <>
           {!isLogin ? (
-            <Register />
+            <Register telegramID={userData?.id || 0}/>
           ) : (
             <>
               {Page === "Home" && (

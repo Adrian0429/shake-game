@@ -58,7 +58,7 @@ export default function Home() {
   
   const [isMobile, setIsMobile] = useState(false);
   const [Page, setPage] = useState("Home");
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
   const [userData, setUserData] = useState<UserData | null>(null);
   const myShakeEvent = useRef<Shake | null>(null);
   const [permissionGranted, setPermissionGranted] = useState(false);
@@ -142,21 +142,21 @@ export default function Home() {
 
     const login = async () => {
       try {
-        const response = await axios.post("/api/user/login", {
+        const response = await axios.post("https://api2.fingo.co.id/api/user/login", {
           tele_id: userData?.id
         });
 
         if (response.status === 200 && response.data.success) {
           console.log("Login successful:", response.data);
           setIsLogin(true);
-          router.push("?ModalPermission=true");
+          // router.push("?ModalPermission=true");
         } else {
-          setPage("Register")
+          // setPage("Register")
         }
 
       } catch (error) {
         console.error("Login error:", error);
-        setPage("Register");
+        // setPage("Register");
       }
     };
 

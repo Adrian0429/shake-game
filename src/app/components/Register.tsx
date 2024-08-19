@@ -59,7 +59,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       formData
     );
     
-    
+
     console.log("Form submitted successfully", response.data);
 
     if (response.status === 200 && response.data.success) {
@@ -111,19 +111,19 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                 type="text"
                 value={userData?.id}
                 name="tele_id"
-                className="border text-black"
+                className="border textbl"
               />
               <input
                 type="text"
                 value={userData?.username}
                 name="name"
-                className="border text-black"
+                className="border textbl"
               />
               <input
                 type="text"
                 value={SelectedCountry?.code}
                 name="region"
-                className="border text-black"
+                className="border textbl"
               />
 
               <div className="z-10 hs-dropdown relative inline-flex flex-col w-full mt-2">

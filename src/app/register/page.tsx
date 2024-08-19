@@ -18,29 +18,40 @@ interface UserData {
   is_premium?: boolean;
 }
 
-function Register() {
+function Page() {
   const [isClient, setIsClient] = useState(false);
   const [SelectedCountry, setSelectedCountry] = useState<Country | null>(null);
   const [userData, setUserData] = useState<UserData | null>(null);
   const router = useRouter();
 
-  const login = async () => {
+  const login = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = {
+      tele_id: e.currentTarget.tele_id.value, // `User_TeleId` in struct
+    };
+
+    console.log("Submitting form with data:", formData);
     try {
       const response = await axios.post(
         "https://api2.fingo.co.id/api/user/login",
+        formData,
         {
-          tele_id: userData?.id,
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
       );
 
-      if (response.status === 200 && response.data.success) {
-        console.log("Login successful:", response.data);
-      } else {
-        console.error("Login failed:", response.data);
-      }
+
+    if (response.data.status === true) {
+      console.log("Login successfully", response.data);
+      console.log(response.data.data.token);
+      localStorage.setItem("token", response.data.data.token);
+      router.push("/")
+    }
     } catch (error) {
-      console.error("Login error:", error);
-      router.push("?modal=true");
+      console.error("Error submitting form:", error);
     }
   };
 
@@ -68,11 +79,8 @@ function Register() {
       );
 
       console.log("Form submitted successfully", response.data);
-
-      if (response.status === 200 && response.data.success) {
-        // await login();
-      } else {
-        console.error("Error submitting form:", response.data);
+      if (response.data.status === true) {
+        login(e);
       }
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -119,14 +127,16 @@ function Register() {
               value={userData?.id}
               name="tele_id"
               id="tele_id"
-              className="border text-black"
+              required
+              className="border text-black hidden"
             />
             <input
               type="text"
               value={userData?.username}
               name="name"
               id="username"
-              className="border text-black"
+              required
+              className="border text-black hidden"
             />
 
             {/* Dropdown */}
@@ -180,4 +190,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default Page;

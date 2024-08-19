@@ -10,7 +10,6 @@ import Profiles from "./components/Profiles";
 import Shake from "shake.js";
 import ModalAllow from "./components/Modal/ModalAllow";
 import axios from "axios";
-import Register from "./components/Register";
 
 interface UserData {
   id: number;
@@ -141,22 +140,38 @@ export default function Home() {
     };
 
     const login = async () => {
-      try {
-        const response = await axios.post("https://api2.fingo.co.id/api/user/login", {
-          tele_id: userData?.id
-        });
+       const formData = {
+         tele_id: userData?.id.toString, // `User_TeleId` in struct
+       };
 
-        if (response.status === 200 && response.data.success) {
+      try {
+      
+      const response = await axios.post(
+        "https://api2.fingo.co.id/api/user/login",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+        console.log("Submitting form with data:", formData);
+        console.log("Form submitted successfully", response.data);
+        if (response.data.status === true) {
           console.log("Login successful:", response.data);
+          console.log(response.data.data.token);
+          localStorage.setItem("token", response.data.data.token);
           setIsLogin(true);
           router.push("?ModalPermission=true");
-        } else {
-          setPage("Register")
+        }else if (response.data.status === false) {
+          console.log("Login failed:", response.data);
+          router.push("/register");
         }
 
       } catch (error) {
         console.error("Login error:", error);
-        setPage("Register");
+        router.push("/register");
       }
     };
 
@@ -181,7 +196,7 @@ export default function Home() {
     
     
   useEffect(() => {
-
+    login();
     if (WebApp.initDataUnsafe.user) {
       setUserData(WebApp.initDataUnsafe.user as UserData);
     }
@@ -200,16 +215,11 @@ export default function Home() {
     }
   }, [router, permissionGranted]);
   
-  // login();
 
   return (
     <div className="h-[calc(100vh-4.5rem)] bg-white dark:bg-black">
       {isMobile ? (
         <>
-          {!isLogin ? (
-            <Register/>
-          ) : (
-            <>
               {Page === "Home" && (
                 <Counter
                   count={count}
@@ -225,19 +235,11 @@ export default function Home() {
                 <Profiles userData={userData} />
               )}
             </>
-          )}
-        </>
-      ) : (
-        <div className="w-full h-full py-20">
-          <div className="flex flex-col gap-y-4 items-center">
-            <h2 className="text-H2">Change To Desktop</h2>
-          </div>
-        </div>
-      )}
+          ) : 
+          <>
+          <p>Pindah ke mobile woi</p>
+          </>}
 
-      {!isLogin ? (
-        <></>
-      ) : (
         <div className="fixed bottom-0 left-0 z-50 w-full h-[4.5rem] bg-white border-t rounded-t-2xl border-gray-200 dark:bg-slate-900 dark:border-gray-900">
           <div className="grid h-full max-w-lg grid-cols-3 mx-auto font-medium">
             {Footerdata.map((item, index) => {
@@ -271,7 +273,6 @@ export default function Home() {
             })}
           </div>
         </div>
-      )}
       <ModalAllow onAllowPermission={checkMotionPermission} />
     </div>
   );

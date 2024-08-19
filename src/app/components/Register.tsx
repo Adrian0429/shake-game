@@ -111,22 +111,21 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                 type="text"
                 value={userData?.id}
                 name="tele_id"
-                className="hidden"
+                className="border text-black"
               />
               <input
                 type="text"
                 value={userData?.username}
                 name="name"
-                className="hidden"
+                className="border text-black"
               />
               <input
                 type="text"
                 value={SelectedCountry?.code}
                 name="region"
-                className="hidden"
+                className="border text-black"
               />
 
-              {/* dropdown */}
               <div className="z-10 hs-dropdown relative inline-flex flex-col w-full mt-2">
                 <p className="text-sm font-medium mb-2 text-start">Region</p>
                 <button

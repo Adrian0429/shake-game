@@ -60,7 +60,7 @@ export default function Home() {
   const [userData, setUserData] = useState<UserData | null>(null);
   const myShakeEvent = useRef<Shake | null>(null);
   const [permissionGranted, setPermissionGranted] = useState(false);
-
+  let logged_in = false;
     const checkMotionPermission = async () => {
       try {
         if (typeof (DeviceMotionEvent as any).requestPermission === "function") {
@@ -156,6 +156,26 @@ export default function Home() {
         router.push("?modal=true");
       }
     };
+
+    const updateStats = async () => {
+      try {
+        const response = await axios.post("/api/user/updateEnergy", {
+          tele_id: userData?.id,
+          energy: energy.current,
+          coins: count
+        });
+
+        if (response.status === 200 && response.data.success) {
+          console.log("Login successful:", response.data);
+        } else {
+          router.push("?modal=true");
+        }
+      } catch (error) {
+        console.error("Login error:", error);
+        router.push("?modal=true");
+      }
+    };
+    
     
   useEffect(() => {
     if(!permissionGranted){
@@ -180,10 +200,14 @@ export default function Home() {
     }
   }, [router, permissionGranted]);
   
-  // login();
+  login();
 
   return (
     <div className="h-[calc(100vh-4.5rem)] bg-white dark:bg-black">
+      {logged_in ? (
+        <p>Logged In</p>)
+        : 
+        (<p>Not Logged In</p>)}
       {isMobile ? (
         <>
           {Page === "Home" && (

@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useSearchParams, usePathname } from "next/navigation";
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { FiAlertTriangle, FiChevronDown, FiX } from "react-icons/fi";
 import countries from "@/app/constant/Country";
@@ -26,7 +26,28 @@ function Modal() {
   const [SelectedCountry, setSelectedCountry] = useState<Country | null>(null);
   const modal = searchParams.get("modal");
   const [userData, setUserData] = useState<UserData | null>(null);
+  const router = useRouter();
 
+    const login = async () => {
+      try {
+        const response = await axios.post("/api/user/login", {
+          tele_id: userData?.id
+        });
+
+        if (response.status === 200 && response.data.success) {
+          console.log("Login successful:", response.data);
+        } else {
+          router.push("?modal=true");
+        }
+
+      } catch (error) {
+        console.error("Login error:", error);
+        router.push("?modal=true");
+      }
+    };
+
+
+    
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -37,13 +58,16 @@ function Modal() {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/endpoint",
+        "http://localhost:3000/api/user",
         formData
       );
-
-      // Handle successful response
       console.log("Form submitted successfully", response.data);
 
+      if (response.status === 200 && response.data.success) {
+        login();
+      } else {
+        console.log("Error submitting form:", response.data);
+      }
     } catch (error) {
       console.error("Error submitting form:", error);
     }
@@ -80,7 +104,7 @@ function Modal() {
                 </div>
                 <input
                   type="email"
-                  id="with-corner-hint"
+                  id="email"
                   className="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                   placeholder="user@gmail.com"
                 />

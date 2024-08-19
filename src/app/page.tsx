@@ -150,12 +150,12 @@ export default function Home() {
         } else {
           router.push("?modal=true");
         }
+
       } catch (error) {
         console.error("Login error:", error);
         router.push("?modal=true");
       }
     };
-
     
   useEffect(() => {
     if(!permissionGranted){
@@ -184,12 +184,6 @@ export default function Home() {
 
   return (
     <div className="h-[calc(100vh-4.5rem)]">
-      <ul className="text-S2 mt-5">
-        <li>User ID: {userData?.id}</li>
-        <li>Username: {userData?.username || "N/A"}</li>
-        <li>Language Code: {userData?.language_code}</li>
-      </ul>
-
       {isMobile ? (
         <>
           {Page === "Home" && (

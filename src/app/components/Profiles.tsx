@@ -1,5 +1,6 @@
 "use client";
 import WebApp from "@twa-dev/sdk";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 interface UserData {
@@ -14,6 +15,27 @@ interface ProfilesProps {
 }
 
 const Profiles = ({ userData }: ProfilesProps) => {
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = {
+      tele_id: userData.id,
+      referral_code: e.currentTarget.referral_code.value,
+    };
+
+    try {
+      const response = await axios.post(
+        "https://api2.fingo.co.id/api/user/referralClaim",
+        formData
+      );
+
+      console.log("Form submitted successfully", response.data);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
+  };
+
   return (
     <div className="h-[calc(100vh-4.5rem)] w-full p-4">
       <h1 className="text-H2 w-full text-center">Profile User</h1>
@@ -30,15 +52,17 @@ const Profiles = ({ userData }: ProfilesProps) => {
       </div>
 
       <h2 className="text-H3 mt-10">Redeem Referral Code</h2>
-      <div className="flex mt-2 flex-row h-16 bg-white rounded-lg items-center">
+      <form onSubmit={handleSubmit} className="flex mt-2 flex-row h-16 bg-white rounded-lg items-center">
         <input
           type="text"
+          placeholder="Enter Referral Code"
+          id="referral_code"
           className="w-full h-full rounded-l-lg text-black px-4"
         />
-        <button className="bg-primary rounded-r-lg px-5 h-full text-white bg-slate-900">
+        <button type="submit" className="bg-primary rounded-r-lg px-5 h-full text-white bg-slate-900">
           Redeem
         </button>
-      </div>
+      </form>
     </div>
   );
 }

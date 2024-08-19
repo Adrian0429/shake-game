@@ -10,6 +10,7 @@ import Profiles from "./components/Profiles";
 import Shake from "shake.js";
 import ModalAllow from "./components/Modal/ModalAllow";
 import axios from "axios";
+import Register from "./components/Register";
 
 interface UserData {
   id: number;
@@ -40,6 +41,7 @@ const Footerdata = [
 ];
 
 export default function Home() {
+  const router = useRouter();
   const [count, setCount] = useState(0);
   const [energy, setEnergy] = useState({
     current: 2000,
@@ -55,12 +57,11 @@ export default function Home() {
   const frenzyDuration = 5000;
   
   const [isMobile, setIsMobile] = useState(false);
-  const router = useRouter();
   const [Page, setPage] = useState("Home");
+  const [isLogin, setIsLogin] = useState(false);
   const [userData, setUserData] = useState<UserData | null>(null);
   const myShakeEvent = useRef<Shake | null>(null);
   const [permissionGranted, setPermissionGranted] = useState(false);
-  let logged_in = false;
     const checkMotionPermission = async () => {
       try {
         if (typeof (DeviceMotionEvent as any).requestPermission === "function") {
@@ -147,13 +148,15 @@ export default function Home() {
 
         if (response.status === 200 && response.data.success) {
           console.log("Login successful:", response.data);
+          setIsLogin(true);
+          router.push("?ModalPermission=true");
         } else {
-          router.push("?modal=true");
+          setPage("Register")
         }
 
       } catch (error) {
         console.error("Login error:", error);
-        router.push("?modal=true");
+        setPage("Register");
       }
     };
 
@@ -178,9 +181,6 @@ export default function Home() {
     
     
   useEffect(() => {
-    if(!permissionGranted){
-      router.push("?ModalPermission=true");
-    }
 
     if (WebApp.initDataUnsafe.user) {
       setUserData(WebApp.initDataUnsafe.user as UserData);
@@ -204,24 +204,28 @@ export default function Home() {
 
   return (
     <div className="h-[calc(100vh-4.5rem)] bg-white dark:bg-black">
-      {logged_in ? (
-        <p>Logged In</p>)
-        : 
-        (<p>Not Logged In</p>)}
       {isMobile ? (
         <>
-          {Page === "Home" && (
-            <Counter
-              count={count}
-              energy={energy}
-              frenzy={frenzy}
-              frenzyBar={frenzyBar}
-              increment={increment}
-              handleShake={handleShake}
-            />
+          {!isLogin ? (
+            <Register />
+          ) : (
+            <>
+              {Page === "Home" && (
+                <Counter
+                  count={count}
+                  energy={energy}
+                  frenzy={frenzy}
+                  frenzyBar={frenzyBar}
+                  increment={increment}
+                  handleShake={handleShake}
+                />
+              )}
+              {Page === "Tasks" && <Tasks />}
+              {userData && Page === "Profiles" && (
+                <Profiles userData={userData} />
+              )}
+            </>
           )}
-          {Page === "Tasks" && <Tasks />}
-          {userData&&Page === "Profiles" && <Profiles userData={userData} />}
         </>
       ) : (
         <div className="w-full h-full py-20">
@@ -231,39 +235,43 @@ export default function Home() {
         </div>
       )}
 
-      <div className="fixed bottom-0 left-0 z-50 w-full h-[4.5rem] bg-white border-t rounded-t-2xl border-gray-200 dark:bg-slate-900 dark:border-gray-900">
-        <div className="grid h-full max-w-lg grid-cols-3 mx-auto font-medium">
-          {Footerdata.map((item, index) => {
-            const isActive = Page === item.name;
-            return (
-              <button
-                onClick={() => setPage(item.name)}
-                key={index}
-                className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group"
-              >
-                <div
-                  className={`${
-                    isActive
-                      ? "text-blue-600 dark:text-blue-500"
-                      : "text-gray-500 dark:text-gray-400"
-                  } text-2xl mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-500`}
+      {!isLogin ? (
+        <></>
+      ) : (
+        <div className="fixed bottom-0 left-0 z-50 w-full h-[4.5rem] bg-white border-t rounded-t-2xl border-gray-200 dark:bg-slate-900 dark:border-gray-900">
+          <div className="grid h-full max-w-lg grid-cols-3 mx-auto font-medium">
+            {Footerdata.map((item, index) => {
+              const isActive = Page === item.name;
+              return (
+                <button
+                  onClick={() => setPage(item.name)}
+                  key={index}
+                  className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group"
                 >
-                  {item.icon}
-                </div>
-                <span
-                  className={`${
-                    isActive
-                      ? "text-blue-600 dark:text-blue-500"
-                      : "text-gray-500 dark:text-gray-400"
-                  } text-sm group-hover:text-blue-600 dark:group-hover:text-blue-500`}
-                >
-                  {item.name}
-                </span>
-              </button>
-            );
-          })}
+                  <div
+                    className={`${
+                      isActive
+                        ? "text-blue-600 dark:text-blue-500"
+                        : "text-gray-500 dark:text-gray-400"
+                    } text-2xl mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-500`}
+                  >
+                    {item.icon}
+                  </div>
+                  <span
+                    className={`${
+                      isActive
+                        ? "text-blue-600 dark:text-blue-500"
+                        : "text-gray-500 dark:text-gray-400"
+                    } text-sm group-hover:text-blue-600 dark:group-hover:text-blue-500`}
+                  >
+                    {item.name}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      )}
       <ModalAllow onAllowPermission={checkMotionPermission} />
     </div>
   );

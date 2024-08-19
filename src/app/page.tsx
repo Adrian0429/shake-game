@@ -183,7 +183,7 @@ export default function Home() {
   // login();
 
   return (
-    <div className="h-[calc(100vh-4.5rem)]">
+    <div className="h-[calc(100vh-4.5rem)] bg-white dark:bg-black">
       {isMobile ? (
         <>
           {Page === "Home" && (
@@ -197,7 +197,7 @@ export default function Home() {
             />
           )}
           {Page === "Tasks" && <Tasks />}
-          {userData && Page === "Profiles" && <Profiles userData={userData} />}
+          {userData&&Page === "Profiles" && <Profiles userData={userData} />}
         </>
       ) : (
         <div className="w-full h-full py-20">

@@ -19,20 +19,20 @@ export default function Header({ maxEnergy, curEnergy }: HeaderProps) {
     <div className="w-screen h-[4.5rem]">
       <div className="grid h-full grid-cols-3 mx-auto mt-5">
         <div className="">
-          <div className="h-[90%] w-[90%] flex justify-center items-center mx-auto rounded-xl bg-slate-900">
+          <div className="h-[90%] w-[90%] flex justify-center items-center mx-auto rounded-xl border-2 bg-slate-200 border-slate-900 dark:bg-slate-900">
             <FaBoltLightning className="text-xl text-yellow-400 mr-2" />
-            <span className="text-sm font-medium">
+            <span className="text-sm font-bold">
               {curEnergy} / {maxEnergy}
             </span>
           </div>
         </div>
         <div className="">
-          <div className="h-[90%] w-[90%] flex justify-center items-center mx-auto rounded-xl bg-slate-900">
-            <span className="text-S1 font-medium">Normal</span>
+          <div className="h-[90%] w-[90%] flex justify-center items-center mx-auto rounded-xl border-2 bg-slate-200 border-slate-900 dark:bg-slate-900">
+            <span className="text-S1 font-bold">Normal</span>
           </div>
         </div>
         <div className="">
-          <div className="h-[90%] w-[90%] flex flex-col justify-between p-1 items-center mx-auto rounded-xl bg-slate-900">
+          <div className="h-[90%] w-[90%] flex flex-col justify-between p-1 items-center mx-auto rounded-xl border-2 bg-slate-200 border-slate-900 dark:bg-slate-900">
             <div className="flex flex-row">
               <FaBitcoin className="text-xl mr-2 text-yellow-400" />
               <p>per shake</p>

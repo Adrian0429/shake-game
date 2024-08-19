@@ -43,32 +43,34 @@ function Register() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
 
-    const formData = {
-      Tele_id: userData?.id,
-      name: userData?.username,
-      email: e.currentTarget.email.value,
-      region: SelectedCountry?.name,
-    };
-
-    try {
-      const response = await axios.post(
-        "https://api2.fingo.co.id/api/user",
-        formData
-      );
-      console.log("Form submitted successfully", response.data);
-
-      if (response.status === 200 && response.data.success) {
-        login();
-      } else {
-        console.log("Error submitting form:", response.data);
-      }
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    }
+  const formData = {
+    tele_id: userData?.id, // `User_TeleId` in struct
+    name: userData?.username, // `User_Name` in struct
+    email: e.currentTarget.email.value, // `User_Email` in struct
+    region: SelectedCountry?.name, // `User_Region` in struct
   };
+  console.log(formData);
+  try {
+    const response = await axios.post(
+      "https://api2.fingo.co.id/api/user",
+      formData
+    );
+    
+    
+    console.log("Form submitted successfully", response.data);
+
+    if (response.status === 200 && response.data.success) {
+      login();
+    } else {
+      console.log("Error submitting form:", response.data);
+    }
+  } catch (error) {
+    console.error("Error submitting form:", error);
+  }
+};
 
   useEffect(() => {
     if (WebApp.initDataUnsafe.user) {
@@ -123,6 +125,7 @@ function Register() {
                 name="region"
                 className="hidden"
               />
+
               {/* dropdown */}
               <div className="z-10 hs-dropdown relative inline-flex flex-col w-full mt-2">
                 <p className="text-sm font-medium mb-2 text-start">Region</p>
@@ -159,7 +162,7 @@ function Register() {
                 </div>
               </div>
 
-              <button className="mt-5 border bg-blue-500 py-3 w-full rounded-lg text-white font-semibold">
+              <button type="submit" className="mt-5 border bg-blue-500 py-3 w-full rounded-lg text-white font-semibold">
                 Confirm
               </button>
             </form>

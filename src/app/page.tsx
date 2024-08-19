@@ -58,7 +58,7 @@ export default function Home() {
   
   const [isMobile, setIsMobile] = useState(false);
   const [Page, setPage] = useState("Home");
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   const [userData, setUserData] = useState<UserData | null>(null);
   const myShakeEvent = useRef<Shake | null>(null);
   const [permissionGranted, setPermissionGranted] = useState(false);
@@ -149,14 +149,14 @@ export default function Home() {
         if (response.status === 200 && response.data.success) {
           console.log("Login successful:", response.data);
           setIsLogin(true);
-          // router.push("?ModalPermission=true");
+          router.push("?ModalPermission=true");
         } else {
-          // setPage("Register")
+          setPage("Register")
         }
 
       } catch (error) {
         console.error("Login error:", error);
-        // setPage("Register");
+        setPage("Register");
       }
     };
 
@@ -200,7 +200,7 @@ export default function Home() {
     }
   }, [router, permissionGranted]);
   
-  login();
+  // login();
 
   return (
     <div className="h-[calc(100vh-4.5rem)] bg-white dark:bg-black">

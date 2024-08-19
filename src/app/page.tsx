@@ -196,9 +196,12 @@ export default function Home() {
     
     
   useEffect(() => {
-    login();
+    
     if (WebApp.initDataUnsafe.user) {
       setUserData(WebApp.initDataUnsafe.user as UserData);
+    }
+    if(userData){
+      login()
     }
 
     const isMobileDevice =

@@ -112,8 +112,6 @@ export default function Home() {
           energy: energy.current,
         };
 
-        alert(formData.coins)
-
         try {
           const response = await axios.post(
             "https://api2.fingo.co.id/api/user/updateEnergy",
@@ -129,7 +127,7 @@ export default function Home() {
             console.log("Form submitted successfully", response.data);
           }
         } catch (error) {
-          alert((error as any).response.data.message);
+         console.log("Error submitting form:", error);
         }
       };
 

@@ -84,6 +84,7 @@ export default function Home() {
         );
 
         setUserDetails(response.data.data);
+        setCount(response.data.data.coins)
       } catch (error) {
         console.error("Error fetching user data:", error);
       }

@@ -62,11 +62,15 @@ export default function Home() {
   const [permissionGranted, setPermissionGranted] = useState(false);
   const [token, setToken] = useState<string | null>(null);
 
-    useEffect(() => {
-      const storedToken = localStorage.getItem("token");
-      setToken(storedToken);
-    }, []);
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    setToken(storedToken);
 
+    if (!storedToken) {
+      router.push("/login");
+    }
+  }, [router]);
+  
     const checkMotionPermission = async () => {
       try {
         if (typeof (DeviceMotionEvent as any).requestPermission === "function") {
@@ -144,10 +148,6 @@ export default function Home() {
         }
       }
     };
-
-    if(!token){
-      router.push("/login")
-    }
 
     const updateStats = async () => {
       try {

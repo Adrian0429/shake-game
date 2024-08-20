@@ -71,7 +71,7 @@ function Page() {
       <dialog className="fixed left-0 top-0 w-full h-full bg-black bg-opacity-50 z-50 overflow-auto flex justify-center items-center">
         <div className="relative flex flex-col items-center mx-auto p-8 bg-white min-h-[300px] w-[85%] rounded-lg z-100">
           <h1 className="text-xl font-bold my-4 text-center">
-            Welcome To The Best Shaking Game Ever!
+            LOGIN To The Best Shaking Game Ever!
           </h1>
           <form onSubmit={handleSubmit} className="w-full h-full">
             <div className="w-full my-3">

@@ -53,7 +53,7 @@ export default function Home() {
   const router = useRouter();
   const [count, setCount] = useState(0);
   const [energy, setEnergy] = useState({
-    current: 2000,
+    current: 0,
     max: 2000,
   });
   const [increment, setIncrement] = useState(1);
@@ -73,22 +73,59 @@ export default function Home() {
   const [token, setToken] = useState("");
   const [userDetails, setUserDetails] = useState<MeUser | null>(null);
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await axios.get("/api/user/me", {
-          params: { teleID: String(userData?.id) },
+const FetchMe = async () => {
+  const formData = {
+    tele_id: String(userData?.id),
+  };
+
+  console.log("Submitting form with data:", formData);
+
+  try {
+
+       const response = await axios.get("/api/user/me", {
+          params: { tele_id: String(userData?.id) },
         });
 
-        setUserDetails(response.data);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-        alert((error as any).data.message)
+    if (response.data.status == true) {
+      setUserDetails(response.data.data);
+      console.log("Form submitted successfully", response.data.data);
+    }
+  } catch (error) {
+    alert((error as any).response.data.message);
+  }
+};
+      if(userData){
+        FetchMe();
       }
-    };
+      
 
-    fetchUserData();
-  }, [userData?.id]);
+      const Update = async () => {
+        const formData = {
+          tele_id: String(userData?.id),
+          coins: count,
+          energy: energy.current,
+        };
+
+        console.log("Submitting form with data:", formData);
+
+        try {
+          const response = await axios.post(
+            "https://api2.fingo.co.id/api/user/updateEnergy",
+            formData,
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+
+          if (response.data.status == true) {
+            console.log("Form submitted successfully", response.data);
+          }
+        } catch (error) {
+          alert((error as any).response.data.message);
+        }
+      };
 
     useEffect(() => {
       if (WebApp.initDataUnsafe.user) {
@@ -173,6 +210,7 @@ export default function Home() {
             ...prevEnergy,
             current: prevEnergy.current - 1,
           }));
+          Update();
 
           if (frenzy.isActive) {
             // If frenzy is active, reset the frenzy count
@@ -197,42 +235,6 @@ export default function Home() {
       }
     };
 
-      useEffect(() => {
-        const intervalId = setInterval(Update, 100);
-
-        // Cleanup interval on component unmount
-        return () => clearInterval(intervalId);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-      }, [userData, energy, count]);
-
-
-  const Update = async () => {
-    const formData = {
-      tele_id: String(userData?.id),
-      coins: count,
-      energy: energy.current,
-    };
-
-    console.log("Submitting form with data:", formData);
-
-    try {
-      const response = await axios.post(
-        "https://api2.fingo.co.id/api/user/updateEnergy",
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (response.data.status == true) {
-        console.log("Form submitted successfully", response.data)
-      }
-    } catch (error) {
-      alert((error as any).response.data.message);
-    }
-  };
 
     
   return (

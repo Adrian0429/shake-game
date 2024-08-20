@@ -28,10 +28,10 @@ const Profiles = ({ userData }: ProfilesProps) => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get("/api/user/me", {
-          params: { teleID: String(userData.id) },
+          params: { tele_id: String(userData.id) },
         });
 
-        setUserDetails(response.data);
+        setUserDetails(response.data.data);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -82,6 +82,9 @@ const Profiles = ({ userData }: ProfilesProps) => {
         <li>Email: {userDetails?.email || "N/A"}</li>
         <li>Region: {userDetails?.region || "N/A"}</li>
         <li>Language Code: {userData?.language_code}</li>
+        <li>Energy: {userDetails?.energy || 0}</li>
+        <li>Coins: {userDetails?.coins || 0}</li>
+        <li>Is Premium: {userData?.is_premium ? "Yes" : "No"}</li>
       </ul>
 
       <h2 className="text-H3 mt-10">Referral Code</h2>

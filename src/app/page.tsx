@@ -61,19 +61,35 @@ export default function Home() {
   const myShakeEvent = useRef<Shake | null>(null);
   const [permissionGranted, setPermissionGranted] = useState(false);
   const [token, setToken] = useState("");
-  useEffect(() => {
-    // Check if token exists in localStorage (only run on the client side)
-    const token = localStorage.getItem("authToken");
-    if (token) {
-      setIsLogin(true);
-      setToken(token);
-      if(!permissionGranted){
-        router.push("/?ModalPermission=true");
+
+    useEffect(() => {
+      if (WebApp.initDataUnsafe.user) {
+        setUserData(WebApp.initDataUnsafe.user as UserData);
       }
-    } else {
-      router.push("/register");
-    }
-  }, [router, permissionGranted]);
+          const token = localStorage.getItem("authToken");
+          if (token) {
+            setIsLogin(true);
+            setToken(token);
+            if (!permissionGranted) {
+              router.push("/?ModalPermission=true");
+            }
+          } else {
+            router.push("/register");
+          }
+
+      const isMobileDevice =
+        /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(
+          navigator.userAgent
+        );
+
+      if (!isMobileDevice) {
+        alert(
+          "This application is designed for mobile devices. Some features may not work as expected."
+        );
+      } else {
+        setIsMobile(true);
+      }
+    }, [router, permissionGranted]);
 
     const checkMotionPermission = async () => {
       try {
@@ -153,49 +169,45 @@ export default function Home() {
       }
     };
 
-    const updateStats = async () => {
-      try {
-        const response = await axios.post("/api/user/updateEnergy", {
-          tele_id: userData?.id,
-          energy: energy.current,
-          coins: count
-        });
+      // useEffect(() => {
+      //   const intervalId = setInterval(updateStats, 5000);
 
-        if (response.status === 200 && response.data.success) {
-          console.log("Login successful:", response.data);
-        } else {
-          router.push("?modal=true");
+      //   // Cleanup interval on component unmount
+      //   return () => clearInterval(intervalId);
+      //   // eslint-disable-next-line react-hooks/exhaustive-deps
+      // }, [userData, energy, count]);
+
+    const updateStats = async () => {
+
+          const formData = {
+            tele_id: userData?.id,
+            energy: energy.current,
+            coins: count,
+          };
+        console.log("submitting form with data:", formData);
+      try {
+        const response = await axios.post(
+          "https://api2.fingo.co.id/api/user/updateEnergy",
+          formData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+
+        if (response.data.status == true) {
+          console.log("update successful:", response.data);
         }
       } catch (error) {
-        console.error("Login error:", error);
-        router.push("?modal=true");
+        console.error("Update error:", error);
       }
     };
     
-    
-  useEffect(() => {
-    if (WebApp.initDataUnsafe.user) {
-      setUserData(WebApp.initDataUnsafe.user as UserData);
-    }
-
-    const isMobileDevice =
-      /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent
-      );
-
-    if (!isMobileDevice) {
-      alert(
-        "This application is designed for mobile devices. Some features may not work as expected."
-      );
-    } else {
-      setIsMobile(true);
-    }
-  }, [router, permissionGranted]);
-  
-
   return (
     <div className="h-[calc(100vh-4.5rem)] bg-white dark:bg-black">
-      {token}
+      {userData?.id}
       {isMobile ? (
         <>
               {Page === "Home" && (

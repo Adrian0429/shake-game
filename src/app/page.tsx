@@ -184,7 +184,7 @@ export default function Home() {
             energy: energy.current,
             coins: count,
           };
-        console.log("submitting form with data:", formData);
+        alert(formData);
       try {
         const response = await axios.post(
           "https://api2.fingo.co.id/api/user/updateEnergy",
@@ -195,8 +195,7 @@ export default function Home() {
             },
           }
         );
-
-
+        
         if (response.data.status == true) {
           console.log("update successful:", response.data);
         }
@@ -207,6 +206,7 @@ export default function Home() {
     
   return (
     <div className="h-[calc(100vh-4.5rem)] bg-white dark:bg-black">
+
       {isMobile ? (
         <>
               {Page === "Home" && (

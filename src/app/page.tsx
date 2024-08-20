@@ -60,7 +60,15 @@ export default function Home() {
   const [userData, setUserData] = useState<UserData | null>(null);
   const myShakeEvent = useRef<Shake | null>(null);
   const [permissionGranted, setPermissionGranted] = useState(false);
-  const [token, setToken] = useState<string | null>(null);
+  const token = localStorage.getItem("authToken");
+
+  onload = () => {
+    if (token) {
+      setIsLogin(true);
+    } else {
+      router.push("/register");
+    }
+  }
 
     const checkMotionPermission = async () => {
       try {

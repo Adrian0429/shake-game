@@ -36,7 +36,7 @@ function Page() {
 
     try {
       const response = await axios.post(
-        "https://api2.fingo.co.id/api/user",
+        "https://api2.fingo.co.id/api/user/login",
         formData,
         {
           headers: {

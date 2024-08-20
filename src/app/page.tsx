@@ -85,6 +85,10 @@ export default function Home() {
 
         setUserDetails(response.data.data);
         setCount(response.data.data.coins)
+        setEnergy({
+          current: response.data.data.energy,
+          max: 2000
+        })
       } catch (error) {
         console.error("Error fetching user data:", error);
       }

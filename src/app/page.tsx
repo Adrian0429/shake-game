@@ -60,11 +60,13 @@ export default function Home() {
   const [userData, setUserData] = useState<UserData | null>(null);
   const myShakeEvent = useRef<Shake | null>(null);
   const [permissionGranted, setPermissionGranted] = useState(false);
+  const [token, setToken] = useState("");
   useEffect(() => {
     // Check if token exists in localStorage (only run on the client side)
     const token = localStorage.getItem("authToken");
     if (token) {
       setIsLogin(true);
+      setToken(token);
       if(!permissionGranted){
         router.push("/?ModalPermission=true");
       }
@@ -193,6 +195,7 @@ export default function Home() {
 
   return (
     <div className="h-[calc(100vh-4.5rem)] bg-white dark:bg-black">
+      {token}
       {isMobile ? (
         <>
               {Page === "Home" && (

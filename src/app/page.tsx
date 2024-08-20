@@ -65,10 +65,13 @@ export default function Home() {
     const token = localStorage.getItem("authToken");
     if (token) {
       setIsLogin(true);
+      if(!permissionGranted){
+        router.push("/?ModalPermission=true");
+      }
     } else {
       router.push("/register");
     }
-  }, [router]);
+  }, [router, permissionGranted]);
 
     const checkMotionPermission = async () => {
       try {

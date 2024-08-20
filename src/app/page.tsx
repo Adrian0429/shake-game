@@ -170,7 +170,7 @@ export default function Home() {
     };
 
       useEffect(() => {
-        const intervalId = setInterval(Update, 5000);
+        const intervalId = setInterval(Update, 3000);
 
         // Cleanup interval on component unmount
         return () => clearInterval(intervalId);
@@ -178,12 +178,11 @@ export default function Home() {
       }, [userData, energy, count]);
 
 
-  const Update = async (e: React.FormEvent<HTMLFormElement>) => {
-
+  const Update = async () => {
     const formData = {
-      tele_id: e.currentTarget.tele_id.value,
-      coins: e.currentTarget.coins.value,
-      energy: e.currentTarget.energy.value, 
+      tele_id: userData?.id,
+      coins: count,
+      energy: energy.current, 
     };
 
     console.log("Submitting form with data:", formData);
@@ -201,9 +200,7 @@ export default function Home() {
 
       alert(response.data);
       if (response.data.status == true) {
-        const token = response.data.token; // Assuming the token is in the response
-        localStorage.setItem("authToken", token); // Store the token in localStorage
-        router.push("/");
+        console.log("Form submitted successfully", response.data)
       }
     } catch (error) {
       console.error("Error submitting form:", error);

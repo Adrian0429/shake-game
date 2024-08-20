@@ -71,7 +71,7 @@ export default function Home() {
   const myShakeEvent = useRef<Shake | null>(null);
   const [permissionGranted, setPermissionGranted] = useState(false);
   const [token, setToken] = useState("");
-  const [userDetails, setUserDetails] = useState<UserData | null>(null);
+  const [userDetails, setUserDetails] = useState<MeUser | null>(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -80,13 +80,10 @@ export default function Home() {
           params: { teleID: String(userData?.id) },
         });
 
-        setCount(response.data.coins);
-        setEnergy({
-          current: response.data.energy,
-          max: 2000,
-        });
+        setUserDetails(response.data);
       } catch (error) {
         console.error("Error fetching user data:", error);
+        alert((error as any).data.message)
       }
     };
 

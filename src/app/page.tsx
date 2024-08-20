@@ -54,13 +54,19 @@ export default function Home() {
   });
   const frenzyTimer = useRef<NodeJS.Timeout | null>(null);
   const frenzyDuration = 5000;
-  const token = localStorage.getItem("token");
   const [isMobile, setIsMobile] = useState(false);
   const [Page, setPage] = useState("Home");
   const [isLogin, setIsLogin] = useState(false);
   const [userData, setUserData] = useState<UserData | null>(null);
   const myShakeEvent = useRef<Shake | null>(null);
   const [permissionGranted, setPermissionGranted] = useState(false);
+  const [token, setToken] = useState<string | null>(null);
+
+    useEffect(() => {
+      const storedToken = localStorage.getItem("token");
+      setToken(storedToken);
+    }, []);
+
     const checkMotionPermission = async () => {
       try {
         if (typeof (DeviceMotionEvent as any).requestPermission === "function") {

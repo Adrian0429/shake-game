@@ -90,6 +90,7 @@ const FetchMe = async () => {
 
     if (response.data.status == true) {
       setUserDetails(response.data.data);
+      alert(response.data.data)
       console.log("Form submitted successfully", response.data.data);
     }
   } catch (error) {
@@ -97,6 +98,7 @@ const FetchMe = async () => {
   }
 };
       if(userData){
+        alert("fetching userdata")
         FetchMe();
       }
       

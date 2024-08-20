@@ -170,42 +170,54 @@ export default function Home() {
     };
 
       useEffect(() => {
-        const intervalId = setInterval(updateStats, 5000);
+        const intervalId = setInterval(handleSubmit, 5000);
 
         // Cleanup interval on component unmount
         return () => clearInterval(intervalId);
         // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [userData, energy, count]);
 
-    const updateStats = async () => {
-          const formData = {
-            tele_id: userData?.id,
-            energy: energy.current,
-            coins: count,
-          };
-        alert(`${formData.tele_id} ${formData.energy} ${formData.coins}`);
-      try {
-        const response = await axios.post(
-          "https://api2.fingo.co.id/api/user/updateEnergy",
-          formData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        
-        if (response.data.status == true) {
-          console.log("update successful:", response.data);
-        }
-      } catch (error) {
-        console.error("Update error:", error);
-      }
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = {
+      tele_id: e.currentTarget.tele_id.value,
+      coins: e.currentTarget.coins.value,
+      energy: e.currentTarget.energy.value, 
     };
+
+    console.log("Submitting form with data:", formData);
+
+    try {
+      const response = await axios.post(
+        "https://api2.fingo.co.id/api/user/updateEnergy",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      alert(response.data);
+      if (response.data.status == true) {
+        const token = response.data.token; // Assuming the token is in the response
+        localStorage.setItem("authToken", token); // Store the token in localStorage
+        router.push("/");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
+  };
+
     
   return (
     <div className="h-[calc(100vh-4.5rem)] bg-white dark:bg-black">
-
+      <form className="hidden">
+        <input type="text" value={userData?.id} id="tele_id" name="tele_id"/>
+        <input type="number" value={count} id="coins" name="coins"/>
+        <input type="number" value={energy.current} id="energy" name="energy" />
+      </form>
       {isMobile ? (
         <>
               {Page === "Home" && (

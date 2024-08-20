@@ -169,13 +169,13 @@ export default function Home() {
       }
     };
 
-      // useEffect(() => {
-      //   const intervalId = setInterval(updateStats, 5000);
+      useEffect(() => {
+        const intervalId = setInterval(updateStats, 5000);
 
-      //   // Cleanup interval on component unmount
-      //   return () => clearInterval(intervalId);
-      //   // eslint-disable-next-line react-hooks/exhaustive-deps
-      // }, [userData, energy, count]);
+        // Cleanup interval on component unmount
+        return () => clearInterval(intervalId);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, [userData, energy, count]);
 
     const updateStats = async () => {
 
@@ -207,7 +207,6 @@ export default function Home() {
     
   return (
     <div className="h-[calc(100vh-4.5rem)] bg-white dark:bg-black">
-      {userData?.id}
       {isMobile ? (
         <>
               {Page === "Home" && (

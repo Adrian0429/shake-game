@@ -97,6 +97,41 @@ export default function Home() {
     fetchUserData();
   }, [userData?.id]);
       
+ useEffect(() => {
+   const intervalId = setInterval(Update, 100);
+
+   // Cleanup interval on component unmount
+   return () => clearInterval(intervalId);
+   // eslint-disable-next-line react-hooks/exhaustive-deps
+ }, [userData, energy, count]);
+
+      const Update = async () => {
+        const formData = {
+          tele_id: String(userData?.id),
+          coins: count,
+          energy: energy.current,
+        };
+
+        alert(formData.coins)
+
+        try {
+          const response = await axios.post(
+            "https://api2.fingo.co.id/api/user/updateEnergy",
+            formData,
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          
+          if (response.data.status == true) {
+            console.log("Form submitted successfully", response.data);
+          }
+        } catch (error) {
+          alert((error as any).response.data.message);
+        }
+      };
 
     useEffect(() => {
       if (WebApp.initDataUnsafe.user) {
@@ -164,78 +199,46 @@ export default function Home() {
       }, frenzyDuration);
     };
     
-const handleShake = () => {
-  if (energy.current > 0) {
-    let newCount = count;
-    let newEnergy = energy.current;
+    const handleShake = () => {
+      if (energy.current > 0) {
+        if (frenzy.count >= frenzyBar && !frenzy.isActive) {
+          setFrenzy({
+            isActive: true,
+            count: 0,
+          });
 
-    if (frenzy.count >= frenzyBar && !frenzy.isActive) {
-      setFrenzy({
-        isActive: true,
-        count: 0,
-      });
+          setIncrement(2);
+          alert("Frenzy Mode Activated");
+          startFrenzyTimer();
+        } else {
+          setCount((prevCount) => prevCount + increment);
+          setEnergy((prevEnergy) => ({
+            ...prevEnergy,
+            current: prevEnergy.current - 1,
+          }));
 
-      setIncrement(2);
-      alert("Frenzy Mode Activated");
-      startFrenzyTimer();
-    } else {
-      newCount += increment;
-      newEnergy -= 1;
-
-      setCount(newCount);
-      setEnergy((prevEnergy) => ({
-        ...prevEnergy,
-        current: newEnergy,
-      }));
-
-      Update(newCount, newEnergy); // Pass the latest values
-    }
-
-    if (frenzy.isActive) {
-      setFrenzy((prevFrenzy) => ({
-        ...prevFrenzy,
-        count: 0,
-      }));
-    } else {
-      setFrenzy((prevFrenzy) => ({
-        ...prevFrenzy,
-        count: prevFrenzy.count + increment,
-      }));
-    }
-  } else {
-    alert("You have reached the maximum energy");
-    if (myShakeEvent.current) {
-      myShakeEvent.current.stop();
-      window.removeEventListener("shake", handleShake, false);
-    }
-  }
-};
-
-const Update = async (updatedCount: number, updatedEnergy: number) => {
-  const formData = {
-    tele_id: String(userData?.id),
-    coins: updatedCount,
-    energy: updatedEnergy,
-  };
-
-  try {
-    const response = await axios.post(
-      "https://api2.fingo.co.id/api/user/updateEnergy",
-      formData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
+          if (frenzy.isActive) {
+            // If frenzy is active, reset the frenzy count
+            setFrenzy((prevFrenzy) => ({
+              ...prevFrenzy,
+              count: 0,
+            }));
+          } else {
+            // If frenzy is not active, increment the frenzy count
+            setFrenzy((prevFrenzy) => ({
+              ...prevFrenzy,
+              count: prevFrenzy.count + increment,
+            }));
+          }
+        }
+      } else {
+        alert("You have reached the maximum energy");
+        if (myShakeEvent.current) {
+          myShakeEvent.current.stop();
+          window.removeEventListener("shake", handleShake, false);
+        }
       }
-    );
-
-    if (response.data.status == true) {
-      console.log("Form submitted successfully", response.data);
-    }
-  } catch (error) {
-    alert((error as any).response.data.message);
-  }
-};
+    };
 
 
     

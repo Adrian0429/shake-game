@@ -1,21 +1,46 @@
 "use client";
-import WebApp from "@twa-dev/sdk";
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 interface UserData {
-  id: number;
-  username?: string;
-  language_code: string;
-  is_premium?: boolean;
+  tele_id: string;
+  name: string;
+  email: string;
+  region: string;
+  energy: number;
+  coins: number;
+  referral_code: string;
 }
 
 interface ProfilesProps {
-  userData: UserData;
+  userData: {
+    id: number;
+    username?: string;
+    language_code: string;
+    is_premium?: boolean;
+  };
 }
 
 const Profiles = ({ userData }: ProfilesProps) => {
-  const referralCode = "PPHOOHK"; // Example referral code, replace with your actual logic
+  const [userDetails, setUserDetails] = useState<UserData | null>(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get("/api/user/me", {
+          params: { teleID: String(userData.id) },
+        });
+
+        setUserDetails(response.data);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, [userData.id]);
+
+  const referralCode = userDetails?.referral_code || "N/A"; // Use actual referral code from fetched data
 
   const handleCopy = () => {
     navigator.clipboard
@@ -32,7 +57,7 @@ const Profiles = ({ userData }: ProfilesProps) => {
     e.preventDefault();
 
     const formData = {
-      tele_id: userData.id,
+      tele_id: String(userData.id),
       referral_code: e.currentTarget.referral_code.value,
     };
 
@@ -53,8 +78,12 @@ const Profiles = ({ userData }: ProfilesProps) => {
       <h1 className="text-H2 w-full text-center">Profile User</h1>
       <ul className="text-S2 mt-5">
         <li>User ID: {userData?.id}</li>
-        <li>Username: {userData?.username || "N/A"}</li>
+        <li>Username: {userDetails?.name || userData?.username || "N/A"}</li>
+        <li>Email: {userDetails?.email || "N/A"}</li>
+        <li>Region: {userDetails?.region || "N/A"}</li>
         <li>Language Code: {userData?.language_code}</li>
+        <li>Energy: {userDetails?.energy || 0}</li>
+        <li>Coins: {userDetails?.coins || 0}</li>
       </ul>
 
       <h2 className="text-H3 mt-10">Referral Code</h2>

@@ -97,7 +97,7 @@ function Page() {
               name="tele_id"
               id="tele_id"
               required
-              className="border text-black hidden"
+              className="border text-black"
             />
             <input
               type="text"
@@ -105,7 +105,7 @@ function Page() {
               name="name"
               id="username"
               required
-              className="border text-black hidden"
+              className="border text-black"
             />
 
             {/* Dropdown */}

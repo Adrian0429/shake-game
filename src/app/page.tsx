@@ -61,15 +61,6 @@ export default function Home() {
   const myShakeEvent = useRef<Shake | null>(null);
   const [permissionGranted, setPermissionGranted] = useState(false);
   const [token, setToken] = useState<string | null>(null);
-
-  useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    setToken(storedToken);
-
-    if (!storedToken) {
-      router.push("/login");
-    }
-  }, [router]);
   
     const checkMotionPermission = async () => {
       try {

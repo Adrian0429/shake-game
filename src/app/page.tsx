@@ -61,7 +61,7 @@ export default function Home() {
   const myShakeEvent = useRef<Shake | null>(null);
   const [permissionGranted, setPermissionGranted] = useState(false);
   const [token, setToken] = useState<string | null>(null);
-  
+
     const checkMotionPermission = async () => {
       try {
         if (typeof (DeviceMotionEvent as any).requestPermission === "function") {
@@ -161,7 +161,6 @@ export default function Home() {
     
     
   useEffect(() => {
-    
     if (WebApp.initDataUnsafe.user) {
       setUserData(WebApp.initDataUnsafe.user as UserData);
     }

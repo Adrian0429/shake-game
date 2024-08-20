@@ -38,7 +38,7 @@ function Page() {
 
     try {
       const response = await axios.post(
-        "https://api2.fingo.co.id/api/user",
+        "https://api2.fingo.co.id/api/user/reg",
         formData,
         {
           headers: {
@@ -48,8 +48,10 @@ function Page() {
       );
 
       console.log("Form submitted successfully", response.data);
-      if (response.data.status === true) {
-        router.push("/login")
+      if (response.data.status == true) {
+        const token = response.data.token; // Assuming the token is in the response
+        localStorage.setItem("authToken", token); // Store the token in localStorage
+        router.push("/");
       }
     } catch (error) {
       console.error("Error submitting form:", error);

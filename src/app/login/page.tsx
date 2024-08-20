@@ -5,6 +5,7 @@ import { FiChevronDown } from "react-icons/fi";
 import countries from "@/app/constant/Country";
 import WebApp from "@twa-dev/sdk";
 import axios from "axios";
+import Link from "next/link";
 
 interface Country {
   name: string;
@@ -29,9 +30,6 @@ function Page() {
 
     const formData = {
       tele_id: e.currentTarget.tele_id.value, // `User_TeleId` in struct
-      name: e.currentTarget.username.value, // `User_Name` in struct
-      email: e.currentTarget.email.value, // `User_Email` in struct
-      region: e.currentTarget.region.value, // `User_Region` in struct
     };
 
     console.log("Submitting form with data:", formData);
@@ -49,7 +47,7 @@ function Page() {
 
       console.log("Form submitted successfully", response.data);
       if (response.data.status === true) {
-        router.push("/login")
+        router.push("/");
       }
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -84,66 +82,25 @@ function Page() {
                 </span>
               </div>
               <input
-                type="email"
-                id="email"
+                type="text"
+                id="tele_id"
+                required={true}
+                value={userData?.id}
                 className="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                placeholder="user@gmail.com"
               />
             </div>
 
-            <input
-              type="text"
-              value={userData?.id}
-              name="tele_id"
-              id="tele_id"
-              required
-              className="border text-black hidden"
-            />
-            <input
-              type="text"
-              value={userData?.username}
-              name="name"
-              id="username"
-              required
-              className="border text-black hidden"
-            />
-
-            {/* Dropdown */}
-            <div className="z-10 hs-dropdown relative inline-flex flex-col w-full mt-2">
-              <p className="text-sm font-medium mb-2 text-start">Region</p>
-              <button
-                id="hs-dropdown-default"
-                type="button"
-                className="hs-dropdown-toggle py-3 px-2 inline-flex items-center gap-x-2 w-full text-sm font-medium rounded-lg border border-slate-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
-              >
-                <p className="w-full ml-2 text-start">
-                  {SelectedCountry?.name || "Select Region"}
-                </p>
-                <FiChevronDown />
-              </button>
-
-              <div
-                className="hs-dropdown-menu transition-[opacity,margin] max-h-[300px] overflow-y-scroll duration hs-dropdown-open:opacity-100 opacity-0 hidden bg-white shadow-md rounded-lg p-1 mt-2 after:h-4 after:absolute z-30 after:-bottom-4 after:start-0 after:w-full before:h-4 before:absolute before:start-0 before:w-full"
-                aria-labelledby="hs-dropdown-default"
-              >
-                {countries.map((country, index) => (
-                  <a
-                    key={index}
-                    className="flex items-center my-1 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
-                    href="#"
-                    onClick={() => setSelectedCountry(country)}
-                  >
-                    {country.name}
-                  </a>
-                ))}
-                <input
-                  type="text"
-                  name="region"
-                  id="region"
-                  value={SelectedCountry?.code}
-                  className="hidden"
-                />
+            <div className="w-full my-3">
+              <div className="flex justify-between items-center">
+                <label className="text-sm font-medium mb-2">Email</label>
               </div>
+              <input
+                type="text"
+                id="name"
+                required={true}
+                value={userData?.username}
+                className="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+              />
             </div>
 
             <button
@@ -152,6 +109,10 @@ function Page() {
             >
               Confirm
             </button>
+
+            <Link href={"/register"} className="mt-2 text-sm text-blue-500">
+              Register?
+            </Link>
           </form>
         </div>
       </dialog>

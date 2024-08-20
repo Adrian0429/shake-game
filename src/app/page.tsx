@@ -54,7 +54,7 @@ export default function Home() {
   });
   const frenzyTimer = useRef<NodeJS.Timeout | null>(null);
   const frenzyDuration = 5000;
-  
+  const token = localStorage.getItem("token");
   const [isMobile, setIsMobile] = useState(false);
   const [Page, setPage] = useState("Home");
   const [isLogin, setIsLogin] = useState(false);
@@ -139,41 +139,9 @@ export default function Home() {
       }
     };
 
-    const login = async () => {
-       const formData = {
-         tele_id: userData?.id.toString, // `User_TeleId` in struct
-       };
-
-      try {
-      
-      const response = await axios.post(
-        "https://api2.fingo.co.id/api/user/login",
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-        console.log("Submitting form with data:", formData);
-        console.log("Form submitted successfully", response.data);
-        if (response.data.status === true) {
-          console.log("Login successful:", response.data);
-          console.log(response.data.data.token);
-          localStorage.setItem("token", response.data.data.token);
-          setIsLogin(true);
-          router.push("?ModalPermission=true");
-        }else if (response.data.status === false) {
-          console.log("Login failed:", response.data);
-          router.push("/register");
-        }
-
-      } catch (error) {
-        console.error("Login error:", error);
-        router.push("/register");
-      }
-    };
+    if(!token){
+      router.push("/login")
+    }
 
     const updateStats = async () => {
       try {
@@ -200,8 +168,6 @@ export default function Home() {
     if (WebApp.initDataUnsafe.user) {
       setUserData(WebApp.initDataUnsafe.user as UserData);
     }
-
-    login()
 
     const isMobileDevice =
       /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(

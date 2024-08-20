@@ -202,19 +202,14 @@ export default function Home() {
         console.log("Form submitted successfully", response.data)
       }
     } catch (error) {
-      alert(error);
+      alert((error as any).response.data.message);
     }
   };
 
     
   return (
     <div className="h-[calc(100vh-4.5rem)] bg-white dark:bg-black">
-      <form className="hidden">
-        <input type="text" value={userData?.id} id="tele_id" name="tele_id"/>
-        <input type="number" value={count} id="coins" name="coins"/>
-        <input type="number" value={energy.current} id="energy" name="energy" />
-      </form>
-      {isMobile ? (
+      {!isMobile ? (
         <>
               {Page === "Home" && (
                 <Counter

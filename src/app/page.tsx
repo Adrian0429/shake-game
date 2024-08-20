@@ -218,8 +218,6 @@ const Update = async (updatedCount: number, updatedEnergy: number) => {
     energy: updatedEnergy,
   };
 
-  alert(formData.coins);
-
   try {
     const response = await axios.post(
       "https://api2.fingo.co.id/api/user/updateEnergy",

@@ -82,8 +82,6 @@ const Profiles = ({ userData }: ProfilesProps) => {
         <li>Email: {userDetails?.email || "N/A"}</li>
         <li>Region: {userDetails?.region || "N/A"}</li>
         <li>Language Code: {userData?.language_code}</li>
-        <li>Energy: {userDetails?.energy || 0}</li>
-        <li>Coins: {userDetails?.coins || 0}</li>
       </ul>
 
       <h2 className="text-H3 mt-10">Referral Code</h2>

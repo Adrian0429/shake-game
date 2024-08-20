@@ -18,6 +18,16 @@ interface UserData {
   is_premium?: boolean;
 }
 
+interface MeUser {
+  tele_id: string;
+  name: string;
+  email: string;
+  region: string;
+  energy: number;
+  coins: number;
+  referral_code: string;
+}
+
 const Footerdata = [
   {
     name: "Home",
@@ -61,6 +71,27 @@ export default function Home() {
   const myShakeEvent = useRef<Shake | null>(null);
   const [permissionGranted, setPermissionGranted] = useState(false);
   const [token, setToken] = useState("");
+  const [userDetails, setUserDetails] = useState<UserData | null>(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get("/api/user/me", {
+          params: { teleID: String(userData?.id) },
+        });
+
+        setCount(response.data.coins);
+        setEnergy({
+          current: response.data.energy,
+          max: 2000,
+        });
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, [userData?.id]);
 
     useEffect(() => {
       if (WebApp.initDataUnsafe.user) {
@@ -170,7 +201,7 @@ export default function Home() {
     };
 
       useEffect(() => {
-        const intervalId = setInterval(Update, 3000);
+        const intervalId = setInterval(Update, 100);
 
         // Cleanup interval on component unmount
         return () => clearInterval(intervalId);

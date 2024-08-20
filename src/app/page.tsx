@@ -178,13 +178,12 @@ export default function Home() {
       }, [userData, energy, count]);
 
     const updateStats = async () => {
-
           const formData = {
             tele_id: userData?.id,
             energy: energy.current,
             coins: count,
           };
-        alert(formData);
+        alert(formData.tele_id);
       try {
         const response = await axios.post(
           "https://api2.fingo.co.id/api/user/updateEnergy",

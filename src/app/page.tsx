@@ -105,7 +105,7 @@ export default function Home() {
           energy: energy.current,
         };
 
-        console.log("Submitting form with data:", formData);
+        alert(formData.coins)
 
         try {
           const response = await axios.post(
@@ -117,7 +117,7 @@ export default function Home() {
               },
             }
           );
-
+          
           if (response.data.status == true) {
             console.log("Form submitted successfully", response.data);
           }

@@ -170,15 +170,15 @@ export default function Home() {
     };
 
       useEffect(() => {
-        const intervalId = setInterval(handleSubmit, 5000);
+        const intervalId = setInterval(Update, 5000);
 
         // Cleanup interval on component unmount
         return () => clearInterval(intervalId);
         // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [userData, energy, count]);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+
+  const Update = async (e: React.FormEvent<HTMLFormElement>) => {
 
     const formData = {
       tele_id: e.currentTarget.tele_id.value,

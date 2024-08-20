@@ -27,7 +27,7 @@ const Profiles = ({ userData }: ProfilesProps) => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get("/api/user/me", {
+        const response = await axios.get("https://api2.fingo.co.id/api/user/me", {
           params: { tele_id: String(userData.id) },
         });
 

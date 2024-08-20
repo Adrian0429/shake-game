@@ -81,10 +81,12 @@ const FetchMe = async () => {
   console.log("Submitting form with data:", formData);
 
   try {
-
-       const response = await axios.get("/api/user/me", {
-          params: { tele_id: String(userData?.id) },
-        });
+       const response = await axios.get(
+         "https://api2.fingo.co.id/api/user/me",
+         {
+           params: { tele_id: String(userData?.id) },
+         }
+       );
 
     if (response.data.status == true) {
       setUserDetails(response.data.data);

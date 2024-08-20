@@ -32,6 +32,7 @@ const Profiles = ({ userData }: ProfilesProps) => {
         });
 
         setUserDetails(response.data.data);
+        alert("pulling me")
       } catch (error) {
         console.error("Error fetching user data:", error);
       }

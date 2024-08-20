@@ -73,34 +73,24 @@ export default function Home() {
   const [token, setToken] = useState("");
   const [userDetails, setUserDetails] = useState<MeUser | null>(null);
 
-const FetchMe = async () => {
-  const formData = {
-    tele_id: String(userData?.id),
-  };
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(
+          "https://api2.fingo.co.id/api/user/me",
+          {
+            params: { tele_id: String(userData?.id) },
+          }
+        );
 
-  console.log("Submitting form with data:", formData);
-
-  try {
-       const response = await axios.get(
-         "https://api2.fingo.co.id/api/user/me",
-         {
-           params: { tele_id: String(userData?.id)},
-         }
-       );
-
-    if (response.data.status == true) {
-      setUserDetails(response.data.data);
-      alert(response.data.data)
-      console.log("Form submitted successfully", response.data.data);
-    }
-  } catch (error) {
-    alert((error as any).response.data.message);
-  }
-};
-      if(userData){
-        alert("fetching userdata")
-        FetchMe();
+        setUserDetails(response.data.data);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
       }
+    };
+
+    fetchUserData();
+  }, [userData?.id]);
       
 
       const Update = async () => {

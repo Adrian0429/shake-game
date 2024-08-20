@@ -180,9 +180,9 @@ export default function Home() {
 
   const Update = async () => {
     const formData = {
-      tele_id: userData?.id,
+      tele_id: String(userData?.id),
       coins: count,
-      energy: energy.current, 
+      energy: energy.current,
     };
 
     console.log("Submitting form with data:", formData);

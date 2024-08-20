@@ -198,12 +198,11 @@ export default function Home() {
         }
       );
 
-      alert(response.data);
       if (response.data.status == true) {
         console.log("Form submitted successfully", response.data)
       }
     } catch (error) {
-      console.error("Error submitting form:", error);
+      alert(error);
     }
   };
 

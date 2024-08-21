@@ -50,7 +50,7 @@ function Page() {
 
       console.log("Form submitted successfully", response.data);
       if (response.data.status == true) {
-        const token = response.data.token; // Assuming the token is in the response
+        const token = response.data.data.token; // Assuming the token is in the response
         nookies.set(null, "authToken", token, {
           maxAge: 3 * 60 * 60,
           path: "/", 

@@ -98,7 +98,7 @@ export default function Home() {
   }, [userData?.id]);
       
  useEffect(() => {
-   const intervalId = setInterval(Update, 100);
+   const intervalId = setInterval(Update, 1000);
 
    // Cleanup interval on component unmount
    return () => clearInterval(intervalId);
@@ -254,7 +254,7 @@ export default function Home() {
                   handleShake={handleShake}
                 />
               )}
-              {Page === "Tasks" && <Tasks />}
+              {Page === "Tasks" && <Tasks userId={userData?.id ?? 0}/>}
               {userData && Page === "Profiles" && (
                 <Profiles userData={userData} />
               )}

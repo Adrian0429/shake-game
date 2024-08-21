@@ -99,7 +99,7 @@ function Page() {
               name="tele_id"
               id="tele_id"
               required
-              className="border text-black"
+              className="border text-black hidden"
             />
             <input
               type="text"
@@ -107,10 +107,9 @@ function Page() {
               name="name"
               id="username"
               required
-              className="border text-black"
+              className="border text-black hidden"
             />
 
-            {/* Dropdown */}
             <div className="z-10 hs-dropdown relative inline-flex flex-col w-full mt-2">
               <p className="text-sm font-medium mb-2 text-start">Region</p>
               <button

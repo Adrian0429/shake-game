@@ -89,10 +89,6 @@ const Profiles = ({ userData, onTaskClear }: ProfilesProps) => {
         <li>Username: {userDetails?.name || userData?.username || "N/A"}</li>
         <li>Email: {userDetails?.email || "N/A"}</li>
         <li>Region: {userDetails?.region || "N/A"}</li>
-        <li>Language Code: {userData?.language_code}</li>
-        <li>Energy: {userDetails?.energy || 0}</li>
-        <li>Coins: {userDetails?.coins || 0}</li>
-        <li>Is Premium: {userData?.is_premium ? "Yes" : "No"}</li>
       </ul>
 
       <h2 className="text-H3 mt-10">Referral Code</h2>
@@ -107,7 +103,7 @@ const Profiles = ({ userData, onTaskClear }: ProfilesProps) => {
         </button>
       </div>
 
-      <h2 className="text-H3 mt-10">Redeem Referral Code</h2>
+      <h2 className="text-H3 mt-4">Redeem Referral Code</h2>
       <form
         onSubmit={handleSubmit}
         className="flex mt-2 flex-row h-16 bg-blue-600 rounded-lg items-center"

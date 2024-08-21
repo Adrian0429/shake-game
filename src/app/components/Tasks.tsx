@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
@@ -9,7 +10,7 @@ interface Task {
 }
 
 interface TasksProps {
-  userId: number; // Define the type of the prop
+  userId: number;
 }
 
 const Tasks = ({ userId }: TasksProps) => {
@@ -33,10 +34,24 @@ const Tasks = ({ userId }: TasksProps) => {
     fetchTasks();
   }, [userId]);
 
+  const handleTaskClick = async (taskId: string, link?: string) => {
+    try {
+      await axios.post("https://api2.fingo.co.id/api/task", {
+        tele_id: String(userId),
+        task_id: taskId,
+      });
+
+      if (link) {
+        window.open(link, "_blank");
+      }
+    } catch (error) {
+      console.error("Error completing task:", error);
+    }
+  };
+
   return (
     <div className="w-full h-full py-20">
       <div className="flex flex-col gap-y-4 items-center">
-        {userId}
         <h2 className="text-H1 dark:text-white">Daily Tasks</h2>
         {tasks.map((task) => (
           <div key={task.task_id} className="w-[80%]">
@@ -48,13 +63,12 @@ const Tasks = ({ userId }: TasksProps) => {
                 {task.title}
               </p>
               {task.link && (
-                <Link
-                  href={task.link}
-                  target="_blank"
+                <button
+                  onClick={() => handleTaskClick(task.task_id, task.link)}
                   className="text-S2 px-5 py-3 bg-blue-800 rounded-lg text-white dark:text-slate-900"
                 >
                   GO
-                </Link>
+                </button>
               )}
             </div>
           </div>

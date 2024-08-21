@@ -21,10 +21,7 @@ const Tasks = ({ userId }: TasksProps) => {
     const fetchTasks = async () => {
       try {
         const response = await axios.get(
-          "https://api2.fingo.co.id/api/user/tasks",
-          {
-            params: { tele_id: String(userId) },
-          }
+          "https://api2.fingo.co.id/api/user/tasks?tele_id=6789952150"
         );
 
         console.log("API Response:", response.data); // Log the response to debug
@@ -40,18 +37,32 @@ const Tasks = ({ userId }: TasksProps) => {
     fetchTasks();
   }, [userId]);
 
-  const handleTaskClick = async (taskId: string, link?: string) => {
-    try {
-      await axios.post("https://api2.fingo.co.id/api/task", {
-        tele_id: String(userId),
-        task_id: taskId,
-      });
+  const handleTaskClick = async (task_Id: string) => {
 
-      if (link) {
-        window.open(link, "_blank");
+     const formData = {
+       task_id: task_Id,
+       tele_id: String(userId), // `User_TeleId` in struct
+     };
+
+      console.log(formData);
+    try {
+      const response = await axios.post(
+        // "https://api2.fingo.co.id/api/user/task",
+        "http://127.0.0.1:8888/api/user/task",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(formData);
+      console.log("Form submitted successfully", response.data);
+      if (response.data.status == true) {
+        alert("Task completed successfully");
       }
     } catch (error) {
-      console.error("Error completing task:", error);
+      console.error("Error submitting form:", error);
     }
   };
 
@@ -71,12 +82,12 @@ const Tasks = ({ userId }: TasksProps) => {
                   {task.title}
                 </p>
                 {task.link && (
-                  <button
-                    onClick={() => handleTaskClick(task.task_id, task.link)}
+                  <a target="_blank" href={task.link}
+                    onClick={() => handleTaskClick(task.task_id)}
                     className="text-S2 px-5 py-3 bg-blue-800 rounded-lg text-white dark:text-slate-900"
                   >
                     GO
-                  </button>
+                  </a>
                 )}
               </div>
             </div>

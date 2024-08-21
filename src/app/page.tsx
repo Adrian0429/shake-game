@@ -98,7 +98,7 @@ export default function Home() {
   }, [userData?.id]);
       
  useEffect(() => {
-   const intervalId = setInterval(Update, 10000);
+   const intervalId = setInterval(Update, 100000);
 
    // Cleanup interval on component unmount
    return () => clearInterval(intervalId);

@@ -58,8 +58,6 @@ const Tasks = ({ userId, onTaskClear }: TasksProps) => {
       );
       console.log("Form submitted successfully", response.data);
       if (response.data.status === true) {
-        alert("Task completed successfully");
-        // Refresh tasks after clearing
         refreshTasks();
         onTaskClear();
       }
@@ -71,7 +69,7 @@ const Tasks = ({ userId, onTaskClear }: TasksProps) => {
   return (
     <div className="w-full h-full py-20">
       <div className="flex flex-col gap-y-4 items-center">
-        <a href="https://instagram.com" className="text-H1 dark:text-white">Daily Tasks</a>
+        <h2 className="text-H1 dark:text-white">Daily Tasks</h2>
         {tasks.length > 0 ? (
           tasks.map((task) => (
             <div key={task.task_id} className="w-[80%]">
@@ -84,10 +82,8 @@ const Tasks = ({ userId, onTaskClear }: TasksProps) => {
                 </p>
                 {task.link && (
                   <a
-                    target="_blank"
                     href={task.link}
-                    onClick={(e) => {
-                      e.preventDefault(); // Prevent the default link behavior
+                    onClick={() => {
                       clearTask(task.task_id);
                     }}
                     className="text-S2 px-5 py-3 bg-blue-800 rounded-lg text-white dark:text-slate-900"

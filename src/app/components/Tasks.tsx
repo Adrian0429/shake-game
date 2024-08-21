@@ -14,7 +14,7 @@ interface TasksProps {
 }
 
 const Tasks = ({ userId }: TasksProps) => {
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const [tasks, setTasks] = useState<Task[]>([]); // Ensure the initial state is an array
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -25,7 +25,14 @@ const Tasks = ({ userId }: TasksProps) => {
             params: { tele_id: String(userId) },
           }
         );
-        setTasks(response.data.data);
+
+        console.log("API Response:", response.data); // Log the response to debug
+
+        if (Array.isArray(response.data.data)) {
+          setTasks(response.data.data); // Ensure that tasks are set if data is an array
+        } else {
+          console.error("Data is not in expected format:", response.data.data);
+        }
       } catch (error) {
         console.error("Error fetching tasks:", error);
       }
@@ -53,26 +60,32 @@ const Tasks = ({ userId }: TasksProps) => {
     <div className="w-full h-full py-20">
       <div className="flex flex-col gap-y-4 items-center">
         <h2 className="text-H1 dark:text-white">Daily Tasks</h2>
-        {tasks.map((task) => (
-          <div key={task.task_id} className="w-[80%]">
-            <h2 className="text-H3 dark:text-white text-slate-900">
-              {task.title}
-            </h2>
-            <div className="flex flex-row justify-between items-center bg-blue-500 rounded-lg w-full px-4 h-16 mt-2">
-              <p className="text-S1 dark:text-white text-slate-900">
+        {tasks.length > 0 ? (
+          tasks.map((task) => (
+            <div key={task.task_id} className="w-[80%]">
+              <h2 className="text-H3 dark:text-white text-slate-900">
                 {task.title}
-              </p>
-              {task.link && (
-                <button
-                  onClick={() => handleTaskClick(task.task_id, task.link)}
-                  className="text-S2 px-5 py-3 bg-blue-800 rounded-lg text-white dark:text-slate-900"
-                >
-                  GO
-                </button>
-              )}
+              </h2>
+              <div className="flex flex-row justify-between items-center bg-blue-500 rounded-lg w-full px-4 h-16 mt-2">
+                <p className="text-S1 dark:text-white text-slate-900">
+                  {task.title}
+                </p>
+                {task.link && (
+                  <button
+                    onClick={() => handleTaskClick(task.task_id, task.link)}
+                    className="text-S2 px-5 py-3 bg-blue-800 rounded-lg text-white dark:text-slate-900"
+                  >
+                    GO
+                  </button>
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p className="text-S1 dark:text-white text-slate-900">
+            No tasks available.
+          </p>
+        )}
       </div>
     </div>
   );

@@ -71,181 +71,177 @@ export default function Home() {
   const myShakeEvent = useRef<Shake | null>(null);
   const [permissionGranted, setPermissionGranted] = useState(false);
   const [token, setToken] = useState("");
-  const [userDetails, setUserDetails] = useState<MeUser | null>(null);
-const fetchUserData = async () => {
-  try {
-    const response = await axios.get("https://api2.fingo.co.id/api/user/me", {
-      params: { tele_id: String(userData?.id) },
-    });
+  const [userDetails, setUserDetails] = useState<MeUser | null>(null);  
+  // Track the previous count value
+  const previousCount = useRef<number>(count);
+  const fetchUserData = async () => {
+    try {
+      const response = await axios.get("https://api2.fingo.co.id/api/user/me", {
+        params: { tele_id: String(userData?.id) },
+      });
 
-    setUserDetails(response.data.data);
-    setCount(response.data.data.coins);
-    setEnergy({
-      current: response.data.data.energy,
-      max: 2000,
-    });
-  } catch (error) {
-    console.error("Error fetching user data:", error);
-  }
-};
-
-useEffect(() => {
-  fetchUserData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-}, [userData?.id]);
-
+      setUserDetails(response.data.data);
+      setCount(response.data.data.coins);
+      setEnergy({
+        current: response.data.data.energy,
+        max: 2000,
+      });
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
 
   useEffect(() => {
-    const handleBeforeUnload = async (event: any) => {
-      event.preventDefault();
-      await Update(); // Run your update function
-      return undefined; // To prevent browsers from showing a confirmation dialog
+    fetchUserData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userData?.id]);
+
+  // Update only when count increases
+  useEffect(() => {
+    if (count > previousCount.current) {
+      Update();
+    }
+
+    // Update previousCount with the current count after the comparison
+    previousCount.current = count;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [count, userData, energy]);
+
+  const Update = async () => {
+    const formData = {
+      tele_id: String(userData?.id),
+      coins: count,
+      energy: energy.current,
     };
 
-    // Attach the event listener
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    // Cleanup the event listener on component unmount
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    }; // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userData, energy, count]);
-
-      const Update = async () => {
-        const formData = {
-          tele_id: String(userData?.id),
-          coins: count,
-          energy: energy.current,
-        };
-
-        try {
-          const response = await axios.post(
-            "https://api2.fingo.co.id/api/user/updateEnergy",
-            formData,
-            {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
-          
-          if (response.data.status == true) {
-            console.log("Form submitted successfully", response.data);
-          }
-        } catch (error) {
-         console.log("Error submitting form:", error);
+    try {
+      const response = await axios.post(
+        "https://api2.fingo.co.id/api/user/updateEnergy",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      };
+      );
 
-    useEffect(() => {
-      if (WebApp.initDataUnsafe.user) {
-        setUserData(WebApp.initDataUnsafe.user as UserData);
+      if (response.data.status == true) {
+        console.log("Form submitted successfully", response.data);
       }
-          const token = localStorage.getItem("authToken");
-          if (token) {
-            setIsLogin(true);
-            setToken(token);
-            if (!permissionGranted) {
-              router.push("/?ModalPermission=true");
-            }
-          } else {
-            router.push("/register");
-          }
+    } catch (error) {
+      console.log("Error submitting form:", error);
+    }
+  };
 
-      const isMobileDevice =
-        /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(
-          navigator.userAgent
-        );
-
-      if (!isMobileDevice) {
-        alert(
-          "This application is designed for mobile devices. Some features may not work as expected."
-        );
-      } else {
-        setIsMobile(true);
+  useEffect(() => {
+    if (WebApp.initDataUnsafe.user) {
+      setUserData(WebApp.initDataUnsafe.user as UserData);
+    }
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      setIsLogin(true);
+      setToken(token);
+      if (!permissionGranted) {
+        router.push("/?ModalPermission=true");
       }
-    }, [router, permissionGranted]);
+    } else {
+      router.push("/register");
+    }
 
-    const checkMotionPermission = async () => {
-      try {
-        if (typeof (DeviceMotionEvent as any).requestPermission === "function") {
-          const permissionState = await (DeviceMotionEvent as any).requestPermission();
-          if (permissionState === "granted") {
-            setPermissionGranted(true);
-            setupShakeEvent();
-            router.push("/");
-          }
-        } else {
+    const isMobileDevice =
+      /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      );
+
+    if (!isMobileDevice) {
+      alert(
+        "This application is designed for mobile devices. Some features may not work as expected."
+      );
+    } else {
+      setIsMobile(true);
+    }
+  }, [router, permissionGranted]);
+
+  const checkMotionPermission = async () => {
+    try {
+      if (typeof (DeviceMotionEvent as any).requestPermission === "function") {
+        const permissionState = await (
+          DeviceMotionEvent as any
+        ).requestPermission();
+        if (permissionState === "granted") {
           setPermissionGranted(true);
           setupShakeEvent();
           router.push("/");
         }
-      } catch (error) {
-        console.error("Error requesting DeviceMotionEvent permission:", error);
-      }
-    };
-
-    const setupShakeEvent = () => {
-      myShakeEvent.current = new Shake({ threshold: 10, timeout: 150 });
-      myShakeEvent.current.start();
-
-      window.addEventListener("shake", handleShake, false);
-    };
-
-    const startFrenzyTimer = () => {
-      frenzyTimer.current = setTimeout(() => {
-        setFrenzy((prevFrenzy) => ({
-          ...prevFrenzy,
-          isActive: false,
-        }));
-        setIncrement(1);
-        alert("Frenzy Mode Deactivated");
-      }, frenzyDuration);
-    };
-    
-    const handleShake = () => {
-      if (energy.current > 0) {
-        if (frenzy.count >= frenzyBar && !frenzy.isActive) {
-          setFrenzy({
-            isActive: true,
-            count: 0,
-          });
-
-          setIncrement(2);
-          alert("Frenzy Mode Activated");
-          startFrenzyTimer();
-        } else {
-          setCount((prevCount) => prevCount + increment);
-          setEnergy((prevEnergy) => ({
-            ...prevEnergy,
-            current: prevEnergy.current - 1,
-          }));
-
-          if (frenzy.isActive) {
-            // If frenzy is active, reset the frenzy count
-            setFrenzy((prevFrenzy) => ({
-              ...prevFrenzy,
-              count: 0,
-            }));
-          } else {
-            // If frenzy is not active, increment the frenzy count
-            setFrenzy((prevFrenzy) => ({
-              ...prevFrenzy,
-              count: prevFrenzy.count + increment,
-            }));
-          }
-        }
       } else {
-        alert("You have reached the maximum energy");
-        if (myShakeEvent.current) {
-          myShakeEvent.current.stop();
-          window.removeEventListener("shake", handleShake, false);
+        setPermissionGranted(true);
+        setupShakeEvent();
+        router.push("/");
+      }
+    } catch (error) {
+      console.error("Error requesting DeviceMotionEvent permission:", error);
+    }
+  };
+
+  const setupShakeEvent = () => {
+    myShakeEvent.current = new Shake({ threshold: 10, timeout: 150 });
+    myShakeEvent.current.start();
+
+    window.addEventListener("shake", handleShake, false);
+  };
+
+  const startFrenzyTimer = () => {
+    frenzyTimer.current = setTimeout(() => {
+      setFrenzy((prevFrenzy) => ({
+        ...prevFrenzy,
+        isActive: false,
+      }));
+      setIncrement(1);
+      alert("Frenzy Mode Deactivated");
+    }, frenzyDuration);
+  };
+
+  const handleShake = () => {
+    if (energy.current > 0) {
+      if (frenzy.count >= frenzyBar && !frenzy.isActive) {
+        setFrenzy({
+          isActive: true,
+          count: 0,
+        });
+
+        setIncrement(2);
+        alert("Frenzy Mode Activated");
+        startFrenzyTimer();
+      } else {
+        setCount((prevCount) => prevCount + increment);
+        setEnergy((prevEnergy) => ({
+          ...prevEnergy,
+          current: prevEnergy.current - 1,
+        }));
+
+        if (frenzy.isActive) {
+          // If frenzy is active, reset the frenzy count
+          setFrenzy((prevFrenzy) => ({
+            ...prevFrenzy,
+            count: 0,
+          }));
+        } else {
+          // If frenzy is not active, increment the frenzy count
+          setFrenzy((prevFrenzy) => ({
+            ...prevFrenzy,
+            count: prevFrenzy.count + increment,
+          }));
         }
       }
-    };
+    } else {
+      alert("You have reached the maximum energy");
+      if (myShakeEvent.current) {
+        myShakeEvent.current.stop();
+        window.removeEventListener("shake", handleShake, false);
+      }
+    }
+  };
 
-
-    
   return (
     <div className="h-[calc(100vh-4.5rem)] bg-white dark:bg-black">
       {isMobile ? (

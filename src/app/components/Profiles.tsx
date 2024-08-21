@@ -110,7 +110,7 @@ const Profiles = ({ userData, onTaskClear }: ProfilesProps) => {
       <h2 className="text-H3 mt-10">Redeem Referral Code</h2>
       <form
         onSubmit={handleSubmit}
-        className="flex mt-2 flex-row h-16 bg-white rounded-lg items-center"
+        className="flex mt-2 flex-row h-16 bg-blue-600 rounded-lg items-center"
       >
         <input
           type="text"

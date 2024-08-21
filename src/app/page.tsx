@@ -72,38 +72,44 @@ export default function Home() {
   const [permissionGranted, setPermissionGranted] = useState(false);
   const [token, setToken] = useState("");
   const [userDetails, setUserDetails] = useState<MeUser | null>(null);
+const fetchUserData = async () => {
+  try {
+    const response = await axios.get("https://api2.fingo.co.id/api/user/me", {
+      params: { tele_id: String(userData?.id) },
+    });
+
+    setUserDetails(response.data.data);
+    setCount(response.data.data.coins);
+    setEnergy({
+      current: response.data.data.energy,
+      max: 2000,
+    });
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+  }
+};
+
+useEffect(() => {
+  fetchUserData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, [userData?.id]);
+
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await axios.get(
-          "https://api2.fingo.co.id/api/user/me",
-          {
-            params: { tele_id: String(userData?.id) },
-          }
-        );
-        
-        setUserDetails(response.data.data);
-        setCount(response.data.data.coins)
-        setEnergy({
-          current: response.data.data.energy,
-          max: 2000
-        })
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
+    const handleBeforeUnload = async (event: any) => {
+      event.preventDefault();
+      await Update(); // Run your update function
+      return undefined; // To prevent browsers from showing a confirmation dialog
     };
 
-    fetchUserData();
-  }, [userData?.id]);
-      
- useEffect(() => {
-   const intervalId = setInterval(Update, 100000);
+    // Attach the event listener
+    window.addEventListener("beforeunload", handleBeforeUnload);
 
-   // Cleanup interval on component unmount
-   return () => clearInterval(intervalId);
-   // eslint-disable-next-line react-hooks/exhaustive-deps
- }, [userData, energy, count]);
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    }; // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userData, energy, count]);
 
       const Update = async () => {
         const formData = {
@@ -244,59 +250,60 @@ export default function Home() {
     <div className="h-[calc(100vh-4.5rem)] bg-white dark:bg-black">
       {isMobile ? (
         <>
-              {Page === "Home" && (
-                <Counter
-                  count={count}
-                  energy={energy}
-                  frenzy={frenzy}
-                  frenzyBar={frenzyBar}
-                  increment={increment}
-                  handleShake={handleShake}
-                />
-              )}
-              {Page === "Tasks" && <Tasks userId={userData?.id ?? 0}/>}
-              {userData && Page === "Profiles" && (
-                <Profiles userData={userData} />
-              )}
-            </>
-          ) : 
-          <>
+          {Page === "Home" && (
+            <Counter
+              count={count}
+              energy={energy}
+              frenzy={frenzy}
+              frenzyBar={frenzyBar}
+              increment={increment}
+              handleShake={handleShake}
+            />
+          )}
+          {Page === "Tasks" && (
+            <Tasks onTaskClear={fetchUserData} userId={userData?.id ?? 0} />
+          )}
+          {userData && Page === "Profiles" && <Profiles userData={userData} />}
+        </>
+      ) : (
+        <>
           <p>Pindah ke mobile woi</p>
-          </>}
+        </>
+      )}
 
-        <div className="fixed bottom-0 left-0 z-50 w-full h-[4.5rem] bg-white border-t rounded-t-2xl border-gray-200 dark:bg-slate-900 dark:border-gray-900">
-          <div className="grid h-full max-w-lg grid-cols-3 mx-auto font-medium">
-            {Footerdata.map((item, index) => {
-              const isActive = Page === item.name;
-              return (
-                <button
-                  onClick={() => setPage(item.name)}
-                  key={index}
-                  className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group"
+      <div className="fixed bottom-0 left-0 z-50 w-full h-[4.5rem] bg-white border-t rounded-t-2xl border-gray-200 dark:bg-slate-900 dark:border-gray-900">
+        <div className="grid h-full max-w-lg grid-cols-3 mx-auto font-medium">
+          {Footerdata.map((item, index) => {
+            const isActive = Page === item.name;
+            return (
+              <button
+                onClick={() => setPage(item.name)}
+                key={index}
+                className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group"
+              >
+                <div
+                  className={`${
+                    isActive
+                      ? "text-blue-600 dark:text-blue-500"
+                      : "text-gray-500 dark:text-gray-400"
+                  } text-2xl mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-500`}
                 >
-                  <div
-                    className={`${
-                      isActive
-                        ? "text-blue-600 dark:text-blue-500"
-                        : "text-gray-500 dark:text-gray-400"
-                    } text-2xl mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-500`}
-                  >
-                    {item.icon}
-                  </div>
-                  <span
-                    className={`${
-                      isActive
-                        ? "text-blue-600 dark:text-blue-500"
-                        : "text-gray-500 dark:text-gray-400"
-                    } text-sm group-hover:text-blue-600 dark:group-hover:text-blue-500`}
-                  >
-                    {item.name}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
+                  {item.icon}
+                </div>
+                <span
+                  className={`${
+                    isActive
+                      ? "text-blue-600 dark:text-blue-500"
+                      : "text-gray-500 dark:text-gray-400"
+                  } text-sm group-hover:text-blue-600 dark:group-hover:text-blue-500`}
+                >
+                  {item.name}
+                </span>
+              </button>
+            );
+          })}
         </div>
+      </div>
       <ModalAllow onAllowPermission={checkMotionPermission} />
     </div>
   );

@@ -12,20 +12,21 @@ interface Task {
 
 interface TasksProps {
   userId: number;
+  onTaskClear: () => void; // Add this prop
 }
 
-const Tasks = ({ userId }: TasksProps) => {
+const Tasks = ({ userId, onTaskClear }: TasksProps) => {
   const [tasks, setTasks] = useState<Task[]>([]);
 
   // Function to fetch tasks
   const refreshTasks = useCallback(async () => {
     try {
       const response = await axios.get(
-        "https://api2.fingo.co.id/api/user/tasks?tele_id=" + String(userId),
+        "https://api2.fingo.co.id/api/user/tasks?tele_id=" + String(userId)
       );
-  
+
       console.log("API Response:", response.data); // Log the response to debug
-  
+
       const fetchedTasks = response.data.data?.data || [];
       setTasks(fetchedTasks); // Set the tasks from the nested data array
     } catch (error) {
@@ -34,9 +35,9 @@ const Tasks = ({ userId }: TasksProps) => {
   }, [userId]);
 
   // Fetch tasks on component mount and when userId changes
-    useEffect(() => {
-      refreshTasks();
-    }, [userId, refreshTasks]);
+  useEffect(() => {
+    refreshTasks();
+  }, [userId, refreshTasks]);
 
   const clearTask = async (task_Id: string) => {
     const formData = {
@@ -60,6 +61,7 @@ const Tasks = ({ userId }: TasksProps) => {
         alert("Task completed successfully");
         // Refresh tasks after clearing
         refreshTasks();
+        onTaskClear();
       }
     } catch (error) {
       console.error("Error submitting form:", error);

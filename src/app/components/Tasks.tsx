@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
 
@@ -17,38 +17,37 @@ interface TasksProps {
 const Tasks = ({ userId }: TasksProps) => {
   const [tasks, setTasks] = useState<Task[]>([]);
 
-  useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        const response = await axios.get(
-          "https://api2.fingo.co.id/api/user/tasks?tele_id=6789952150"
-        );
-
-        console.log("API Response:", response.data); // Log the response to debug
-
-        const fetchedTasks = response.data.data?.data || [];
-        setTasks(fetchedTasks); // Set the tasks from the nested data array
-        console.log("Tasks:", fetchedTasks);
-      } catch (error) {
-        console.error("Error fetching tasks:", error);
-      }
-    };
-
-    fetchTasks();
+  // Function to fetch tasks
+  const refreshTasks = useCallback(async () => {
+    try {
+      const response = await axios.get(
+        "https://api2.fingo.co.id/api/user/tasks?tele_id=" + String(userId),
+      );
+  
+      console.log("API Response:", response.data); // Log the response to debug
+  
+      const fetchedTasks = response.data.data?.data || [];
+      setTasks(fetchedTasks); // Set the tasks from the nested data array
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+    }
   }, [userId]);
 
-  const handleTaskClick = async (task_Id: string) => {
+  // Fetch tasks on component mount and when userId changes
+    useEffect(() => {
+      refreshTasks();
+    }, [userId, refreshTasks]);
 
-     const formData = {
-       task_id: task_Id,
-       tele_id: String(userId), // `User_TeleId` in struct
-     };
+  const clearTask = async (task_Id: string) => {
+    const formData = {
+      task_id: task_Id,
+      tele_id: String(userId), // `User_TeleId` in struct
+    };
 
-      console.log(formData);
+    console.log(formData);
     try {
       const response = await axios.post(
-        // "https://api2.fingo.co.id/api/user/task",
-        "http://127.0.0.1:8888/api/user/task",
+        "https://api2.fingo.co.id/api/user/task",
         formData,
         {
           headers: {
@@ -56,10 +55,11 @@ const Tasks = ({ userId }: TasksProps) => {
           },
         }
       );
-      console.log(formData);
       console.log("Form submitted successfully", response.data);
-      if (response.data.status == true) {
+      if (response.data.status === true) {
         alert("Task completed successfully");
+        // Refresh tasks after clearing
+        refreshTasks();
       }
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -69,7 +69,6 @@ const Tasks = ({ userId }: TasksProps) => {
   return (
     <div className="w-full h-full py-20">
       <div className="flex flex-col gap-y-4 items-center">
-        {userId}
         <h2 className="text-H1 dark:text-white">Daily Tasks</h2>
         {tasks.length > 0 ? (
           tasks.map((task) => (
@@ -82,8 +81,13 @@ const Tasks = ({ userId }: TasksProps) => {
                   {task.title}
                 </p>
                 {task.link && (
-                  <a target="_blank" href={task.link}
-                    onClick={() => handleTaskClick(task.task_id)}
+                  <a
+                    target="_blank"
+                    href={task.link}
+                    onClick={(e) => {
+                      e.preventDefault(); // Prevent the default link behavior
+                      clearTask(task.task_id);
+                    }}
                     className="text-S2 px-5 py-3 bg-blue-800 rounded-lg text-white dark:text-slate-900"
                   >
                     GO

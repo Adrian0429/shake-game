@@ -20,7 +20,7 @@ export default function Header({ maxEnergy, curEnergy }: HeaderProps) {
       <div className="grid h-full grid-cols-3 mx-auto mt-5">
         <div className="">
           <div className="h-[90%] w-[90%] flex justify-center items-center mx-auto rounded-xl border-2 bg-slate-200 border-slate-900 dark:bg-slate-900">
-            <FaBoltLightning className="text-xl text-yellow-400 mr-2" />
+            <FaBoltLightning className="text-lg text-yellow-400 mr-1" />
             <span className="text-sm font-bold">
               {curEnergy} / {maxEnergy}
             </span>

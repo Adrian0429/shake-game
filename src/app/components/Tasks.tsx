@@ -71,7 +71,7 @@ const Tasks = ({ userId, onTaskClear }: TasksProps) => {
   return (
     <div className="w-full h-full py-20">
       <div className="flex flex-col gap-y-4 items-center">
-        <h2 className="text-H1 dark:text-white">Daily Tasks</h2>
+        <a href="instagram.com" target="_blank" className="text-H1 dark:text-white">Daily Tasks</a>
         {tasks.length > 0 ? (
           tasks.map((task) => (
             <div key={task.task_id} className="w-[80%]">

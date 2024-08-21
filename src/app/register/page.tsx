@@ -5,6 +5,7 @@ import { FiChevronDown } from "react-icons/fi";
 import countries from "@/app/constant/Country";
 import WebApp from "@twa-dev/sdk";
 import axios from "axios";
+import nookies from "nookies";
 
 interface Country {
   name: string;
@@ -50,7 +51,10 @@ function Page() {
       console.log("Form submitted successfully", response.data);
       if (response.data.status == true) {
         const token = response.data.token; // Assuming the token is in the response
-        localStorage.setItem("authToken", token); // Store the token in localStorage
+        nookies.set(null, "authToken", token, {
+          maxAge: 3 * 60 * 60,
+          path: "/", 
+        });
         router.push("/");
       }
     } catch (error) {

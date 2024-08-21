@@ -7,6 +7,7 @@ interface Task {
   task_id: string;
   title: string;
   link?: string;
+  Users: any;
 }
 
 interface TasksProps {
@@ -14,7 +15,7 @@ interface TasksProps {
 }
 
 const Tasks = ({ userId }: TasksProps) => {
-  const [tasks, setTasks] = useState<Task[]>([]); // Ensure the initial state is an array
+  const [tasks, setTasks] = useState<Task[]>([]);
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -28,11 +29,9 @@ const Tasks = ({ userId }: TasksProps) => {
 
         console.log("API Response:", response.data); // Log the response to debug
 
-        if (Array.isArray(response.data.data)) {
-          setTasks(response.data.data); // Ensure that tasks are set if data is an array
-        } else {
-          console.error("Data is not in expected format:", response.data.data);
-        }
+        const fetchedTasks = response.data.data?.data || [];
+        setTasks(fetchedTasks); // Set the tasks from the nested data array
+        console.log("Tasks:", fetchedTasks);
       } catch (error) {
         console.error("Error fetching tasks:", error);
       }

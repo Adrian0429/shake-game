@@ -59,6 +59,7 @@ const Tasks = ({ userId }: TasksProps) => {
   return (
     <div className="w-full h-full py-20">
       <div className="flex flex-col gap-y-4 items-center">
+        {userId}
         <h2 className="text-H1 dark:text-white">Daily Tasks</h2>
         {tasks.length > 0 ? (
           tasks.map((task) => (

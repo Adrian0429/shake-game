@@ -82,7 +82,7 @@ export default function Home() {
             params: { tele_id: String(userData?.id) },
           }
         );
-
+        
         setUserDetails(response.data.data);
         setCount(response.data.data.coins)
         setEnergy({

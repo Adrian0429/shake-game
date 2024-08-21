@@ -19,17 +19,22 @@ interface ProfilesProps {
     language_code: string;
     is_premium?: boolean;
   };
+  onTaskClear: () => void;
 }
 
-const Profiles = ({ userData }: ProfilesProps) => {
+const Profiles = ({ userData, onTaskClear }: ProfilesProps) => {
   const [userDetails, setUserDetails] = useState<UserData | null>(null);
+  const [referralCodeInput, setReferralCodeInput] = useState<string>(""); // Add state for input value
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get("https://api2.fingo.co.id/api/user/me", {
-          params: { tele_id: String(userData.id) },
-        });
+        const response = await axios.get(
+          "https://api2.fingo.co.id/api/user/me",
+          {
+            params: { tele_id: String(userData.id) },
+          }
+        );
 
         setUserDetails(response.data.data);
       } catch (error) {
@@ -58,7 +63,7 @@ const Profiles = ({ userData }: ProfilesProps) => {
 
     const formData = {
       tele_id: String(userData.id),
-      referral_code: e.currentTarget.referral_code.value,
+      referral_code: referralCodeInput, // Use the state variable
     };
 
     try {
@@ -68,6 +73,9 @@ const Profiles = ({ userData }: ProfilesProps) => {
       );
 
       console.log("Form submitted successfully", response.data);
+      alert("Referral Claimed Successfully");
+      onTaskClear();
+      setReferralCodeInput(""); // Clear the form input
     } catch (error) {
       console.error("Error submitting form:", error);
     }
@@ -108,6 +116,8 @@ const Profiles = ({ userData }: ProfilesProps) => {
           type="text"
           placeholder="Enter Referral Code"
           id="referral_code"
+          value={referralCodeInput} // Bind input to state variable
+          onChange={(e) => setReferralCodeInput(e.target.value)} // Update state on input change
           className="w-full h-full rounded-l-lg placeholder:text-white text-white px-4 bg-blue-600"
         />
         <button

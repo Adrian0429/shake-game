@@ -259,7 +259,9 @@ export default function Home() {
           {Page === "Tasks" && (
             <Tasks onTaskClear={fetchUserData} userId={userData?.id ?? 0} />
           )}
-          {userData && Page === "Profiles" && <Profiles userData={userData} />}
+          {userData && Page === "Profiles" && (
+            <Profiles onTaskClear={fetchUserData} userData={userData} />
+          )}
         </>
       ) : (
         <>

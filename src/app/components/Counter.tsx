@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import Header from './Navigation/Header';
 import logo from "../../../public/ShakeNoBg.png";
+import NormalVids from './Normal';
 
 interface CounterProps {
     count: number;
@@ -10,6 +11,7 @@ interface CounterProps {
     frenzyBar: number;
     increment: number;
     handleShake: () => void;
+    VideoComponent: React.FC;
 }
 
 const Counter = ({
@@ -18,6 +20,7 @@ const Counter = ({
     frenzy,
     frenzyBar,
     handleShake,
+    VideoComponent,
 }: CounterProps) => {
 
     return (
@@ -35,7 +38,7 @@ const Counter = ({
                             <div className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-1 leading-none rounded-full" style={{ width: `${frenzy.count / frenzyBar * 100}%` }}></div>
                         </div>
                     </div>
-                    <Image className="h-auto w-[80%] mt-3 mx-auto" src={logo} alt="Shake" width={400} height={400} />
+                    <VideoComponent />
                 </div>
             </div>
         </div>

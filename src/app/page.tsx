@@ -11,6 +11,9 @@ import Shake from "shake.js";
 import ModalAllow from "./components/Modal/ModalAllow";
 import axios from "axios";
 import nookies from "nookies";
+import NormalVids from "./components/Normal";
+import ShakeVids from "./components/Shake";
+import CapeVids from "./components/Cape";
 
 interface UserData {
   id: number;
@@ -71,11 +74,12 @@ export default function Home() {
   const myShakeEvent = useRef<Shake | null>(null);
   const [permissionGranted, setPermissionGranted] = useState(false);
   const [userDetails, setUserDetails] = useState<MeUser | null>(null);  
+  const [VideoComponent, setVideoComponent] = useState(() => NormalVids);
   const previousCount = useRef<number>(count);
   
   const RegisterLogin = async () => {
     const formData = {
-      tele_id: String(userData?.id),
+      tele_id: "123123",
       name: userData?.username,
       email: "",
       region: "",
@@ -169,18 +173,6 @@ export default function Home() {
   };
 
   useEffect(() => {
-
-
-    // const token = localStorage.getItem("authToken");
-    // if (token) {
-    //   setIsLogin(true);
-    //   if (!permissionGranted) {
-    //     router.push("/?ModalPermission=true");
-    //   }
-    // } else {
-    //   router.push("/register");
-    // }
-
     const isMobileDevice =
       /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(
         navigator.userAgent
@@ -247,6 +239,7 @@ export default function Home() {
         alert("Frenzy Mode Activated");
         startFrenzyTimer();
       } else {
+        setVideoComponent(() => ShakeVids);
         setCount((prevCount) => prevCount + increment);
         setEnergy((prevEnergy) => ({
           ...prevEnergy,
@@ -260,6 +253,7 @@ export default function Home() {
             count: 0,
           }));
         } else {
+          setVideoComponent(() => ShakeVids);
           // If frenzy is not active, increment the frenzy count
           setFrenzy((prevFrenzy) => ({
             ...prevFrenzy,
@@ -268,6 +262,7 @@ export default function Home() {
         }
       }
     } else {
+      setVideoComponent(() => CapeVids);
       alert("You have reached the maximum energy");
       if (myShakeEvent.current) {
         myShakeEvent.current.stop();
@@ -288,6 +283,7 @@ export default function Home() {
               frenzyBar={frenzyBar}
               increment={increment}
               handleShake={handleShake}
+              VideoComponent={VideoComponent}
             />
           )}
           {Page === "Tasks" && (

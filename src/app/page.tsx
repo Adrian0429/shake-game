@@ -131,13 +131,16 @@ export default function Home() {
     RegisterLogin();
         }
 
-        
-
     fetchUserData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData?.id]);
 
   useEffect(() => {
+
+    if(count == previousCount.current) {
+      setVideoComponent(NormalVids);
+    }
+    
     if (count > previousCount.current) {
       Update();
     }

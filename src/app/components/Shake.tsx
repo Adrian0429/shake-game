@@ -7,6 +7,7 @@ const ShakeVids = () => {
       <video
         autoPlay // Automatically play the video
         loop // Loop the video indefinitely
+        muted
         playsInline // Ensures the video plays inline on mobile devices (prevents full-screen mode)
         style={{
           width: "100%", // Adjust the width to fit the container

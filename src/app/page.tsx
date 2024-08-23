@@ -87,6 +87,7 @@ export default function Home() {
 
       alert("Login Success, welcome " + userData?.username);
       console.log("Form submitted successfully", response.data);
+      fetchUserData();
       router.push("?ModalPermission=true");
     } catch (error) {
       alert((error as any).response.data.message);
@@ -112,12 +113,12 @@ export default function Home() {
   };
 
   useEffect(() => {
-
         if (WebApp.initDataUnsafe.user) {
+         
           setUserData(WebApp.initDataUnsafe.user as UserData);
         }
-
-        RegisterLogin();
+    RegisterLogin();
+        
 
     fetchUserData();
     // eslint-disable-next-line react-hooks/exhaustive-deps

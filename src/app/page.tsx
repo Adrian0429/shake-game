@@ -137,9 +137,9 @@ export default function Home() {
 
   useEffect(() => {
 
-    if(count == previousCount.current) {
-      setVideoComponent(NormalVids);
-    }
+    // if(count == previousCount.current) {
+    //   setVideoComponent(NormalVids);
+    // }
     
     if (count > previousCount.current) {
       Update();

@@ -67,15 +67,27 @@ export default function Home() {
   const frenzyDuration = 5000;
   const [isMobile, setIsMobile] = useState(false);
   const [Page, setPage] = useState("Home");
-  const [isLogin, setIsLogin] = useState(false);
   const [userData, setUserData] = useState<UserData | null>(null);
   const myShakeEvent = useRef<Shake | null>(null);
   const [permissionGranted, setPermissionGranted] = useState(false);
   const [userDetails, setUserDetails] = useState<MeUser | null>(null);  
-  // Track the previous count value
   const previousCount = useRef<number>(count);
-  const cookies = nookies.get();
-  const token = cookies.authToken;
+  
+  const RegisterLogin = async () => {
+    try {
+      const response = await axios.post("https://api2.fingo.co.id/api/user/", {
+        tele_id: userData?.id,
+        name: userData?.username,
+        email: "",
+        region: "",
+      });
+      
+      alert("Login Success, welcome " + userData?.username);
+      router.push("?ModalPermission=true");
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
 
   const fetchUserData = async () => {
     try {
@@ -99,13 +111,11 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData?.id]);
 
-  // Update only when count increases
   useEffect(() => {
     if (count > previousCount.current) {
       Update();
     }
 
-    // Update previousCount with the current count after the comparison
     previousCount.current = count;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [count, userData, energy]);
@@ -141,15 +151,17 @@ export default function Home() {
       setUserData(WebApp.initDataUnsafe.user as UserData);
     }
     
-    const token = localStorage.getItem("authToken");
-    if (token) {
-      setIsLogin(true);
-      if (!permissionGranted) {
-        router.push("/?ModalPermission=true");
-      }
-    } else {
-      router.push("/register");
-    }
+    RegisterLogin();
+
+    // const token = localStorage.getItem("authToken");
+    // if (token) {
+    //   setIsLogin(true);
+    //   if (!permissionGranted) {
+    //     router.push("/?ModalPermission=true");
+    //   }
+    // } else {
+    //   router.push("/register");
+    // }
 
     const isMobileDevice =
       /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -163,6 +175,7 @@ export default function Home() {
     } else {
       setIsMobile(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router, permissionGranted]);
 
   const checkMotionPermission = async () => {

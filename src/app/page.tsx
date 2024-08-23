@@ -216,6 +216,8 @@ export default function Home() {
     window.addEventListener("shake", handleShake, false);
   };
 
+
+
   const startFrenzyTimer = () => {
     frenzyTimer.current = setTimeout(() => {
       setFrenzy((prevFrenzy) => ({
@@ -226,7 +228,6 @@ export default function Home() {
       alert("Frenzy Mode Deactivated");
     }, frenzyDuration);
   };
-
   const handleShake = () => {
     if (energy.current > 0) {
       if (frenzy.count >= frenzyBar && !frenzy.isActive) {
@@ -270,6 +271,31 @@ export default function Home() {
       }
     }
   };
+
+  useEffect(() => {
+    let timeout: NodeJS.Timeout | null = null;
+
+    const resetVideoComponent = () => {
+      setVideoComponent(() => NormalVids);
+    };
+
+    const handleNoShake = () => {
+      timeout = setTimeout(resetVideoComponent, 1500);
+    };
+
+    window.addEventListener("shake", handleShake, false);
+    window.addEventListener("devicemotion", handleNoShake, false);
+
+    return () => {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+      window.removeEventListener("shake", handleShake, false);
+      window.removeEventListener("devicemotion", handleNoShake, false);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [energy.current, frenzy.count, frenzyBar, frenzy.isActive, increment]);
+
 
   return (
     <div className="h-[calc(100vh-4.5rem)] bg-white dark:bg-black">

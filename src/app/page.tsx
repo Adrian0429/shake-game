@@ -123,7 +123,10 @@ export default function Home() {
          
           setUserData(WebApp.initDataUnsafe.user as UserData);
         }
+        if(userData?.id){
     RegisterLogin();
+        }
+
         
 
     fetchUserData();

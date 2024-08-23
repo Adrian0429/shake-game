@@ -81,9 +81,15 @@ export default function Home() {
       region: "",
     };
     try {
-      const response = await axios.post("https://api2.fingo.co.id/api/user/", {
+      const response = await axios.post(
+        "https://api2.fingo.co.id/api/user",
         formData,
-      });
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       alert("Login Success, welcome " + userData?.username);
       console.log("Form submitted successfully", response.data);

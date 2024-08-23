@@ -122,6 +122,16 @@ export default function Home() {
     }
   };
 
+  const playAudio = () => {
+    const audio = new Audio("/audio.mp3");
+    audio.loop = true;
+    audio.play();
+  };
+
+  const playCoins = ()=> {
+    
+  }
+
   useEffect(() => {
         if (WebApp.initDataUnsafe.user) {
          
@@ -132,6 +142,7 @@ export default function Home() {
         }
 
     fetchUserData();
+        playAudio()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData?.id]);
 

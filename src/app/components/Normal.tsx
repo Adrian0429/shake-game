@@ -1,11 +1,10 @@
-"use client";
-
 import React from "react";
 
 const NormalVids = () => {
   return (
     <div className="h-auto w-full mt-3 mx-auto">
       <video
+        preload="auto"
         autoPlay // Automatically play the video
         loop // Loop the video indefinitely
         muted

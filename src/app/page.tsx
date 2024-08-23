@@ -89,7 +89,8 @@ export default function Home() {
       console.log("Form submitted successfully", response.data);
       router.push("?ModalPermission=true");
     } catch (error) {
-      console.error("Error fetching user data:", error);
+      alert((error as any).response.data.message);
+      console.error("Error registering user data:", error);
     }
   };
 
@@ -111,6 +112,13 @@ export default function Home() {
   };
 
   useEffect(() => {
+
+        if (WebApp.initDataUnsafe.user) {
+          setUserData(WebApp.initDataUnsafe.user as UserData);
+        }
+
+        RegisterLogin();
+
     fetchUserData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData?.id]);
@@ -151,11 +159,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (WebApp.initDataUnsafe.user) {
-      setUserData(WebApp.initDataUnsafe.user as UserData);
-    }
-    
-    RegisterLogin();
+
 
     // const token = localStorage.getItem("authToken");
     // if (token) {

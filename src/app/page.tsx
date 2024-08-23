@@ -74,15 +74,19 @@ export default function Home() {
   const previousCount = useRef<number>(count);
   
   const RegisterLogin = async () => {
+    const formData = {
+      tele_id: String(userData?.id),
+      name: userData?.username,
+      email: "",
+      region: "",
+    };
     try {
       const response = await axios.post("https://api2.fingo.co.id/api/user/", {
-        tele_id: userData?.id,
-        name: userData?.username,
-        email: "",
-        region: "",
+        formData,
       });
-      
+
       alert("Login Success, welcome " + userData?.username);
+      console.log("Form submitted successfully", response.data);
       router.push("?ModalPermission=true");
     } catch (error) {
       console.error("Error fetching user data:", error);

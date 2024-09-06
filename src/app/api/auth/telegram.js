@@ -9,7 +9,7 @@ export default async function handler(req, res) {
             const chatId = message.chat.id;
 
             // Respond back to the user with a message or a link
-            const startAppUrl = 'https://your-nextjs-app-url.com'; // Replace with your app's URL
+            const startAppUrl = 'https://shakeshake.vercel.app'; // Replace with your app's URL
 
             // Send a message with the link to start the app
             await fetch(`https://api.telegram.org/bot${process.env.BOT_TOKEN}/sendMessage`, {

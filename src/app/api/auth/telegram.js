@@ -4,15 +4,13 @@ export default async function handler(req, res) {
     if (req.method === 'POST') {
         const { message } = req.body;
 
-        // Check if the message contains the /start command
         if (message && message.text === '/start') {
             const chatId = message.chat.id;
 
-            // Respond back to the user with a message or a link
             const startAppUrl = 'https://shakeshake.vercel.app'; // Replace with your app's URL
-
+            console.log(`Sending start app link to chat ID: ${chatId}`);
             // Send a message with the link to start the app
-            await fetch(`https://api.telegram.org/bot${process.env.BOT_TOKEN}/sendMessage`, {
+            await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_SECRET}/sendMessage`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

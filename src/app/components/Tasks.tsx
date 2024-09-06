@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
+import bg from "../../../public/BG.jpg";
 
 interface Task {
   task_id: string;
@@ -67,7 +68,14 @@ const Tasks = ({ userId, onTaskClear }: TasksProps) => {
   };
 
   return (
-    <div className="w-full h-full py-20">
+    <div
+      className="w-full h-full border bg-cover bg-center"
+      style={{
+        backgroundImage: `url(${bg.src})`,
+        width: "100%",
+        height: "100%",
+      }}
+    >
       <div className="flex flex-col gap-y-4 items-center">
         <h2 className="text-H1 dark:text-white">Daily Tasks</h2>
         {tasks.length > 0 ? (

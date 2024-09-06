@@ -1,15 +1,15 @@
-// pages/api/telegram.js
-
 export default async function handler(req, res) {
     if (req.method === 'POST') {
         const { message } = req.body;
 
+        // Check if the message contains the /start command
         if (message && message.text === '/start') {
             const chatId = message.chat.id;
 
-            const startAppUrl = 'https://shakeshake.vercel.app'; // Replace with your app's URL
-            console.log(`Sending start app link to chat ID: ${chatId}`);
-            // Send a message with the link to start the app
+            // URL of your mini app, which will be sent as a link to open inside Telegram
+            const startAppUrl = 'https://shakeshake.vercel.app';
+
+            // Send a response message to the user with a link to open the mini app
             await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_SECRET}/sendMessage`, {
                 method: 'POST',
                 headers: {
@@ -17,8 +17,18 @@ export default async function handler(req, res) {
                 },
                 body: JSON.stringify({
                     chat_id: chatId,
-                    text: `Click here to start the app: [Open App](${startAppUrl})`,
+                    text: `Click here to start the app: [Open ShakeShake](https://t.me/shakeTongamebot?start=webapp)`,
                     parse_mode: 'Markdown',
+                    reply_markup: {
+                        inline_keyboard: [
+                            [
+                                {
+                                    text: "Open ShakeShake Web App",
+                                    web_app: { url: startAppUrl }, // Opens the web app in Telegram
+                                },
+                            ],
+                        ],
+                    },
                 }),
             });
 

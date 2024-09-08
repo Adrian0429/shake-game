@@ -15,6 +15,7 @@ import NormalVids from "./components/Normal";
 import ShakeVids from "./components/Shake";
 import CapeVids from "./components/Cape";
 import path from "path";
+import { cookies } from "next/headers";
 
 interface UserData {
   id: number;
@@ -78,6 +79,7 @@ export default function Home() {
   const [VideoComponent, setVideoComponent] = useState(() => NormalVids);
   const previousCount = useRef<number>(count);
 
+
   const RegisterLogin = async () => {
     const formData = {
       tele_id: String(userData?.id),
@@ -97,19 +99,17 @@ export default function Home() {
         }
       );
       
-      alert(response.data.data.login + " " + "Success, welcome " + userData?.username);
+      alert("Welcome " + userData?.username);
       console.log("Form submitted successfully", response.data);
-
+      
       setCookie(null, "token", response.data.data.token, {
-        maxAge: 1 * 60 * 60,
+        maxAge: 3 * 60 * 60,
         path: "/",
       });
       
-      const cookies = parseCookies();
-      console.log("Cookies:", cookies);
-      
       fetchUserData();
       router.push("?ModalPermission=true");
+      
     } catch (error) {
       alert((error as any).response.data.message);
       console.error("Error registering user data:", error);
@@ -118,8 +118,11 @@ export default function Home() {
 
   const fetchUserData = async () => {
     try {
+      const cookies = parseCookies();
       const response = await axios.get("https://api2.fingo.co.id/api/user/me", {
-        params: { tele_id: String(userData?.id) },
+        headers: {
+          Authorization: `Bearer ${cookies.token}`,
+        },
       });
 
       setUserDetails(response.data.data);
@@ -144,18 +147,18 @@ export default function Home() {
   }
 
   useEffect(() => {
-        if (WebApp.initDataUnsafe.user) {
-         
-          setUserData(WebApp.initDataUnsafe.user as UserData);
-        }
-        if(userData?.id){
-    RegisterLogin();
-        }
+    if (WebApp.initDataUnsafe.user) {
+      setUserData(WebApp.initDataUnsafe.user as UserData);
+    }
 
-    fetchUserData();
-        playAudio()
+    if(userData?.id){
+      RegisterLogin();
+    }
+
+    playAudio()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData?.id]);
+
 
   useEffect(() => {
 

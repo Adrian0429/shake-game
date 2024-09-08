@@ -10,10 +10,11 @@ import Profiles from "./components/Profiles";
 import Shake from "shake.js";
 import ModalAllow from "./components/Modal/ModalAllow";
 import axios from "axios";
-import nookies from "nookies";
+import { parseCookies, setCookie } from "nookies";
 import NormalVids from "./components/Normal";
 import ShakeVids from "./components/Shake";
 import CapeVids from "./components/Cape";
+import path from "path";
 
 interface UserData {
   id: number;
@@ -76,7 +77,7 @@ export default function Home() {
   const [userDetails, setUserDetails] = useState<MeUser | null>(null);  
   const [VideoComponent, setVideoComponent] = useState(() => NormalVids);
   const previousCount = useRef<number>(count);
-  
+
   const RegisterLogin = async () => {
     const formData = {
       tele_id: String(userData?.id),
@@ -95,9 +96,18 @@ export default function Home() {
           },
         }
       );
-
-      alert(response.data.login + " " + "Success, welcome " + userData?.username);
+      
+      alert(response.data.data.login + " " + "Success, welcome " + userData?.username);
       console.log("Form submitted successfully", response.data);
+
+      setCookie(null, "token", response.data.data.token, {
+        maxAge: 1 * 60 * 60,
+        path: "/",
+      });
+      
+      const cookies = parseCookies();
+      console.log("Cookies:", cookies);
+      
       fetchUserData();
       router.push("?ModalPermission=true");
     } catch (error) {

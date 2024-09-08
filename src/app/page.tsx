@@ -131,6 +131,7 @@ export default function Home() {
         current: response.data.data.energy,
         max: 2000,
       });
+      console.log("API Response:", response.data);
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
@@ -154,7 +155,7 @@ export default function Home() {
     if(userData?.id){
       RegisterLogin();
     }
-
+    
     playAudio()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData?.id]);

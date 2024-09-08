@@ -79,7 +79,7 @@ export default function Home() {
   
   const RegisterLogin = async () => {
     const formData = {
-      tele_id: '123123',
+      tele_id: String(userData?.id),
       name: userData?.username,
       email: "",
       region: "",
@@ -96,8 +96,7 @@ export default function Home() {
         }
       );
 
-      alert(response.data.Login + " Success, welcome " + userData?.username);
-      console.log
+      alert(response.data.login + " " + "Success, welcome " + userData?.username);
       console.log("Form submitted successfully", response.data);
       fetchUserData();
       router.push("?ModalPermission=true");

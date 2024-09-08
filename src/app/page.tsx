@@ -289,7 +289,7 @@ export default function Home() {
 
   return (
     <div className="h-[calc(100vh-4.5rem)] bg-white dark:bg-black">
-      {isMobile ? (
+      {/* {isMobile ? ( */}
         <>
           {Page === "Home" && (
             <Counter
@@ -309,11 +309,11 @@ export default function Home() {
             <Profiles onTaskClear={fetchUserData} userData={userData} />
           )}
         </>
-      ) : (
+      {/* ) : (
         <>
           <p>Pindah ke mobile woi</p>
         </>
-      )}
+      )} */}
 
       <div className="fixed bottom-0 left-0 z-50 w-full h-[4.5rem] bg-white border-t rounded-t-2xl border-gray-200 dark:bg-slate-900 dark:border-gray-900">
         <div className="grid h-full max-w-lg grid-cols-3 mx-auto font-medium">

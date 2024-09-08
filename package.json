@@ -12,6 +12,7 @@
     "@preline/select": "^2.4.1",
     "@twa-dev/sdk": "^7.8.0",
     "axios": "^1.7.4",
+    "jose": "^5.8.0",
     "js-cookie": "^3.0.5",
     "next": "14.2.4",
     "nookies": "^2.5.2",

@@ -84,6 +84,7 @@ export default function Home() {
       email: "",
       region: "",
     };
+    
     try {
       const response = await axios.post(
         "https://api2.fingo.co.id/api/user",
@@ -96,6 +97,7 @@ export default function Home() {
       );
 
       alert(response.data.Login + " Success, welcome " + userData?.username);
+      console.log(formData)
       console.log("Form submitted successfully", response.data);
       fetchUserData();
       router.push("?ModalPermission=true");
@@ -186,21 +188,21 @@ export default function Home() {
     }
   };
 
-  useEffect(() => {
-    const isMobileDevice =
-      /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent
-      );
+  // useEffect(() => {
+  //   const isMobileDevice =
+  //     /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(
+  //       navigator.userAgent
+  //     );
 
-    if (!isMobileDevice) {
-      alert(
-        "This application is designed for mobile devices. Some features may not work as expected."
-      );
-    } else {
-      setIsMobile(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router, permissionGranted]);
+  //   if (!isMobileDevice) {
+  //     alert(
+  //       "This application is designed for mobile devices. Some features may not work as expected."
+  //     );
+  //   } else {
+  //     setIsMobile(true);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [router, permissionGranted]);
 
   const checkMotionPermission = async () => {
     try {

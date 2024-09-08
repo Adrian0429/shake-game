@@ -79,7 +79,7 @@ export default function Home() {
   
   const RegisterLogin = async () => {
     const formData = {
-      tele_id: "123123",
+      tele_id: userData?.id,
       name: userData?.username,
       email: "",
       region: "",

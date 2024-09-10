@@ -5,7 +5,6 @@ import "./globals.css";
 import Script from "next/script";
 import dynamic from "next/dynamic";
 import PrelineScript from "./components/PrelineScript";
-import FooterNav from "./components/Navigation/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 

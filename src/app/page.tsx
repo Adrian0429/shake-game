@@ -21,13 +21,13 @@ import { AiFillHome } from "react-icons/ai";
 import { CgList } from "react-icons/cg";
 import { IoSettingsOutline } from "react-icons/io5";
 
-// Provide default values for all properties
-const defaultUserData: UserData = {
-  id: 6789952150, // Default ID value
-  username: "drianksz", // Default username value (empty string)
-  language_code: "", // Default language code (e.g., 'en' for English)
-  is_premium: false, // Default premium status (false)
-};
+// // Provide default values for all properties
+// const defaultUserData: UserData = {
+//   id: 6789952150, // Default ID value
+//   username: "drianksz", // Default username value (empty string)
+//   language_code: "", // Default language code (e.g., 'en' for English)
+//   is_premium: false, // Default premium status (false)
+// };
 
 const Footerdata = [
   {
@@ -69,7 +69,7 @@ export default function Home() {
   const frenzyDuration = 5000;
   const [isMobile, setIsMobile] = useState(false);
   const [Page, setPage] = useState("Home");
-  const [userData, setUserData] = useState<UserData>(defaultUserData);
+  const [userData, setUserData] = useState<UserData>();
   const myShakeEvent = useRef<Shake | null>(null);
   const [permissionGranted, setPermissionGranted] = useState(false);
   const [userDetails, setUserDetails] = useState<MeUser | null>(null);  
@@ -149,9 +149,9 @@ export default function Home() {
   }
 
   useEffect(() => {
-    // if (WebApp.initDataUnsafe.user) {
-    //   setUserData(WebApp.initDataUnsafe.user as UserData);
-    // }
+    if (WebApp.initDataUnsafe.user) {
+      setUserData(WebApp.initDataUnsafe.user as UserData);
+    }
 
     if(userData?.id){
       RegisterLogin();

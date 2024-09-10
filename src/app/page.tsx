@@ -149,9 +149,9 @@ export default function Home() {
   }
 
   useEffect(() => {
-    // if (WebApp.initDataUnsafe.user) {
-    //   setUserData(WebApp.initDataUnsafe.user as UserData);
-    // }
+    if (WebApp.initDataUnsafe.user) {
+      setUserData(WebApp.initDataUnsafe.user as UserData);
+    }
 
     if(userData?.id){
       RegisterLogin();

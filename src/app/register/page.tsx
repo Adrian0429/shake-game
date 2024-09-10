@@ -29,13 +29,11 @@ function Page() {
     e.preventDefault();
 
     const formData = {
-      tele_id: e.currentTarget.tele_id.value, // `User_TeleId` in struct
-      name: e.currentTarget.username.value, // `User_Name` in struct
-      email: e.currentTarget.email.value, // `User_Email` in struct
-      region: e.currentTarget.region.value, // `User_Region` in struct
+      tele_id: e.currentTarget.tele_id.value, 
+      name: e.currentTarget.username.value, 
+      email: e.currentTarget.email.value, 
+      region: e.currentTarget.region.value, 
     };
-
-    console.log("Submitting form with data:", formData);
 
     try {
       const response = await axios.post(

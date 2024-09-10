@@ -2,46 +2,32 @@
 import Link from "next/link";
 import React from "react";
 import { usePathname } from "next/navigation";
-import { HiHome } from "react-icons/hi";
+import logo from "../../../../public/logo1.png"
 import { FaBitcoin, FaTasks, FaUser } from "react-icons/fa";
-import { FaBoltLightning } from "react-icons/fa6";
+import Image from "next/image";
+import { SiBitcoinsv } from "react-icons/si";
 
 
 interface HeaderProps {
-  maxEnergy: number;
-  curEnergy: number;
+  coins: number;
 }
 
-export default function Header({ maxEnergy, curEnergy }: HeaderProps) {
+export default function Header({ coins }: HeaderProps) {
   const pathname = usePathname();
 
   return (
-    <div className="w-screen h-[4.5rem]">
-      <div className="grid h-full grid-cols-3 mx-auto mt-5">
-        <div className="">
-          <div className="h-[90%] w-[90%] flex justify-center items-center mx-auto rounded-xl border-2 bg-slate-200 border-slate-900 dark:bg-slate-900">
-            <FaBoltLightning className="text-lg text-yellow-400 mr-1" />
-            <span className="text-sm font-bold">
-              {curEnergy} / {maxEnergy}
-            </span>
-          </div>
-        </div>
-        <div className="">
-          <div className="h-[90%] w-[90%] flex justify-center items-center mx-auto rounded-xl border-2 bg-slate-200 border-slate-900 dark:bg-slate-900">
-            <span className="text-S1 font-bold">Normal</span>
-          </div>
-        </div>
-        <div className="">
-          <div className="h-[90%] w-[90%] flex flex-col justify-between p-1 items-center mx-auto rounded-xl border-2 bg-slate-200 border-slate-900 dark:bg-slate-900">
-            <div className="flex flex-row">
-              <FaBitcoin className="text-xl mr-2 text-yellow-400" />
-              <p>per shake</p>
-            </div>
-            <div className="flex flex-row">
-              <p>1</p>
-            </div>
-          </div>
-        </div>
+    <div className="w-screen h-[4.5rem] flex justify-between mx-auto mt-5 items-center space-x-5 px-5">
+      <div className="flex w-[25%] justify-center items-center mx-auto">
+        <Image src={logo} alt="" height={50} width={50} />
+      </div>
+      <div className="w-full flex justify-center items-center mx-auto rounded-full bg-[#232328] py-4 px-2">
+        <span className="text-S1 font-bold flex flex-row items-center space-x-3">
+          <SiBitcoinsv className="text-[#E0FD60]" />
+          <p className="text-S2">{coins} Shake Points</p>
+        </span>
+      </div>
+      <div className="flex w-[25%] justify-center items-center mx-auto">
+        <Image src={logo} alt="" height={50} width={50} />
       </div>
     </div>
   );

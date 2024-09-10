@@ -3,8 +3,8 @@ import Counter from "./components/Counter";
 import WebApp from "@twa-dev/sdk";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { HiHome } from "react-icons/hi";
-import { FaTasks, FaUser } from "react-icons/fa";
+import { HiHome, HiOutlineUsers } from "react-icons/hi";
+import { FaTasks, FaUser, FaUserFriends } from "react-icons/fa";
 import Tasks from "./components/Tasks";
 import Profiles from "./components/Profiles";
 import Shake from "shake.js";
@@ -16,41 +16,38 @@ import ShakeVids from "./components/Shake";
 import CapeVids from "./components/Cape";
 import path from "path";
 import { cookies } from "next/headers";
+import { UserData, MeUser } from "./constant/types";
+import { AiFillHome } from "react-icons/ai";
+import { CgList } from "react-icons/cg";
+import { IoSettingsOutline } from "react-icons/io5";
 
-interface UserData {
-  id: number;
-  username?: string;
-  language_code: string;
-  is_premium?: boolean;
-}
-
-interface MeUser {
-  tele_id: string;
-  name: string;
-  email: string;
-  region: string;
-  energy: number;
-  coins: number;
-  referral_code: string;
-}
+// Provide default values for all properties
+const defaultUserData: UserData = {
+  id: 6789952150, // Default ID value
+  username: "drianksz", // Default username value (empty string)
+  language_code: "", // Default language code (e.g., 'en' for English)
+  is_premium: false, // Default premium status (false)
+};
 
 const Footerdata = [
   {
     name: "Home",
-    icon: (
-      <HiHome className="text-2xl mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-500" />
-    ),
+    icon: <AiFillHome className="text-2xl mb-1 group-hover:text-[#E0FD60]" />,
   },
   {
     name: "Tasks",
-    icon: (
-      <FaTasks className="text-2xl mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-500" />
-    ),
+    icon: <CgList className="text-2xl mb-1 group-hover:text-[#E0FD60]" />,
   },
   {
     name: "Profiles",
     icon: (
-      <FaUser className="text-2xl mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-500" />
+      <HiOutlineUsers className="text-2xl mb-1 group-hover:text-[#E0FD60]" />
+    ),
+  },
+  {
+    name: "Settings",
+    icon: (
+      <IoSettingsOutline className="text-2xl mb-1 group-hover:text-[#E0FD60]" />
     ),
   },
 ];
@@ -72,7 +69,7 @@ export default function Home() {
   const frenzyDuration = 5000;
   const [isMobile, setIsMobile] = useState(false);
   const [Page, setPage] = useState("Home");
-  const [userData, setUserData] = useState<UserData | null>(null);
+  const [userData, setUserData] = useState<UserData>(defaultUserData);
   const myShakeEvent = useRef<Shake | null>(null);
   const [permissionGranted, setPermissionGranted] = useState(false);
   const [userDetails, setUserDetails] = useState<MeUser | null>(null);  
@@ -83,7 +80,7 @@ export default function Home() {
   const RegisterLogin = async () => {
     const formData = {
       tele_id: String(userData?.id),
-      name: userData?.username,
+      name: "",
       email: "",
       region: "",
     };
@@ -98,20 +95,23 @@ export default function Home() {
           },
         }
       );
-      
-      alert("Welcome " + userData?.username);
-      console.log("Form submitted successfully", response.data);
-      
-      setCookie(null, "token", response.data.data.token, {
-        maxAge: 3 * 60 * 60,
-        path: "/",
-      });
-      
-      fetchUserData();
-      router.push("?ModalPermission=true");
-      
+
+      if (response.data && response.data.data) {
+        alert("Welcome " + userData?.username);
+        console.log("Form submitted successfully", response.data.data);
+
+        setCookie(null, "token", response.data.data.token, {
+          maxAge: 3 * 60 * 60,
+          path: "/",
+        });
+
+        fetchUserData();
+        router.push("?ModalPermission=true");
+      } else {
+        console.error("Unexpected response structure:", response.data);
+      }
     } catch (error) {
-      alert((error as any).response.data.message);
+      alert((error as any).response?.data?.message || "An error occurred");
       console.error("Error registering user data:", error);
     }
   };
@@ -121,7 +121,7 @@ export default function Home() {
       const cookies = parseCookies();
       const response = await axios.get("https://api2.fingo.co.id/api/user/me", {
         headers: {
-          Authorization: `Bearer ${cookies.token}`,
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjc4OTk1MjE1MCIsInJvbGUiOiJVc2VyIiwiaXNzIjoiVGVtcGxhdGUiLCJleHAiOjE3MjU4MTk2OTcsImlhdCI6MTcyNTgxMjQ5N30.Oqh45ipI4XIxftHcSIpe_X3BfC0pIi5rWM3-0rvf9zY`,
         },
       });
 
@@ -131,11 +131,12 @@ export default function Home() {
         current: response.data.data.energy,
         max: 2000,
       });
-      console.log("API Response:", response.data);
+      
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
   };
+
 
   const playAudio = () => {
     const audio = new Audio("/audio.mp3");
@@ -148,9 +149,9 @@ export default function Home() {
   }
 
   useEffect(() => {
-    if (WebApp.initDataUnsafe.user) {
-      setUserData(WebApp.initDataUnsafe.user as UserData);
-    }
+    // if (WebApp.initDataUnsafe.user) {
+    //   setUserData(WebApp.initDataUnsafe.user as UserData);
+    // }
 
     if(userData?.id){
       RegisterLogin();
@@ -245,8 +246,6 @@ export default function Home() {
     window.addEventListener("shake", handleShake, false);
   };
 
-
-
   const startFrenzyTimer = () => {
     frenzyTimer.current = setTimeout(() => {
       setFrenzy((prevFrenzy) => ({
@@ -260,38 +259,12 @@ export default function Home() {
 
   const handleShake = () => {
     if (energy.current > 0) {
-      if (frenzy.count >= frenzyBar && !frenzy.isActive) {
-        setFrenzy({
-          isActive: true,
-          count: 0,
-        });
-
-        setIncrement(2);
-        alert("Frenzy Mode Activated");
-        startFrenzyTimer();
-      } else {
         setVideoComponent(() => ShakeVids);
         setCount((prevCount) => prevCount + increment);
         setEnergy((prevEnergy) => ({
           ...prevEnergy,
           current: prevEnergy.current - 1,
-        }));
-
-        if (frenzy.isActive) {
-          // If frenzy is active, reset the frenzy count
-          setFrenzy((prevFrenzy) => ({
-            ...prevFrenzy,
-            count: 0,
-          }));
-        } else {
-          setVideoComponent(() => ShakeVids);
-          // If frenzy is not active, increment the frenzy count
-          setFrenzy((prevFrenzy) => ({
-            ...prevFrenzy,
-            count: prevFrenzy.count + increment,
-          }));
-        }
-      }
+        })); 
     } else {
       setVideoComponent(() => CapeVids);
       alert("You have reached the maximum energy");
@@ -303,7 +276,8 @@ export default function Home() {
   };
 
   return (
-    <div className="h-[calc(100vh-4.5rem)] bg-white dark:bg-black">
+    <div className="h-[calc(100vh-4.5rem)] bg-black">
+      {/* <button className="p-5 bg-warning-500" onClick={handleShake}>SHAKEE</button> */}
       {/* {isMobile ? ( */}
         <>
           {Page === "Home" && (
@@ -313,8 +287,7 @@ export default function Home() {
               frenzy={frenzy}
               frenzyBar={frenzyBar}
               increment={increment}
-              handleShake={handleShake}
-              VideoComponent={VideoComponent}
+              // VideoComponent={VideoComponent}
             />
           )}
           {Page === "Tasks" && (
@@ -330,8 +303,8 @@ export default function Home() {
         </>
       )} */}
 
-      <div className="fixed bottom-0 left-0 z-50 w-full h-[4.5rem] bg-white border-t rounded-t-2xl border-gray-200 dark:bg-slate-900 dark:border-gray-900">
-        <div className="grid h-full max-w-lg grid-cols-3 mx-auto font-medium">
+      <div className="fixed bottom-0 left-0 z-50 w-full h-[4.5rem] bg-transparent">
+        <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
           {Footerdata.map((item, index) => {
             const isActive = Page === item.name;
             return (
@@ -342,19 +315,15 @@ export default function Home() {
               >
                 <div
                   className={`${
-                    isActive
-                      ? "text-blue-600 dark:text-blue-500"
-                      : "text-gray-500 dark:text-gray-400"
-                  } text-2xl mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-500`}
+                    isActive ? "text-[#E0FD60]" : "text-gray-400"
+                  } text-2xl mb-1 group-hover:text-[#E0FD60]`}
                 >
                   {item.icon}
                 </div>
                 <span
                   className={`${
-                    isActive
-                      ? "text-blue-600 dark:text-blue-500"
-                      : "text-gray-500 dark:text-gray-400"
-                  } text-sm group-hover:text-blue-600 dark:group-hover:text-blue-500`}
+                    isActive ? "text-[#E0FD60]" : "text-gray-500"
+                  } text-sm group-hover:text-[#E0FD60]`}
                 >
                   {item.name}
                 </span>

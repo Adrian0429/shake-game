@@ -6,13 +6,15 @@ import logo from "../../../../public/logo1.png"
 import { FaBitcoin, FaTasks, FaUser } from "react-icons/fa";
 import Image from "next/image";
 import { SiBitcoinsv } from "react-icons/si";
+import { text } from "stream/consumers";
 
 
 interface HeaderProps {
-  coins: number;
+  coins?: number;
+  text?: string;
 }
 
-export default function Header({ coins }: HeaderProps) {
+export default function Header({ coins, text }: HeaderProps) {
   const pathname = usePathname();
 
   return (
@@ -20,12 +22,16 @@ export default function Header({ coins }: HeaderProps) {
       <div className="flex w-[25%] justify-center items-center mx-auto">
         <Image src={logo} alt="" height={50} width={50} />
       </div>
-      <div className="w-full flex justify-center items-center mx-auto rounded-full bg-[#232328] py-4 px-2">
-        <span className="text-S1 font-bold flex flex-row items-center space-x-3">
-          <SiBitcoinsv className="text-[#E0FD60]" />
-          <p className="text-S2">{coins} Shake Points</p>
-        </span>
-      </div>
+      {coins && (
+        <div className="w-full flex justify-center items-center mx-auto rounded-full bg-[#232328] py-4 px-2">
+          <span className="text-S1 font-bold flex flex-row items-center space-x-3">
+            <SiBitcoinsv className="text-[#E0FD60]" />
+            <p className="text-S2">{coins} Shake Points</p>
+          </span>
+        </div>
+      )}
+
+      {text && <p className="text-S1">{text}</p>}
       <div className="flex w-[25%] justify-center items-center mx-auto">
         <Image src={logo} alt="" height={50} width={50} />
       </div>

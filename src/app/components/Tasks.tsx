@@ -2,7 +2,8 @@
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
-import bg from "../../../public/BG.jpg";
+import bg from "../../../public/logo1.png";
+import Image from "next/image";
 
 interface Task {
   task_id: string;
@@ -68,17 +69,35 @@ const Tasks = ({ userId, onTaskClear }: TasksProps) => {
   };
 
   return (
-    <div
-      className="w-full h-full border bg-cover bg-center"
-      style={{
-        backgroundImage: `url(${bg.src})`,
-        width: "100%",
-        height: "100%",
-      }}
-    >
-      <div className="flex flex-col gap-y-4 items-center">
-        <h2 className="text-H1 dark:text-white">Daily Tasks</h2>
-        {tasks.length > 0 ? (
+    <div className="w-full h-full bg-black py-10">
+      <div className="flex flex-col items-center">
+        <h2 className="text-H2 dark:text-white">Do The Task</h2>
+        <p className="mt-2 text-B2">Complete your task, Claim your rewards!</p>
+
+        <div className="w-[90%] mt-10">
+          <div className="flex flex-row justify-between h-16 bg-[#232328] rounded-full px-5 py-1 items-center">
+            <div className="flex flex-row w-full space-x-3">
+              <Image
+                src={bg}
+                alt=""
+                height={30}
+                width={30}
+                className="w-[50px] h-full"
+              />
+              <div className="flex flex-col">
+                <p>Complete Profile</p>
+                <p>+ 1000 Coins</p>
+              </div>
+            </div>
+            <div>
+              <button>
+                claim
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* {tasks.length > 0 ? (
           tasks.map((task) => (
             <div key={task.task_id} className="w-[80%]">
               <h2 className="text-H3 dark:text-white text-slate-900">
@@ -106,7 +125,7 @@ const Tasks = ({ userId, onTaskClear }: TasksProps) => {
           <p className="text-S1 dark:text-white text-slate-900">
             No tasks available.
           </p>
-        )}
+        )} */}
       </div>
     </div>
   );

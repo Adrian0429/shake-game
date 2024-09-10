@@ -44,7 +44,7 @@ const Counter = ({
     
     return (
       <div className="w-full h-full">
-        <Header coins={count} />
+        <Header coins={count + 1} />
         <div className="h-[calc(100vh-9rem)] mt-5">
           <div className="flex flex-col items-center py-5">
             <div className="w-[70%]">

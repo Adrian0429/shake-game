@@ -22,12 +22,12 @@ import { CgList } from "react-icons/cg";
 import { IoSettingsOutline } from "react-icons/io5";
 
 // Provide default values for all properties
-// const defaultUserData: UserData = {
-//   id: 6789952150, // Default ID value
-//   username: "drianksz", // Default username value (empty string)
-//   language_code: "", // Default language code (e.g., 'en' for English)
-//   is_premium: false, // Default premium status (false)
-// };
+const defaultUserData: UserData = {
+  id: 6789952150, // Default ID value
+  username: "drianksz", // Default username value (empty string)
+  language_code: "", // Default language code (e.g., 'en' for English)
+  is_premium: false, // Default premium status (false)
+};
 
 const Footerdata = [
   {
@@ -69,7 +69,7 @@ export default function Home() {
   const frenzyDuration = 5000;
   const [isMobile, setIsMobile] = useState(false);
   const [Page, setPage] = useState("Home");
-  const [userData, setUserData] = useState<UserData>();
+  const [userData, setUserData] = useState<UserData>(defaultUserData);
   const myShakeEvent = useRef<Shake | null>(null);
   const [permissionGranted, setPermissionGranted] = useState(false);
   const [userDetails, setUserDetails] = useState<MeUser | null>(null);  
@@ -149,9 +149,9 @@ export default function Home() {
   }
 
   useEffect(() => {
-    if (WebApp.initDataUnsafe.user) {
-      setUserData(WebApp.initDataUnsafe.user as UserData);
-    }
+    // if (WebApp.initDataUnsafe.user) {
+    //   setUserData(WebApp.initDataUnsafe.user as UserData);
+    // }
 
     if(userData?.id){
       RegisterLogin();
@@ -279,24 +279,24 @@ export default function Home() {
     <div className="h-[calc(100vh-4.5rem)] bg-black">
       {/* <button className="p-5 bg-warning-500" onClick={handleShake}>SHAKEE</button> */}
       {/* {isMobile ? ( */}
-        <>
-          {Page === "Home" && (
-            <Counter
-              count={count}
-              energy={energy}
-              frenzy={frenzy}
-              frenzyBar={frenzyBar}
-              increment={increment}
-              // VideoComponent={VideoComponent}
-            />
-          )}
-          {Page === "Tasks" && (
-            <Tasks onTaskClear={fetchUserData} userId={userData?.id ?? 0} />
-          )}
-          {userData && Page === "Profiles" && (
-            <Profiles onTaskClear={fetchUserData} userData={userData} />
-          )}
-        </>
+      <>
+        {Page === "Home" && (
+          <Counter
+            count={count}
+            energy={energy}
+            frenzy={frenzy}
+            frenzyBar={frenzyBar}
+            increment={increment}
+            // VideoComponent={VideoComponent}
+          />
+        )}
+        {Page === "Tasks" && (
+          <Tasks onTaskClear={fetchUserData} userId={userData?.id ?? 0} />
+        )}
+        {userData && Page === "Profiles" && (
+          <Profiles onTaskClear={fetchUserData} userData={userData} />
+        )}
+      </>
       {/* ) : (
         <>
           <p>Pindah ke mobile woi</p>
@@ -304,14 +304,14 @@ export default function Home() {
       )} */}
 
       <div className="fixed bottom-0 left-0 z-50 w-full h-[4.5rem] bg-transparent">
-        <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
+        <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium bg-transparent">
           {Footerdata.map((item, index) => {
             const isActive = Page === item.name;
             return (
               <button
                 onClick={() => setPage(item.name)}
                 key={index}
-                className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group"
+                className="inline-flex flex-col items-center justify-center px-5"
               >
                 <div
                   className={`${

@@ -74,6 +74,18 @@ const Counter = ({
                 style={{ width: `${(energy.current / 2000) * 100}%` }}
               ></div>
             </div>
+
+            <div
+              className="w-[80%] mt-10 h-24 bg-[#D5FF18]  cursor-pointer select-none
+    active:translate-y-2  active:[box-shadow:0_0px_0_0_#ABC340,0_0px_0_0_#ffffff]
+    active:border-b-[0px]
+    transition-all duration-150 [box-shadow:0_2px_0_0_#ABC340,0_4px_0_0_#ffffff]
+    rounded-full  border-[1px] border-[#D5FF18] mb-3"
+            >
+              <span className="flex justify-center items-center h-full text-black font-bold text-2xl">
+                Shake To Earn Coins
+              </span>
+            </div>
           </div>
         </div>
       </div>

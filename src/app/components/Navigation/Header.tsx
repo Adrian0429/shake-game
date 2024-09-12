@@ -31,7 +31,13 @@ export default function Header({ coins, text }: HeaderProps) {
         </div>
       )}
 
-      {text && <p className="text-S1">{text}</p>}
+      {text && (
+        <div className="w-full flex justify-center items-center mx-auto rounded-full bg-[#232328] py-4 px-2">
+          <span className="text-S1 font-bold flex flex-row items-center space-x-3">
+            <p className="text-S1">{text}</p>
+          </span>
+        </div>
+      )}
       <div className="flex w-[25%] justify-center items-center mx-auto">
         <Image src={logo} alt="" height={50} width={50} />
       </div>

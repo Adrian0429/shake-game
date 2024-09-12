@@ -4,6 +4,9 @@ import axios from "axios";
 import Link from "next/link";
 import bg from "../../../public/logo1.png";
 import Image from "next/image";
+import { FaCheckCircle } from "react-icons/fa";
+import { IconContext } from "react-icons";
+import Header from "./Navigation/Header";
 
 interface Task {
   task_id: string;
@@ -69,12 +72,14 @@ const Tasks = ({ userId, onTaskClear }: TasksProps) => {
   };
 
   return (
-    <div className="w-full h-full bg-black py-10">
-      <div className="flex flex-col items-center">
+    <div className="w-full h-full">
+      <Header text="Shake Project" />
+      <div className="flex flex-col items-center mt-5">
         <h2 className="text-H2 dark:text-white">Do The Task</h2>
         <p className="mt-2 text-B2">Complete your task, Claim your rewards!</p>
 
-        <div className="w-[90%] mt-10">
+        <div className="w-[90%] h-[60vh] overflow-y-scroll mt-10 space-y-3">
+          
           <div className="flex flex-row justify-between h-16 bg-[#232328] rounded-full px-5 py-1 items-center">
             <div className="flex flex-row w-full space-x-3">
               <Image
@@ -90,42 +95,19 @@ const Tasks = ({ userId, onTaskClear }: TasksProps) => {
               </div>
             </div>
             <div>
-              <button>
-                claim
-              </button>
+              <div
+                className="w-24 h-8 bg-[#D5FF18]  cursor-pointer select-none
+                active:translate-y-2  active:[box-shadow:0_0px_0_0_#ABC340,0_0px_0_0_#ffffff]
+                active:border-b-[0px]
+                transition-all duration-150 [box-shadow:0_5px_0_0_#ABC340,0_8px_0_0_#ffffff]
+                rounded-full  border-[1px] border-[#D5FF18] mb-3">
+                <span className="flex justify-center items-center h-full text-black font-bold text-base">
+                  Claim
+                </span>
+              </div>
             </div>
           </div>
         </div>
-
-        {/* {tasks.length > 0 ? (
-          tasks.map((task) => (
-            <div key={task.task_id} className="w-[80%]">
-              <h2 className="text-H3 dark:text-white text-slate-900">
-                {task.title}
-              </h2>
-              <div className="flex flex-row justify-between items-center bg-blue-500 rounded-lg w-full px-4 h-16 mt-2">
-                <p className="text-S1 dark:text-white text-slate-900">
-                  {task.title}
-                </p>
-                {task.link && (
-                  <a
-                    href={task.link}
-                    onClick={() => {
-                      clearTask(task.task_id);
-                    }}
-                    className="text-S2 px-5 py-3 bg-blue-800 rounded-lg text-white dark:text-slate-900"
-                  >
-                    GO
-                  </a>
-                )}
-              </div>
-            </div>
-          ))
-        ) : (
-          <p className="text-S1 dark:text-white text-slate-900">
-            No tasks available.
-          </p>
-        )} */}
       </div>
     </div>
   );

@@ -4,7 +4,6 @@ import WebApp from "@twa-dev/sdk";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { HiHome, HiOutlineUsers } from "react-icons/hi";
-import { FaTasks, FaUser, FaUserFriends } from "react-icons/fa";
 import Tasks from "./components/Tasks";
 import Profiles from "./components/Profiles";
 import Shake from "shake.js";
@@ -14,12 +13,13 @@ import { parseCookies, setCookie } from "nookies";
 import NormalVids from "./components/Normal";
 import ShakeVids from "./components/Shake";
 import CapeVids from "./components/Cape";
-import path from "path";
-import { cookies } from "next/headers";
+
 import { UserData, MeUser } from "./constant/types";
 import { AiFillHome } from "react-icons/ai";
 import { CgList } from "react-icons/cg";
 import { IoSettingsOutline } from "react-icons/io5";
+import Referrals from "./components/Referral";
+import Settings from "./components/Settings";
 
 // // Provide default values for all properties
 // const defaultUserData: UserData = {
@@ -39,7 +39,7 @@ const Footerdata = [
     icon: <CgList className="text-2xl mb-1 group-hover:text-[#E0FD60]" />,
   },
   {
-    name: "Profiles",
+    name: "Referrals",
     icon: (
       <HiOutlineUsers className="text-2xl mb-1 group-hover:text-[#E0FD60]" />
     ),
@@ -80,7 +80,7 @@ export default function Home() {
   const RegisterLogin = async () => {
     const formData = {
       tele_id: String(userData?.id),
-      name: "",
+      name: String(userData?.username),
       email: "",
       region: "",
     };
@@ -202,21 +202,21 @@ export default function Home() {
     }
   };
 
-  // useEffect(() => {
-  //   const isMobileDevice =
-  //     /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(
-  //       navigator.userAgent
-  //     );
+  useEffect(() => {
+    const isMobileDevice =
+      /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      );
 
-  //   if (!isMobileDevice) {
-  //     alert(
-  //       "This application is designed for mobile devices. Some features may not work as expected."
-  //     );
-  //   } else {
-  //     setIsMobile(true);
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [router, permissionGranted]);
+    if (!isMobileDevice) {
+      alert(
+        "This application is designed for mobile devices. Some features may not work as expected."
+      );
+    } else {
+      setIsMobile(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router, permissionGranted]);
 
   const checkMotionPermission = async () => {
     try {
@@ -278,7 +278,7 @@ export default function Home() {
   return (
     <div className="h-[calc(100vh-4.5rem)] bg-black">
       {/* <button className="p-5 bg-warning-500" onClick={handleShake}>SHAKEE</button> */}
-      {/* {isMobile ? ( */}
+      {isMobile ? (
       <>
         {Page === "Home" && (
           <Counter
@@ -294,14 +294,17 @@ export default function Home() {
           <Tasks onTaskClear={fetchUserData} userId={userData?.id ?? 0} />
         )}
         {userData && Page === "Profiles" && (
+          // <Referrals userId={userData?.id} />
           <Profiles onTaskClear={fetchUserData} userData={userData} />
         )}
+        {Page === "Referrals" && <Referrals />}
+        {Page === "Settings" && <Settings />}
       </>
-      {/* ) : (
-        <>
-          <p>Pindah ke mobile woi</p>
-        </>
-      )} */}
+     ) : (
+        <div className="h-full w-full flex items-center justify-center">
+          <p>Move To Mobile Device</p>
+        </div>
+      )} 
 
       <div className="fixed bottom-0 left-0 z-50 w-full h-[4.5rem] bg-transparent">
         <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium bg-transparent">

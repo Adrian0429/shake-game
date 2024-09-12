@@ -1,13 +1,15 @@
 
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Bubblegum_Sans } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
 import dynamic from "next/dynamic";
 import PrelineScript from "./components/PrelineScript";
 
-const inter = Inter({ subsets: ["latin"] });
-
+const bubblegumSans = Bubblegum_Sans({
+  weight: "400",
+  subsets: ["latin"],
+});
 const Modal = dynamic(() => import("../app/components/Modal/Modal"), {
   ssr: false,
 });
@@ -30,7 +32,7 @@ export default function RootLayout({
           strategy="beforeInteractive"
         />
       </head>
-      <body className={inter.className}>
+      <body className={bubblegumSans.className}>
         {children}
         <Modal />
       </body>

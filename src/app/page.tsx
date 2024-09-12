@@ -280,7 +280,7 @@ export default function Home() {
 
   return (
     <div className="h-[calc(100vh-4.5rem)] bg-black">
-      <button className="p-5 bg-warning-500" onClick={handleShake}>SHAKEE</button>
+      {/* <button className="p-5 bg-warning-500" onClick={handleShake}>SHAKEE</button> */}
       {isMobile ? (
       <>
         {Page === "Home" && (

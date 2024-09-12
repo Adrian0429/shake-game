@@ -5,10 +5,6 @@ import bg from "../../../public/logo1.png";
 import Header from "./Navigation/Header";
 import { FaChevronRight, FaCopy } from "react-icons/fa";
 
-interface TasksProps {
-  userId: number;// Add this prop
-}
-
 const Settings = () => {
   return (
     <div className="w-full h-full flex flex-col items-center py-10">
@@ -28,7 +24,7 @@ const Settings = () => {
         <div className="flex flex-row justify-between">
           <p>Country</p>
           <div className="flex flex-row items-center space-x-5">
-            There's no country yet
+            There&apos;s no country yet
             <FaChevronRight />
           </div>
         </div>

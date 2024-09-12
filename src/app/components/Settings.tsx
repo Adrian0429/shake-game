@@ -40,7 +40,7 @@ const Settings = () => {
         <div className="flex flex-row justify-between">
           <p>Exchange</p>
           <div className="flex flex-row items-center space-x-5">
-            There's no exchanges yet
+            There&apos;s no exchanges yet
             <FaChevronRight />
           </div>
         </div>

@@ -281,7 +281,7 @@ export default function Home() {
   return (
     <div className="h-[calc(100vh-4.5rem)] bg-black">
       <button className="p-5 bg-warning-500" onClick={handleShake}>SHAKEE</button>
-      {/* {isMobile ? ( */}
+      {isMobile ? (
       <>
         {Page === "Home" && (
           <Counter
@@ -303,11 +303,11 @@ export default function Home() {
         {Page === "Referrals" && <Referrals />}
         {Page === "Settings" && <Settings />}
       </>
-    //  ) : (
-    //     <div className="h-full w-full flex items-center justify-center">
-    //       <p>Move To Mobile Device</p>
-    //     </div>
-    //   )} 
+      ) : (
+         <div className="h-full w-full flex items-center justify-center">
+           <p>Move To Mobile Device</p>
+         </div>
+       )} 
 
       <div className="fixed bottom-0 left-0 z-50 w-full h-[4.5rem] bg-transparent">
         <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium bg-transparent">

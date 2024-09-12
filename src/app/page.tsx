@@ -121,10 +121,11 @@ export default function Home() {
       const cookies = parseCookies();
       const response = await axios.get("https://api2.fingo.co.id/api/user/me", {
         headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjc4OTk1MjE1MCIsInJvbGUiOiJVc2VyIiwiaXNzIjoiVGVtcGxhdGUiLCJleHAiOjE3MjU4MTk2OTcsImlhdCI6MTcyNTgxMjQ5N30.Oqh45ipI4XIxftHcSIpe_X3BfC0pIi5rWM3-0rvf9zY`,
+          Authorization: `Bearer ${cookies.token}`,
         },
       });
 
+      console.log("API Response:", response.data); // Log the response to debug
       setUserDetails(response.data.data);
       setCount(response.data.data.coins);
       setEnergy({
@@ -258,15 +259,17 @@ export default function Home() {
   };
 
   const handleShake = () => {
+    console.log(count)
+    console.log(energy.current)
     if (energy.current > 0) {
-        setVideoComponent(() => ShakeVids);
+        // setVideoComponent(() => ShakeVids);
         setCount((prevCount) => prevCount + increment);
         setEnergy((prevEnergy) => ({
           ...prevEnergy,
           current: prevEnergy.current - 1,
         })); 
     } else {
-      setVideoComponent(() => CapeVids);
+      // setVideoComponent(() => CapeVids);
       alert("You have reached the maximum energy");
       if (myShakeEvent.current) {
         myShakeEvent.current.stop();
@@ -277,8 +280,8 @@ export default function Home() {
 
   return (
     <div className="h-[calc(100vh-4.5rem)] bg-black">
-      {/* <button className="p-5 bg-warning-500" onClick={handleShake}>SHAKEE</button> */}
-      {isMobile ? (
+      <button className="p-5 bg-warning-500" onClick={handleShake}>SHAKEE</button>
+      {/* {isMobile ? ( */}
       <>
         {Page === "Home" && (
           <Counter
@@ -300,11 +303,11 @@ export default function Home() {
         {Page === "Referrals" && <Referrals />}
         {Page === "Settings" && <Settings />}
       </>
-     ) : (
-        <div className="h-full w-full flex items-center justify-center">
-          <p>Move To Mobile Device</p>
-        </div>
-      )} 
+    //  ) : (
+    //     <div className="h-full w-full flex items-center justify-center">
+    //       <p>Move To Mobile Device</p>
+    //     </div>
+    //   )} 
 
       <div className="fixed bottom-0 left-0 z-50 w-full h-[4.5rem] bg-transparent">
         <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium bg-transparent">

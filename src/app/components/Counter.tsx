@@ -60,14 +60,14 @@ const Counter = ({
 
             <div className="flex flex-row space-x-3 bg-[#232328] rounded-full py-3 px-5 items-center">
               <BsFillLightningChargeFill className="text-[#E0FD60]" />
-              <p className="text-S3 font-bold text-center dark:text-gray-200">
+              <p className="text-S3 font-bold text-center">
                 {energy.current}/{energy.max}
               </p>
             </div>
 
             <div
               id="frenzybar"
-              className="w-[80%] bg-gray-200 rounded-full dark:bg-gray-700 mt-5"
+              className="w-[80%] bg-gray-200 rounded-full mt-5"
             >
               <div
                 className="bg-[#E0FD60] text-xs font-medium text-brand-100 text-center p-2 leading-none rounded-full"

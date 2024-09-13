@@ -10,6 +10,7 @@ const bubblegumSans = Bubblegum_Sans({
   weight: "400",
   subsets: ["latin"],
 });
+
 const Modal = dynamic(() => import("../app/components/Modal/Modal"), {
   ssr: false,
 });
@@ -34,7 +35,6 @@ export default function RootLayout({
       </head>
       <body className={bubblegumSans.className}>
         {children}
-        <Modal />
       </body>
       <PrelineScript />
     </html>

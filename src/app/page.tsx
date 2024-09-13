@@ -55,6 +55,7 @@ const Footerdata = [
 export default function Home() {
   const router = useRouter();
   const [count, setCount] = useState(0);
+  const [dailyCount, setDailyCount] = useState(0);
   const [energy, setEnergy] = useState({
     current: 0,
     max: 2000,
@@ -96,19 +97,22 @@ export default function Home() {
         }
       );
 
-      if (response.data && response.data.data) {
-        alert("Welcome " + userData?.username);
+      if (response.data.data.daily == 'Daily') {
+        alert(
+          "Welcome " + userData?.username + "\n" + response.data.data.DailyCount
+        );
+
         console.log("Form submitted successfully", response.data.data);
 
         setCookie(null, "token", response.data.data.token, {
           maxAge: 3 * 60 * 60,
           path: "/",
         });
-
+        setDailyCount(response.data.data.DailyCount);
         fetchUserData();
         router.push("?ModalPermission=true");
       } else {
-        console.error("Unexpected response structure:", response.data);
+        alert()
       }
     } catch (error) {
       alert((error as any).response?.data?.message || "An error occurred");
@@ -338,7 +342,7 @@ export default function Home() {
           })}
         </div>
       </div>
-      <ModalAllow onAllowPermission={checkMotionPermission} />
+      <ModalAllow username={userData?.username ?? ""} daily_count={dailyCount} onAllowPermission={checkMotionPermission} />
     </div>
   );
 }

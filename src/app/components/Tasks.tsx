@@ -75,8 +75,8 @@ const Tasks = ({ userId, onTaskClear }: TasksProps) => {
     <div className="w-full h-full">
       <Header text="Shake Project" />
       <div className="flex flex-col items-center mt-5">
-        <h2 className="text-H2 dark:text-white">Do The Task</h2>
-        <p className="mt-2 text-B2">Complete your task, Claim your rewards!</p>
+        <h2 className="text-H2 text-white">Do The Task</h2>
+        <p className="mt-2 text-B2 text-white">Complete your task, Claim your rewards!</p>
 
         <div className="w-[90%] h-[60vh] overflow-y-scroll mt-10 space-y-3">
           

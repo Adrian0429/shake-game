@@ -8,7 +8,7 @@ import { FaChevronRight, FaCopy } from "react-icons/fa";
 const Settings = () => {
   return (
     <div className="w-full h-full flex flex-col items-center py-10">
-      <div className="mb-5">
+      <div className="mb-5 text-white">
         <Image
           src={bg}
           width={100}
@@ -22,24 +22,24 @@ const Settings = () => {
 
       <div className="w-[90%] flex flex-col space-y-3 mt-3">
         <div className="flex flex-row justify-between">
-          <p>Country</p>
-          <div className="flex flex-row items-center space-x-5">
+          <p className="text-white">Country</p>
+          <div className="flex flex-row items-center space-x-5 text-white">
             There&apos;s no country yet
             <FaChevronRight />
           </div>
         </div>
 
         <div className="flex flex-row justify-between">
-          <p>Email</p>
-          <div className="flex flex-row items-center space-x-5">
+          <p className="text-white">Email</p>
+          <div className="flex flex-row items-center space-x-5 text-white">
             No Email Yet
             <FaChevronRight />
           </div>
         </div>
 
         <div className="flex flex-row justify-between">
-          <p>Exchange</p>
-          <div className="flex flex-row items-center space-x-5">
+          <p className="text-white">Exchange</p>
+          <div className="flex flex-row items-center space-x-5 text-white">
             There&apos;s no exchanges yet
             <FaChevronRight />
           </div>

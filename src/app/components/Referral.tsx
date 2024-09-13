@@ -28,7 +28,7 @@ const Referrals = () => {
         <p className="text-B3">Invite More, get even more bonuses!</p>
       </div>
 
-      <div className="my-5 rounded-lg bg-[#232328] flex flex-col w-[90%] space-y-5 py-6 justify-center items-center">
+      <div className="my-5 rounded-lg bg-[#232328] flex flex-col w-[90%] space-y-5 py-6 justify-center items-center text-white">
         <h2>2.0000 Shake Points</h2>
         <div
           className="w-24 h-8 bg-[#FFD518]  cursor-pointer select-none
@@ -48,7 +48,7 @@ const Referrals = () => {
         <p>Get a rewards play pass for each fren.</p>
       </div>
 
-      <div className="w-[90%]">
+      <div className="w-[90%] text-white">
         <h1>List of your friends</h1>
         <div className="w-full">
           <div className="flex flex-row justify-between h-16 bg-[#232328] rounded-lg px-5 py-1 items-center">
@@ -82,7 +82,7 @@ const Referrals = () => {
         </div>
       </div>
 
-      <div className="absolute bottom-0 w-[90%] flex flex-row justify-between">
+      <div className="w-[90%] flex flex-row justify-between">
         <div
           className="button mb-5 w-64 h-16 bg-[#D5FF18]  cursor-pointer select-none
             active:translate-y-2  active:[box-shadow:0_0px_0_0_#ABC340,0_0px_0_0_#ffffff]

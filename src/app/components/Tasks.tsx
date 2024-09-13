@@ -89,7 +89,7 @@ const Tasks = ({ userId, onTaskClear }: TasksProps) => {
                 width={30}
                 className="w-[50px] h-full"
               />
-              <div className="flex flex-col">
+              <div className="flex flex-col text-white">
                 <p>Complete Profile</p>
                 <p>+ 1000 Coins</p>
               </div>

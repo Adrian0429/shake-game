@@ -26,7 +26,7 @@ export default function Header({ coins, text }: HeaderProps) {
         <div className="w-full flex justify-center items-center mx-auto rounded-full bg-[#232328] py-4 px-2">
           <span className="text-S1 font-bold flex flex-row items-center space-x-3">
             <SiBitcoinsv className="text-[#E0FD60]" />
-            <p className="text-S2">{coins} Shake Points</p>
+            <p className="text-S2 text-white">{coins} Shake Points</p>
           </span>
         </div>
       )}
@@ -34,7 +34,7 @@ export default function Header({ coins, text }: HeaderProps) {
       {text && (
         <div className="w-full flex justify-center items-center mx-auto rounded-full bg-[#232328] py-4 px-2">
           <span className="text-S1 font-bold flex flex-row items-center space-x-3">
-            <p className="text-S1">{text}</p>
+            <p className="text-S1 text-white">{text}</p>
           </span>
         </div>
       )}

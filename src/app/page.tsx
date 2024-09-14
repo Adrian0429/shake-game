@@ -182,10 +182,6 @@ export default function Home() {
     audio.play();
   };
 
-  const playCoins = ()=> {
-    
-  }
-
   useEffect(() => {
     if (WebApp.initDataUnsafe.user) {
       setUserData(WebApp.initDataUnsafe.user as UserData);
@@ -194,27 +190,27 @@ export default function Home() {
     if(userData?.id){
       RegisterLogin();
     }
-    
-    playAudio()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userData?.id]);
-
-
-  useEffect(() => {
-
-    // if(count == previousCount.current) {
-    //   setVideoComponent(NormalVids);
-    // }
-    
+        
     if (count > previousCount.current) {
       Update();
     }
 
     previousCount.current = count;
+    
+    playAudio()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [count, userData, energy]);
+  }, [userData?.id, count, userData]);
 
 
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setCount((prevCount) => prevCount + 1);
+      }, 3000); // increments count by 1 every 3 seconds
+
+      return () => clearInterval(interval); // clean up interval on unmount
+    }, []);
+
+    
   useEffect(() => {
     const isMobileDevice =
       /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -222,10 +218,6 @@ export default function Home() {
       );
 
     if (!isMobileDevice) {
-      // alert(
-      //   "This application is designed for mobile devices. Some features may not work as expected."
-      // );
-
       console.log("This application is designed for mobile devices. Some features may not work as expected.");
     } else {
       setIsMobile(true);

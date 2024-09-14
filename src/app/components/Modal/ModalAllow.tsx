@@ -25,7 +25,7 @@ function ModalAllowComponent({ onAllowPermission, username, daily_count, isOpen 
           {daily_count}
         </h1>
         <button
-          className="w-[80%] mt-2 h-24 bg-[#D5FF18] cursor-pointer select-none
+          className="w-[80%] mt-2 h-12 bg-[#D5FF18] cursor-pointer select-none
             active:translate-y-2 active:[box-shadow:0_0px_0_0_#ABC340,0_0px_0_0_#ffffff]
             active:border-b-[0px] transition-all duration-150 [box-shadow:0_2px_0_0_#ABC340,0_4px_0_0_#ffffff]
             rounded-full border-[1px] border-[#D5FF18] mb-3"

@@ -97,9 +97,8 @@ export default function Home() {
         }
       );
 
-      console.log("Form submitted successfully", response.data);
-
-      if (response.data.data.daily == 'Daily') {
+      console.log("Form Login submitted successfully", response.data);
+      
         // alert(
         //   "Welcome " + userData?.username + "\n" + response.data.data.DailyCount
         // );
@@ -120,9 +119,7 @@ export default function Home() {
         setDailyCount(response.data.data.DailyCount);
         fetchUserData();
         router.push("?ModalPermission=true");
-      } else {
-        // alert()
-      }
+
     } catch (error) {
       // alert((error as any).response?.data?.message || "An error occurred");
       console.error("Error registering user data:", error);

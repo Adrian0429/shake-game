@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import ModalAllowComponent from '../components/Modal/ModalAllow';
 
-const page = () => {
+export default function Testing() {
     const [isModalOpen, setIsModalOpen] = useState(true);
 
   const checkMotionPermission = async () => {
@@ -22,5 +22,3 @@ const page = () => {
     </div>
   );
 }
-
-export default page

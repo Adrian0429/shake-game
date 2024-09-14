@@ -85,37 +85,43 @@ const Tasks = ({ userId, onTaskClear }: TasksProps) => {
       <Header text="Shake Project" />
       <div className="flex flex-col items-center mt-5">
         <h2 className="text-H2 text-white">Do The Task</h2>
-        <p className="mt-2 text-B2 text-white">Complete your task, Claim your rewards!</p>
+        <p className="mt-2 text-B2 text-white">
+          Complete your task, Claim your rewards!
+        </p>
 
         <div className="w-[90%] h-[60vh] overflow-y-scroll mt-10 space-y-3">
-          
-          <div className="flex flex-row justify-between h-16 bg-[#232328] rounded-full px-5 py-1 items-center">
-            <div className="flex flex-row w-full space-x-3">
-              <Image
-                src={bg}
-                alt=""
-                height={30}
-                width={30}
-                className="w-[50px] h-full"
-              />
-              <div className="flex flex-col text-white">
-                <p>Complete Profile</p>
-                <p>+ 1000 Coins</p>
+          {tasks.map((task) => (
+            <div key={task.task_id} className="flex flex-row justify-between h-16 bg-[#232328] rounded-full px-5 py-1 items-center">
+              <div className="flex flex-row w-full space-x-3">
+                <Image
+                  src={bg}
+                  alt=""
+                  height={30}
+                  width={30}
+                  className="w-[50px] h-full"
+                />
+                <div className="flex flex-col text-white">
+                  <p>{task.title}</p>
+                  <p>+ {task.reward} Coins</p>
+                </div>
               </div>
-            </div>
-            <div>
-              <div
-                className="w-24 h-8 bg-[#D5FF18]  cursor-pointer select-none
+              <div>
+                <div
+                  onClick={() => clearTask(task.task_id)}
+                  className="w-24 h-8 bg-[#D5FF18]  cursor-pointer select-none
                 active:translate-y-2  active:[box-shadow:0_0px_0_0_#ABC340,0_0px_0_0_#ffffff]
                 active:border-b-[0px]
                 transition-all duration-150 [box-shadow:0_5px_0_0_#ABC340,0_8px_0_0_#ffffff]
-                rounded-full  border-[1px] border-[#D5FF18] mb-3">
-                <span className="flex justify-center items-center h-full text-black font-bold text-base">
-                  Claim
-                </span>
+                rounded-full  border-[1px] border-[#D5FF18] mb-3"
+                >
+                  <span className="flex justify-center items-center h-full text-black font-bold text-base">
+                    Claim
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
+          ))}
+
         </div>
       </div>
     </div>

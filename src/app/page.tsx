@@ -97,11 +97,19 @@ export default function Home() {
         }
       );
 
+      console.log("Form submitted successfully", response.data);
+
       if (response.data.data.daily == 'Daily') {
         alert(
           "Welcome " + userData?.username + "\n" + response.data.data.DailyCount
         );
-
+        
+          console.log(
+            "Welcome " +
+              userData?.username +
+              "\n" +
+              response.data.data.DailyCount
+          );
         console.log("Form submitted successfully", response.data.data);
 
         setCookie(null, "token", response.data.data.token, {
@@ -120,6 +128,7 @@ export default function Home() {
     }
   };
 
+
   const fetchUserData = async () => {
     try {
       const cookies = parseCookies();
@@ -136,12 +145,38 @@ export default function Home() {
         current: response.data.data.energy,
         max: 2000,
       });
-      
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
   };
 
+
+  const Update = async () => {
+    const cookies = parseCookies();
+    const formData = {
+      coins: count,
+      energy: energy.current,
+    };
+
+    try {
+      const response = await axios.post(
+        "https://api2.fingo.co.id/api/user/updateEnergy",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${cookies.token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.data.status == true) {
+        console.log("Form submitted successfully", response.data);
+      }
+    } catch (error) {
+      console.log("Error submitting form:", error);
+    }
+  };
 
   const playAudio = () => {
     const audio = new Audio("/audio.mp3");
@@ -181,31 +216,6 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [count, userData, energy]);
 
-  const Update = async () => {
-    const formData = {
-      tele_id: String(userData?.id),
-      coins: count,
-      energy: energy.current,
-    };
-
-    try {
-      const response = await axios.post(
-        "https://api2.fingo.co.id/api/user/updateEnergy",
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (response.data.status == true) {
-        console.log("Form submitted successfully", response.data);
-      }
-    } catch (error) {
-      console.log("Error submitting form:", error);
-    }
-  };
 
   useEffect(() => {
     const isMobileDevice =

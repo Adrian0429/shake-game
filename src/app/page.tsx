@@ -204,7 +204,7 @@ export default function Home() {
 
     useEffect(() => {
       const interval = setInterval(() => {
-        if(energy.current < energy.max){
+        if(energy.current < 2000){
           setEnergy((prevEnergy) => ({
             ...prevEnergy,
             current: prevEnergy.current + 1,

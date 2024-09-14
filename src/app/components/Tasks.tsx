@@ -4,8 +4,6 @@ import axios from "axios";
 import Link from "next/link";
 import bg from "../../../public/logo1.png";
 import Image from "next/image";
-import { FaCheckCircle } from "react-icons/fa";
-import { IconContext } from "react-icons";
 import Header from "./Navigation/Header";
 import { parseCookies } from "nookies";
 
@@ -114,9 +112,9 @@ const Tasks = ({ userId, onTaskClear }: TasksProps) => {
                 transition-all duration-150 [box-shadow:0_5px_0_0_#ABC340,0_8px_0_0_#ffffff]
                 rounded-full  border-[1px] border-[#D5FF18] mb-3"
                 >
-                  <span className="flex justify-center items-center h-full text-black font-bold text-base">
+                  <Link href={task.link ?? ""} className="flex justify-center items-center h-full text-black font-bold text-base">
                     Claim
-                  </span>
+                  </Link>
                 </div>
               </div>
             </div>

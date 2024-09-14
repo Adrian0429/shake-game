@@ -98,7 +98,7 @@ export default function Home() {
       );
 
       console.log("Form Login submitted successfully", response.data);
-      
+
         // alert(
         //   "Welcome " + userData?.username + "\n" + response.data.data.DailyCount
         // );
@@ -107,7 +107,7 @@ export default function Home() {
             "Welcome " +
               userData?.username +
               "\n" +
-              response.data.data.DailyCount
+              response.data.data.daily_count
           );
 
         console.log("Register Login submitted successfully", response.data.data);
@@ -116,7 +116,7 @@ export default function Home() {
           maxAge: 3 * 60 * 60,
           path: "/",
         });
-        setDailyCount(response.data.data.DailyCount);
+        setDailyCount(response.data.data.daily_count);
         fetchUserData();
         router.push("?ModalPermission=true");
 

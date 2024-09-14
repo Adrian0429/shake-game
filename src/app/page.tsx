@@ -7,7 +7,6 @@ import { HiHome, HiOutlineUsers } from "react-icons/hi";
 import Tasks from "./components/Tasks";
 import Profiles from "./components/Profiles";
 import Shake from "shake.js";
-import ModalAllow from "./components/Modal/ModalAllow";
 import axios from "axios";
 import { parseCookies, setCookie } from "nookies";
 import NormalVids from "./components/Normal";
@@ -20,6 +19,7 @@ import { CgList } from "react-icons/cg";
 import { IoSettingsOutline } from "react-icons/io5";
 import Referrals from "./components/Referral";
 import Settings from "./components/Settings";
+import ModalAllowComponent from "./components/Modal/ModalAllow";
 
 // // Provide default values for all properties
 // const defaultUserData: UserData = {
@@ -357,7 +357,7 @@ export default function Home() {
         </div>
       </div>
 
-      <ModalAllow
+      <ModalAllowComponent
         username={userData?.username ?? ""}
         daily_count={dailyCount}
         onAllowPermission={checkMotionPermission}

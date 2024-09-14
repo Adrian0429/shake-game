@@ -204,13 +204,18 @@ export default function Home() {
 
     useEffect(() => {
       const interval = setInterval(() => {
-        setCount((prevCount) => prevCount + 1);
-      }, 3000); // increments count by 1 every 3 seconds
+        if(energy.current < energy.max){
+          setEnergy((prevEnergy) => ({
+            ...prevEnergy,
+            current: prevEnergy.current + 1,
+          }));
+        }
+      }, 3000);
 
-      return () => clearInterval(interval); // clean up interval on unmount
+      return () => clearInterval(interval);
     }, []);
 
-    
+
   useEffect(() => {
     const isMobileDevice =
       /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(

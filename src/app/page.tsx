@@ -56,7 +56,7 @@ export default function Home() {
   const router = useRouter();
   const [count, setCount] = useState(0);
   const [dailyCount, setDailyCount] = useState(0);
-  const [isModalOpen, setModalOpen] = useState(true);
+  const [isModalOpen, setModalOpen] = useState(false);
   const [energy, setEnergy] = useState({
     current: 0,
     max: 2000,

@@ -55,6 +55,7 @@ const Tasks = ({ userId, onTaskClear }: TasksProps) => {
     const formData = {
       task_id: task_Id,
     };
+    
     const cookies = parseCookies();
     console.log(formData);
     try {
@@ -116,7 +117,7 @@ const Tasks = ({ userId, onTaskClear }: TasksProps) => {
                 >
                   <Link
                     onClick={() => clearTask(task.task_id)}
-                    href={task.link ?? ""}
+                    href={""}
                     className="flex justify-center items-center h-full text-black font-bold text-base"
                   >
                     Claim

@@ -56,7 +56,7 @@ export default function Home() {
   const router = useRouter();
   const [count, setCount] = useState(0);
   const [dailyCount, setDailyCount] = useState(0);
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(true);
   const [energy, setEnergy] = useState({
     current: 0,
     max: 2000,
@@ -119,9 +119,7 @@ export default function Home() {
         });
         setDailyCount(response.data.data.daily_count);
         fetchUserData();
-        if(dailyCount){
-          setModalOpen(true);
-        }
+        setModalOpen(true)
     } catch (error) {
       // alert((error as any).response?.data?.message || "An error occurred");
       console.error("Error registering user data:", error);

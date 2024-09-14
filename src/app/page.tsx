@@ -74,10 +74,9 @@ export default function Home() {
   const [userData, setUserData] = useState<UserData>();
   const myShakeEvent = useRef<Shake | null>(null);
   const [permissionGranted, setPermissionGranted] = useState(false);
-  const [userDetails, setUserDetails] = useState<MeUser | null>(null);  
+  const [userDetails, setUserDetails] = useState<MeUser | null>(null);
   const [VideoComponent, setVideoComponent] = useState(() => NormalVids);
   const previousCount = useRef<number>(count);
-
 
   const RegisterLogin = async () => {
     const formData = {
@@ -86,7 +85,7 @@ export default function Home() {
       email: "",
       region: "",
     };
-    
+
     try {
       const response = await axios.post(
         "https://api2.fingo.co.id/api/user",
@@ -100,32 +99,28 @@ export default function Home() {
 
       console.log("Form Login submitted successfully", response.data);
 
-        // alert(
-        //   "Welcome " + userData?.username + "\n" + response.data.data.DailyCount
-        // );
+      // alert(
+      //   "Welcome " + userData?.username + "\n" + response.data.data.DailyCount
+      // );
 
-          console.log(
-            "Welcome " +
-              userData?.username +
-              "\n" +
-              response.data.data.daily_count
-          );
+      console.log(
+        "Welcome " + userData?.username + "\n" + response.data.data.daily_count
+      );
 
-        console.log("Register Login submitted successfully", response.data.data);
+      console.log("Register Login submitted successfully", response.data.data);
 
-        setCookie(null, "token", response.data.data.token, {
-          maxAge: 3 * 60 * 60,
-          path: "/",
-        });
-        setDailyCount(response.data.data.daily_count);
-        fetchUserData();
-        setModalOpen(true)
+      setCookie(null, "token", response.data.data.token, {
+        maxAge: 3 * 60 * 60,
+        path: "/",
+      });
+      setDailyCount(response.data.data.daily_count);
+      fetchUserData();
+      setModalOpen(true);
     } catch (error) {
       // alert((error as any).response?.data?.message || "An error occurred");
       console.error("Error registering user data:", error);
     }
   };
-
 
   const fetchUserData = async () => {
     try {
@@ -147,7 +142,6 @@ export default function Home() {
       console.error("Error fetching user data:", error);
     }
   };
-
 
   const Update = async () => {
     const cookies = parseCookies();
@@ -187,34 +181,35 @@ export default function Home() {
       setUserData(WebApp.initDataUnsafe.user as UserData);
     }
 
-    if(userData?.id){
+    if (userData?.id) {
       RegisterLogin();
     }
-        
+
     if (count > previousCount.current) {
       Update();
     }
 
     previousCount.current = count;
-    
-    playAudio()
+
+    playAudio();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData?.id, count, userData]);
 
-
-    useEffect(() => {
-      const interval = setInterval(() => {
-        if(energy.current < 2000){
-          setEnergy((prevEnergy) => ({
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setEnergy((prevEnergy) => {
+        if (prevEnergy.current < 2000) {
+          return {
             ...prevEnergy,
             current: prevEnergy.current + 1,
-          }));
+          };
         }
-      }, 3000);
+        return prevEnergy; 
+      });
+    }, 3000);
 
-      return () => clearInterval(interval);
-    }, []);
-
+    return () => clearInterval(interval);
+  }, [energy.current]); 
 
   useEffect(() => {
     const isMobileDevice =
@@ -223,7 +218,9 @@ export default function Home() {
       );
 
     if (!isMobileDevice) {
-      console.log("This application is designed for mobile devices. Some features may not work as expected.");
+      console.log(
+        "This application is designed for mobile devices. Some features may not work as expected."
+      );
     } else {
       setIsMobile(true);
     }
@@ -250,7 +247,6 @@ export default function Home() {
     } catch (error) {
       console.error("Error requesting DeviceMotionEvent permission:", error);
     }
-    
   };
 
   const setupShakeEvent = () => {
@@ -272,15 +268,15 @@ export default function Home() {
   };
 
   const handleShake = () => {
-    console.log(count)
-    console.log(energy.current)
+    console.log(count);
+    console.log(energy.current);
     if (energy.current > 0) {
-        // setVideoComponent(() => ShakeVids);
-        setCount((prevCount) => prevCount + increment);
-        setEnergy((prevEnergy) => ({
-          ...prevEnergy,
-          current: prevEnergy.current - 1,
-        })); 
+      // setVideoComponent(() => ShakeVids);
+      setCount((prevCount) => prevCount + increment);
+      setEnergy((prevEnergy) => ({
+        ...prevEnergy,
+        current: prevEnergy.current - 1,
+      }));
     } else {
       // setVideoComponent(() => CapeVids);
       alert("You have reached the maximum energy");

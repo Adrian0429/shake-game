@@ -110,6 +110,7 @@ export default function Home() {
               "\n" +
               response.data.data.DailyCount
           );
+
         console.log("Register Login submitted successfully", response.data.data);
 
         setCookie(null, "token", response.data.data.token, {
@@ -120,10 +121,10 @@ export default function Home() {
         fetchUserData();
         router.push("?ModalPermission=true");
       } else {
-        alert()
+        // alert()
       }
     } catch (error) {
-      alert((error as any).response?.data?.message || "An error occurred");
+      // alert((error as any).response?.data?.message || "An error occurred");
       console.error("Error registering user data:", error);
     }
   };
@@ -224,9 +225,11 @@ export default function Home() {
       );
 
     if (!isMobileDevice) {
-      alert(
-        "This application is designed for mobile devices. Some features may not work as expected."
-      );
+      // alert(
+      //   "This application is designed for mobile devices. Some features may not work as expected."
+      // );
+
+      console.log("This application is designed for mobile devices. Some features may not work as expected.");
     } else {
       setIsMobile(true);
     }

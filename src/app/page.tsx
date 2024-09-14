@@ -56,6 +56,7 @@ export default function Home() {
   const router = useRouter();
   const [count, setCount] = useState(0);
   const [dailyCount, setDailyCount] = useState(0);
+  const [isModalOpen, setModalOpen] = useState(false);
   const [energy, setEnergy] = useState({
     current: 0,
     max: 2000,
@@ -118,8 +119,9 @@ export default function Home() {
         });
         setDailyCount(response.data.data.daily_count);
         fetchUserData();
-        router.push("?ModalPermission=true");
-
+        if(dailyCount){
+          setModalOpen(true);
+        }
     } catch (error) {
       // alert((error as any).response?.data?.message || "An error occurred");
       console.error("Error registering user data:", error);
@@ -234,6 +236,7 @@ export default function Home() {
   }, [router, permissionGranted]);
 
   const checkMotionPermission = async () => {
+    setModalOpen(false);
     try {
       if (typeof (DeviceMotionEvent as any).requestPermission === "function") {
         const permissionState = await (
@@ -252,6 +255,7 @@ export default function Home() {
     } catch (error) {
       console.error("Error requesting DeviceMotionEvent permission:", error);
     }
+    
   };
 
   const setupShakeEvent = () => {
@@ -352,7 +356,13 @@ export default function Home() {
           })}
         </div>
       </div>
-      <ModalAllow username={userData?.username ?? ""} daily_count={dailyCount} onAllowPermission={checkMotionPermission} />
+
+      <ModalAllow
+        username={userData?.username ?? ""}
+        daily_count={dailyCount}
+        onAllowPermission={checkMotionPermission}
+        isOpen={isModalOpen}
+      />
     </div>
   );
 }

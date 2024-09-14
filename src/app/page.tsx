@@ -100,17 +100,17 @@ export default function Home() {
       console.log("Form submitted successfully", response.data);
 
       if (response.data.data.daily == 'Daily') {
-        alert(
-          "Welcome " + userData?.username + "\n" + response.data.data.DailyCount
-        );
-        
+        // alert(
+        //   "Welcome " + userData?.username + "\n" + response.data.data.DailyCount
+        // );
+
           console.log(
             "Welcome " +
               userData?.username +
               "\n" +
               response.data.data.DailyCount
           );
-        console.log("Form submitted successfully", response.data.data);
+        console.log("Register Login submitted successfully", response.data.data);
 
         setCookie(null, "token", response.data.data.token, {
           maxAge: 3 * 60 * 60,
@@ -171,7 +171,7 @@ export default function Home() {
       );
 
       if (response.data.status == true) {
-        console.log("Form submitted successfully", response.data);
+        console.log("update submitted successfully", response.data);
       }
     } catch (error) {
       console.log("Error submitting form:", error);

@@ -52,12 +52,10 @@ const Tasks = ({ userId, onTaskClear }: TasksProps) => {
   }, [userId, refreshTasks]);
 
   const clearTask = async (task_Id: string) => {
-    const formData = {
-      task_id: task_Id,
-    };
-    
+    const formData = new FormData(); 
+    formData.append("task_id", task_Id); 
+
     const cookies = parseCookies();
-    console.log(formData);
     try {
       const response = await axios.post(
         "https://api2.fingo.co.id/api/user/task",

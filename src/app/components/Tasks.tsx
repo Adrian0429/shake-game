@@ -89,7 +89,10 @@ const Tasks = ({ userId, onTaskClear }: TasksProps) => {
 
         <div className="w-[90%] h-[60vh] overflow-y-scroll mt-10 space-y-3">
           {tasks.map((task) => (
-            <div key={task.task_id} className="flex flex-row justify-between h-16 bg-[#232328] rounded-full px-5 py-1 items-center">
+            <div
+              key={task.task_id}
+              className="flex flex-row justify-between h-16 bg-[#232328] rounded-full px-5 py-1 items-center"
+            >
               <div className="flex flex-row w-full space-x-3">
                 <Image
                   src={bg}
@@ -105,21 +108,23 @@ const Tasks = ({ userId, onTaskClear }: TasksProps) => {
               </div>
               <div>
                 <div
-                  onClick={() => clearTask(task.task_id)}
                   className="w-24 h-8 bg-[#D5FF18]  cursor-pointer select-none
                 active:translate-y-2  active:[box-shadow:0_0px_0_0_#ABC340,0_0px_0_0_#ffffff]
                 active:border-b-[0px]
                 transition-all duration-150 [box-shadow:0_5px_0_0_#ABC340,0_8px_0_0_#ffffff]
                 rounded-full  border-[1px] border-[#D5FF18] mb-3"
                 >
-                  <Link href={task.link ?? ""} className="flex justify-center items-center h-full text-black font-bold text-base">
+                  <Link
+                    onClick={() => clearTask(task.task_id)}
+                    href={task.link ?? ""}
+                    className="flex justify-center items-center h-full text-black font-bold text-base"
+                  >
                     Claim
                   </Link>
                 </div>
               </div>
             </div>
           ))}
-
         </div>
       </div>
     </div>

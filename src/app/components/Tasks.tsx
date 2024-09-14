@@ -7,11 +7,13 @@ import Image from "next/image";
 import { FaCheckCircle } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import Header from "./Navigation/Header";
+import { parseCookies } from "nookies";
 
 interface Task {
   task_id: string;
   title: string;
   link?: string;
+  reward: number;
   Users: any;
 }
 
@@ -25,15 +27,22 @@ const Tasks = ({ userId, onTaskClear }: TasksProps) => {
 
   // Function to fetch tasks
   const refreshTasks = useCallback(async () => {
+    const cookies = parseCookies();
     try {
       const response = await axios.get(
-        "https://api2.fingo.co.id/api/user/tasks?tele_id=" + String(userId)
+        "https://api2.fingo.co.id/api/user/tasks",
+        {
+          headers: {
+            Authorization: `Bearer ${cookies.token}`,
+            "Content-Type": "application/json",
+          }
+        }
       );
 
       console.log("API Response:", response.data); // Log the response to debug
 
       const fetchedTasks = response.data.data?.data || [];
-      setTasks(fetchedTasks); // Set the tasks from the nested data array
+      setTasks(fetchedTasks); 
     } catch (error) {
       console.error("Error fetching tasks:", error);
     }
@@ -47,9 +56,8 @@ const Tasks = ({ userId, onTaskClear }: TasksProps) => {
   const clearTask = async (task_Id: string) => {
     const formData = {
       task_id: task_Id,
-      tele_id: String(userId), // `User_TeleId` in struct
     };
-
+    const cookies = parseCookies();
     console.log(formData);
     try {
       const response = await axios.post(
@@ -57,6 +65,7 @@ const Tasks = ({ userId, onTaskClear }: TasksProps) => {
         formData,
         {
           headers: {
+            Authorization: `Bearer ${cookies.token}`,
             "Content-Type": "application/json",
           },
         }

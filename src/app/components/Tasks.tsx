@@ -6,24 +6,25 @@ import bg from "../../../public/logo1.png";
 import Image from "next/image";
 import Header from "./Navigation/Header";
 import { parseCookies } from "nookies";
+import { FaCheckCircle } from "react-icons/fa";
+import { IconContext } from "react-icons";
 
 interface Task {
   task_id: string;
   title: string;
   link?: string;
   reward: number;
-  Users: any;
+  cleared: boolean;
 }
 
 interface TasksProps {
   userId: number;
-  onTaskClear: () => void; // Add this prop
+  onTaskClear: () => void; 
 }
 
 const Tasks = ({ userId, onTaskClear }: TasksProps) => {
   const [tasks, setTasks] = useState<Task[]>([]);
 
-  // Function to fetch tasks
   const refreshTasks = useCallback(async () => {
     const cookies = parseCookies();
     try {
@@ -37,7 +38,7 @@ const Tasks = ({ userId, onTaskClear }: TasksProps) => {
         }
       );
 
-      console.log("API Response:", response.data); // Log the response to debug
+      console.log("Success Get Task", response.data); // Log the response to debug
 
       const fetchedTasks = response.data.data?.data || [];
       setTasks(fetchedTasks); 
@@ -106,21 +107,31 @@ const Tasks = ({ userId, onTaskClear }: TasksProps) => {
                 </div>
               </div>
               <div>
-                <div
-                  className="w-24 h-8 bg-[#D5FF18]  cursor-pointer select-none
+                {task.cleared ? (
+                  <div>
+                    <IconContext.Provider
+                      value={{ color: "#D5FF18", size: "32px" }}
+                    >
+                      <FaCheckCircle />
+                    </IconContext.Provider>
+                  </div>
+                ) : (
+                  <div
+                    className="w-24 h-8 bg-[#D5FF18]  cursor-pointer select-none
                 active:translate-y-2  active:[box-shadow:0_0px_0_0_#ABC340,0_0px_0_0_#ffffff]
                 active:border-b-[0px]
                 transition-all duration-150 [box-shadow:0_5px_0_0_#ABC340,0_8px_0_0_#ffffff]
                 rounded-full  border-[1px] border-[#D5FF18] mb-3"
-                >
-                  <Link
-                    onClick={() => clearTask(task.task_id)}
-                    href={""}
-                    className="flex justify-center items-center h-full text-black font-bold text-base"
                   >
-                    Claim
-                  </Link>
-                </div>
+                    <Link
+                      onClick={() => clearTask(task.task_id)}
+                      href={""}
+                      className="flex justify-center items-center h-full text-black font-bold text-base"
+                    >
+                      Claim
+                    </Link>
+                  </div>
+                )}
               </div>
             </div>
           ))}

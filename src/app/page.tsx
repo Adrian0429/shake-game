@@ -93,7 +93,7 @@ export default function Home() {
         }
       );
 
-      console.log("Form Login submitted successfully", response.data);
+      console.log("Login Success");
 
       setCookie(null, "token", response.data.data.token, {
         maxAge: 3 * 60 * 60,
@@ -108,7 +108,7 @@ export default function Home() {
       setModalOpen(true);
     } catch (error) {
       // alert((error as any).response?.data?.message || "An error occurred");
-      console.error("Error registering user data:", error);
+      console.error("Error Login:", error);
     }
   };
 
@@ -121,7 +121,7 @@ export default function Home() {
         },
       });
 
-      console.log("API Response:", response.data);
+      console.log("Success Get User Data");
       setUserDetails(response.data.data);
       setDailyCount(response.data.data.daily_count);
       setCount(response.data.data.coins);
@@ -315,7 +315,7 @@ const postReferral = async () => {
           <Profiles onTaskClear={fetchUserData} userData={userData} />
         )}
         {Page === "Referrals" && <Referrals userId={userData?.id ?? 0} />}
-        {Page === "Settings" && <Settings />}
+        {Page === "Settings" && <Settings userId={userData?.id ?? 0} />}
       </>
       {/* ) : (
          <div className="h-full w-full flex items-center justify-center">

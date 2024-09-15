@@ -77,7 +77,9 @@ export default function Home() {
   const [userDetails, setUserDetails] = useState<MeUser | null>(null);
   const [VideoComponent, setVideoComponent] = useState(() => NormalVids);
   const previousCount = useRef<number>(count);
+  const [startParam, setStartParam] = useState("");
 
+  
   const RegisterLogin = async () => {
     const formData = {
       tele_id: String(userData?.id),
@@ -178,6 +180,7 @@ export default function Home() {
 
   useEffect(() => {
     if (WebApp.initDataUnsafe.user) {
+      setStartParam(WebApp.initDataUnsafe.start_param || "");
       setUserData(WebApp.initDataUnsafe.user as UserData);
     }
 
@@ -292,7 +295,9 @@ export default function Home() {
       {/* <button className="p-5 bg-warning-500" onClick={handleShake}>SHAKEE</button> */}
       {/* {isMobile ? ( */}
       <>
-        {Page === "Home" && (
+      <p>Testing</p>
+      <p>{startParam}</p>
+        {/* {Page === "Home" && (
           <Counter
             count={count}
             energy={energy}
@@ -310,7 +315,7 @@ export default function Home() {
           <Profiles onTaskClear={fetchUserData} userData={userData} />
         )}
         {Page === "Referrals" && <Referrals />}
-        {Page === "Settings" && <Settings />}
+        {Page === "Settings" && <Settings />} */}
       </>
       {/* ) : (
          <div className="h-full w-full flex items-center justify-center">

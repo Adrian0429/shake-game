@@ -29,7 +29,7 @@ export default async function handler(req, res) {
 async function sendMessage(chatId, text) {
     const BOT_TOKEN = process.env.TELEGRAM_BOT_SECRET;
 
-    const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+    const url = `https://api.telegram.org/bot7064814930:AAEjykd4sHl5F6iPfS6bXKXKYe4Uk521Wa8/sendMessage`;
     const body = {
         chat_id: chatId,
         text: text,

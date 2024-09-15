@@ -97,7 +97,7 @@ const Referrals = ({userId} : props) => {
         </div>
 
         <div className="my-3 rounded-lg bg-[#232328] flex flex-col w-[90%] space-y-5 py-6 justify-center items-center text-white">
-          <h2>{referralsResponse.referralCoins} Shake Points</h2>
+          <h2>{referralsResponse.referralCoins ?? 0} Shake Points</h2>
           <div
             className="w-24 h-8 bg-[#FFD518]  cursor-pointer select-none
     active:translate-y-2  active:[box-shadow:0_0px_0_0_#C38A40,0_0px_0_0_#ffffff]

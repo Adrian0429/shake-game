@@ -64,7 +64,6 @@ const Tasks = ({ userId, onTaskClear }: TasksProps) => {
         {
           headers: {
             Authorization: `Bearer ${cookies.token}`,
-            "Content-Type": "application/json",
           },
         }
       );

@@ -73,7 +73,6 @@ export default function Home() {
   const [VideoComponent, setVideoComponent] = useState(() => NormalVids);
   const previousCount = useRef<number>(count);
   const [startParam, setStartParam] = useState("");
-
   
   const RegisterLogin = async () => {
     const formData = {
@@ -101,7 +100,11 @@ export default function Home() {
         path: "/",
       });
       setDailyCount(response.data.data.daily_count);
-      fetchUserData();
+      setCount(response.data.data.coin)
+      setEnergy({
+        current: response.data.data.energy,
+        max: 2000,
+      });
       setModalOpen(true);
     } catch (error) {
       // alert((error as any).response?.data?.message || "An error occurred");
@@ -118,8 +121,9 @@ export default function Home() {
         },
       });
 
-      console.log("API Response:", response.data); // Log the response to debug
+      console.log("API Response:", response.data);
       setUserDetails(response.data.data);
+      setDailyCount(response.data.data.daily_count);
       setCount(response.data.data.coins);
       setEnergy({
         current: response.data.data.energy,
@@ -147,7 +151,7 @@ const postReferral = async () => {
         },
       }
     );
-
+    fetchUserData()
     console.log("Referral Response:", response.data); // Log the response to debug
   } catch (error) {
     console.error("Error Referral user:", error);
@@ -272,8 +276,8 @@ const postReferral = async () => {
   };
 
   const handleShake = () => {
-    console.log(count);
-    console.log(energy.current);
+    // console.log(count);
+    // console.log(energy.current);
     if (energy.current > 0) {
       // setVideoComponent(() => ShakeVids);
       setCount((prevCount) => prevCount + increment);
@@ -308,7 +312,6 @@ const postReferral = async () => {
           <Tasks onTaskClear={fetchUserData} userId={userData?.id ?? 0} />
         )}
         {userData && Page === "Profiles" && (
-          // <Referrals userId={userData?.id} />
           <Profiles onTaskClear={fetchUserData} userData={userData} />
         )}
         {Page === "Referrals" && <Referrals userId={userData?.id ?? 0} />}

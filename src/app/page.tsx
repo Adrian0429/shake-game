@@ -93,7 +93,11 @@ export default function Home() {
         }
       );
 
-      console.log("Login Success");
+      console.log("Login Success", response.data);
+
+      if(response.data.status == true){
+              setModalOpen(true);
+      }
 
       setCookie(null, "token", response.data.data.token, {
         maxAge: 3 * 60 * 60,
@@ -105,7 +109,7 @@ export default function Home() {
         current: response.data.data.energy,
         max: 2000,
       });
-      setModalOpen(true);
+
     } catch (error) {
       // alert((error as any).response?.data?.message || "An error occurred");
       console.error("Error Login:", error);

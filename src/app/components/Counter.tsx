@@ -9,8 +9,6 @@ import { BsFillLightningChargeFill } from 'react-icons/bs';
 interface CounterProps {
     count: number;
     energy: { current: number; max: number };
-    frenzy: { isActive: boolean; count: number };
-    frenzyBar: number;
     increment: number;
     // VideoComponent: React.FC;
 }
@@ -19,8 +17,7 @@ interface CounterProps {
 const Counter = ({
     count,
     energy,
-    frenzy,
-    frenzyBar,
+
 }: CounterProps) => {
   const [videoUrl, setVideoUrl] = useState("");
 

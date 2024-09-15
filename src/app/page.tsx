@@ -20,6 +20,8 @@ import { IoSettingsOutline } from "react-icons/io5";
 import Referrals from "./components/Referral";
 import Settings from "./components/Settings";
 import ModalAllowComponent from "./components/Modal/ModalAllow";
+import { PostReferral } from "./utils/api";
+import { cookies } from "next/headers";
 
 // // Provide default values for all properties
 // const defaultUserData: UserData = {
@@ -62,13 +64,6 @@ export default function Home() {
     max: 2000,
   });
   const [increment, setIncrement] = useState(1);
-  const frenzyBar = energy.max * 0.2;
-  const [frenzy, setFrenzy] = useState({
-    isActive: false,
-    count: 0,
-  });
-  const frenzyTimer = useRef<NodeJS.Timeout | null>(null);
-  const frenzyDuration = 5000;
   const [isMobile, setIsMobile] = useState(false);
   const [Page, setPage] = useState("Home");
   const [userData, setUserData] = useState<UserData>();
@@ -181,8 +176,11 @@ export default function Home() {
   useEffect(() => {
     if (WebApp.initDataUnsafe.user) {
       setStartParam(WebApp.initDataUnsafe.start_param || "");
-      alert(WebApp.initDataUnsafe.start_param);
       setUserData(WebApp.initDataUnsafe.user as UserData);
+    }
+    if(startParam){
+      const cookies = parseCookies();
+      PostReferral(startParam, cookies.token);
     }
 
     if (userData?.id) {
@@ -195,8 +193,8 @@ export default function Home() {
 
     previousCount.current = count;
 
-    playAudio();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // playAudio();
+
   }, [userData?.id, count, userData]);
 
   useEffect(() => {
@@ -256,19 +254,7 @@ export default function Home() {
   const setupShakeEvent = () => {
     myShakeEvent.current = new Shake({ threshold: 10, timeout: 150 });
     myShakeEvent.current.start();
-
     window.addEventListener("shake", handleShake, false);
-  };
-
-  const startFrenzyTimer = () => {
-    frenzyTimer.current = setTimeout(() => {
-      setFrenzy((prevFrenzy) => ({
-        ...prevFrenzy,
-        isActive: false,
-      }));
-      setIncrement(1);
-      alert("Frenzy Mode Deactivated");
-    }, frenzyDuration);
   };
 
   const handleShake = () => {
@@ -296,14 +282,10 @@ export default function Home() {
       {/* <button className="p-5 bg-warning-500" onClick={handleShake}>SHAKEE</button> */}
       {/* {isMobile ? ( */}
       <>
-      <p className="text-white">Testing</p>
-      <p className="text-white">{startParam}</p>
-        {/* {Page === "Home" && (
+        {Page === "Home" && (
           <Counter
             count={count}
             energy={energy}
-            frenzy={frenzy}
-            frenzyBar={frenzyBar}
             increment={increment}
             // VideoComponent={VideoComponent}
           />
@@ -316,7 +298,7 @@ export default function Home() {
           <Profiles onTaskClear={fetchUserData} userData={userData} />
         )}
         {Page === "Referrals" && <Referrals />}
-        {Page === "Settings" && <Settings />} */}
+        {Page === "Settings" && <Settings />}
       </>
       {/* ) : (
          <div className="h-full w-full flex items-center justify-center">

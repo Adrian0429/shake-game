@@ -181,6 +181,7 @@ export default function Home() {
   useEffect(() => {
     if (WebApp.initDataUnsafe.user) {
       setStartParam(WebApp.initDataUnsafe.start_param || "");
+      alert(WebApp.initDataUnsafe.start_param);
       setUserData(WebApp.initDataUnsafe.user as UserData);
     }
 
@@ -295,8 +296,8 @@ export default function Home() {
       {/* <button className="p-5 bg-warning-500" onClick={handleShake}>SHAKEE</button> */}
       {/* {isMobile ? ( */}
       <>
-      <p>Testing</p>
-      <p>{startParam}</p>
+      <p className="text-white">Testing</p>
+      <p className="text-white">{startParam}</p>
         {/* {Page === "Home" && (
           <Counter
             count={count}

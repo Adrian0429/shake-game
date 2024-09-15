@@ -140,6 +140,22 @@ export default function Home() {
     }
   };
 
+
+  const postReferral = async () => {
+    try {
+      const cookies = parseCookies();
+      const response = await axios.post(`https://api2.fingo.co.id/api/user/referralClaim?referrer_id${startParam}`, {
+        headers: {
+          Authorization: `Bearer ${cookies.token}`,
+        },
+      });
+
+      console.log("Referral Response:", response.data); // Log the response to debug
+    } catch (error) {
+      console.error("Error Referral user:", error);
+    }
+  };
+
   const Update = async () => {
     const cookies = parseCookies();
     const formData = {
@@ -181,13 +197,9 @@ export default function Home() {
       setUserData(WebApp.initDataUnsafe.user as UserData);
     }
 
-    if (userData?.id) {
+    if (userData?.id && startParam) {
       RegisterLogin();
-
-          if (startParam && cookies) {
-            PostReferral(startParam, cookies.token);
-          }
-
+      postReferral();
     }
 
     if (count > previousCount.current) {

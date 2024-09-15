@@ -73,7 +73,7 @@ export default function Home() {
   const [VideoComponent, setVideoComponent] = useState(() => NormalVids);
   const previousCount = useRef<number>(count);
   const [startParam, setStartParam] = useState("");
-  
+  const [isLogin, setLogin] = useState(false);
   const RegisterLogin = async () => {
     const formData = {
       tele_id: String(userData?.id),
@@ -97,6 +97,7 @@ export default function Home() {
 
       if(response.data.status == true){
               setModalOpen(true);
+              setLogin(true);
       }
 
       setCookie(null, "token", response.data.data.token, {
@@ -201,7 +202,7 @@ const postReferral = async () => {
       setUserData(WebApp.initDataUnsafe.user as UserData);
     }
 
-    if (userData?.id) {
+    if (userData?.id && !isLogin) {
       RegisterLogin();
     }
 
@@ -212,12 +213,10 @@ const postReferral = async () => {
     if (count > previousCount.current) {
       Update();
     }
-
     previousCount.current = count;
 
     // playAudio();
-
-  }, [userData?.id, count, userData]);
+  }, [count]);
 
   useEffect(() => {
     const interval = setInterval(() => {

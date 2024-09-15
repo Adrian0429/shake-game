@@ -4,12 +4,31 @@ import Image from "next/image";
 import bg from "../../../public/logo1.png";
 import Header from "./Navigation/Header";
 import { FaCopy } from "react-icons/fa";
+import { initUtils } from "@telegram-apps/sdk";
 
-interface TasksProps {
+interface props {
   userId: number;// Add this prop
 }
 
-const Referrals = () => {
+
+const Referrals = ({userId} : props) => {
+
+  const referralCode = `t.me/shakeTongamebot/start?startapp=${userId}`;
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(referralCode);
+  };
+
+  const handleInviteFriend = () => {
+    const utils = initUtils();
+    const inviteLink = `t.me/shakeTongamebot/start?startapp=${userId}`;
+    const shareText = `Join me to play this Amazing Game!`;
+    const fullUrl = `https://t.me/share/url?url=${encodeURIComponent(
+      inviteLink
+    )}&text=${encodeURIComponent(shareText)}`;
+    utils.openTelegramLink(fullUrl);
+  };
+
   return (
     <div className="relative w-full h-full flex flex-col items-center">
       <Header text="Shake Project" />
@@ -90,7 +109,7 @@ const Referrals = () => {
             transition-all duration-150 [box-shadow:0_6px_0_0_#ABC340,0_10px_0_0_#ffffff]
             rounded-full  border-[1px] border-white"
         >
-          <span className="flex flex-col justify-center items-center h-full text-black font-bold text-xl ">
+          <span onClick={handleInviteFriend} className="flex flex-col justify-center items-center h-full text-black font-bold text-xl ">
             Share With Friends
           </span>
         </div>
@@ -102,7 +121,7 @@ const Referrals = () => {
             transition-all duration-150 [box-shadow:0_6px_0_0_#ABC340,0_10px_0_0_#ffffff]
             border-[1px] border-white"
         >
-          <span className="flex flex-col justify-center items-center h-full text-black font-bold text-lg ">
+          <span onClick={handleCopy} className="flex flex-col justify-center items-center h-full text-black font-bold text-lg ">
             <FaCopy />
           </span>
         </div>

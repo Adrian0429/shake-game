@@ -96,16 +96,6 @@ export default function Home() {
 
       console.log("Form Login submitted successfully", response.data);
 
-      // alert(
-      //   "Welcome " + userData?.username + "\n" + response.data.data.DailyCount
-      // );
-
-      console.log(
-        "Welcome " + userData?.username + "\n" + response.data.data.daily_count
-      );
-
-      console.log("Register Login submitted successfully", response.data.data);
-
       setCookie(null, "token", response.data.data.token, {
         maxAge: 3 * 60 * 60,
         path: "/",
@@ -320,7 +310,7 @@ const postReferral = async () => {
           // <Referrals userId={userData?.id} />
           <Profiles onTaskClear={fetchUserData} userData={userData} />
         )}
-        {Page === "Referrals" && <Referrals />}
+        {Page === "Referrals" && <Referrals userId={userData?.id ?? 0} />}
         {Page === "Settings" && <Settings />}
       </>
       {/* ) : (

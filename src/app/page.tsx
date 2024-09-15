@@ -141,20 +141,28 @@ export default function Home() {
   };
 
 
-  const postReferral = async () => {
-    try {
-      const cookies = parseCookies();
-      const response = await axios.post(`https://api2.fingo.co.id/api/user/referralClaim?referrer_id${startParam}`, {
-        headers: {
-          Authorization: `Bearer ${cookies.token}`,
-        },
-      });
+const postReferral = async () => {
+  try {
+    const cookies = parseCookies();
+      const formData = new FormData();
+      formData.append("referrer_id", startParam);
 
-      console.log("Referral Response:", response.data); // Log the response to debug
-    } catch (error) {
-      console.error("Error Referral user:", error);
-    }
-  };
+    const response = await axios.post(
+      `https://api2.fingo.co.id/api/user/referralClaim`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${cookies.token}`, // Correct placement of headers
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    console.log("Referral Response:", response.data);
+  } catch (error) {
+    console.error("Error Referral user:", error);
+  }
+};
 
   const Update = async () => {
     const cookies = parseCookies();

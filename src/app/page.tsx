@@ -188,15 +188,16 @@ const postReferral = async () => {
   };
 
   useEffect(() => {
-    const cookies = parseCookies();
-    const token = cookies.token
     if (WebApp.initDataUnsafe.user) {
       setStartParam(WebApp.initDataUnsafe.start_param || "");
       setUserData(WebApp.initDataUnsafe.user as UserData);
     }
 
-    if (userData?.id && startParam) {
+    if (userData?.id) {
       RegisterLogin();
+    }
+
+    if(startParam){
       postReferral();
     }
 

@@ -89,7 +89,7 @@ const Referrals = ({userId} : props) => {
       }}
     >
       <Header text="Shake Project" />
-      <div className="h-[calc(100vh-4.5rem)] w-full flex flex-col items-center overflow-y-scroll">
+      <div className="h-[calc(100vh-4.5rem)] pb-16 w-full flex flex-col items-center overflow-y-scroll">
         <Image
           className="w-[40%] h-auto my-2"
           src={shake}

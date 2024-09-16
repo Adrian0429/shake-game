@@ -78,7 +78,7 @@ const Tasks = ({ userId, onTaskClear }: TasksProps) => {
   };
 
   return (
-    <div className="w-full h-full border border-red-800">
+    <div className="w-full h-full">
       <Header text="Shake Project" />
       <div className="flex flex-col h-[calc(100vh-4.5rem)] items-center mt-5">
         <h2 className="text-H2 text-white">Do The Task</h2>

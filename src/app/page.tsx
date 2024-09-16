@@ -220,7 +220,6 @@ export default function Home() {
 
     previousCount.current = count;
 
-    // playAudio();
   }, [userData?.id, count, userData]);
 
   useEffect(() => {
@@ -256,6 +255,7 @@ export default function Home() {
   }, [router, permissionGranted]);
 
   const checkMotionPermission = async () => {
+    playAudio()
     setModalOpen(false);
     try {
       if (typeof (DeviceMotionEvent as any).requestPermission === "function") {

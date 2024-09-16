@@ -3,7 +3,6 @@ import Header from "./Navigation/Header";
 import shake from "../../../public/shakerboy.png";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { FiCloudLightning } from "react-icons/fi";
 import { BsFillLightningChargeFill } from "react-icons/bs";
 
 interface CounterProps {
@@ -22,6 +21,22 @@ const Counter = ({ count, energy }: CounterProps) => {
     normal: "/normal.mp4",
     tired: "/cape.mp4",
     shake: "/shake.mp4",
+  };
+
+  const [isLoading, setIsLoading] = useState(true); // State to track if the video is loading
+
+  // Preload all videos
+  useEffect(() => {
+    Object.values(videoUrls).forEach((url) => {
+      const video = document.createElement("video");
+      video.src = url;
+      video.preload = "auto";
+    });
+  }, [videoUrls]);
+
+  // Handle video loading
+  const handleCanPlay = () => {
+    setIsLoading(false); // Hide loading screen when video is ready
   };
 
   // Watch for count changes and set the state to "shake" if the count increases
@@ -61,13 +76,16 @@ const Counter = ({ count, energy }: CounterProps) => {
         <div className="flex flex-col items-center py-5">
           <h1 className="text-white text-2xl">{state}</h1>
           <div className="w-[70%]">
-            <Image
-              className=""
-              src={shake}
-              alt=""
-              objectFit="fit"
-              height={300}
-              width={300}
+            <video
+              src={videoUrl}
+              controls
+              autoPlay
+              onCanPlay={handleCanPlay} // Event fires when the video is ready to play
+              onWaiting={() => setIsLoading(true)} // Event fires if the video buffering is needed
+              style={{
+                display: isLoading ? "none" : "block", // Hide video while loading
+              }}
+              className="video-player"
             />
           </div>
 

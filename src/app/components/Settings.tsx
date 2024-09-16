@@ -52,40 +52,42 @@ const Settings = ({userId}: props) => {
 
   return (
     <div className="w-full h-full flex flex-col items-center py-10">
-      <div className="mb-5 text-white">
-        <Image
-          src={bg}
-          width={100}
-          height={100}
-          alt=""
-          className="w-16 h-16 rounded-full my-3"
-        />
-        <p className="text-center text-white">{userDetails?.name}</p>
-        {/* <p className="text-center">@realsteve</p> */}
-      </div>
-
-      <div className="w-[90%] flex flex-col space-y-3 mt-3">
-        <div className="flex flex-row justify-between">
-          <p className="text-white">Country</p>
-          <div className="flex flex-row items-center space-x-5 text-white">
-            There&apos;s no country yet
-            <FaChevronRight />
-          </div>
+      <div className="h-[calc(100vh-4.5rem)]  w-full flex flex-col items-center">
+        <div className="mb-5 text-white">
+          <Image
+            src={bg}
+            width={100}
+            height={100}
+            alt=""
+            className="w-16 h-16 rounded-full my-3"
+          />
+          <p className="text-center text-white">{userDetails?.name}</p>
+          {/* <p className="text-center">@realsteve</p> */}
         </div>
 
-        <div className="flex flex-row justify-between">
-          <p className="text-white">Email</p>
-          <div className="flex flex-row items-center space-x-5 text-white">
-            No Email Yet
-            <FaChevronRight />
+        <div className="w-[90%] flex flex-col space-y-3 mt-3">
+          <div className="flex flex-row justify-between">
+            <p className="text-white">Country</p>
+            <div className="flex flex-row items-center space-x-5 text-white">
+              There&apos;s no country yet
+              <FaChevronRight />
+            </div>
           </div>
-        </div>
 
-        <div className="flex flex-row justify-between">
-          <p className="text-white">Exchange</p>
-          <div className="flex flex-row items-center space-x-5 text-white">
-            There&apos;s no exchanges yet
-            <FaChevronRight />
+          <div className="flex flex-row justify-between">
+            <p className="text-white">Email</p>
+            <div className="flex flex-row items-center space-x-5 text-white">
+              No Email Yet
+              <FaChevronRight />
+            </div>
+          </div>
+
+          <div className="flex flex-row justify-between">
+            <p className="text-white">Exchange</p>
+            <div className="flex flex-row items-center space-x-5 text-white">
+              There&apos;s no exchanges yet
+              <FaChevronRight />
+            </div>
           </div>
         </div>
       </div>

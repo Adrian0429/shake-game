@@ -79,9 +79,9 @@ const Referrals = ({userId} : props) => {
   }, []);
 
   return (
-    <div className="relative w-full h-full ">
+    <div className="w-full h-full">
       <Header text="Shake Project" />
-      <div className="h-[calc(100vh-9rem)] w-full flex flex-col items-center overflow-y-scroll">
+      <div className="h-[calc(100vh-4.5rem)] w-full flex flex-col items-center overflow-y-scroll">
         <Image
           className="w-[40%] h-auto my-2"
           src={shake}

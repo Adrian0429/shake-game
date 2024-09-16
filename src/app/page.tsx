@@ -305,7 +305,7 @@ export default function Home() {
 
   return (
     <div
-      className="h-[100vh] bg-black"
+      className="h-[100vh]"
       style={{
         backgroundImage: `url(${bg.src})`,
         width: "100%",

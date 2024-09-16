@@ -18,7 +18,7 @@ export default function Header({ coins, text }: HeaderProps) {
   const pathname = usePathname();
 
   return (
-    <div className="w-screen h-[4.5rem] flex justify-between mx-auto mt-5 items-center space-x-5 px-5">
+    <div className="w-screen h-[4.5rem] flex justify-between mx-auto items-center space-x-5 px-5">
       <div className="flex w-[25%] justify-center items-center mx-auto">
         <Image src={logo} alt="" height={50} width={50} />
       </div>

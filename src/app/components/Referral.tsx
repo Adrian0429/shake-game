@@ -2,6 +2,7 @@
 import shake from "../../../public/shakerboy.png"
 import Image from "next/image";
 import bg from "../../../public/Bg.png";
+import BG from "../../../public/logo1.png";
 import Header from "./Navigation/Header";
 import { FaCopy } from "react-icons/fa";
 import { initUtils } from "@telegram-apps/sdk";
@@ -80,7 +81,7 @@ const Referrals = ({userId} : props) => {
 
   return (
     <div
-      className="w-full h-full"
+      className="h-[100vh] w-full border"
       style={{
         backgroundImage: `url(${bg.src})`,
         width: "100%",
@@ -88,7 +89,7 @@ const Referrals = ({userId} : props) => {
       }}
     >
       <Header text="Shake Project" />
-      <div className="h-[calc(100vh-9rem)] w-full flex flex-col items-center overflow-y-scroll">
+      <div className="h-[calc(100vh-4.5rem)] w-full flex flex-col items-center overflow-y-scroll">
         <Image
           className="w-[40%] h-auto my-2"
           src={shake}
@@ -133,7 +134,7 @@ const Referrals = ({userId} : props) => {
               >
                 <div className="flex flex-row w-full space-x-3 items-center">
                   <Image
-                    src={bg}
+                    src={BG}
                     alt=""
                     height={30}
                     width={30}

@@ -74,6 +74,7 @@ export default function Home() {
   const previousCount = useRef<number>(count);
   const [startParam, setStartParam] = useState("");
   const [isLogin, setIsLogin] = useState(false);
+
   const RegisterLogin = async () => {
     const formData = {
       tele_id: String(userData?.id),
@@ -196,6 +197,8 @@ const postReferral = async () => {
     audio.loop = true;
     audio.play();
   };
+
+  playAudio();
 
   useEffect(() => {
     if (WebApp.initDataUnsafe.user) {

@@ -16,10 +16,10 @@ interface props {
 const task = {
   referralCoin: 200,
   data: [
-    { username: "Adrian" },
-    { username: "Budi" },
-    { username: "Citra" },
-    { username: "Dian" },
+    { user_name: "Adrian" },
+    { user_name: "Budi" },
+    { user_name: "Citra" },
+    { user_name: "Dian" },
   ],
 };
 
@@ -118,8 +118,8 @@ const Referrals = ({userId} : props) => {
 
         <div className="w-[90%] text-white mt-2">
           <h1>List of your friends</h1>
-          <div className="w-full h-[30%] overflow-y-scroll">
-            {referralsResponse.data.map((item, index) => (
+          <div className="w-full h-[10rem] overflow-y-scroll">
+            {task.data.map((item, index) => (
               <div
                 key={index}
                 className="flex my-3 flex-row justify-between h-16 bg-[#232328] rounded-lg px-5 py-1 items-center"
@@ -138,37 +138,36 @@ const Referrals = ({userId} : props) => {
               </div>
             ))}
           </div>
-        </div>
-
-        <div className="w-[90%] flex flex-row justify-between">
-          <div
-            className="button mb-5 w-64 h-16 bg-[#D5FF18]  cursor-pointer select-none
+          <div className="flex flex-row mt-3 justify-between px-3">
+            <div
+              className="button mb-5 w-64 h-16 bg-[#D5FF18]  cursor-pointer select-none
             active:translate-y-2  active:[box-shadow:0_0px_0_0_#ABC340,0_0px_0_0_#ffffff]
             active:border-b-[0px]
             transition-all duration-150 [box-shadow:0_6px_0_0_#ABC340,0_10px_0_0_#ffffff]
             rounded-full  border-[1px] border-white"
-          >
-            <span
-              onClick={handleInviteFriend}
-              className="flex flex-col justify-center items-center h-full text-black font-bold text-xl "
             >
-              Share With Friends
-            </span>
-          </div>
+              <span
+                onClick={handleInviteFriend}
+                className="flex flex-col justify-center items-center h-full text-black font-bold text-xl "
+              >
+                Share With Friends
+              </span>
+            </div>
 
-          <div
-            className="button w-16 h-16 bg-[#D5FF18]  rounded-full cursor-pointer select-none
+            <div
+              className="button w-16 h-16 bg-[#D5FF18]  rounded-full cursor-pointer select-none
             active:translate-y-2  active:[box-shadow:0_0px_0_0_#ABC340,0_0px_0_0_#ffffff]
             active:border-b-[0px]
             transition-all duration-150 [box-shadow:0_6px_0_0_#ABC340,0_10px_0_0_#ffffff]
             border-[1px] border-white"
-          >
-            <span
-              onClick={handleCopy}
-              className="flex flex-col justify-center items-center h-full text-black font-bold text-lg "
             >
-              <FaCopy />
-            </span>
+              <span
+                onClick={handleCopy}
+                className="flex flex-col justify-center items-center h-full text-black font-bold text-lg "
+              >
+                <FaCopy />
+              </span>
+            </div>
           </div>
         </div>
       </div>

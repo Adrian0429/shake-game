@@ -21,7 +21,7 @@ const VideoPlayerWithLoading: React.FC = () => {
 
       {/* Video player */}
       <video
-        src="./cape.mp4"
+        src="/cape.mp4"
         controls
         autoPlay
         onCanPlay={handleCanPlay} // Event fires when the video is ready to play

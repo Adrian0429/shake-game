@@ -96,7 +96,7 @@ export default function Home() {
 
       console.log("Login Success", response.data);
 
-      if(response.data.status == true){
+      if (response.data.status == true) {
         setModalOpen(true);
         setIsLogin(true);
       }
@@ -105,14 +105,13 @@ export default function Home() {
         maxAge: 3 * 60 * 60,
         path: "/",
       });
-      
+
       setDailyCount(response.data.data.daily_count);
-      setCount(response.data.data.coin)
+      setCount(response.data.data.coin);
       setEnergy({
         current: response.data.data.energy,
         max: 2000,
       });
-
     } catch (error) {
       // alert((error as any).response?.data?.message || "An error occurred");
       console.error("Error Login:", error);
@@ -141,29 +140,29 @@ export default function Home() {
     }
   };
 
-const postReferral = async () => {
-  try {
-    const cookies = parseCookies();
+  const postReferral = async () => {
+    try {
+      const cookies = parseCookies();
 
-    const formData = new URLSearchParams();
-    formData.append("referrer_id", startParam); // `startParam` is your referrer ID
+      const formData = new URLSearchParams();
+      formData.append("referrer_id", startParam); // `startParam` is your referrer ID
 
-    const response = await axios.post(
-      `https://api2.fingo.co.id/api/user/referralClaim`,
-      formData,
-      {
-        headers: {
-          Authorization: `Bearer ${cookies.token}`,
-          "Content-Type": "application/x-www-form-urlencoded", // Send as form data
-        },
-      }
-    );
-    fetchUserData()
-    console.log("Referral Response:", response.data); // Log the response to debug
-  } catch (error) {
-    console.error("Error Referral user:", error);
-  }
-};
+      const response = await axios.post(
+        `https://api2.fingo.co.id/api/user/referralClaim`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${cookies.token}`,
+            "Content-Type": "application/x-www-form-urlencoded", // Send as form data
+          },
+        }
+      );
+      fetchUserData();
+      console.log("Referral Response:", response.data); // Log the response to debug
+    } catch (error) {
+      console.error("Error Referral user:", error);
+    }
+  };
 
   const Update = async () => {
     const cookies = parseCookies();
@@ -192,13 +191,15 @@ const postReferral = async () => {
     }
   };
 
-  const playAudio = () => {
-    const audio = new Audio("/audio.mp3");
-    audio.loop = true;
-    audio.play();
-  };
+  useEffect(() => {
+    const playAudio = () => {
+      const audio = new Audio("/audio.mp3");
+      audio.loop = true;
+      audio.play();
+    };
 
-  playAudio();
+    playAudio();
+  }, []); // Empty dependency array means this effect runs once on mount
 
   useEffect(() => {
     if (WebApp.initDataUnsafe.user) {
@@ -210,7 +211,7 @@ const postReferral = async () => {
       RegisterLogin();
     }
 
-    if(startParam){
+    if (startParam) {
       postReferral();
     }
 
@@ -221,7 +222,6 @@ const postReferral = async () => {
     previousCount.current = count;
 
     // playAudio();
-
   }, [userData?.id, count, userData]);
 
   useEffect(() => {
@@ -233,12 +233,12 @@ const postReferral = async () => {
             current: prevEnergy.current + 1,
           };
         }
-        return prevEnergy; 
+        return prevEnergy;
       });
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [energy.current]); 
+  }, [energy.current]);
 
   useEffect(() => {
     const isMobileDevice =
@@ -309,12 +309,7 @@ const postReferral = async () => {
       {/* <button className="p-5 bg-warning-500" onClick={handleShake}>SHAKEE</button> */}
       {/* {isMobile ? ( */}
       <>
-        {Page === "Home" && (
-          <Counter
-            count={count}
-            energy={energy}
-          />
-        )}
+        {Page === "Home" && <Counter count={count} energy={energy} />}
         {Page === "Tasks" && (
           <Tasks onTaskClear={fetchUserData} userId={userData?.id ?? 0} />
         )}

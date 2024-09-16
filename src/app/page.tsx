@@ -310,8 +310,6 @@ const postReferral = async () => {
           <Counter
             count={count}
             energy={energy}
-            increment={increment}
-            // VideoComponent={VideoComponent}
           />
         )}
         {Page === "Tasks" && (

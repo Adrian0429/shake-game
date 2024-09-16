@@ -118,7 +118,7 @@ const Referrals = ({userId} : props) => {
 
         <div className="w-[90%] text-white mt-2">
           <h1>List of your friends</h1>
-          <div className="w-full">
+          <div className="w-full h-[30%] overflow-y-scroll">
             {referralsResponse.data.map((item, index) => (
               <div
                 key={index}

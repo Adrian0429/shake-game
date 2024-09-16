@@ -312,7 +312,6 @@ export default function Home() {
         height: "100%",
       }}
     >
-      {/* <button className="p-5 bg-warning-500" onClick={handleShake}>SHAKEE</button> */}
       {/* {isMobile ? ( */}
       <>
         {Page === "Home" && <Counter count={count} energy={energy} />}
@@ -331,7 +330,13 @@ export default function Home() {
          </div>
        )}  */}
 
-      <div className="fixed bottom-0 left-0 z-50 w-full h-[4.5rem] bg-transparent">
+      <div
+        style={{
+          backgroundImage: `url(${bg.src})`,
+          width: "100%",
+        }}
+        className="fixed bottom-0 left-0 z-50 w-full h-[4.5rem] bg-transparent"
+      >
         <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium bg-transparent">
           {Footerdata.map((item, index) => {
             const isActive = Page === item.name;

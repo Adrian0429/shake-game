@@ -81,7 +81,7 @@ const Referrals = ({userId} : props) => {
 
   return (
     <div
-      className="h-[100vh] w-full border"
+      className="h-[100vh] w-full"
       style={{
         backgroundImage: `url(${bg.src})`,
         width: "100%",
@@ -127,7 +127,7 @@ const Referrals = ({userId} : props) => {
         <div className="w-[90%] text-white mt-2">
           <h1>List of your friends</h1>
           <div className="w-full h-[10rem] overflow-y-scroll">
-            {task.data.map((item, index) => (
+            {referralsResponse.data.map((item, index) => (
               <div
                 key={index}
                 className="flex my-3 flex-row justify-between h-16 bg-[#232328] rounded-lg px-5 py-1 items-center"

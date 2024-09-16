@@ -1,7 +1,7 @@
 "use client";
 import shake from "../../../public/shakerboy.png"
 import Image from "next/image";
-import bg from "../../../public/logo1.png";
+import bg from "../../../public/Bg.png";
 import Header from "./Navigation/Header";
 import { FaCopy } from "react-icons/fa";
 import { initUtils } from "@telegram-apps/sdk";
@@ -79,9 +79,16 @@ const Referrals = ({userId} : props) => {
   }, []);
 
   return (
-    <div className="w-full h-full">
+    <div
+      className="w-full h-full"
+      style={{
+        backgroundImage: `url(${bg.src})`,
+        width: "100%",
+        height: "100%",
+      }}
+    >
       <Header text="Shake Project" />
-      <div className="h-[calc(100vh-4.5rem)] w-full flex flex-col items-center overflow-y-scroll">
+      <div className="h-[calc(100vh-9rem)] w-full flex flex-col items-center overflow-y-scroll">
         <Image
           className="w-[40%] h-auto my-2"
           src={shake}

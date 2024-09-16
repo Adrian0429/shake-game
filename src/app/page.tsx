@@ -75,6 +75,14 @@ export default function Home() {
   const [startParam, setStartParam] = useState("");
   const [isLogin, setIsLogin] = useState(false);
 
+   const playAudio = () => {
+     const audio = new Audio("/audio.mp3");
+     audio.loop = true;
+     audio
+       .play()
+       .catch((error) => console.error("Audio playback error:", error));
+   };
+
   const RegisterLogin = async () => {
     const formData = {
       tele_id: String(userData?.id),
@@ -99,6 +107,7 @@ export default function Home() {
       if (response.data.status == true) {
         setModalOpen(true);
         setIsLogin(true);
+        playAudio();
       }
 
       setCookie(null, "token", response.data.data.token, {
@@ -190,17 +199,7 @@ export default function Home() {
       console.log("Error submitting form:", error);
     }
   };
-
-  useEffect(() => {
-    const playAudio = () => {
-      const audio = new Audio("/audio.mp3");
-      audio.loop = true;
-      audio.play();
-    };
-
-    playAudio();
-  }, []); // Empty dependency array means this effect runs once on mount
-
+ 
   useEffect(() => {
     if (WebApp.initDataUnsafe.user) {
       setStartParam(WebApp.initDataUnsafe.start_param || "");

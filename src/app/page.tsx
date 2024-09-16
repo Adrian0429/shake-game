@@ -12,7 +12,7 @@ import { parseCookies, setCookie } from "nookies";
 import NormalVids from "./components/Normal";
 import ShakeVids from "./components/Shake";
 import CapeVids from "./components/Cape";
-
+import bg from '../../public/Bg.png'
 import { UserData, MeUser } from "./constant/types";
 import { AiFillHome } from "react-icons/ai";
 import { CgList } from "react-icons/cg";
@@ -304,7 +304,14 @@ export default function Home() {
   };
 
   return (
-    <div className="h-[calc(100vh-4.5rem)] bg-black">
+    <div
+      className="h-[100vh] bg-black"
+      style={{
+        backgroundImage: `url(${bg.src})`,
+        width: "100%",
+        height: "100%",
+      }}
+    >
       {/* <button className="p-5 bg-warning-500" onClick={handleShake}>SHAKEE</button> */}
       {/* {isMobile ? ( */}
       <>

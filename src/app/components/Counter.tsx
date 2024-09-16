@@ -1,5 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
+import { BsFillLightningChargeFill } from "react-icons/bs";
+import Header from "./Navigation/Header";
 
 interface CounterProps {
   count: number;
@@ -39,7 +41,7 @@ const Counter = ({ count, energy }: CounterProps) => {
       // Reset state to "normal" after 200ms if count doesn't increase
       const timer = setTimeout(() => {
         setState("normal");
-      }, 200);
+      }, 1500);
 
       return () => clearTimeout(timer); // Cleanup the timer
     }
@@ -63,30 +65,39 @@ const Counter = ({ count, energy }: CounterProps) => {
 
   return (
     <div className="w-full h-full">
-      <h1 className="text-white text-2xl">{state}</h1>
-      <div className="w-[70%]">
-        <img src={gifUrl} alt={state} className="w-full h-auto" />
-      </div>
-      <div className="flex flex-row space-x-3 bg-[#232328] rounded-full py-3 px-5 items-center">
-        <p className="text-S3 font-bold text-center text-white">
-          {energy.current}/{energy.max}
-        </p>
-      </div>
-      <div id="frenzybar" className="w-[80%] bg-gray-200 rounded-full mt-5">
-        <div
-          className="bg-[#E0FD60] text-xs font-medium text-brand-100 text-center p-2 leading-none rounded-full"
-          style={{ width: `${(energy.current / 2000) * 100}%` }}
-        ></div>
-      </div>
-      <div
-        className="w-[80%] mt-10 h-24 bg-[#D5FF18] cursor-pointer select-none
-        active:translate-y-2 active:[box-shadow:0_0px_0_0_#ABC340,0_0px_0_0_#ffffff]
-        active:border-b-[0px] transition-all duration-150 [box-shadow:0_2px_0_0_#ABC340,0_4px_0_0_#ffffff]
-        rounded-full border-[1px] border-[#D5FF18] mb-3"
-      >
-        <span className="flex justify-center items-center h-full text-black font-bold text-2xl">
-          Shake To Earn Coins
-        </span>
+      <Header coins={count} />
+      <div className="h-[calc(100vh-9rem)] mt-5">
+        <div className="flex flex-col items-center py-5">
+          <h1 className="text-white text-2xl">{state}</h1>
+          <div className="w-[70%]">
+            <img src={gifUrl} alt={state} className="w-full h-auto" />
+          </div>
+
+          <div className="flex flex-row space-x-3 bg-[#232328] rounded-full py-3 px-5 items-center">
+            <BsFillLightningChargeFill className="text-[#E0FD60]" />
+            <p className="text-S3 font-bold text-center text-white">
+              {energy.current}/{energy.max}
+            </p>
+          </div>
+
+          <div id="frenzybar" className="w-[80%] bg-gray-200 rounded-full mt-5">
+            <div
+              className="bg-[#E0FD60] text-xs font-medium text-brand-100 text-center p-2 leading-none rounded-full"
+              style={{ width: `${(energy.current / 2000) * 100}%` }}
+            ></div>
+          </div>
+
+          <div
+            className="w-[80%] mt-10 h-24 bg-[#D5FF18] cursor-pointer select-none
+      active:translate-y-2 active:[box-shadow:0_0px_0_0_#ABC340,0_0px_0_0_#ffffff]
+      active:border-b-[0px] transition-all duration-150 [box-shadow:0_2px_0_0_#ABC340,0_4px_0_0_#ffffff]
+      rounded-full border-[1px] border-[#D5FF18] mb-3"
+          >
+            <span className="flex justify-center items-center h-full text-black font-bold text-2xl">
+              Shake To Earn Coins
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   );

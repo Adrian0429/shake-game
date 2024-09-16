@@ -104,6 +104,7 @@ export default function Home() {
         maxAge: 3 * 60 * 60,
         path: "/",
       });
+      
       setDailyCount(response.data.data.daily_count);
       setCount(response.data.data.coin)
       setEnergy({

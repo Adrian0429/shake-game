@@ -1,24 +1,38 @@
 "use client";
-import React, { useState } from 'react'
-import ModalAllowComponent from '../components/Modal/ModalAllow';
+import React, { useState } from "react";
 
-export default function Testing() {
-    const [isModalOpen, setIsModalOpen] = useState(true);
+const VideoPlayerWithLoading: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(true); // State to track if the video is loading
 
-  const checkMotionPermission = async () => {
-    alert("Permission granted");
-    setIsModalOpen(false);
+  // Handle video loading
+  const handleCanPlay = () => {
+    setIsLoading(false); // Hide loading screen when video is ready
   };
-  
 
   return (
-    <div className="h-screen w-screen">
-      <ModalAllowComponent
-        username={"adrian"}
-        daily_count={5}
-        onAllowPermission={checkMotionPermission}
-        isOpen={isModalOpen}
+    <div className="video-container">
+      {/* Loading screen */}
+      {isLoading && (
+        <div className="loading-screen">
+          <p>Loading...</p>
+          {/* You can replace the text with a spinner or a custom loading animation */}
+        </div>
+      )}
+
+      {/* Video player */}
+      <video
+        src="./cape.mp4"
+        controls
+        autoPlay
+        onCanPlay={handleCanPlay} // Event fires when the video is ready to play
+        onWaiting={() => setIsLoading(true)} // Event fires if the video buffering is needed
+        style={{
+          display: isLoading ? "none" : "block", // Hide video while loading
+        }}
+        className="video-player"
       />
     </div>
   );
-}
+};
+
+export default VideoPlayerWithLoading;

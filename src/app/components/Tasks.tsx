@@ -124,7 +124,7 @@ const Tasks = ({ userId, onTaskClear }: TasksProps) => {
                   >
                     <Link
                       onClick={() => clearTask(task.task_id)}
-                      href={""}
+                      href={task.link || "#"}
                       className="flex justify-center items-center h-full text-black font-bold text-base"
                     >
                       Claim

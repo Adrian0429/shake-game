@@ -6,6 +6,7 @@ import Header from "./Navigation/Header";
 import { FaChevronRight, FaCopy } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { parseCookies } from "nookies";
 
 interface UserData {
   tele_id: string;
@@ -27,14 +28,18 @@ const Settings = ({userId}: props) => {
 
   useEffect(() => {
     const fetchUserData = async () => {
+      const cookies = parseCookies();
       try {
         const response = await axios.get(
           "https://api2.fingo.co.id/api/user/me",
           {
             params: { tele_id: String(userId) },
+            headers: {
+              Authorization: `Bearer ${cookies.token}`,
+            },
           }
         );
-
+        console.log("Success Get User Data", response.data);
         setUserDetails(response.data.data);
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -55,7 +60,7 @@ const Settings = ({userId}: props) => {
           alt=""
           className="w-16 h-16 rounded-full my-3"
         />
-        <p className="text-center">{userDetails?.name}</p>
+        <p className="text-center text-white">{userDetails?.name}</p>
         {/* <p className="text-center">@realsteve</p> */}
       </div>
 

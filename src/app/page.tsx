@@ -105,7 +105,7 @@ export default function Home() {
 
       console.log("Login Success", response.data);
 
-      if (response.data.data.login == true) {
+      if (response.data.status == true) {
         console.log(response.data.data.daily);
         if(response.data.data.daily = 'Daily'){
           setModalOpen(true);

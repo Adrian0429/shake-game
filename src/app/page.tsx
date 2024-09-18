@@ -341,7 +341,41 @@ return (
       )}
       {Page === "Referrals" && <Referrals userId={userData?.id ?? 0} />}
       {Page === "Settings" && <Settings userId={userData?.id ?? 0} />}
-
+      <div
+        style={{
+          backgroundImage: `url(${bg.src})`,
+          width: "100%",
+        }}
+        className="fixed bottom-0 left-0 z-50 w-full h-[4.5rem] bg-transparent"
+      >
+        <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium bg-transparent">
+          {Footerdata.map((item, index) => {
+            const isActive = Page === item.name;
+            return (
+              <button
+                onClick={() => setPage(item.name)}
+                key={index}
+                className="inline-flex flex-col items-center justify-center px-5"
+              >
+                <div
+                  className={`${
+                    isActive ? "text-[#E0FD60]" : "text-gray-400"
+                  } text-2xl mb-1 group-hover:text-[#E0FD60]`}
+                >
+                  {item.icon}
+                </div>
+                <span
+                  className={`${
+                    isActive ? "text-[#E0FD60]" : "text-gray-500"
+                  } text-sm group-hover:text-[#E0FD60]`}
+                >
+                  {item.name}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
       <ModalAllowComponent
         username={userData?.username ?? ""}
         daily_count={dailyCount}
@@ -354,7 +388,6 @@ return (
         onAllowPermission={checkMotionPermission}
         isOpen={isModalOpen.modalPermission}
       />
-      
     </div>
     {/* ) : (
        <div className="h-[100vh] flex justify-center items-center bg-gray-200">

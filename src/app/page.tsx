@@ -110,9 +110,8 @@ export default function Home() {
         if(response.data.data.daily = 'Daily'){
           setModalOpen(true);
         }
-        if(response.data.data.daily = 'Login'){
-          alert("Login")
-        }
+        
+        checkMotionPermission();
         setIsLogin(true);
         playAudio();
       }

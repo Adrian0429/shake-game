@@ -1,5 +1,5 @@
 "use client";
-import shake from "../../../public/shakerboy.png"
+import shake from "../../../public/shakerboy.png";
 import Image from "next/image";
 import bg from "../../../public/Bg.png";
 import BG from "../../../public/logo1.png";
@@ -15,16 +15,6 @@ interface props {
   userId: number;
 }
 
-const task = {
-  referralCoin: 200,
-  data: [
-    { user_name: "Adrian" },
-    { user_name: "Budi" },
-    { user_name: "Citra" },
-    { user_name: "Dian" },
-  ],
-};
-
 interface GetReferralsData {
   user_name: string;
 }
@@ -34,24 +24,22 @@ interface GetReferralsResponse {
   data: GetReferralsData[];
 }
 
-
-
-const Referrals = ({userId} : props) => {
-    const [isOffcanvasVisible, setIsOffcanvasVisible] = useState(false);
-
-    const toggleOffcanvas = () => {
-      setIsOffcanvasVisible(!isOffcanvasVisible);
-    };
-
+const Referrals = ({ userId }: props) => {
+  const [isOffcanvasVisible, setIsOffcanvasVisible] = useState(false);
   const [referralsResponse, setReferralsResponse] =
     useState<GetReferralsResponse>({
       referralCoins: 0,
       data: [],
-  });
+    });
+
+  const toggleOffcanvas = () => {
+    setIsOffcanvasVisible(!isOffcanvasVisible);
+  };
 
   const referralCode = `t.me/shakeTongamebot/start?startapp=${userId}`;
+
   const handleCopy = () => {
-    alert("Share Link Copied!")
+    alert("Share Link Copied!");
     navigator.clipboard.writeText(referralCode);
   };
 
@@ -127,25 +115,32 @@ const Referrals = ({userId} : props) => {
           <div className="w-[90%] text-white mt-2">
             <h1>List of your friends</h1>
             <div className="w-full h-[10rem] overflow-y-scroll">
-              {referralsResponse.data.map((item, index) => (
-                <div
-                  key={index}
-                  className="flex my-3 flex-row justify-between h-16 bg-[#232328] rounded-lg px-5 py-1 items-center"
-                >
-                  <div className="flex flex-row w-full space-x-3 items-center">
-                    <Image
-                      src={BG}
-                      alt=""
-                      height={30}
-                      width={30}
-                      className="w-[50px] h-full"
-                    />
-                    <p>{item.user_name}</p>
+              {/* Conditional rendering for referral data */}
+              {referralsResponse.data && referralsResponse.data.length > 0 ? (
+                referralsResponse.data.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex my-3 flex-row justify-between h-16 bg-[#232328] rounded-lg px-5 py-1 items-center"
+                  >
+                    <div className="flex flex-row w-full space-x-3 items-center">
+                      <Image
+                        src={BG}
+                        alt=""
+                        height={30}
+                        width={30}
+                        className="w-[50px] h-full"
+                      />
+                      <p>{item.user_name}</p>
+                    </div>
                   </div>
-                  <div></div>
-                </div>
-              ))}
+                ))
+              ) : (
+                <p className="text-center text-white mt-3 text-xl">
+                  You have no referrals yet
+                </p>
+              )}
             </div>
+
             <div className="flex flex-row mt-3 justify-between px-3">
               <div
                 className="button mb-5 w-64 h-16 bg-[#D5FF18]  cursor-pointer select-none

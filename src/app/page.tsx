@@ -303,18 +303,17 @@ export default function Home() {
     }
   };
 
-  return (
-    <div
-      className="h-[100vh]"
-      style={{
-        backgroundImage: `url(${bg.src})`,
-        width: "100%",
-        height: "100%",
-      }}
-    >
-      <button onClick={handleShake} className="bg-white text-black py-4 px-10">SHAKEEEE</button>
-      {/* {isMobile ? ( */}
-      <>
+return (
+  <>
+    {isMobile ? (
+      <div
+        className="h-[100vh]"
+        style={{
+          backgroundImage: `url(${bg.src})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
         {Page === "Home" && <Counter count={count} energy={energy} />}
         {Page === "Tasks" && (
           <Tasks onTaskClear={fetchUserData} userId={userData?.id ?? 0} />
@@ -324,55 +323,27 @@ export default function Home() {
         )}
         {Page === "Referrals" && <Referrals userId={userData?.id ?? 0} />}
         {Page === "Settings" && <Settings userId={userData?.id ?? 0} />}
-      </>
-      {/* ) : (
-         <div className="h-full w-full flex items-center justify-center">
-           <p>Move To Mobile Device</p>
-         </div>
-       )}  */}
-
-      <div
-        style={{
-          backgroundImage: `url(${bg.src})`,
-          width: "100%",
-        }}
-        className="fixed bottom-0 left-0 z-50 w-full h-[4.5rem] bg-transparent"
-      >
-        <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium bg-transparent">
-          {Footerdata.map((item, index) => {
-            const isActive = Page === item.name;
-            return (
-              <button
-                onClick={() => setPage(item.name)}
-                key={index}
-                className="inline-flex flex-col items-center justify-center px-5"
-              >
-                <div
-                  className={`${
-                    isActive ? "text-[#E0FD60]" : "text-gray-400"
-                  } text-2xl mb-1 group-hover:text-[#E0FD60]`}
-                >
-                  {item.icon}
-                </div>
-                <span
-                  className={`${
-                    isActive ? "text-[#E0FD60]" : "text-gray-500"
-                  } text-sm group-hover:text-[#E0FD60]`}
-                >
-                  {item.name}
-                </span>
-              </button>
-            );
-          })}
+        
+        <ModalAllowComponent
+          username={userData?.username ?? ""}
+          daily_count={dailyCount}
+          onAllowPermission={checkMotionPermission}
+          isOpen={isModalOpen}
+        />
+      </div>
+    ) : (
+      <div className="h-[100vh] flex justify-center items-center bg-gray-200">
+        <div className="text-center">
+          <h2 className="text-xl font-bold">
+            This app is designed for mobile devices only.
+          </h2>
+          <p className="mt-2 text-gray-700">
+            Please open this app on a mobile device to use its features.
+          </p>
         </div>
       </div>
-
-      <ModalAllowComponent
-        username={userData?.username ?? ""}
-        daily_count={dailyCount}
-        onAllowPermission={checkMotionPermission}
-        isOpen={isModalOpen}
-      />
-    </div>
-  );
+    )}
+  </>
+);
 }
+

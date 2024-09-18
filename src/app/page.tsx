@@ -22,6 +22,7 @@ import Settings from "./components/Settings";
 import ModalAllowComponent from "./components/Modal/ModalAllow";
 import { PostReferral } from "./utils/api";
 import { cookies } from "next/headers";
+import Link from "next/link";
 
 // // Provide default values for all properties
 // const defaultUserData: UserData = {
@@ -323,7 +324,7 @@ return (
         )}
         {Page === "Referrals" && <Referrals userId={userData?.id ?? 0} />}
         {Page === "Settings" && <Settings userId={userData?.id ?? 0} />}
-        
+
         <ModalAllowComponent
           username={userData?.username ?? ""}
           daily_count={dailyCount}
@@ -340,6 +341,12 @@ return (
           <p className="mt-2 text-gray-700">
             Please open this app on a mobile device to use its features.
           </p>
+          <Link
+            href={"https://t.me/shakeTongamebot"}
+            className="mt-2 text-gray-700"
+          >
+            Click Here To Navigate
+          </Link>
         </div>
       </div>
     )}

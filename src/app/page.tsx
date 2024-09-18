@@ -23,6 +23,7 @@ import ModalAllowComponent from "./components/Modal/ModalAllow";
 import { PostReferral } from "./utils/api";
 import { cookies } from "next/headers";
 import Link from "next/link";
+import ModalPermission from "./components/Modal/Modal";
 
 // // Provide default values for all properties
 // const defaultUserData: UserData = {
@@ -59,7 +60,10 @@ export default function Home() {
   const router = useRouter();
   const [count, setCount] = useState(0);
   const [dailyCount, setDailyCount] = useState(0);
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [isModalOpen, setModalOpen] = useState({
+    modalDaily: false,
+    modalPermission: false,
+  });
   const [energy, setEnergy] = useState({
     current: 0,
     max: 2000,
@@ -108,10 +112,17 @@ export default function Home() {
       if (response.data.status == true) {
         console.log(response.data.data.daily);
         if(response.data.data.daily = 'Daily'){
-          setModalOpen(true);
+          setModalOpen((prevState) => ({
+            ...prevState,
+            modalDaily: true,
+          }));
         }
-        
-        checkMotionPermission();
+
+        setModalOpen((prevState) => ({
+          ...prevState,
+          modalPermission: true,
+        }));
+
         setIsLogin(true);
         playAudio();
       }
@@ -262,7 +273,12 @@ export default function Home() {
 
   const checkMotionPermission = async () => {
     playAudio()
-    setModalOpen(false);
+    setModalOpen((prevState) => ({
+      ...prevState,
+      modalPermission: false,
+      modalDaily: false,
+    }));
+
     try {
       if (typeof (DeviceMotionEvent as any).requestPermission === "function") {
         const permissionState = await (
@@ -308,32 +324,39 @@ export default function Home() {
 return (
   <>
     {/* {isMobile ? ( */}
-      <div
-        className="h-[100vh]"
-        style={{
-          backgroundImage: `url(${bg.src})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        {Page === "Home" && <Counter count={count} energy={energy} />}
-        {Page === "Tasks" && (
-          <Tasks onTaskClear={fetchUserData} userId={userData?.id ?? 0} />
-        )}
-        {userData && Page === "Profiles" && (
-          <Profiles onTaskClear={fetchUserData} userData={userData} />
-        )}
-        {Page === "Referrals" && <Referrals userId={userData?.id ?? 0} />}
-        {Page === "Settings" && <Settings userId={userData?.id ?? 0} />}
+    <div
+      className="h-[100vh]"
+      style={{
+        backgroundImage: `url(${bg.src})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      {Page === "Home" && <Counter count={count} energy={energy} />}
+      {Page === "Tasks" && (
+        <Tasks onTaskClear={fetchUserData} userId={userData?.id ?? 0} />
+      )}
+      {userData && Page === "Profiles" && (
+        <Profiles onTaskClear={fetchUserData} userData={userData} />
+      )}
+      {Page === "Referrals" && <Referrals userId={userData?.id ?? 0} />}
+      {Page === "Settings" && <Settings userId={userData?.id ?? 0} />}
 
-        <ModalAllowComponent
-          username={userData?.username ?? ""}
-          daily_count={dailyCount}
-          onAllowPermission={checkMotionPermission}
-          isOpen={isModalOpen}
-        />
-      </div>
-     {/* ) : (
+      <ModalAllowComponent
+        username={userData?.username ?? ""}
+        daily_count={dailyCount}
+        onAllowPermission={checkMotionPermission}
+        isOpen={isModalOpen.modalDaily}
+      />
+
+      <ModalPermission
+        username={userData?.username ?? ""}
+        onAllowPermission={checkMotionPermission}
+        isOpen={isModalOpen.modalPermission}
+      />
+      
+    </div>
+    {/* ) : (
        <div className="h-[100vh] flex justify-center items-center bg-gray-200">
          <div className="text-center">
            <h2 className="text-xl font-bold">

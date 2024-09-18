@@ -33,7 +33,7 @@ const AudioComponent = () => {
           Toggle bottom offcanvas
         </button>
       </div>
-      <Offcanvas userId={134123}/>
+
     </>
   );
 };

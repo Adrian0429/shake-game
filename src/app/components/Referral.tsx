@@ -37,6 +37,12 @@ interface GetReferralsResponse {
 
 
 const Referrals = ({userId} : props) => {
+    const [isOffcanvasVisible, setIsOffcanvasVisible] = useState(false);
+
+    const toggleOffcanvas = () => {
+      setIsOffcanvasVisible(!isOffcanvasVisible);
+    };
+
   const [referralsResponse, setReferralsResponse] =
     useState<GetReferralsResponse>({
       referralCoins: 0,
@@ -45,16 +51,8 @@ const Referrals = ({userId} : props) => {
 
   const referralCode = `t.me/shakeTongamebot/start?startapp=${userId}`;
   const handleCopy = () => {
+    alert("Share Link Copied!")
     navigator.clipboard.writeText(referralCode);
-  };
-
-  const handleInviteFriend = () => {
-    const utils = initUtils();
-    const shareText = `Join me to play this Amazing Game!`;
-    const fullUrl = `https://t.me/share/url?url=${encodeURIComponent(
-      referralCode
-    )}&text=${encodeURIComponent(shareText)}`;
-    utils.openTelegramLink(fullUrl);
   };
 
   useEffect(() => {
@@ -156,16 +154,12 @@ const Referrals = ({userId} : props) => {
             transition-all duration-150 [box-shadow:0_6px_0_0_#ABC340,0_10px_0_0_#ffffff]
             rounded-full  border-[1px] border-white"
               >
-                <button
-                  type="button"
-                  aria-haspopup="dialog"
-                  aria-expanded="false"
-                  aria-controls="hs-offcanvas-bottom"
-                  data-hs-overlay="#hs-offcanvas-bottom"
+                <span
+                  onClick={toggleOffcanvas}
                   className="flex flex-col justify-center items-center h-full text-black font-bold text-xl "
                 >
                   Share With Friends
-                </button>
+                </span>
               </div>
 
               <div
@@ -186,7 +180,11 @@ const Referrals = ({userId} : props) => {
           </div>
         </div>
       </div>
-      <Offcanvas userId={userId} />
+      <Offcanvas
+        userId={userId}
+        isVisible={isOffcanvasVisible}
+        onClose={toggleOffcanvas}
+      />
     </>
   );
 };

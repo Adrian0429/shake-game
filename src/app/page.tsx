@@ -105,8 +105,14 @@ export default function Home() {
 
       console.log("Login Success", response.data);
 
-      if (response.data.status == true) {
-        setModalOpen(true);
+      if (response.data.data.login == true) {
+
+        if(response.data.data.daily = 'Daily'){
+          setModalOpen(true);
+        }
+        if(response.data.data.daily = 'Login'){
+          alert("Login")
+        }
         setIsLogin(true);
         playAudio();
       }
@@ -285,17 +291,13 @@ export default function Home() {
   };
 
   const handleShake = () => {
-    // console.log(count);
-    // console.log(energy.current);
     if (energy.current > 0) {
-      // setVideoComponent(() => ShakeVids);
       setCount((prevCount) => prevCount + increment);
       setEnergy((prevEnergy) => ({
         ...prevEnergy,
         current: prevEnergy.current - 1,
       }));
     } else {
-      // setVideoComponent(() => CapeVids);
       alert("You have reached the maximum energy");
       if (myShakeEvent.current) {
         myShakeEvent.current.stop();
@@ -306,7 +308,7 @@ export default function Home() {
 
 return (
   <>
-    {isMobile ? (
+    {/* {isMobile ? ( */}
       <div
         className="h-[100vh]"
         style={{
@@ -332,24 +334,24 @@ return (
           isOpen={isModalOpen}
         />
       </div>
-    ) : (
-      <div className="h-[100vh] flex justify-center items-center bg-gray-200">
-        <div className="text-center">
-          <h2 className="text-xl font-bold">
-            This app is designed for mobile devices only.
-          </h2>
-          <p className="mt-2 text-gray-700">
-            Please open this app on a mobile device to use its features.
-          </p>
-          <Link
-            href={"https://t.me/shakeTongamebot"}
-            className="mt-2 text-gray-700"
-          >
-            Click Here To Navigate
-          </Link>
-        </div>
-      </div>
-    )}
+     {/* ) : (
+       <div className="h-[100vh] flex justify-center items-center bg-gray-200">
+         <div className="text-center">
+           <h2 className="text-xl font-bold">
+             This app is designed for mobile devices only.
+           </h2>
+           <p className="mt-2 text-gray-700">
+             Please open this app on a mobile device to use its features.
+           </p>
+           <Link
+             href={"https:t.me/shakeTongamebot"}
+             className="mt-2 text-gray-700"
+           >
+             Click Here To Navigate
+           </Link>
+         </div>
+       </div>
+     )} */}
   </>
 );
 }

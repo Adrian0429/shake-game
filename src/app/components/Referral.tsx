@@ -156,7 +156,7 @@ const Referrals = ({userId} : props) => {
               >
                 <span
                   onClick={toggleOffcanvas}
-                  className="flex flex-col justify-center items-center h-full text-black font-bold text-xl "
+                  className="flex flex-col justify-center text-center items-center h-full text-black font-bold text-xl "
                 >
                   Share With Friends
                 </span>

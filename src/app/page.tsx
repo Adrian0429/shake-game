@@ -199,7 +199,7 @@ export default function Home() {
       console.log("Error submitting form:", error);
     }
   };
- 
+
   useEffect(() => {
     if (WebApp.initDataUnsafe.user) {
       setStartParam(WebApp.initDataUnsafe.start_param || "");
@@ -312,6 +312,7 @@ export default function Home() {
         height: "100%",
       }}
     >
+      <button onClick={handleShake} className="bg-white text-black py-4 px-10">SHAKEEEE</button>
       {/* {isMobile ? ( */}
       <>
         {Page === "Home" && <Counter count={count} energy={energy} />}

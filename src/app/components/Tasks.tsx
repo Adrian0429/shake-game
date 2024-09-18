@@ -8,6 +8,7 @@ import Header from "./Navigation/Header";
 import { parseCookies } from "nookies";
 import { FaCheckCircle } from "react-icons/fa";
 import { IconContext } from "react-icons";
+import { useRouter } from "next/navigation";
 
 interface Task {
   task_id: string;
@@ -24,7 +25,7 @@ interface TasksProps {
 
 const Tasks = ({ userId, onTaskClear }: TasksProps) => {
   const [tasks, setTasks] = useState<Task[]>([]);
-
+  const router = useRouter();
   const refreshTasks = useCallback(async () => {
     const cookies = parseCookies();
     try {
@@ -67,7 +68,9 @@ const Tasks = ({ userId, onTaskClear }: TasksProps) => {
           },
         }
       );
+
       console.log("Form submitted successfully", response.data);
+      router.push(tasks.find((task) => task.task_id === task_Id)?.link || "/");
       if (response.data.status === true) {
         refreshTasks();
         onTaskClear();
@@ -122,13 +125,12 @@ const Tasks = ({ userId, onTaskClear }: TasksProps) => {
                 transition-all duration-150 [box-shadow:0_5px_0_0_#ABC340,0_8px_0_0_#ffffff]
                 rounded-full  border-[1px] border-[#D5FF18] mb-3"
                   >
-                    <Link
+                    <p
                       onClick={() => clearTask(task.task_id)}
-                      href={task.link || "#"}
                       className="flex justify-center items-center h-full text-black font-bold text-base"
                     >
                       Claim
-                    </Link>
+                    </p>
                   </div>
                 )}
               </div>

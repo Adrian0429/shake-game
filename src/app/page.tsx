@@ -261,49 +261,24 @@ export default function Home() {
   }, [energy.current]);
 
   useEffect(() => {
-    if (musicPlayer.current) {
-      const audio = musicPlayer.current;
-      audio.loop = true;
-
-      WebApp.ready();
-      WebApp.expand();
-
-      // Play audio and handle any playback errors
-      audio.play().catch((error) => {
-        console.error("Audio playback error:", error);
-      });
-
-      const handleBackground = () => {
-        audio.pause();
-      };
-
-      const handleForeground = () => {
-        audio.play().catch((error) => {
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        musicPlayer.current?.pause();
+      } else {
+        musicPlayer.current?.play().catch((error) => {
           console.error("Audio playback error:", error);
         });
-      };
+      }
+    };
 
-      // Handle background events
-      (WebApp as any).onEvent("background", handleBackground);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
-      // Handle viewport changes
-      WebApp.onEvent("viewportChanged", (event) => {
-        if (event.isStateStable) {
-          handleForeground();
-        } else {
-          handleBackground();
-        }
-      });
-
-      return () => {
-        // Cleanup: remove event listeners and pause the audio
-        (WebApp as any).offEvent("background", handleBackground);
-        WebApp.offEvent("viewportChanged", handleForeground);
-        audio.pause();
-      };
-    }
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      musicPlayer.current?.pause();
+    };
   }, []);
-  
+
   useEffect(() => {
     const isMobileDevice =
       /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(

@@ -114,7 +114,7 @@ const Referrals = ({ userId }: props) => {
 
           <div className="w-[90%] text-white mt-2">
             <h1>List of your friends</h1>
-            <div className="w-full h-[10rem] overflow-y-scroll">
+            <div className="w-full border h-[17.5rem] overflow-y-scroll">
               {/* Conditional rendering for referral data */}
               {referralsResponse.data && referralsResponse.data.length > 0 ? (
                 referralsResponse.data.map((item, index) => (

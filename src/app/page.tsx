@@ -24,6 +24,7 @@ import { PostReferral } from "./utils/api";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import ModalPermission from "./components/Modal/Modal";
+import BackgroundAudio from "./components/BackgroundAudio";
 
 // // Provide default values for all properties
 // const defaultUserData: UserData = {
@@ -79,11 +80,6 @@ export default function Home() {
   const previousCount = useRef<number>(count);
   const [startParam, setStartParam] = useState("");
   const [isLogin, setIsLogin] = useState(false);
-    const musicPlayer = useRef<HTMLAudioElement | undefined>(
-      typeof Audio !== "undefined"
-        ? new Audio("/bgm.mp3")
-        : undefined
-    );
 
   // const playAudio = () => {
   //   const audio = new Audio("/audio.mp3");
@@ -280,25 +276,6 @@ export default function Home() {
   }, [energy.current]);
 
   useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (document.hidden) {
-        musicPlayer.current?.pause();
-      } else {
-        musicPlayer.current?.play().catch((error) => {
-          console.error("Audio playback error:", error);
-        });
-      }
-    };
-
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-
-    return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-      musicPlayer.current?.pause();
-    };
-  }, []);
-
-  useEffect(() => {
     const isMobileDevice =
       /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(
         navigator.userAgent
@@ -430,6 +407,8 @@ export default function Home() {
           onAllowPermission={checkMotionPermission}
           isOpen={isModalOpen.modalPermission}
         />
+
+        <BackgroundAudio/>
       </div>
       {/* ) : (
        <div className="h-[100vh] flex justify-center items-center bg-gray-200">

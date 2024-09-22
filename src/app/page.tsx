@@ -260,7 +260,7 @@ export default function Home() {
         audioSourceRef.current.stop(); // Stop audio when component unmounts
       }
     };
-  }, []);
+  }, [playAudio]);
 
   useEffect(() => {
     WebApp.ready();

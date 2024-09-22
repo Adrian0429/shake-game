@@ -235,13 +235,32 @@ export default function Home() {
       postReferral();
     }
 
-    if (count > previousCount.current) {
+    if (count > previousCount.current && Page == 'Home') {
       Update();
     }
 
     previousCount.current = count;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData?.id, count, userData]);
+
+  useEffect(() => {
+    const updateIncrement = () => {
+      const now = new Date();
+      const hours = now.getHours();
+
+      if ((hours >= 8 && hours < 9) || (hours >= 21 && hours < 22)) {
+        setIncrement(2);
+      } else {
+        setIncrement(1);
+      }
+    };
+    
+    updateIncrement();
+
+    const interval = setInterval(updateIncrement, 60 * 1000);
+    
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -329,13 +348,13 @@ export default function Home() {
   };
 
   const handleShake = () => {
-    if (energy.current > 0) {
+    if (energy.current > 0 && Page == 'Home') {
       setCount((prevCount) => prevCount + increment);
       setEnergy((prevEnergy) => ({
         ...prevEnergy,
         current: prevEnergy.current - 1,
       }));
-    } else {
+    } else if (energy.current == 0) {
       alert("You have reached the maximum energy");
       if (myShakeEvent.current) {
         myShakeEvent.current.stop();

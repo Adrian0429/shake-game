@@ -16,8 +16,8 @@ const Counter = ({ count, energy }: CounterProps) => {
   const [gifUrl, setGifUrl] = useState<string>("");
   const [state, setState] = useState<Status>("normal");
   const [lastCount, setLastCount] = useState<number>(count);
-  const playerRef = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const playerRef = useRef<AudioPlayer>(null);
+  const [counter, setcounter] = useState(1);
 
   // Define the paths for your GIFs
   const gifUrls = useMemo(() => ({
@@ -25,13 +25,6 @@ const Counter = ({ count, energy }: CounterProps) => {
     tired: "/tired.gif",
     shake: "/shake.gif",
   }), []);
-
-  const player = new Audio(
-    "/coin.m4a"
-  );
-
-
-
 
   useEffect(() => {
     Object.values(gifUrls).forEach((url) => {
@@ -46,6 +39,7 @@ const Counter = ({ count, energy }: CounterProps) => {
     if (count > lastCount) {
       setState("shake");
       playerRef.current?.audio?.current?.play();
+      
       const timer = setTimeout(() => {
         setState("normal");
       }, 1000);
@@ -77,7 +71,7 @@ const Counter = ({ count, energy }: CounterProps) => {
         src="/coin.m4a"
         ref={playerRef}
         autoPlay={false}
-        loop={true}
+        loop={false}
         className="hidden"
       />
       <Header coins={count} />
@@ -105,6 +99,7 @@ const Counter = ({ count, energy }: CounterProps) => {
           </div>
 
           <div
+          // onClick={() => setcounter(counter + 1)} 
             className="w-[70%] my-4 h-16 bg-[#D5FF18] cursor-pointer select-none
       active:translate-y-1 active:[box-shadow:0_0px_0_0_#ABC340,0_0px_0_0_#ffffff]
       active:border-b-[0px] transition-all duration-150 [box-shadow:0_1.5px_0_0_#ABC340,0_4px_0_0_#ffffff]

@@ -370,18 +370,20 @@ export default function Home() {
   };
 
   const handleShake = () => {
-    if (energy.current > 0 && Page == 'Home') {
+    if(Page === "Home") {
+    if (energy.current > 0) {
       setCount((prevCount) => prevCount + increment);
       setEnergy((prevEnergy) => ({
         ...prevEnergy,
         current: prevEnergy.current - 1,
       }));
-    } else if (energy.current == 0) {
+    } else {
       alert("You have reached the maximum energy");
       if (myShakeEvent.current) {
         myShakeEvent.current.stop();
         window.removeEventListener("shake", handleShake, false);
       }
+    }
     }
   };
 

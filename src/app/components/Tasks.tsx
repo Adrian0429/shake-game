@@ -46,7 +46,7 @@ const Tasks = ({ userId, onTaskClear }: TasksProps) => {
     } catch (error) {
       console.error("Error fetching tasks:", error);
     }
-  }, [userId]);
+  }, []);
 
   // Fetch tasks on component mount and when userId changes
   useEffect(() => {
@@ -124,12 +124,13 @@ const Tasks = ({ userId, onTaskClear }: TasksProps) => {
                 transition-all duration-150 [box-shadow:0_5px_0_0_#ABC340,0_8px_0_0_#ffffff]
                 rounded-full  border-[1px] border-[#D5FF18] mb-3"
                   >
-                    <p
+                    <Link href={task.link || "/"} 
+                      target="_blank"
                       onClick={() => clearTask(task.task_id)}
                       className="flex justify-center items-center h-full text-black font-bold text-base"
                     >
                       Claim
-                    </p>
+                    </Link>
                   </div>
                 )}
               </div>

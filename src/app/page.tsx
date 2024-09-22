@@ -239,6 +239,9 @@ export default function Home() {
     };
 
   useEffect(() => {
+    WebApp.ready();
+    WebApp.expand();
+    
     if (WebApp.initDataUnsafe.user) {
       setStartParam(WebApp.initDataUnsafe.start_param || "");
       setUserData(WebApp.initDataUnsafe.user as UserData);

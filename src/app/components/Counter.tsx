@@ -53,7 +53,6 @@ const Counter = ({ count, energy }: CounterProps) => {
   useEffect(() => {
     if (count > lastCount) {
       setState("shake");
-      player.play();
 
       const timer = setTimeout(() => {
         setState("normal");
@@ -87,7 +86,9 @@ const Counter = ({ count, energy }: CounterProps) => {
         <div className="flex flex-col items-center py-5">
           <div className="w-[80%]">
             <img src={gifUrl} alt={state} className="w-full h-auto"/>
+            <p>{count} : {lastCount}</p>
           </div>
+
 
           <div className="flex flex-row space-x-3 bg-[#232328] rounded-full py-3 px-5 items-center">
             <BsFillLightningChargeFill className="text-[#E0FD60]" />

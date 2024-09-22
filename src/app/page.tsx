@@ -79,14 +79,15 @@ export default function Home() {
   const previousCount = useRef<number>(count);
   const [startParam, setStartParam] = useState("");
   const [isLogin, setIsLogin] = useState(false);
+  const [audio] = useState(new Audio("/bgm.mp3"));
 
-   const playAudio = () => {
-     const audio = new Audio("/audio.mp3");
-     audio.loop = true;
-     audio
-       .play()
-       .catch((error) => console.error("Audio playback error:", error));
-   };
+  const playAudio = () => {
+    const audio = new Audio("/audio.mp3");
+    audio.loop = true;
+    audio
+      .play()
+      .catch((error) => console.error("Audio playback error:", error));
+  };
 
   const RegisterLogin = async () => {
     const formData = {
@@ -111,7 +112,7 @@ export default function Home() {
 
       if (response.data.status == true) {
         console.log(response.data.data.daily);
-        if(response.data.data.daily = 'Daily'){
+        if ((response.data.data.daily = "Daily")) {
           setModalOpen((prevState) => ({
             ...prevState,
             modalDaily: true,
@@ -124,7 +125,6 @@ export default function Home() {
         }));
 
         setIsLogin(true);
-        playAudio();
       }
 
       setCookie(null, "token", response.data.data.token, {
@@ -257,12 +257,42 @@ export default function Home() {
   }, [energy.current]);
 
     useEffect(() => {
-      WebApp.ready(); // Ensure the WebApp is ready
-      WebApp.expand(); // Expand to full screen
-    }, []);
-    
+      WebApp.ready();
+      WebApp.expand();
+
+      audio.loop = true;
+      audio.play().catch((error) => {
+        console.error("Audio playback error:", error);
+      });
+
+      const handleBackground = () => {
+        audio.pause();
+      };
+
+      const handleForeground = () => {
+        audio.play().catch((error) => {
+          console.error("Audio playback error:", error);
+        });
+      };
+
+      (WebApp as any).onEvent("background", handleBackground);
+
+      WebApp.onEvent("viewportChanged", (event) => {
+        if (event.isStateStable) {
+          handleForeground();
+        } else {
+          handleBackground();
+        }
+      });
+
+      return () => {
+        (WebApp as any).offEvent("background", handleBackground);
+        WebApp.offEvent("viewportChanged", handleForeground);
+        audio.pause();
+      };
+    }, [audio]);
+
   useEffect(() => {
-    
     const isMobileDevice =
       /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(
         navigator.userAgent
@@ -279,7 +309,6 @@ export default function Home() {
   }, [router, permissionGranted]);
 
   const checkMotionPermission = async () => {
-    playAudio()
     setModalOpen((prevState) => ({
       ...prevState,
       modalPermission: false,
@@ -328,75 +357,75 @@ export default function Home() {
     }
   };
 
-return (
-  <>
-    {/* {isMobile ? ( */}
-    <div
-      className="h-[100vh]"
-      style={{
-        backgroundImage: `url(${bg.src})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
-      {Page === "Home" && <Counter count={count} energy={energy} />}
-      {Page === "Tasks" && (
-        <Tasks onTaskClear={fetchUserData} userId={userData?.id ?? 0} />
-      )}
-      {userData && Page === "Profiles" && (
-        <Profiles onTaskClear={fetchUserData} userData={userData} />
-      )}
-      {Page === "Referrals" && <Referrals userId={userData?.id ?? 0} />}
-      {Page === "Settings" && <Settings userId={userData?.id ?? 0} />}
+  return (
+    <>
+      {/* {isMobile ? ( */}
       <div
+        className="h-[100vh]"
         style={{
           backgroundImage: `url(${bg.src})`,
-          width: "100%",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
         }}
-        className="fixed bottom-0 left-0 z-50 w-full h-[4.5rem] bg-transparent"
       >
-        <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium bg-transparent">
-          {Footerdata.map((item, index) => {
-            const isActive = Page === item.name;
-            return (
-              <button
-                onClick={() => setPage(item.name)}
-                key={index}
-                className="inline-flex flex-col items-center justify-center px-5"
-              >
-                <div
-                  className={`${
-                    isActive ? "text-[#E0FD60]" : "text-gray-400"
-                  } text-2xl mb-1 group-hover:text-[#E0FD60]`}
+        {Page === "Home" && <Counter count={count} energy={energy} />}
+        {Page === "Tasks" && (
+          <Tasks onTaskClear={fetchUserData} userId={userData?.id ?? 0} />
+        )}
+        {userData && Page === "Profiles" && (
+          <Profiles onTaskClear={fetchUserData} userData={userData} />
+        )}
+        {Page === "Referrals" && <Referrals userId={userData?.id ?? 0} />}
+        {Page === "Settings" && <Settings userId={userData?.id ?? 0} />}
+        <div
+          style={{
+            backgroundImage: `url(${bg.src})`,
+            width: "100%",
+          }}
+          className="fixed bottom-0 left-0 z-50 w-full h-[4.5rem] bg-transparent"
+        >
+          <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium bg-transparent">
+            {Footerdata.map((item, index) => {
+              const isActive = Page === item.name;
+              return (
+                <button
+                  onClick={() => setPage(item.name)}
+                  key={index}
+                  className="inline-flex flex-col items-center justify-center px-5"
                 >
-                  {item.icon}
-                </div>
-                <span
-                  className={`${
-                    isActive ? "text-[#E0FD60]" : "text-gray-500"
-                  } text-sm group-hover:text-[#E0FD60]`}
-                >
-                  {item.name}
-                </span>
-              </button>
-            );
-          })}
+                  <div
+                    className={`${
+                      isActive ? "text-[#E0FD60]" : "text-gray-400"
+                    } text-2xl mb-1 group-hover:text-[#E0FD60]`}
+                  >
+                    {item.icon}
+                  </div>
+                  <span
+                    className={`${
+                      isActive ? "text-[#E0FD60]" : "text-gray-500"
+                    } text-sm group-hover:text-[#E0FD60]`}
+                  >
+                    {item.name}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </div>
-      </div>
-      <ModalAllowComponent
-        username={userData?.username ?? ""}
-        daily_count={dailyCount}
-        onAllowPermission={checkMotionPermission}
-        isOpen={isModalOpen.modalDaily}
-      />
+        <ModalAllowComponent
+          username={userData?.username ?? ""}
+          daily_count={dailyCount}
+          onAllowPermission={checkMotionPermission}
+          isOpen={isModalOpen.modalDaily}
+        />
 
-      <ModalPermission
-        username={userData?.username ?? ""}
-        onAllowPermission={checkMotionPermission}
-        isOpen={isModalOpen.modalPermission}
-      />
-    </div>
-    {/* ) : (
+        <ModalPermission
+          username={userData?.username ?? ""}
+          onAllowPermission={checkMotionPermission}
+          isOpen={isModalOpen.modalPermission}
+        />
+      </div>
+      {/* ) : (
        <div className="h-[100vh] flex justify-center items-center bg-gray-200">
          <div className="text-center">
            <h2 className="text-xl font-bold">
@@ -414,7 +443,7 @@ return (
          </div>
        </div>
      )} */}
-  </>
-);
+    </>
+  );
 }
 

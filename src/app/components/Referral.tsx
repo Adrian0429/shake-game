@@ -70,17 +70,16 @@ const Referrals = ({ userId }: props) => {
   return (
     <>
       <div
-        className="h-[100vh] w-full"
+        className="h-[100vh] w-full py-5"
         style={{
           backgroundImage: `url(${bg.src})`,
           width: "100%",
           height: "100%",
         }}
       >
-        <Header text="Shake Project" />
         <div className="h-[calc(100vh-4.5rem)] pb-16 w-full flex flex-col items-center overflow-y-scroll">
           <Image
-            className="w-[40%] h-auto my-2"
+            className="h-[20%] w-auto my-2"
             src={shake}
             alt=""
             objectFit="fit"
@@ -144,7 +143,7 @@ const Referrals = ({ userId }: props) => {
 
             <div className="flex flex-row mt-3 justify-between px-3">
               <div
-                className="button mb-5 w-64 h-16 bg-[#D5FF18]  cursor-pointer select-none
+                className="button mb-5 w-64 h-14 bg-[#D5FF18]  cursor-pointer select-none
             active:translate-y-2  active:[box-shadow:0_0px_0_0_#ABC340,0_0px_0_0_#ffffff]
             active:border-b-[0px]
             transition-all duration-150 [box-shadow:0_6px_0_0_#ABC340,0_10px_0_0_#ffffff]
@@ -159,7 +158,7 @@ const Referrals = ({ userId }: props) => {
               </div>
 
               <div
-                className="button w-16 h-16 bg-[#D5FF18]  rounded-full cursor-pointer select-none
+                className="button w-14 h-14 bg-[#D5FF18]  rounded-full cursor-pointer select-none
             active:translate-y-2  active:[box-shadow:0_0px_0_0_#ABC340,0_0px_0_0_#ffffff]
             active:border-b-[0px]
             transition-all duration-150 [box-shadow:0_6px_0_0_#ABC340,0_10px_0_0_#ffffff]

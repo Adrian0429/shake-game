@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { BsFillLightningChargeFill } from "react-icons/bs";
 import Header from "./Navigation/Header";
 
@@ -16,40 +16,35 @@ const Counter = ({ count, energy }: CounterProps) => {
   const [lastCount, setLastCount] = useState<number>(count);
 
   // Define the paths for your GIFs
-  const gifUrls = {
+  const gifUrls = useMemo(() => ({
     normal: "/normal.gif",
     tired: "/tired.gif",
     shake: "/shake.gif",
-  };
+  }), []);
 
-  // Preload all GIFs
   useEffect(() => {
     Object.values(gifUrls).forEach((url) => {
       const img = new Image();
       img.src = url;
       img.onload = () => {
-        // Image loaded
       };
     });
   }, [gifUrls]);
 
-  // Watch for count changes and set the state to "shake" if the count increases
   useEffect(() => {
     if (count > lastCount) {
       setState("shake");
 
-      // Reset state to "normal" after 200ms if count doesn't increase
       const timer = setTimeout(() => {
         setState("normal");
       }, 1000);
 
-      return () => clearTimeout(timer); // Cleanup the timer
+      return () => clearTimeout(timer);
     }
 
     setLastCount(count);
   }, [count, lastCount]);
 
-  // Watch for energy changes and set the state to "tired" if energy drops below 200
   useEffect(() => {
     if (energy.current < 200) {
       setState("tired");
@@ -61,6 +56,7 @@ const Counter = ({ count, energy }: CounterProps) => {
   // Update the GIF URL based on the current state
   useEffect(() => {
     setGifUrl(gifUrls[state]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
   return (
@@ -69,7 +65,7 @@ const Counter = ({ count, energy }: CounterProps) => {
       <div className="h-[calc(100vh-9rem)] mt-5">
         <div className="flex flex-col items-center py-5">
           <div className="w-[80%]">
-            <img src={gifUrl} alt={state} className="w-full h-auto" />
+            <img src={gifUrl} alt={state} className="w-full h-auto"/>
           </div>
 
           <div className="flex flex-row space-x-3 bg-[#232328] rounded-full py-3 px-5 items-center">
@@ -87,9 +83,9 @@ const Counter = ({ count, energy }: CounterProps) => {
           </div>
 
           <div
-            className="w-[80%] mt-6 mb-6 h-24 bg-[#D5FF18] cursor-pointer select-none
-      active:translate-y-2 active:[box-shadow:0_0px_0_0_#ABC340,0_0px_0_0_#ffffff]
-      active:border-b-[0px] transition-all duration-150 [box-shadow:0_2px_0_0_#ABC340,0_4px_0_0_#ffffff]
+            className="w-[70%] my-4 h-16 bg-[#D5FF18] cursor-pointer select-none
+      active:translate-y-1 active:[box-shadow:0_0px_0_0_#ABC340,0_0px_0_0_#ffffff]
+      active:border-b-[0px] transition-all duration-150 [box-shadow:0_1.5px_0_0_#ABC340,0_4px_0_0_#ffffff]
       rounded-full border-[1px] border-[#D5FF18]"
           >
             <span className="flex justify-center items-center h-full text-black font-bold text-2xl">

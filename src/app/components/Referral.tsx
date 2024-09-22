@@ -64,6 +64,7 @@ const Referrals = ({ userId }: props) => {
     };
 
     fetchReferralPageData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

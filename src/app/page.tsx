@@ -236,7 +236,7 @@ export default function Home() {
     }
 
     previousCount.current = count;
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData?.id, count, userData]);
 
   useEffect(() => {
@@ -253,6 +253,7 @@ export default function Home() {
     }, 3000);
 
     return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [energy.current]);
 
   useEffect(() => {

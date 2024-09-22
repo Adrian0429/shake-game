@@ -63,7 +63,7 @@ export default function Home() {
   const [dailyCount, setDailyCount] = useState(0);
   const [isModalOpen, setModalOpen] = useState({
     modalDaily: false,
-    modalPermission: false,
+    modalPermission: true,
   });
   const [energy, setEnergy] = useState({
     current: 0,
@@ -83,6 +83,8 @@ export default function Home() {
   const audioContextRef = useRef<AudioContext | null>(null);
   const audioSourceRef = useRef<AudioBufferSourceNode | null>(null);
   const [isAudioStarted, setIsAudioStarted] = useState(false);
+  
+  audioContextRef.current = new window.AudioContext();
 
   const RegisterLogin = async () => {
     const formData = {
@@ -212,34 +214,30 @@ export default function Home() {
     }
   };
 
-      const playAudio = async () => {
-      checkMotionPermission()
-      const response = await fetch("/bgm.mp3");
-      const arrayBuffer = await response.arrayBuffer();
-      const audioBuffer = await audioContextRef.current?.decodeAudioData(
-        arrayBuffer
-      );
+  const playAudio = async () => {
+    checkMotionPermission()
+    const response = await fetch("/bgm.mp3");
+    const arrayBuffer = await response.arrayBuffer();
+    const audioBuffer = await audioContextRef.current?.decodeAudioData(
+      arrayBuffer
+    );
 
-      // Create a buffer source
-      audioSourceRef.current = audioContextRef.current?.createBufferSource() ?? null;
-      if (audioSourceRef.current && audioBuffer) {
-        audioSourceRef.current.buffer = audioBuffer;
-        if (audioContextRef.current) {
-          audioSourceRef.current.connect(audioContextRef.current.destination);
-        }
-        audioSourceRef.current.loop = true;
-
-        // Start the audio
-        audioSourceRef.current.start(0);
+    // Create a buffer source
+    audioSourceRef.current =
+      audioContextRef.current?.createBufferSource() ?? null;
+    if (audioSourceRef.current && audioBuffer) {
+      audioSourceRef.current.buffer = audioBuffer;
+      if (audioContextRef.current) {
+        audioSourceRef.current.connect(audioContextRef.current.destination);
       }
-    };
-    
+      audioSourceRef.current.loop = true;
+
+      // Start the audio
+      audioSourceRef.current.start(0);
+    }
+  };
+
   useEffect(() => {
-    // Initialize the AudioContext
-    audioContextRef.current = new (window.AudioContext)();
-
-    playAudio()
-
     // Pause audio when the tab is minimized or hidden
     const handleVisibilityChange = () => {
       if (document.hidden && audioContextRef.current?.state === "running") {
@@ -260,7 +258,7 @@ export default function Home() {
         audioSourceRef.current.stop(); // Stop audio when component unmounts
       }
     };
-  }, [playAudio]);
+  }, []);
 
   useEffect(() => {
     WebApp.ready();

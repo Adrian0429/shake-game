@@ -84,8 +84,6 @@ export default function Home() {
   const audioSourceRef = useRef<AudioBufferSourceNode | null>(null);
   const [isAudioStarted, setIsAudioStarted] = useState(false);
   
-  audioContextRef.current = new window.AudioContext();
-
   const RegisterLogin = async () => {
     const formData = {
       tele_id: String(userData?.id),
@@ -215,6 +213,7 @@ export default function Home() {
   };
 
   const playAudio = async () => {
+    audioContextRef.current = new window.AudioContext();
     checkMotionPermission()
     const response = await fetch("/bgm.mp3");
     const arrayBuffer = await response.arrayBuffer();

@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/components/Counter.tsx", "src/app/api/telegram.js", "src/app/components/BackgroundAudio.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/components/Counter.tsx", "src/app/api/telegram.js", "src/app/components/BackgroundAudio.jsx"],
   "exclude": ["node_modules"]
 }

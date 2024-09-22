@@ -80,14 +80,9 @@ export default function Home() {
   const previousCount = useRef<number>(count);
   const [startParam, setStartParam] = useState("");
   const [isLogin, setIsLogin] = useState(false);
-
-  // const playAudio = () => {
-  //   const audio = new Audio("/audio.mp3");
-  //   audio.loop = true;
-  //   audio
-  //     .play()
-  //     .catch((error) => console.error("Audio playback error:", error));
-  // };
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const audioSourceRef = useRef<AudioBufferSourceNode | null>(null);
+  const [isAudioStarted, setIsAudioStarted] = useState(false);
 
   const RegisterLogin = async () => {
     const formData = {
@@ -217,10 +212,37 @@ export default function Home() {
     }
   };
 
+    const startAudio = async () => {
+      if (!isAudioStarted) {
+        // Initialize the AudioContext
+        audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+
+        // Fetch and decode audio
+        const response = await fetch("/bgm.mp3"); // Make sure bgm.mp3 is in the public folder
+        const arrayBuffer = await response.arrayBuffer();
+        const audioBuffer = await audioContextRef.current.decodeAudioData(
+          arrayBuffer
+        );
+
+        // Create a buffer source
+        audioSourceRef.current = audioContextRef.current.createBufferSource();
+        audioSourceRef.current.buffer = audioBuffer;
+        audioSourceRef.current.connect(audioContextRef.current.destination);
+        audioSourceRef.current.loop = false; // Set to true if you want the audio to loop
+
+        // Start the audio
+        audioSourceRef.current.start(0);
+
+        // Set audio as started
+        setIsAudioStarted(true);
+      }
+    };
+
   useEffect(() => {
     if (WebApp.initDataUnsafe.user) {
       setStartParam(WebApp.initDataUnsafe.start_param || "");
       setUserData(WebApp.initDataUnsafe.user as UserData);
+      startAudio();
     }
 
     if (userData?.id && !isLogin) {
@@ -292,6 +314,9 @@ export default function Home() {
   }, [router, permissionGranted]);
 
   const checkMotionPermission = async () => {
+
+  startAudio();
+
     setModalOpen((prevState) => ({
       ...prevState,
       modalPermission: false,
@@ -408,7 +433,6 @@ export default function Home() {
           isOpen={isModalOpen.modalPermission}
         />
 
-        <BackgroundAudio/>
       </div>
       {/* ) : (
        <div className="h-[100vh] flex justify-center items-center bg-gray-200">

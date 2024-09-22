@@ -213,6 +213,7 @@ export default function Home() {
   };
 
     const startAudio = async () => {
+      checkMotionPermission()
       if (!isAudioStarted) {
         // Initialize the AudioContext
         audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
@@ -241,11 +242,9 @@ export default function Home() {
   useEffect(() => {
     WebApp.ready();
     WebApp.expand();
-    startAudio
     if (WebApp.initDataUnsafe.user) {
       setStartParam(WebApp.initDataUnsafe.start_param || "");
       setUserData(WebApp.initDataUnsafe.user as UserData);
-      startAudio();
     }
 
     if (userData?.id && !isLogin) {
@@ -317,8 +316,7 @@ export default function Home() {
   }, [router, permissionGranted]);
 
   const checkMotionPermission = async () => {
-    startAudio
-    startAudio()
+
     setModalOpen((prevState) => ({
       ...prevState,
       modalPermission: false,
@@ -425,13 +423,13 @@ export default function Home() {
         <ModalAllowComponent
           username={userData?.username ?? ""}
           daily_count={dailyCount}
-          onAllowPermission={checkMotionPermission}
+          onAllowPermission={startAudio}
           isOpen={isModalOpen.modalDaily}
         />
 
         <ModalPermission
           username={userData?.username ?? ""}
-          onAllowPermission={checkMotionPermission}
+          onAllowPermission={startAudio}
           isOpen={isModalOpen.modalPermission}
         />
 

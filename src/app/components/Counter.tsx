@@ -14,6 +14,7 @@ const Counter = ({ count, energy }: CounterProps) => {
   const [gifUrl, setGifUrl] = useState<string>("");
   const [state, setState] = useState<Status>("normal");
   const [lastCount, setLastCount] = useState<number>(count);
+  const [playing, setPlaying] = useState(false);
 
   // Define the paths for your GIFs
   const gifUrls = useMemo(() => ({
@@ -21,6 +22,24 @@ const Counter = ({ count, energy }: CounterProps) => {
     tired: "/tired.gif",
     shake: "/shake.gif",
   }), []);
+
+  const player = new Audio(
+    "/coin.m4a"
+  );
+  
+  useEffect(() => {
+    playing ? player.play() : player.pause();
+
+    return () => player.pause();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [playing]);
+
+  function togglePlay() {
+    // Using the callback version of `setState` so you always
+    // toggle based on the latest state
+    setPlaying(s => !s);
+  }
+
 
   useEffect(() => {
     Object.values(gifUrls).forEach((url) => {
@@ -34,6 +53,7 @@ const Counter = ({ count, energy }: CounterProps) => {
   useEffect(() => {
     if (count > lastCount) {
       setState("shake");
+      player.play();
 
       const timer = setTimeout(() => {
         setState("normal");
@@ -43,6 +63,7 @@ const Counter = ({ count, energy }: CounterProps) => {
     }
 
     setLastCount(count);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [count, lastCount]);
 
   useEffect(() => {

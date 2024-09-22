@@ -318,8 +318,6 @@ export default function Home() {
 
   const checkMotionPermission = async () => {
 
-  startAudio();
-
     setModalOpen((prevState) => ({
       ...prevState,
       modalPermission: false,
@@ -426,7 +424,7 @@ export default function Home() {
         <ModalAllowComponent
           username={userData?.username ?? ""}
           daily_count={dailyCount}
-          onAllowPermission={checkMotionPermission}
+          onAllowPermission={startAudio}
           isOpen={isModalOpen.modalDaily}
         />
 

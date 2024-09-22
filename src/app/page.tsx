@@ -63,7 +63,7 @@ export default function Home() {
   const [dailyCount, setDailyCount] = useState(0);
   const [isModalOpen, setModalOpen] = useState({
     modalDaily: false,
-    modalPermission: true,
+    modalPermission: false,
   });
   const [energy, setEnergy] = useState({
     current: 0,
@@ -212,12 +212,8 @@ export default function Home() {
     }
   };
 
-  useEffect(() => {
-    // Initialize the AudioContext
-    audioContextRef.current = new (window.AudioContext)();
-
-    // Fetch and decode audio
-    const playAudio = async () => {
+      const playAudio = async () => {
+      checkMotionPermission()
       const response = await fetch("/bgm.mp3");
       const arrayBuffer = await response.arrayBuffer();
       const audioBuffer = await audioContextRef.current?.decodeAudioData(
@@ -237,6 +233,10 @@ export default function Home() {
         audioSourceRef.current.start(0);
       }
     };
+    
+  useEffect(() => {
+    // Initialize the AudioContext
+    audioContextRef.current = new (window.AudioContext)();
 
     playAudio()
 
@@ -446,13 +446,13 @@ export default function Home() {
         <ModalAllowComponent
           username={userData?.username ?? ""}
           daily_count={dailyCount}
-          onAllowPermission={checkMotionPermission}
+          onAllowPermission={playAudio}
           isOpen={isModalOpen.modalDaily}
         />
 
         <ModalPermission
           username={userData?.username ?? ""}
-          onAllowPermission={checkMotionPermission}
+          onAllowPermission={playAudio}
           isOpen={isModalOpen.modalPermission}
         />
 

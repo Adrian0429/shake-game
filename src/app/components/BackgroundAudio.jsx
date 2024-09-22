@@ -1,21 +1,23 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 const BackgroundAudio = () => {
   const audioContextRef = useRef(null);
   const audioSourceRef = useRef(null);
-  const [isAudioStarted, setIsAudioStarted] = useState(false);
 
   useEffect(() => {
-    if (!isAudioStarted) return; // Ensure we only play after user interaction
-
     // Initialize the AudioContext
-    audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
+    audioContextRef.current = new (window.AudioContext ||
+      window.webkitAudioContext)();
 
     // Fetch and decode audio
     const playAudio = async () => {
-      const response = await fetch("/bgm.mp3"); // Using local file
+      const response = await fetch(
+        "/bgm.mp3"
+      );
       const arrayBuffer = await response.arrayBuffer();
-      const audioBuffer = await audioContextRef.current.decodeAudioData(arrayBuffer);
+      const audioBuffer = await audioContextRef.current.decodeAudioData(
+        arrayBuffer
+      );
 
       // Create a buffer source
       audioSourceRef.current = audioContextRef.current.createBufferSource();
@@ -33,7 +35,10 @@ const BackgroundAudio = () => {
     const handleVisibilityChange = () => {
       if (document.hidden && audioContextRef.current.state === "running") {
         audioContextRef.current.suspend(); // Pauses the audio
-      } else if (!document.hidden && audioContextRef.current.state === "suspended") {
+      } else if (
+        !document.hidden &&
+        audioContextRef.current.state === "suspended"
+      ) {
         audioContextRef.current.resume(); // Resumes the audio
       }
     };
@@ -46,19 +51,9 @@ const BackgroundAudio = () => {
         audioSourceRef.current.stop(); // Stop audio when component unmounts
       }
     };
-  }, [isAudioStarted]);
+  }, []);
 
-  const handleStartAudio = () => {
-    setIsAudioStarted(true);
-  };
-
-  return (
-    <div>
-      <button onClick={handleStartAudio}>
-        Start Background Music
-      </button>
-    </div>
-  );
+  return null; 
 };
 
 export default BackgroundAudio;

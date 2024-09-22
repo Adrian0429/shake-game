@@ -250,13 +250,19 @@ export default function Home() {
         }
         return prevEnergy;
       });
-    }, 3000);
+    }, 10000);
 
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [energy.current]);
 
+    useEffect(() => {
+      WebApp.ready(); // Ensure the WebApp is ready
+      WebApp.expand(); // Expand to full screen
+    }, []);
+    
   useEffect(() => {
+    
     const isMobileDevice =
       /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(
         navigator.userAgent

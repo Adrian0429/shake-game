@@ -63,7 +63,7 @@ export default function Home() {
   const [dailyCount, setDailyCount] = useState(0);
   const [isModalOpen, setModalOpen] = useState({
     modalDaily: false,
-    modalPermission: true,
+    modalPermission: false,
   });
   const [energy, setEnergy] = useState({
     current: 0,

@@ -109,12 +109,11 @@ const Referrals = ({ userId }: props) => {
 
           <div className="w-[90%] text-center text-B3 mb-2 text-white">
             <h2>Score 10% from buddies + 5% from their referrals</h2>
-            <p>Get a rewards play pass for each fren.</p>
           </div>
 
           <div className="w-[90%] text-white mt-2">
             <h1>List of your friends</h1>
-            <div className="w-full border h-[10rem] overflow-y-scroll">
+            <div className="w-full h-[10rem] overflow-y-scroll">
               {/* Conditional rendering for referral data */}
               {referralsResponse.data && referralsResponse.data.length > 0 ? (
                 referralsResponse.data.map((item, index) => (

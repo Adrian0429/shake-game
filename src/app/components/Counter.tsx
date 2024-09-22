@@ -1,7 +1,9 @@
 "use client";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { BsFillLightningChargeFill } from "react-icons/bs";
 import Header from "./Navigation/Header";
+import AudioPlayer from "react-h5-audio-player";
+
 
 interface CounterProps {
   count: number;
@@ -14,7 +16,8 @@ const Counter = ({ count, energy }: CounterProps) => {
   const [gifUrl, setGifUrl] = useState<string>("");
   const [state, setState] = useState<Status>("normal");
   const [lastCount, setLastCount] = useState<number>(count);
-  const [playing, setPlaying] = useState(false);
+  const playerRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   // Define the paths for your GIFs
   const gifUrls = useMemo(() => ({
@@ -26,19 +29,8 @@ const Counter = ({ count, energy }: CounterProps) => {
   const player = new Audio(
     "/coin.m4a"
   );
-  
-  useEffect(() => {
-    playing ? player.play() : player.pause();
 
-    return () => player.pause();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [playing]);
 
-  function togglePlay() {
-    // Using the callback version of `setState` so you always
-    // toggle based on the latest state
-    setPlaying(s => !s);
-  }
 
 
   useEffect(() => {
@@ -53,7 +45,7 @@ const Counter = ({ count, energy }: CounterProps) => {
   useEffect(() => {
     if (count > lastCount) {
       setState("shake");
-
+      playerRef.current?.audio?.current?.play();
       const timer = setTimeout(() => {
         setState("normal");
       }, 1000);
@@ -81,14 +73,22 @@ const Counter = ({ count, energy }: CounterProps) => {
 
   return (
     <div className="w-full h-full">
+      <AudioPlayer
+        src="/coin.m4a"
+        ref={playerRef}
+        autoPlay={false}
+        loop={true}
+        className="hidden"
+      />
       <Header coins={count} />
       <div className="h-[calc(100vh-9rem)] mt-5">
         <div className="flex flex-col items-center py-5">
           <div className="w-[80%]">
-            <img src={gifUrl} alt={state} className="w-full h-auto"/>
-            <p>{count} : {lastCount}</p>
+            <img src={gifUrl} alt={state} className="w-full h-auto" />
+            <p className="text-white flex justify-center items-center">
+              {count} : {lastCount}
+            </p>
           </div>
-
 
           <div className="flex flex-row space-x-3 bg-[#232328] rounded-full py-3 px-5 items-center">
             <BsFillLightningChargeFill className="text-[#E0FD60]" />

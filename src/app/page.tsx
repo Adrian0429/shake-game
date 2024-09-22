@@ -81,13 +81,13 @@ export default function Home() {
   const [isLogin, setIsLogin] = useState(false);
   const [audio] = useState(new Audio("/bgm.mp3"));
 
-  const playAudio = () => {
-    const audio = new Audio("/audio.mp3");
-    audio.loop = true;
-    audio
-      .play()
-      .catch((error) => console.error("Audio playback error:", error));
-  };
+  // const playAudio = () => {
+  //   const audio = new Audio("/audio.mp3");
+  //   audio.loop = true;
+  //   audio
+  //     .play()
+  //     .catch((error) => console.error("Audio playback error:", error));
+  // };
 
   const RegisterLogin = async () => {
     const formData = {
@@ -257,40 +257,48 @@ export default function Home() {
   }, [energy.current]);
 
     useEffect(() => {
-      WebApp.ready();
-      WebApp.expand();
+      if (typeof window !== "undefined") {
+        const audio = new Audio("/bgm.mp3");
+        audio.loop = true;
 
-      audio.loop = true;
-      audio.play().catch((error) => {
-        console.error("Audio playback error:", error);
-      });
+        WebApp.ready();
+        WebApp.expand();
 
-      const handleBackground = () => {
-        audio.pause();
-      };
-
-      const handleForeground = () => {
         audio.play().catch((error) => {
           console.error("Audio playback error:", error);
         });
-      };
 
-      (WebApp as any).onEvent("background", handleBackground);
+        const handleBackground = () => {
+          audio.pause();
+        };
 
-      WebApp.onEvent("viewportChanged", (event) => {
-        if (event.isStateStable) {
-          handleForeground();
-        } else {
-          handleBackground();
-        }
-      });
+        const handleForeground = () => {
+          audio.play().catch((error) => {
+            console.error("Audio playback error:", error);
+          });
+        };
 
-      return () => {
-        (WebApp as any).offEvent("background", handleBackground);
-        WebApp.offEvent("viewportChanged", handleForeground);
-        audio.pause();
-      };
-    }, [audio]);
+        // Handle background events
+        (WebApp as any).onEvent("background", handleBackground);
+
+        // Handle viewport changes
+        WebApp.onEvent("viewportChanged", (event) => {
+          if (event.isStateStable) {
+            handleForeground();
+          } else {
+            handleBackground();
+          }
+        });
+
+        return () => {
+          // Cleanup: remove event listeners and pause the audio
+          (WebApp as any).offEvent("background", handleBackground);
+          WebApp.offEvent("viewportChanged", handleForeground);
+          audio.pause();
+        };
+      }
+    }, []);
+
 
   useEffect(() => {
     const isMobileDevice =

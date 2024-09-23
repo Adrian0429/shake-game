@@ -1,13 +1,18 @@
 export default async function handler(req, res) {
     if (req.method === 'POST') {
+        console.log('Received request:', req.body);  // Logs the request
+
         const { message } = req.body;
 
         // Check if the message contains the `/start` command
         if (message && message.text === '/start') {
+            console.log('Received /start command:', message);
             const chatId = message.chat.id;
             const text = 'Hello! Welcome to our bot! How can I assist you today?';
-            
+
             await sendMessage(chatId, text);
+        } else {
+            console.log('Message not recognized:', message);
         }
 
         res.status(200).send('OK');

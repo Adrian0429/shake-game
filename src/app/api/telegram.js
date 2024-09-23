@@ -18,14 +18,13 @@ export default async function handler(req, res) {
 
 // Function to send a message to Telegram
 async function sendMessage(chatId, text) {
-    const token = process.env.TELEGRAM_BOT_SECRET;
-    const url = `https://api.telegram.org/bot${token}/sendMessage`;
+    const url = `https://api.telegram.org/bot7064814930:AAEjykd4sHl5F6iPfS6bXKXKYe4Uk521Wa8/sendMessage`;
 
     await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            chat_id: chatId,
+            chat_id: String(chatId),
             text: text,
         }),
     });

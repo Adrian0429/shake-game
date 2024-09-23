@@ -1,18 +1,16 @@
 // /utils/api.ts or /services/api.ts
 import axios from "axios";
 
-export const PostReferral = async (data: string, token: string) => {
+export const sendMessage = async (chatId: string, message: string) => {
   try {
-    const response = await axios.post(`https://api2.fingo.co.id/api/user/referralClaim?referrer_id=${data}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
+    const response = await axios.post(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_SECRET}/sendMessage`,  {
+      chat_id: chatId,
+      text: message,
     });
-
-    alert(response.data.message);
-    console.log(response.data)
+    console.log("Success sending message", response.data);
   } catch (error) {
     console.error("Error fetching user data:", error);
   }
 };
+
+

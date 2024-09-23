@@ -20,11 +20,11 @@ import { IoSettingsOutline } from "react-icons/io5";
 import Referrals from "./components/Referral";
 import Settings from "./components/Settings";
 import ModalAllowComponent from "./components/Modal/ModalAllow";
-import { PostReferral } from "./utils/api";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import ModalPermission from "./components/Modal/Modal";
 import BackgroundAudio from "./components/BackgroundAudio";
+import { sendMessage } from "./utils/api";
 
 // // Provide default values for all properties
 // const defaultUserData: UserData = {
@@ -212,6 +212,7 @@ export default function Home() {
     }
   };
 
+
   const playAudio = async () => {
     audioContextRef.current = new window.AudioContext();
     checkMotionPermission()
@@ -271,7 +272,12 @@ export default function Home() {
       RegisterLogin();
     }
 
-    if (startParam) {
+    if (startParam == '/start' && userData?.id) {
+      sendMessage(
+        String(userData?.id),
+        "Welcome to ShakeTon! Start shaking to earn coins! \n https://t.me/shakeTongamebot"
+      );
+    }else if (startParam) {
       postReferral();
     }
 
@@ -370,8 +376,8 @@ export default function Home() {
   };
 
   const handleShake = () => {
-    if(Page === "Home") {
-    if (energy.current > 0) {
+    if(Page == "Home") {
+    if (energy.current > 0 && Page == "Home") {
       setCount((prevCount) => prevCount + increment);
       setEnergy((prevEnergy) => ({
         ...prevEnergy,
@@ -398,6 +404,7 @@ export default function Home() {
           backgroundPosition: "center",
         }}
       >
+        <p className="text-white">{Page}</p>
         {Page === "Home" && <Counter count={count} energy={energy} />}
         {Page === "Tasks" && (
           <Tasks onTaskClear={fetchUserData} userId={userData?.id ?? 0} />

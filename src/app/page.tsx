@@ -24,8 +24,6 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 import ModalPermission from "./components/Modal/Modal";
 import BackgroundAudio from "./components/BackgroundAudio";
-import { sendMessage } from "./utils/api";
-
 // // Provide default values for all properties
 // const defaultUserData: UserData = {
 //   id: 6789952150, // Default ID value
@@ -66,8 +64,8 @@ export default function Home() {
     modalPermission: false,
   });
   const [energy, setEnergy] = useState({
-    current: 0,
-    max: 2000,
+    current: 5,
+    max: 500,
   });
   const [increment, setIncrement] = useState(1);
   const [isMobile, setIsMobile] = useState(false);
@@ -272,12 +270,7 @@ export default function Home() {
       RegisterLogin();
     }
 
-    if (startParam == '/start' && userData?.id) {
-      sendMessage(
-        String(userData?.id),
-        "Welcome to ShakeTon! Start shaking to earn coins! \n https://t.me/shakeTongamebot"
-      );
-    }else if (startParam) {
+   if (startParam) {
       postReferral();
     }
 
@@ -375,13 +368,13 @@ export default function Home() {
     window.addEventListener("shake", handleShake, false);
   };
 
-  const handleShake = () => {
-    if(Page == "Home") {
-    if (energy.current > 0 && Page == "Home") {
-      setCount((prevCount) => prevCount + increment);
+const handleShake = () => {
+  if (Page === "Home") {
+    if (energy.current > 0) {
+      setCount((prevCount) => prevCount + increment); // Increment the count
       setEnergy((prevEnergy) => ({
         ...prevEnergy,
-        current: prevEnergy.current - 1,
+        current: prevEnergy.current - 1, // Decrease the energy
       }));
     } else {
       alert("You have reached the maximum energy");
@@ -390,8 +383,8 @@ export default function Home() {
         window.removeEventListener("shake", handleShake, false);
       }
     }
-    }
-  };
+  }
+};
 
   return (
     <>
@@ -404,10 +397,13 @@ export default function Home() {
           backgroundPosition: "center",
         }}
       >
-        <p className="text-white">{Page}</p>
-        {Page === "Home" && <Counter count={count} energy={energy} />}
+        <p className="text-white">{Page} : {count}</p>
+        {Page === "Home" && <Counter count={count} energy={energy} handleshake={handleShake} />}
         {Page === "Tasks" && (
-          <Tasks onTaskClear={fetchUserData} userId={userData?.id ?? 0} />
+          <Tasks
+            onTaskClear={fetchUserData}
+            userId={userData?.id ?? 0}
+          />
         )}
         {userData && Page === "Profiles" && (
           <Profiles onTaskClear={fetchUserData} userData={userData} />
@@ -461,7 +457,6 @@ export default function Home() {
           onAllowPermission={playAudio}
           isOpen={isModalOpen.modalPermission}
         />
-
       </div>
       {/* ) : (
        <div className="h-[100vh] flex justify-center items-center bg-gray-200">

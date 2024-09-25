@@ -8,11 +8,12 @@ import AudioPlayer from "react-h5-audio-player";
 interface CounterProps {
   count: number;
   energy: { current: number; max: number };
+  handleshake: () => void;
 }
 
 type Status = "normal" | "tired" | "shake";
 
-const Counter = ({ count, energy }: CounterProps) => {
+const Counter = ({ count, energy, handleshake }: CounterProps) => {
   const [gifUrl, setGifUrl] = useState<string>("");
   const [state, setState] = useState<Status>("normal");
   const [lastCount, setLastCount] = useState<number>(count);
@@ -99,7 +100,6 @@ const Counter = ({ count, energy }: CounterProps) => {
           </div>
 
           <div
-          // onClick={() => setcounter(counter + 1)} 
             className="w-[70%] my-4 h-16 bg-[#D5FF18] cursor-pointer select-none
       active:translate-y-1 active:[box-shadow:0_0px_0_0_#ABC340,0_0px_0_0_#ffffff]
       active:border-b-[0px] transition-all duration-150 [box-shadow:0_1.5px_0_0_#ABC340,0_4px_0_0_#ffffff]

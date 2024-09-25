@@ -20,7 +20,7 @@ interface Task {
 
 interface TasksProps {
   userId: number;
-  onTaskClear: () => void; 
+  onTaskClear: () => void;
 }
 
 const Tasks = ({ userId, onTaskClear }: TasksProps) => {

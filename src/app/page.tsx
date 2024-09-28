@@ -100,12 +100,12 @@ export default function Home() {
 
       if (response.data.status == true) {
         console.log(response.data.data.daily);
-        if ((response.data.data.daily = "Daily")) {
-          setModalOpen((prevState) => ({
-            ...prevState,
-            modalDaily: true,
-          }));
-        }
+        // if ((response.data.data.daily = "Daily")) {
+        //   setModalOpen((prevState) => ({
+        //     ...prevState,
+        //     modalDaily: true,
+        //   }));
+        // }
 
         setModalOpen((prevState) => ({
           ...prevState,
@@ -272,7 +272,6 @@ export default function Home() {
       } else { 
         RegisterLogin();
       }
-      
     }
 
     if (count > previousCount.current && Page == 'Home') {
@@ -280,7 +279,6 @@ export default function Home() {
     }
 
     previousCount.current = count;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData?.id, count, userData]);
 
   useEffect(() => {
@@ -336,7 +334,6 @@ export default function Home() {
   }, [router, permissionGranted]);
 
   const checkMotionPermission = async () => {
-
     setModalOpen((prevState) => ({
       ...prevState,
       modalPermission: false,
@@ -372,7 +369,7 @@ export default function Home() {
 const handleShake = () => {
   if (Page === "Home") {
     if (energy.current > 0) {
-      setCount((prevCount) => prevCount + increment); // Increment the count
+      setCount((prevCount) => prevCount + increment);
       setEnergy((prevEnergy) => ({
         ...prevEnergy,
         current: prevEnergy.current - 1, 
@@ -449,12 +446,13 @@ const handleShake = () => {
         <ModalAllowComponent
           username={userData?.username ?? ""}
           daily_count={dailyCount}
-          onAllowPermission={playAudio}
+          onAllowPermission={checkMotionPermission}
           isOpen={isModalOpen.modalDaily}
         />
+        
         <ModalPermission
           username={userData?.username ?? ""}
-          onAllowPermission={playAudio}
+          onAllowPermission={checkMotionPermission}
           isOpen={isModalOpen.modalPermission}
         />
 

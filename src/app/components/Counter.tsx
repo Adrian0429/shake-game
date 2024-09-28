@@ -47,9 +47,7 @@ const Counter = ({ count, energy, handleshake }: CounterProps) => {
 
       return () => clearTimeout(timer);
     }
-
     setLastCount(count);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [count, lastCount]);
 
   useEffect(() => {
@@ -60,10 +58,9 @@ const Counter = ({ count, energy, handleshake }: CounterProps) => {
     }
   }, [energy, state]);
 
-  // Update the GIF URL based on the current state
   useEffect(() => {
     setGifUrl(gifUrls[state]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [state]);
 
   return (

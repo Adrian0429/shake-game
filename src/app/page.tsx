@@ -75,8 +75,6 @@ export default function Home() {
   const previousCount = useRef<number>(count);
   const [startParam, setStartParam] = useState("");
   const [isLogin, setIsLogin] = useState(false);
-  const playerRef = useRef<AudioPlayer>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
 
   const RegisterLogin = async () => {
     const formData = {
@@ -158,13 +156,13 @@ export default function Home() {
   const postReferral = async () => {
     try {
       const cookies = parseCookies();
-          const formData = {
-            referred_id: String(userData?.id),
-            referrer_id: String(startParam),
-            name: String(userData?.username),
-            email: "",
-            region: "",
-          };
+      const formData = {
+        referred_id: String(userData?.id),
+        referrer_id: String(startParam),
+        name: String(userData?.username),
+        email: "",
+        region: "",
+      };
 
       const response = await axios.post(
         `https://api2.fingo.co.id/api/user/referral`,
@@ -211,38 +209,6 @@ export default function Home() {
       console.log("Error submitting form:", error);
     }
   };
-  
-  const handlePlayPause = () => {
-    if (isPlaying) {
-      playerRef.current?.audio?.current?.pause(); // Pause the audio
-      setIsPlaying(false);
-    } else {
-      playerRef.current?.audio?.current?.play().catch((error) => {
-        console.error("Error playing audio:", error);
-      });
-      setIsPlaying(true);
-    }
-  };
-
-  useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === "hidden") {
-        playerRef.current?.audio?.current?.pause(); // Pause when minimized
-        setIsPlaying(false); // Update state
-      } else if (isPlaying) {
-        playerRef.current?.audio?.current?.play().catch((error) => {
-          console.error("Error playing audio:", error);
-        });
-      }
-    };
-
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-
-    return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-      playerRef.current?.audio?.current?.pause(); // Pause on component unmount
-    };
-  }, [isPlaying]);
 
   useEffect(() => {
     WebApp.ready();
@@ -254,14 +220,14 @@ export default function Home() {
     }
 
     if (userData?.id && !isLogin) {
-      if (startParam){
+      if (startParam) {
         postReferral();
-      } else { 
+      } else {
         RegisterLogin();
       }
     }
 
-    if (count > previousCount.current && Page == 'Home') {
+    if (count > previousCount.current && Page == "Home") {
       Update();
     }
 
@@ -279,11 +245,11 @@ export default function Home() {
         setIncrement(1);
       }
     };
-    
+
     updateIncrement();
 
     const interval = setInterval(updateIncrement, 60 * 1000);
-    
+
     return () => clearInterval(interval);
   }, []);
 
@@ -318,10 +284,10 @@ export default function Home() {
       setIsMobile(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ permissionGranted]);
+  }, [permissionGranted]);
 
   const checkMotionPermission = async () => {
-    handlePlayPause();
+    playSound();
     try {
       if (typeof (DeviceMotionEvent as any).requestPermission === "function") {
         const permissionState = await (
@@ -336,7 +302,6 @@ export default function Home() {
             modalPermission: false,
             modalDaily: false,
           }));
-
         }
       } else {
         setPermissionGranted(true);
@@ -346,7 +311,6 @@ export default function Home() {
           modalPermission: false,
           modalDaily: false,
         }));
-
       }
     } catch (error) {
       console.error("Error requesting DeviceMotionEvent permission:", error);
@@ -359,41 +323,81 @@ export default function Home() {
     window.addEventListener("shake", handleShake, false);
   };
 
-const handleShake = () => {
-  // Early return if the page is not "Home"
-  if (Page !== "Home") {
-    return;
-  }
-
-  // Only increment the count and decrement energy if energy is greater than 0
-  if (energy.current > 0) {
-    setCount((prevCount) => prevCount + increment);
-    setEnergy((prevEnergy) => ({
-      ...prevEnergy,
-      current: prevEnergy.current - 1,
-    }));
-  }
-  // Handle the case where energy is 0
-  else if (energy.current === 0) {
-    alert("You have reached the maximum energy");
-
-    // Stop the shake event listener when energy reaches 0
-    if (myShakeEvent.current) {
-      myShakeEvent.current.stop();
-      window.removeEventListener("shake", handleShake, false);
+  const handleShake = () => {
+    // Early return if the page is not "Home"
+    if (Page !== "Home") {
+      return;
     }
-  }
-};
 
+    // Only increment the count and decrement energy if energy is greater than 0
+    if (energy.current > 0) {
+      setCount((prevCount) => prevCount + increment);
+      setEnergy((prevEnergy) => ({
+        ...prevEnergy,
+        current: prevEnergy.current - 1,
+      }));
+    }
+    // Handle the case where energy is 0
+    else if (energy.current === 0) {
+      alert("You have reached the maximum energy");
+
+      // Stop the shake event listener when energy reaches 0
+      if (myShakeEvent.current) {
+        myShakeEvent.current.stop();
+        window.removeEventListener("shake", handleShake, false);
+      }
+    }
+  };
+
+  const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
+  const audioBufferRef = useRef<AudioBuffer | null>(null);
+  // Load the audio buffer once
+  useEffect(() => {
+    const initAudioContext = async () => {
+      const context = new AudioContext();
+      setAudioContext(context);
+
+      const response = await fetch("/bgm.mp3");
+      const arrayBuffer = await response.arrayBuffer();
+      const audioBuffer = await context.decodeAudioData(arrayBuffer);
+      audioBufferRef.current = audioBuffer;
+
+      // Handle visibility change inside this scope
+      const handleVisibilityChange = () => {
+        if (document.hidden) {
+          context.suspend(); // Pause the audio when minimized or hidden
+        } else {
+          context.resume(); // Resume the audio when the app is back in view
+        }
+      };
+
+      document.addEventListener("visibilitychange", handleVisibilityChange);
+
+      // Clean up the event listener and audio context on unmount
+      return () => {
+        document.removeEventListener(
+          "visibilitychange",
+          handleVisibilityChange
+        );
+        context.close();
+      };
+    };
+
+    initAudioContext();
+  }, []); // Note: the dependency array is empty to prevent re-runs
+
+  const playSound = () => {
+    if (audioContext && audioBufferRef.current) {
+      const source = audioContext.createBufferSource();
+      source.buffer = audioBufferRef.current;
+      source.connect(audioContext.destination);
+      source.loop = true; // Enable looping if needed
+      source.start(0); // Play the sound immediately
+    }
+  };
 
   return (
     <>
-      <AudioPlayer
-        ref={playerRef}
-        src="/bgm.mp3"
-        loop
-        className="hidden" // Hides the audio controls
-      />
       <div
         className="h-[100vh]"
         style={{
@@ -402,7 +406,7 @@ const handleShake = () => {
           backgroundPosition: "center",
         }}
       >
-        <p className="text-white" onClick={handlePlayPause}>
+        <p className="text-white" onClick={playSound}>
           play
         </p>
         {Page === "Home" && (

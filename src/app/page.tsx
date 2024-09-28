@@ -222,8 +222,7 @@ export default function Home() {
     );
 
     // Create a buffer source
-    audioSourceRef.current =
-      audioContextRef.current?.createBufferSource() ?? null;
+    audioSourceRef.current = audioContextRef.current?.createBufferSource() ?? null;
     if (audioSourceRef.current && audioBuffer) {
       audioSourceRef.current.buffer = audioBuffer;
       if (audioContextRef.current) {
@@ -231,9 +230,10 @@ export default function Home() {
       }
       audioSourceRef.current.loop = true;
 
-      // Start the audio
-      audioSourceRef.current.start(0);
+
+      // audioSourceRef.current.start(0);
     }
+    audioSourceRef.current.start(0);
   };
 
   useEffect(() => {

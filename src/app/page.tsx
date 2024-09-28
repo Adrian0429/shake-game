@@ -178,10 +178,10 @@ export default function Home() {
       if(response.data.data.status == true){
         RegisterLogin();
       }
-      
+
       console.log("Referral Response:", response.data); // Log the response to debug
     } catch (error) {
-      console.error("Error Referral user:", error);
+      RegisterLogin()
     }
   };
 

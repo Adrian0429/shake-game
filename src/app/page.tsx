@@ -388,7 +388,6 @@ const handleShake = () => {
 
   return (
     <>
-    <p className="text-white" onClick={handlePlayPause}>play</p>
       <AudioPlayer
         ref={playerRef}
         src="/bgm.mp3"
@@ -403,11 +402,18 @@ const handleShake = () => {
           backgroundPosition: "center",
         }}
       >
+        <p className="text-white" onClick={handlePlayPause}>
+          play
+        </p>
         {Page === "Home" && (
           <Counter count={count} energy={energy} handleshake={handleShake} />
         )}
         {Page === "Tasks" && (
-          <Tasks onTaskClear={fetchUserData} userId={userData?.id ?? 0} handleShake={handleShake} />
+          <Tasks
+            onTaskClear={fetchUserData}
+            userId={userData?.id ?? 0}
+            handleShake={handleShake}
+          />
         )}
         {userData && Page === "Profiles" && (
           <Profiles onTaskClear={fetchUserData} userData={userData} />

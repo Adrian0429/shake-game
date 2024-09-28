@@ -77,6 +77,7 @@ export default function Home() {
   const [isLogin, setIsLogin] = useState(false);
   const audioContextRef = useRef<AudioContext | null>(null);
   const audioSourceRef = useRef<AudioBufferSourceNode | null>(null);
+  const audioBufferRef = useRef<AudioBuffer | null>(null);
 
 
   const RegisterLogin = async () => {
@@ -213,42 +214,45 @@ export default function Home() {
     }
   };
 
-  
+
   const playAudio = async () => {
-    checkMotionPermission();
-    audioContextRef.current = new window.AudioContext();
-    const response = await fetch("/bgm.mp3");
-    const arrayBuffer = await response.arrayBuffer();
-    const audioBuffer = await audioContextRef.current?.decodeAudioData(
-      arrayBuffer
-    );
-
-    // Create a buffer source
-    audioSourceRef.current =
-      audioContextRef.current?.createBufferSource() ?? null;
-    if (audioSourceRef.current && audioBuffer) {
-      audioSourceRef.current.buffer = audioBuffer;
-      if (audioContextRef.current) {
-        audioSourceRef.current.connect(audioContextRef.current.destination);
+    if (!audioBufferRef.current) {
+      // Create a new AudioContext if it doesn't already exist
+      if (!audioContextRef.current) {
+        audioContextRef.current = new window.AudioContext();
       }
-      audioSourceRef.current.loop = true;
 
-      // Start the audio
-      audioSourceRef.current.start();
+      // Fetch and decode the audio file
+      const response = await fetch("/bgm.mp3");
+      const arrayBuffer = await response.arrayBuffer();
+      audioBufferRef.current = await audioContextRef.current.decodeAudioData(
+        arrayBuffer
+      );
     }
-    audioSourceRef.current.start()
+
+    // Ensure the AudioContext exists
+    if (!audioContextRef.current) return;
+
+    // Create a buffer source and connect it to the audio context
+    audioSourceRef.current = audioContextRef.current.createBufferSource();
+    if (audioSourceRef.current && audioBufferRef.current) {
+      audioSourceRef.current.buffer = audioBufferRef.current;
+      audioSourceRef.current.loop = true;
+      audioSourceRef.current.connect(audioContextRef.current.destination);
+      audioSourceRef.current.start(0); // Start playing audio
+    }
   };
 
   useEffect(() => {
-    // Pause audio when the tab is minimized or hidden
+    // Handle visibility change to pause/resume audio
     const handleVisibilityChange = () => {
       if (document.hidden && audioContextRef.current?.state === "running") {
-        audioContextRef.current?.suspend(); // Pauses the audio
+        audioContextRef.current.suspend(); // Pauses the audio
       } else if (
         !document.hidden &&
         audioContextRef.current?.state === "suspended"
       ) {
-        audioContextRef.current?.resume(); // Resumes the audio
+        audioContextRef.current.resume(); // Resumes the audio
       }
     };
 
@@ -261,7 +265,6 @@ export default function Home() {
       }
     };
   }, []);
-
 
   useEffect(() => {
     WebApp.ready();

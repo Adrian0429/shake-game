@@ -9,9 +9,6 @@ import Profiles from "./components/Profiles";
 import Shake from "shake.js";
 import axios from "axios";
 import { parseCookies, setCookie } from "nookies";
-import NormalVids from "./components/Normal";
-import ShakeVids from "./components/Shake";
-import CapeVids from "./components/Cape";
 import bg from '../../public/Bg.png'
 import { UserData, MeUser } from "./constant/types";
 import { AiFillHome } from "react-icons/ai";
@@ -20,10 +17,10 @@ import { IoSettingsOutline } from "react-icons/io5";
 import Referrals from "./components/Referral";
 import Settings from "./components/Settings";
 import ModalAllowComponent from "./components/Modal/ModalAllow";
-import { cookies } from "next/headers";
 import Link from "next/link";
 import ModalPermission from "./components/Modal/Modal";
-import BackgroundAudio from "./components/BackgroundAudio";
+
+
 // // Provide default values for all properties
 // const defaultUserData: UserData = {
 //   id: 6789952150, // Default ID value
@@ -74,13 +71,11 @@ export default function Home() {
   const myShakeEvent = useRef<Shake | null>(null);
   const [permissionGranted, setPermissionGranted] = useState(false);
   const [userDetails, setUserDetails] = useState<MeUser | null>(null);
-  const [VideoComponent, setVideoComponent] = useState(() => NormalVids);
   const previousCount = useRef<number>(count);
   const [startParam, setStartParam] = useState("");
   const [isLogin, setIsLogin] = useState(false);
   const audioContextRef = useRef<AudioContext | null>(null);
   const audioSourceRef = useRef<AudioBufferSourceNode | null>(null);
-  const [isAudioStarted, setIsAudioStarted] = useState(false);
   
   const RegisterLogin = async () => {
     const formData = {
@@ -162,9 +157,13 @@ export default function Home() {
   const postReferral = async () => {
     try {
       const cookies = parseCookies();
-
-      const formData = new URLSearchParams();
-      formData.append("referrer_id", startParam); // `startParam` is your referrer ID
+          const formData = {
+            referred_id: String(userData?.id),
+            referrer_id: String(startParam),
+            name: String(userData?.username),
+            email: "",
+            region: "",
+          };
 
       const response = await axios.post(
         `https://api2.fingo.co.id/api/user/referralClaim`,
@@ -266,13 +265,16 @@ export default function Home() {
       setUserData(WebApp.initDataUnsafe.user as UserData);
     }
 
-    if (userData?.id && !isLogin) {
-      RegisterLogin();
+    if (userData?.id) {
+
+      if (startParam){
+        postReferral();
+      } else { 
+        RegisterLogin();
+      }
+      
     }
 
-   if (startParam) {
-      postReferral();
-    }
 
     if (count > previousCount.current && Page == 'Home') {
       Update();
@@ -374,7 +376,7 @@ const handleShake = () => {
       setCount((prevCount) => prevCount + increment); // Increment the count
       setEnergy((prevEnergy) => ({
         ...prevEnergy,
-        current: prevEnergy.current - 1, // Decrease the energy
+        current: prevEnergy.current - 1, 
       }));
     } else {
       alert("You have reached the maximum energy");
@@ -445,18 +447,19 @@ const handleShake = () => {
             })}
           </div>
         </div>
+
         <ModalAllowComponent
           username={userData?.username ?? ""}
           daily_count={dailyCount}
           onAllowPermission={playAudio}
           isOpen={isModalOpen.modalDaily}
         />
-
         <ModalPermission
           username={userData?.username ?? ""}
           onAllowPermission={playAudio}
           isOpen={isModalOpen.modalPermission}
         />
+
       </div>
       {/* ) : (
        <div className="h-[100vh] flex justify-center items-center bg-gray-200">

@@ -10,10 +10,12 @@ import { parseCookies } from "nookies";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Offcanvas from "./Offcanvas";
+import { RiUserAddFill } from "react-icons/ri";
 
 interface props {
   userId: number;
 }
+
 
 interface GetReferralsData {
   user_name: string;
@@ -31,7 +33,17 @@ const Referrals = ({ userId }: props) => {
   const [referralsResponse, setReferralsResponse] =
     useState<GetReferralsResponse>({
       total_coins: 0,
-      data: [],
+      data: [{
+        user_name: "royan",
+        referred_user: "5",
+        coins: 0, 
+      },
+      {
+        user_name: "Budhi",
+        referred_user: "4",
+        coins:100,
+      }
+    ],
     });
 
   const toggleOffcanvas = () => {
@@ -41,7 +53,7 @@ const Referrals = ({ userId }: props) => {
   const referralCode = `t.me/shakeTongamebot/start?startapp=${userId}`;
 
   const handleCopy = () => {
-    alert("Share Link Copied!");
+    // alert("Share Link Copied!");
     navigator.clipboard.writeText(referralCode);
   };
 
@@ -99,7 +111,7 @@ const Referrals = ({ userId }: props) => {
       >
         <div className="h-[calc(100vh-4.5rem)] pb-16 w-full flex flex-col items-center overflow-y-scroll">
           <Image
-            className="h-[20%] w-auto my-2"
+            className="h-[15%] w-auto my-2"
             src={shake}
             alt=""
             objectFit="fit"
@@ -121,7 +133,10 @@ const Referrals = ({ userId }: props) => {
     transition-all duration-150 [box-shadow:0_5px_0_0_#C38A40,0_8px_0_0_#ffffff]
     rounded-full  border-[1px] border-[#FFD518] mb-3"
             >
-              <span onClick={claimCoins} className="flex justify-center items-center h-full text-black font-bold text-base">
+              <span
+                onClick={claimCoins}
+                className="flex justify-center items-center h-full text-black font-bold text-base"
+              >
                 Claim
               </span>
             </div>
@@ -149,8 +164,13 @@ const Referrals = ({ userId }: props) => {
                         width={30}
                         className="w-[50px] h-full"
                       />
-                      <p>{item.user_name}</p>
-                      <p>{item.referred_user}</p>
+                      <div>
+                        <p className="text-white">{item.user_name}</p>
+                        <div className="flex flex-row">
+                          <RiUserAddFill className="" />
+                          <p className="text-white ml-2">{item.referred_user}</p>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 ))

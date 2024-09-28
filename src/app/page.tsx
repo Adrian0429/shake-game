@@ -399,7 +399,6 @@ const handleShake = () => {
           backgroundPosition: "center",
         }}
       >
-        <p className="text-white">{Page} : {count}</p>
         {Page === "Home" && <Counter count={count} energy={energy} handleshake={handleShake} />}
         {Page === "Tasks" && (
           <Tasks

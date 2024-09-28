@@ -95,10 +95,10 @@ export default function Home() {
         }
       );
 
-      console.log("Login Success", response.data);
+      // console.log("Login Success", response.data);
 
       if (response.data.status == true) {
-        console.log(response.data.data.daily);
+        // console.log(response.data.data.daily);
         if ((response.data.data.daily = "Daily")) {
           setModalOpen((prevState) => ({
             ...prevState,
@@ -175,8 +175,10 @@ export default function Home() {
         }
       );
 
-      setIsLogin(true);
-      fetchUserData();
+      if(response.data.data.status == true){
+        RegisterLogin();
+      }
+      
       console.log("Referral Response:", response.data); // Log the response to debug
     } catch (error) {
       console.error("Error Referral user:", error);

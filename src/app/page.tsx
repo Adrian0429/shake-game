@@ -319,21 +319,21 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [energy.current]);
 
-  // useEffect(() => {
-  //   const isMobileDevice =
-  //     /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(
-  //       navigator.userAgent
-  //     );
+  useEffect(() => {
+    const isMobileDevice =
+      /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      );
 
-  //   if (!isMobileDevice) {
-  //     console.log(
-  //       "This application is designed for mobile devices. Some features may not work as expected."
-  //     );
-  //   } else {
-  //     setIsMobile(true);
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [ permissionGranted]);
+    if (!isMobileDevice) {
+      console.log(
+        "This application is designed for mobile devices. Some features may not work as expected."
+      );
+    } else {
+      setIsMobile(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ permissionGranted]);
 
   const checkMotionPermission = async () => {
     try {
@@ -456,13 +456,13 @@ const handleShake = () => {
         <ModalAllowComponent
           username={userData?.username ?? ""}
           daily_count={dailyCount}
-          onAllowPermission={checkMotionPermission}
+          onAllowPermission={playAudio}
           isOpen={isModalOpen.modalDaily}
         />
 
         <ModalPermission
           username={userData?.username ?? ""}
-          onAllowPermission={checkMotionPermission}
+          onAllowPermission={playAudio}
           isOpen={isModalOpen.modalPermission}
         />
 

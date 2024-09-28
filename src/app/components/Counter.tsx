@@ -39,7 +39,7 @@ const Counter = ({ count, energy, handleshake }: CounterProps) => {
   useEffect(() => {
     if (count > lastCount) {
       setState("shake");
-      playerRef.current?.audio?.current?.play();
+      // playerRef.current?.audio?.current?.play();
       
       const timer = setTimeout(() => {
         setState("normal");
@@ -68,13 +68,13 @@ const Counter = ({ count, energy, handleshake }: CounterProps) => {
 
   return (
     <div className="w-full h-full">
-      <AudioPlayer
+      {/* <AudioPlayer
         src="/coin.m4a"
         ref={playerRef}
         autoPlay={false}
         loop={false}
         className="hidden"
-      />
+      /> */}
       <Header coins={count} />
       <div className="h-[calc(100vh-9rem)] mt-5">
         <div className="flex flex-col items-center py-5">

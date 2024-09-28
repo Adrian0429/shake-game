@@ -20,10 +20,11 @@ interface Task {
 
 interface TasksProps {
   userId: number;
+  handleShake: () => void;
   onTaskClear: () => void;
 }
 
-const Tasks = ({ userId, onTaskClear }: TasksProps) => {
+const Tasks = ({ userId, onTaskClear, handleShake }: TasksProps) => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const router = useRouter();
   const refreshTasks = useCallback(async () => {
@@ -35,14 +36,14 @@ const Tasks = ({ userId, onTaskClear }: TasksProps) => {
           headers: {
             Authorization: `Bearer ${cookies.token}`,
             "Content-Type": "application/json",
-          }
+          },
         }
       );
 
       console.log("Success Get Task", response.data); // Log the response to debug
 
       const fetchedTasks = response.data.data?.data || [];
-      setTasks(fetchedTasks); 
+      setTasks(fetchedTasks);
     } catch (error) {
       console.error("Error fetching tasks:", error);
     }
@@ -54,8 +55,8 @@ const Tasks = ({ userId, onTaskClear }: TasksProps) => {
   }, [userId, refreshTasks]);
 
   const clearTask = async (task_Id: string) => {
-    const formData = new FormData(); 
-    formData.append("task_id", task_Id); 
+    const formData = new FormData();
+    formData.append("task_id", task_Id);
 
     const cookies = parseCookies();
     try {
@@ -124,7 +125,8 @@ const Tasks = ({ userId, onTaskClear }: TasksProps) => {
                 transition-all duration-150 [box-shadow:0_5px_0_0_#ABC340,0_8px_0_0_#ffffff]
                 rounded-full  border-[1px] border-[#D5FF18] mb-3"
                   >
-                    <Link href={task.link || "/"} 
+                    <Link
+                      href={task.link || "/"}
                       target="_blank"
                       onClick={() => clearTask(task.task_id)}
                       className="flex justify-center items-center h-full text-black font-bold text-base"

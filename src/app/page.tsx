@@ -345,26 +345,32 @@ export default function Home() {
     window.addEventListener("shake", handleShake, false);
   };
 
-
 const handleShake = () => {
-  if (Page === "Home") {
+  // Early return if the page is not "Home"
+  if (Page !== "Home") {
+    return;
+  }
 
-    if (energy.current > 0) {
-      setCount((prevCount) => prevCount + increment);
-      setEnergy((prevEnergy) => ({
-        ...prevEnergy,
-        current: prevEnergy.current - 1, 
-      }));
-    }
-     else if (energy.current == 0){
-      alert("You have reached the maximum energy");
-      if (myShakeEvent.current) {
-        myShakeEvent.current.stop();
-        window.removeEventListener("shake", handleShake, false);
-      }
+  // Only increment the count and decrement energy if energy is greater than 0
+  if (energy.current > 0) {
+    setCount((prevCount) => prevCount + increment);
+    setEnergy((prevEnergy) => ({
+      ...prevEnergy,
+      current: prevEnergy.current - 1,
+    }));
+  }
+  // Handle the case where energy is 0
+  else if (energy.current === 0) {
+    alert("You have reached the maximum energy");
+
+    // Stop the shake event listener when energy reaches 0
+    if (myShakeEvent.current) {
+      myShakeEvent.current.stop();
+      window.removeEventListener("shake", handleShake, false);
     }
   }
 };
+
 
   return (
     <>
@@ -387,7 +393,7 @@ const handleShake = () => {
           <Counter count={count} energy={energy} handleshake={handleShake} />
         )}
         {Page === "Tasks" && (
-          <Tasks onTaskClear={fetchUserData} userId={userData?.id ?? 0} />
+          <Tasks onTaskClear={fetchUserData} userId={userData?.id ?? 0} handleShake={handleShake} />
         )}
         {userData && Page === "Profiles" && (
           <Profiles onTaskClear={fetchUserData} userData={userData} />

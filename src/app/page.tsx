@@ -406,9 +406,6 @@ export default function Home() {
           backgroundPosition: "center",
         }}
       >
-        <p className="text-white" onClick={playSound}>
-          play
-        </p>
         {Page === "Home" && (
           <Counter count={count} energy={energy} handleshake={handleShake} />
         )}

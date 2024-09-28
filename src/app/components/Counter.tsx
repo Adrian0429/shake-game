@@ -36,7 +36,6 @@ const Counter = ({ count, energy, handleshake }: CounterProps) => {
     });
   }, [gifUrls]);
 
-  // Load the audio buffer once
   useEffect(() => {
     const initAudioContext = async () => {
       const context = new AudioContext();

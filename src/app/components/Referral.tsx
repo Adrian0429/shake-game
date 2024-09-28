@@ -32,18 +32,8 @@ const Referrals = ({ userId }: props) => {
   const [isOffcanvasVisible, setIsOffcanvasVisible] = useState(false);
   const [referralsResponse, setReferralsResponse] =
     useState<GetReferralsResponse>({
-      total_coins: 2000,
-      data: [{
-        user_name: "royan",
-        referred_user: "5",
-        coins: 0, 
-      },
-      {
-        user_name: "Budhi",
-        referred_user: "4",
-        coins:100,
-      }
-    ],
+      total_coins: 0,
+      data: [],
     });
 
   const toggleOffcanvas = () => {

@@ -17,7 +17,6 @@ const Counter = ({ count, energy, handleshake }: CounterProps) => {
   const [gifUrl, setGifUrl] = useState<string>("");
   const [state, setState] = useState<Status>("normal");
   const [lastCount, setLastCount] = useState<number>(count);
-  const playerRef = useRef<AudioPlayer>(null);
   const [counter, setcounter] = useState(1);
 
   // Define the paths for your GIFs
@@ -40,10 +39,15 @@ const Counter = ({ count, energy, handleshake }: CounterProps) => {
     
     if (count > lastCount) {
       setState("shake");
-      // playerRef.current?.audio?.current?.play();
-      
+
       const timer = setTimeout(() => {
-        setState("normal");
+
+          
+          if(energy.current < 50){
+            setState("tired")
+          }else{
+            setState("normal")
+          }
       }, 1000);
 
       return () => clearTimeout(timer);
@@ -53,14 +57,6 @@ const Counter = ({ count, energy, handleshake }: CounterProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [count, lastCount]);
 
-  // useEffect(() => {
-  //   if (energy.current < 300) {
-  //     setState("tired");
-  //   } else if (state != "tired" && energy.current >= 300) {
-  //     setState("normal"); // Reset to "normal" if energy is restored
-  //   }
-  // }, [energy, state]);
-
   // Update the GIF URL based on the current state
   useEffect(() => {
     setGifUrl(gifUrls[state]);
@@ -69,13 +65,6 @@ const Counter = ({ count, energy, handleshake }: CounterProps) => {
 
   return (
     <div className="w-full h-full">
-      <AudioPlayer
-        src="/coin.m4a"
-        ref={playerRef}
-        autoPlay={false}
-        loop={false}
-        className="hidden"
-      />
       <Header coins={count} />
       <div className="h-[calc(100vh-9rem)] mt-5">
         <div className="flex flex-col items-center py-5">

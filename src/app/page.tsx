@@ -76,7 +76,7 @@ export default function Home() {
   const [startParam, setStartParam] = useState("");
   const [isLogin, setIsLogin] = useState(false);
   const playerRef = useRef<AudioPlayer>(null);
-
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const RegisterLogin = async () => {
     const formData = {
@@ -212,11 +212,24 @@ export default function Home() {
     }
   };
   
+  const handlePlayPause = () => {
+    if (isPlaying) {
+      playerRef.current?.audio?.current?.pause(); // Pause the audio
+      setIsPlaying(false);
+    } else {
+      playerRef.current?.audio?.current?.play().catch((error) => {
+        console.error("Error playing audio:", error);
+      });
+      setIsPlaying(true);
+    }
+  };
+
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.visibilityState === "hidden") {
-        playerRef.current?.audio?.current?.pause(); // Pause when the page is minimized
-      } else {
+        playerRef.current?.audio?.current?.pause(); // Pause when minimized
+        setIsPlaying(false); // Update state
+      } else if (isPlaying) {
         playerRef.current?.audio?.current?.play().catch((error) => {
           console.error("Error playing audio:", error);
         });
@@ -227,9 +240,9 @@ export default function Home() {
 
     return () => {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
-      playerRef.current?.audio?.current?.pause(); // Pause audio on component unmount
+      playerRef.current?.audio?.current?.pause(); // Pause on component unmount
     };
-  }, []);
+  }, [isPlaying]);
 
   useEffect(() => {
     WebApp.ready();
@@ -308,6 +321,7 @@ export default function Home() {
   }, [ permissionGranted]);
 
   const checkMotionPermission = async () => {
+    handlePlayPause();
     try {
       if (typeof (DeviceMotionEvent as any).requestPermission === "function") {
         const permissionState = await (
@@ -374,10 +388,10 @@ const handleShake = () => {
 
   return (
     <>
+    <p className="text-white" onClick={handlePlayPause}>play</p>
       <AudioPlayer
         ref={playerRef}
         src="/bgm.mp3"
-        autoPlay
         loop
         className="hidden" // Hides the audio controls
       />

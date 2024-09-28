@@ -156,7 +156,7 @@ const Referrals = ({ userId }: props) => {
                     key={index}
                     className="flex my-3 flex-row justify-between h-16 bg-[#232328] rounded-lg px-5 py-1 items-center"
                   >
-                    <div className="flex flex-row w-full space-x-3 items-center">
+                    <div className="flex flex-row space-x-3 items-center">
                       <Image
                         src={BG}
                         alt=""
@@ -164,13 +164,19 @@ const Referrals = ({ userId }: props) => {
                         width={30}
                         className="w-[50px] h-full"
                       />
-                      <div>
+                      <div className="flex flex-col">
                         <p className="text-white">{item.user_name}</p>
                         <div className="flex flex-row">
                           <RiUserAddFill className="" />
-                          <p className="text-white ml-2">{item.referred_user}</p>
+                          <p className="text-white ml-2">
+                            {item.referred_user}
+                          </p>
                         </div>
                       </div>
+                    </div>
+
+                    <div>
+                      <p className="text-white">+ {item.coins}</p>
                     </div>
                   </div>
                 ))

@@ -409,7 +409,7 @@ const handleShake = () => {
         }}
       >
         {Page === "Home" && (
-          <Counter count={count} energy={energy} handleshake={handleShake} />
+          <Counter count={count} energy={energy} handleshake={playAudio} />
         )}
         {Page === "Tasks" && (
           <Tasks onTaskClear={fetchUserData} userId={userData?.id ?? 0} />

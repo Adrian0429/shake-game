@@ -75,9 +75,7 @@ export default function Home() {
   const previousCount = useRef<number>(count);
   const [startParam, setStartParam] = useState("");
   const [isLogin, setIsLogin] = useState(false);
-  const audioContextRef = useRef<AudioContext | null>(null);
-  const audioSourceRef = useRef<AudioBufferSourceNode | null>(null);
-  const audioBufferRef = useRef<AudioBuffer | null>(null);
+  const playerRef = useRef<AudioPlayer>(null);
 
 
   const RegisterLogin = async () => {
@@ -213,49 +211,15 @@ export default function Home() {
       console.log("Error submitting form:", error);
     }
   };
-
-
-  const playAudio = async () => {
-
-    if (!audioBufferRef.current) {
-      // Create a new AudioContext if it doesn't already exist
-      if (!audioContextRef.current) {
-        audioContextRef.current = new window.AudioContext();
-      }
-
-      // Fetch and decode the audio file
-      const response = await fetch("/bgm.mp3");
-      const arrayBuffer = await response.arrayBuffer();
-      audioBufferRef.current = await audioContextRef.current.decodeAudioData(
-        arrayBuffer
-      );
-    }
-
-    // Ensure the AudioContext exists
-    if (!audioContextRef.current) return;
-
-    // Create a buffer source and connect it to the audio context
-    audioSourceRef.current = audioContextRef.current.createBufferSource();
-    if (audioSourceRef.current && audioBufferRef.current) {
-      audioSourceRef.current.buffer = audioBufferRef.current;
-      audioSourceRef.current.loop = true;
-      audioSourceRef.current.connect(audioContextRef.current.destination);
-      audioSourceRef.current.start(0); // Start playing audio
-    }
-
-    checkMotionPermission();
-  };
-
+  
   useEffect(() => {
-    // Handle visibility change to pause/resume audio
     const handleVisibilityChange = () => {
-      if (document.hidden && audioContextRef.current?.state === "running") {
-        audioContextRef.current.suspend(); // Pauses the audio
-      } else if (
-        !document.hidden &&
-        audioContextRef.current?.state === "suspended"
-      ) {
-        audioContextRef.current.resume(); // Resumes the audio
+      if (document.visibilityState === "hidden") {
+        playerRef.current?.audio?.current?.pause(); // Pause when the page is minimized
+      } else {
+        playerRef.current?.audio?.current?.play().catch((error) => {
+          console.error("Error playing audio:", error);
+        });
       }
     };
 
@@ -263,9 +227,7 @@ export default function Home() {
 
     return () => {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
-      if (audioSourceRef.current) {
-        audioSourceRef.current.stop(); // Stop audio when component unmounts
-      }
+      playerRef.current?.audio?.current?.pause(); // Pause audio on component unmount
     };
   }, []);
 
@@ -406,6 +368,13 @@ const handleShake = () => {
 
   return (
     <>
+      <AudioPlayer
+        ref={playerRef}
+        src="/bgm.mp3"
+        autoPlay
+        loop
+        className="hidden" // Hides the audio controls
+      />
       <div
         className="h-[100vh]"
         style={{
@@ -464,13 +433,13 @@ const handleShake = () => {
         <ModalAllowComponent
           username={userData?.username ?? ""}
           daily_count={dailyCount}
-          onAllowPermission={playAudio}
+          onAllowPermission={checkMotionPermission}
           isOpen={isModalOpen.modalDaily}
         />
 
         <ModalPermission
           username={userData?.username ?? ""}
-          onAllowPermission={playAudio}
+          onAllowPermission={checkMotionPermission}
           isOpen={isModalOpen.modalPermission}
         />
       </div>

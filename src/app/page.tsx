@@ -166,7 +166,7 @@ export default function Home() {
           };
 
       const response = await axios.post(
-        `https://api2.fingo.co.id/api/user/referralClaim`,
+        `https://api2.fingo.co.id/api/user/referral`,
         formData,
         {
           headers: {

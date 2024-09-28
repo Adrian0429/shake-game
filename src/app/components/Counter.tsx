@@ -17,7 +17,6 @@ const Counter = ({ count, energy, handleshake }: CounterProps) => {
   const [gifUrl, setGifUrl] = useState<string>("");
   const [state, setState] = useState<Status>("normal");
   const [lastCount, setLastCount] = useState<number>(count);
-  const playerRef = useRef<AudioPlayer>(null);
   const [counter, setcounter] = useState(1);
 
   // Define the paths for your GIFs
@@ -37,9 +36,10 @@ const Counter = ({ count, energy, handleshake }: CounterProps) => {
   }, [gifUrls]);
 
   useEffect(() => {
+    
     if (count > lastCount) {
       setState("shake");
-      playerRef.current?.audio?.current?.play();
+      // playerRef.current?.audio?.current?.play();
       
       const timer = setTimeout(() => {
         setState("normal");
@@ -52,13 +52,13 @@ const Counter = ({ count, energy, handleshake }: CounterProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [count, lastCount]);
 
-  useEffect(() => {
-    if (energy.current < 300) {
-      setState("tired");
-    } else if (state != "tired" && energy.current >= 300) {
-      setState("normal"); // Reset to "normal" if energy is restored
-    }
-  }, [energy, state]);
+  // useEffect(() => {
+  //   if (energy.current < 300) {
+  //     setState("tired");
+  //   } else if (state != "tired" && energy.current >= 300) {
+  //     setState("normal"); // Reset to "normal" if energy is restored
+  //   }
+  // }, [energy, state]);
 
   // Update the GIF URL based on the current state
   useEffect(() => {
@@ -68,13 +68,13 @@ const Counter = ({ count, energy, handleshake }: CounterProps) => {
 
   return (
     <div className="w-full h-full">
-      <AudioPlayer
+      {/* <AudioPlayer
         src="/coin.m4a"
         ref={playerRef}
         autoPlay={false}
         loop={false}
         className="hidden"
-      />
+      /> */}
       <Header coins={count} />
       <div className="h-[calc(100vh-9rem)] mt-5">
         <div className="flex flex-col items-center py-5">
@@ -82,6 +82,7 @@ const Counter = ({ count, energy, handleshake }: CounterProps) => {
             <img src={gifUrl} alt={state} className="w-full h-auto" />
             <p className="text-white flex justify-center items-center">
               {count} : {lastCount}
+              {state}
             </p>
           </div>
 
@@ -106,7 +107,7 @@ const Counter = ({ count, energy, handleshake }: CounterProps) => {
       active:border-b-[0px] transition-all duration-150 [box-shadow:0_1.5px_0_0_#ABC340,0_4px_0_0_#ffffff]
       rounded-full border-[1px] border-[#D5FF18]"
           >
-            <span className="flex justify-center items-center h-full text-black font-bold text-2xl">
+            <span onClick={handleshake} className="flex justify-center items-center h-full text-black font-bold text-2xl">
               Shake To Earn Coins
             </span>
           </div>

@@ -21,19 +21,19 @@ const Offcanvas = ({ userId, isVisible, onClose }: Props) => {
     const fullUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
       shareText
     )}&url=${encodeURIComponent(referralCode)}`;
-    window.open(fullUrl, "_blank");
+    window.open(fullUrl);
   };
 
   const handleShareOnFacebook = () => {
     const fullUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
       referralCode
     )}`;
-    window.open(fullUrl, "_blank");
+    window.open(fullUrl);
   };
 
   const handleInviteFriend = () => {
     const utils = initUtils();
-    const shareText = "Join me to play this Amazing Game!";
+    const shareText = "Join me to play this Amazing Game!\n";
     const fullUrl = `https://t.me/share/url?url=${encodeURIComponent(
       referralCode
     )}&text=${encodeURIComponent(shareText)}`;
@@ -41,11 +41,11 @@ const Offcanvas = ({ userId, isVisible, onClose }: Props) => {
   };
 
   const handleShareOnInstagram = () => {
-    const shareText = "Check out this amazing game!";
+    const shareText = "Check out this amazing game!\n";
     const fullUrl = `https://www.instagram.com/?url=${encodeURIComponent(
       referralCode
     )}`;
-    window.open(fullUrl, "_blank");
+    window.open(fullUrl);
   };
 
   return (

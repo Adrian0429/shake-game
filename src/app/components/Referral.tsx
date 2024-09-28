@@ -46,7 +46,6 @@ const Referrals = ({ userId }: props) => {
   };
 
   const claimCoins = async () => {
-    // console.log("Claiming coins...");
     try {
       const cookies = parseCookies();
       const response = await axios.get(

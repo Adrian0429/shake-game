@@ -100,12 +100,12 @@ export default function Home() {
 
       if (response.data.status == true) {
         console.log(response.data.data.daily);
-        // if ((response.data.data.daily = "Daily")) {
-        //   setModalOpen((prevState) => ({
-        //     ...prevState,
-        //     modalDaily: true,
-        //   }));
-        // }
+        if ((response.data.data.daily = "Daily")) {
+          setModalOpen((prevState) => ({
+            ...prevState,
+            modalDaily: true,
+          }));
+        }
 
         setModalOpen((prevState) => ({
           ...prevState,
@@ -175,6 +175,8 @@ export default function Home() {
           },
         }
       );
+
+      setIsLogin(true);
       fetchUserData();
       console.log("Referral Response:", response.data); // Log the response to debug
     } catch (error) {
@@ -260,13 +262,13 @@ export default function Home() {
   useEffect(() => {
     WebApp.ready();
     WebApp.expand();
+
     if (WebApp.initDataUnsafe.user) {
       setStartParam(WebApp.initDataUnsafe.start_param || "");
       setUserData(WebApp.initDataUnsafe.user as UserData);
     }
 
-    if (userData?.id) {
-
+    if (userData?.id && !isLogin) {
       if (startParam){
         postReferral();
       } else { 
@@ -317,29 +319,23 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [energy.current]);
 
-  useEffect(() => {
-    const isMobileDevice =
-      /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent
-      );
+  // useEffect(() => {
+  //   const isMobileDevice =
+  //     /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(
+  //       navigator.userAgent
+  //     );
 
-    if (!isMobileDevice) {
-      console.log(
-        "This application is designed for mobile devices. Some features may not work as expected."
-      );
-    } else {
-      setIsMobile(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router, permissionGranted]);
+  //   if (!isMobileDevice) {
+  //     console.log(
+  //       "This application is designed for mobile devices. Some features may not work as expected."
+  //     );
+  //   } else {
+  //     setIsMobile(true);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [ permissionGranted]);
 
   const checkMotionPermission = async () => {
-    setModalOpen((prevState) => ({
-      ...prevState,
-      modalPermission: false,
-      modalDaily: false,
-    }));
-
     try {
       if (typeof (DeviceMotionEvent as any).requestPermission === "function") {
         const permissionState = await (
@@ -348,12 +344,23 @@ export default function Home() {
         if (permissionState === "granted") {
           setPermissionGranted(true);
           setupShakeEvent();
-          router.push("/");
+
+          setModalOpen((prevState) => ({
+            ...prevState,
+            modalPermission: false,
+            modalDaily: false,
+          }));
+
         }
       } else {
         setPermissionGranted(true);
         setupShakeEvent();
-        router.push("/");
+        setModalOpen((prevState) => ({
+          ...prevState,
+          modalPermission: false,
+          modalDaily: false,
+        }));
+
       }
     } catch (error) {
       console.error("Error requesting DeviceMotionEvent permission:", error);
@@ -366,15 +373,18 @@ export default function Home() {
     window.addEventListener("shake", handleShake, false);
   };
 
+
 const handleShake = () => {
   if (Page === "Home") {
+
     if (energy.current > 0) {
       setCount((prevCount) => prevCount + increment);
       setEnergy((prevEnergy) => ({
         ...prevEnergy,
         current: prevEnergy.current - 1, 
       }));
-    } else {
+    }
+     else if (energy.current == 0){
       alert("You have reached the maximum energy");
       if (myShakeEvent.current) {
         myShakeEvent.current.stop();
@@ -449,7 +459,7 @@ const handleShake = () => {
           onAllowPermission={checkMotionPermission}
           isOpen={isModalOpen.modalDaily}
         />
-        
+
         <ModalPermission
           username={userData?.username ?? ""}
           onAllowPermission={checkMotionPermission}

@@ -275,7 +275,6 @@ export default function Home() {
       
     }
 
-
     if (count > previousCount.current && Page == 'Home') {
       Update();
     }

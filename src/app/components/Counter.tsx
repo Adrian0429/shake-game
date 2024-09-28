@@ -2,6 +2,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { BsFillLightningChargeFill } from "react-icons/bs";
 import Header from "./Navigation/Header";
+import AudioPlayer from "react-h5-audio-player";
+
 
 interface CounterProps {
   count: number;
@@ -15,38 +17,30 @@ const Counter = ({ count, energy, handleshake }: CounterProps) => {
   const [gifUrl, setGifUrl] = useState<string>("");
   const [state, setState] = useState<Status>("normal");
   const [lastCount, setLastCount] = useState<number>(count);
+  const playerRef = useRef<AudioPlayer>(null);
   const [counter, setcounter] = useState(1);
 
   // Define the paths for your GIFs
-  const gifUrls = useMemo(
-    () => ({
-      normal: "/normal.gif",
-      tired: "/tired.gif",
-      shake: "/shake.gif",
-    }),
-    []
-  );
+  const gifUrls = useMemo(() => ({
+    normal: "/normal.gif",
+    tired: "/tired.gif",
+    shake: "/shake.gif",
+  }), []);
 
-  // Preload GIFs
   useEffect(() => {
     Object.values(gifUrls).forEach((url) => {
       const img = new Image();
       img.src = url;
-      img.onload = () => {};
+      img.onload = () => {
+      };
     });
   }, [gifUrls]);
-
-  // Play audio when the count increases
-  const playCoinSound = () => {
-    const audio = new Audio("/coin.m4a");
-    audio.play();
-  };
 
   useEffect(() => {
     if (count > lastCount) {
       setState("shake");
-      playCoinSound(); // Play audio multiple times (spammed)
-
+      playerRef.current?.audio?.current?.play();
+      
       const timer = setTimeout(() => {
         setState("normal");
       }, 1000);
@@ -55,24 +49,32 @@ const Counter = ({ count, energy, handleshake }: CounterProps) => {
     }
 
     setLastCount(count);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [count, lastCount]);
 
-  // Handle energy level and state changes
   useEffect(() => {
     if (energy.current < 300) {
       setState("tired");
-    } else if (state !== "tired" && energy.current >= 300) {
-      setState("normal");
+    } else if (state != "tired" && energy.current >= 300) {
+      setState("normal"); 
     }
   }, [energy, state]);
 
   // Update the GIF URL based on the current state
   useEffect(() => {
     setGifUrl(gifUrls[state]);
-  }, [state, gifUrls]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
 
   return (
     <div className="w-full h-full">
+      <AudioPlayer
+        src="/coin.m4a"
+        ref={playerRef}
+        autoPlay={false}
+        loop={false}
+        className="hidden"
+      />
       <Header coins={count} />
       <div className="h-[calc(100vh-9rem)] mt-5">
         <div className="flex flex-col items-center py-5">
@@ -103,9 +105,7 @@ const Counter = ({ count, energy, handleshake }: CounterProps) => {
       active:border-b-[0px] transition-all duration-150 [box-shadow:0_1.5px_0_0_#ABC340,0_4px_0_0_#ffffff]
       rounded-full border-[1px] border-[#D5FF18]"
           >
-            <span 
-            // onClick={handleshake}
-            className="flex justify-center items-center h-full text-black font-bold text-2xl">
+            <span className="flex justify-center items-center h-full text-black font-bold text-2xl">
               Shake To Earn Coins
             </span>
           </div>

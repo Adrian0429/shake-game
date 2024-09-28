@@ -20,6 +20,7 @@ import ModalAllowComponent from "./components/Modal/ModalAllow";
 import Link from "next/link";
 import ModalPermission from "./components/Modal/Modal";
 import AudioPlayer from "react-h5-audio-player";
+import AudioComponent from "./components/BackgroundAudio";
 
 
 // // Provide default values for all properties
@@ -75,9 +76,9 @@ export default function Home() {
   const previousCount = useRef<number>(count);
   const [startParam, setStartParam] = useState("");
   const [isLogin, setIsLogin] = useState(false);
-  const audioContextRef = useRef<AudioContext | null>(null);
-  const audioSourceRef = useRef<AudioBufferSourceNode | null>(null);
-  const playerRef = useRef<AudioPlayer>(null);
+  const playerRef = useRef(null);
+  const audioContextRef = useRef(null);
+  const audioSourceRef = useRef(null);
 
 
   const RegisterLogin = async () => {
@@ -214,56 +215,7 @@ export default function Home() {
     }
   };
 
-
-  const playAudio = async () => {
-    audioContextRef.current = new window.AudioContext();
-    checkMotionPermission();
-
-    playerRef.current?.audio?.current?.play();
-    // const response = await fetch("/bgm.mp3");
-    // const arrayBuffer = await response.arrayBuffer();
-    // const audioBuffer = await audioContextRef.current?.decodeAudioData(
-    //   arrayBuffer
-    // );
-
-    // // Create a buffer source
-    // audioSourceRef.current = audioContextRef.current?.createBufferSource() ?? null;
-    // if (audioSourceRef.current && audioBuffer) {
-    //   audioSourceRef.current.buffer = audioBuffer;
-    //   if (audioContextRef.current) {
-    //     audioSourceRef.current.connect(audioContextRef.current.destination);
-    //   }
-    //   audioSourceRef.current.loop = true;
-
-
-    //   // audioSourceRef.current.start(0);
-    // }
-    // audioSourceRef.current.start(0);
-  };
-
-  // useEffect(() => {
-  //   // Pause audio when the tab is minimized or hidden
-  //   const handleVisibilityChange = () => {
-  //     if (document.hidden && audioContextRef.current?.state === "running") {
-  //       audioContextRef.current?.suspend(); // Pauses the audio
-  //     } else if (
-  //       !document.hidden &&
-  //       audioContextRef.current?.state === "suspended"
-  //     ) {
-  //       audioContextRef.current?.resume(); // Resumes the audio
-  //     }
-  //   };
-
-  //   document.addEventListener("visibilitychange", handleVisibilityChange);
-
-  //   return () => {
-  //     document.removeEventListener("visibilitychange", handleVisibilityChange);
-  //     if (audioSourceRef.current) {
-  //       audioSourceRef.current.stop(); // Stop audio when component unmounts
-  //     }
-  //   };
-  // }, []);
-
+  
   useEffect(() => {
     WebApp.ready();
     WebApp.expand();
@@ -404,8 +356,8 @@ const handleShake = () => {
       <AudioPlayer
         src="/bgm.mp3"
         ref={playerRef}
-        autoPlay={false}
-        loop={false}
+        autoPlay={true}
+        loop={true}
         className="hidden"
       />
       {/* {isMobile ? ( */}
@@ -467,15 +419,16 @@ const handleShake = () => {
         <ModalAllowComponent
           username={userData?.username ?? ""}
           daily_count={dailyCount}
-          onAllowPermission={playAudio}
+          onAllowPermission={checkMotionPermission}
           isOpen={isModalOpen.modalDaily}
         />
 
         <ModalPermission
           username={userData?.username ?? ""}
-          onAllowPermission={playAudio}
+          onAllowPermission={checkMotionPermission}
           isOpen={isModalOpen.modalPermission}
         />
+        <AudioComponent/>
       </div>
       {/* ) : (
        <div className="h-[100vh] flex justify-center items-center bg-gray-200">

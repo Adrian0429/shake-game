@@ -1,59 +1,44 @@
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from 'react';
 
-const BackgroundAudio = () => {
+const AudioComponent = () => {
+  const audioRef = useRef(new Audio('/bgm.mp3'));
   const audioContextRef = useRef(null);
-  const audioSourceRef = useRef(null);
 
   useEffect(() => {
-    // Initialize the AudioContext
-    audioContextRef.current = new (window.AudioContext ||
-      window.webkitAudioContext)();
+    audioContextRef.current = new AudioContext();
 
-    // Fetch and decode audio
-    const playAudio = async () => {
-      const response = await fetch(
-        "/bgm.mp3"
-      );
-      const arrayBuffer = await response.arrayBuffer();
-      const audioBuffer = await audioContextRef.current.decodeAudioData(
-        arrayBuffer
-      );
-
-      // Create a buffer source
-      audioSourceRef.current = audioContextRef.current.createBufferSource();
-      audioSourceRef.current.buffer = audioBuffer;
-      audioSourceRef.current.connect(audioContextRef.current.destination);
-      audioSourceRef.current.loop = false; // Set to true if you want the audio to loop
-
-      // Start the audio
-      audioSourceRef.current.start(0);
+    const playAudio = () => {
+      const audio = audioRef.current;
+      audio.loop = true;
+      audio.play().catch(error => {
+        console.error("Error playing audio:", error);
+      });
     };
 
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play().catch(error => {
+          console.error("Error playing audio:", error);
+        });
+      }
+    };
+
+    // Start playing audio
     playAudio();
 
-    // Pause audio when the tab is minimized or hidden
-    const handleVisibilityChange = () => {
-      if (document.hidden && audioContextRef.current.state === "running") {
-        audioContextRef.current.suspend(); // Pauses the audio
-      } else if (
-        !document.hidden &&
-        audioContextRef.current.state === "suspended"
-      ) {
-        audioContextRef.current.resume(); // Resumes the audio
-      }
-    };
+    // Listen for visibility change
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-
+    // Clean up the event listener
     return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-      if (audioSourceRef.current) {
-        audioSourceRef.current.stop(); // Stop audio when component unmounts
-      }
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      audioRef.current.pause(); // Pause audio on component unmount
     };
   }, []);
 
-  return null; 
+  return null; // No need to render anything in this component
 };
 
-export default BackgroundAudio;
+export default AudioComponent;

@@ -32,7 +32,7 @@ const Referrals = ({ userId }: props) => {
   const [isOffcanvasVisible, setIsOffcanvasVisible] = useState(false);
   const [referralsResponse, setReferralsResponse] =
     useState<GetReferralsResponse>({
-      total_coins: 0,
+      total_coins: 2000,
       data: [{
         user_name: "royan",
         referred_user: "5",

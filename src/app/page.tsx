@@ -458,13 +458,13 @@ const handleShake = () => {
         <ModalAllowComponent
           username={userData?.username ?? ""}
           daily_count={dailyCount}
-          onAllowPermission={playAudio}
+          onAllowPermission={checkMotionPermission}
           isOpen={isModalOpen.modalDaily}
         />
 
         <ModalPermission
           username={userData?.username ?? ""}
-          onAllowPermission={playAudio}
+          onAllowPermission={checkMotionPermission}
           isOpen={isModalOpen.modalPermission}
         />
       </div>

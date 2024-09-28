@@ -92,10 +92,10 @@ const Counter = ({ count, energy, handleshake }: CounterProps) => {
         <div className="flex flex-col items-center py-5">
           <div className="w-[80%]">
             <img src={gifUrl} alt={state} className="w-full h-auto" />
-            <p className="text-white flex justify-center items-center">
+            {/* <p className="text-white flex justify-center items-center">
               {count} : {lastCount}
               {state}
-            </p>
+            </p> */}
           </div>
 
           <div className="flex flex-row space-x-3 bg-[#232328] rounded-full py-3 px-5 items-center">

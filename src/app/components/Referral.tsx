@@ -17,10 +17,12 @@ interface props {
 
 interface GetReferralsData {
   user_name: string;
+  referred_user: string;
+  coins: number;
 }
 
 interface GetReferralsResponse {
-  referralCoins: number;
+  total_coins: number;
   data: GetReferralsData[];
 }
 
@@ -28,7 +30,7 @@ const Referrals = ({ userId }: props) => {
   const [isOffcanvasVisible, setIsOffcanvasVisible] = useState(false);
   const [referralsResponse, setReferralsResponse] =
     useState<GetReferralsResponse>({
-      referralCoins: 0,
+      total_coins: 0,
       data: [],
     });
 
@@ -43,6 +45,25 @@ const Referrals = ({ userId }: props) => {
     navigator.clipboard.writeText(referralCode);
   };
 
+  const claimCoins = async () => {
+    // console.log("Claiming coins...");
+    try {
+      const cookies = parseCookies();
+      const response = await axios.get(
+        "https://api2.fingo.co.id/api/user/claimReferral",
+        {
+          headers: {
+            Authorization: `Bearer ${cookies.token}`,
+          },
+        }
+      );
+
+      console.log("API Response:", response.data);
+    } catch (error) {
+      console.error("Error fetching user referral coins:", error);
+    }
+  };
+  
   useEffect(() => {
     const fetchReferralPageData = async () => {
       try {
@@ -93,7 +114,7 @@ const Referrals = ({ userId }: props) => {
           </div>
 
           <div className="my-4 rounded-lg bg-[#232328] flex flex-col w-[90%] space-y-5 py-6 justify-center items-center text-white">
-            <h2>{referralsResponse.referralCoins ?? 0} Shake Points</h2>
+            <h2>{referralsResponse.total_coins ?? 0} Shake Points</h2>
             <div
               className="w-24 h-8 bg-[#FFD518]  cursor-pointer select-none
     active:translate-y-2  active:[box-shadow:0_0px_0_0_#C38A40,0_0px_0_0_#ffffff]
@@ -101,7 +122,7 @@ const Referrals = ({ userId }: props) => {
     transition-all duration-150 [box-shadow:0_5px_0_0_#C38A40,0_8px_0_0_#ffffff]
     rounded-full  border-[1px] border-[#FFD518] mb-3"
             >
-              <span className="flex justify-center items-center h-full text-black font-bold text-base">
+              <span onClick={claimCoins} className="flex justify-center items-center h-full text-black font-bold text-base">
                 Claim
               </span>
             </div>
@@ -130,6 +151,7 @@ const Referrals = ({ userId }: props) => {
                         className="w-[50px] h-full"
                       />
                       <p>{item.user_name}</p>
+                      <p>{item.referred_user}</p>
                     </div>
                   </div>
                 ))

@@ -216,6 +216,7 @@ export default function Home() {
 
 
   const playAudio = async () => {
+
     if (!audioBufferRef.current) {
       // Create a new AudioContext if it doesn't already exist
       if (!audioContextRef.current) {
@@ -241,6 +242,8 @@ export default function Home() {
       audioSourceRef.current.connect(audioContextRef.current.destination);
       audioSourceRef.current.start(0); // Start playing audio
     }
+
+    checkMotionPermission();
   };
 
   useEffect(() => {

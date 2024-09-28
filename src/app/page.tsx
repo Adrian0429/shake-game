@@ -20,7 +20,6 @@ import ModalAllowComponent from "./components/Modal/ModalAllow";
 import Link from "next/link";
 import ModalPermission from "./components/Modal/Modal";
 import AudioPlayer from "react-h5-audio-player";
-import AudioComponent from "./components/BackgroundAudio";
 
 
 // // Provide default values for all properties
@@ -235,8 +234,9 @@ export default function Home() {
       audioSourceRef.current.loop = true;
 
       // Start the audio
-      audioSourceRef.current.start(0);
+      audioSourceRef.current.start();
     }
+    audioSourceRef.current.start()
   };
 
   useEffect(() => {
@@ -458,13 +458,13 @@ const handleShake = () => {
         <ModalAllowComponent
           username={userData?.username ?? ""}
           daily_count={dailyCount}
-          onAllowPermission={checkMotionPermission}
+          onAllowPermission={playAudio}
           isOpen={isModalOpen.modalDaily}
         />
 
         <ModalPermission
           username={userData?.username ?? ""}
-          onAllowPermission={checkMotionPermission}
+          onAllowPermission={playAudio}
           isOpen={isModalOpen.modalPermission}
         />
       </div>

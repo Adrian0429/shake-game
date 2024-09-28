@@ -19,6 +19,7 @@ import Settings from "./components/Settings";
 import ModalAllowComponent from "./components/Modal/ModalAllow";
 import Link from "next/link";
 import ModalPermission from "./components/Modal/Modal";
+import AudioPlayer from "react-h5-audio-player";
 
 
 // // Provide default values for all properties
@@ -76,7 +77,9 @@ export default function Home() {
   const [isLogin, setIsLogin] = useState(false);
   const audioContextRef = useRef<AudioContext | null>(null);
   const audioSourceRef = useRef<AudioBufferSourceNode | null>(null);
-  
+  const playerRef = useRef<AudioPlayer>(null);
+
+
   const RegisterLogin = async () => {
     const formData = {
       tele_id: String(userData?.id),
@@ -214,50 +217,52 @@ export default function Home() {
 
   const playAudio = async () => {
     audioContextRef.current = new window.AudioContext();
-    checkMotionPermission()
-    const response = await fetch("/bgm.mp3");
-    const arrayBuffer = await response.arrayBuffer();
-    const audioBuffer = await audioContextRef.current?.decodeAudioData(
-      arrayBuffer
-    );
+    checkMotionPermission();
 
-    // Create a buffer source
-    audioSourceRef.current = audioContextRef.current?.createBufferSource() ?? null;
-    if (audioSourceRef.current && audioBuffer) {
-      audioSourceRef.current.buffer = audioBuffer;
-      if (audioContextRef.current) {
-        audioSourceRef.current.connect(audioContextRef.current.destination);
-      }
-      audioSourceRef.current.loop = true;
+    playerRef.current?.audio?.current?.play();
+    // const response = await fetch("/bgm.mp3");
+    // const arrayBuffer = await response.arrayBuffer();
+    // const audioBuffer = await audioContextRef.current?.decodeAudioData(
+    //   arrayBuffer
+    // );
+
+    // // Create a buffer source
+    // audioSourceRef.current = audioContextRef.current?.createBufferSource() ?? null;
+    // if (audioSourceRef.current && audioBuffer) {
+    //   audioSourceRef.current.buffer = audioBuffer;
+    //   if (audioContextRef.current) {
+    //     audioSourceRef.current.connect(audioContextRef.current.destination);
+    //   }
+    //   audioSourceRef.current.loop = true;
 
 
-      // audioSourceRef.current.start(0);
-    }
-    audioSourceRef.current.start(0);
+    //   // audioSourceRef.current.start(0);
+    // }
+    // audioSourceRef.current.start(0);
   };
 
-  useEffect(() => {
-    // Pause audio when the tab is minimized or hidden
-    const handleVisibilityChange = () => {
-      if (document.hidden && audioContextRef.current?.state === "running") {
-        audioContextRef.current?.suspend(); // Pauses the audio
-      } else if (
-        !document.hidden &&
-        audioContextRef.current?.state === "suspended"
-      ) {
-        audioContextRef.current?.resume(); // Resumes the audio
-      }
-    };
+  // useEffect(() => {
+  //   // Pause audio when the tab is minimized or hidden
+  //   const handleVisibilityChange = () => {
+  //     if (document.hidden && audioContextRef.current?.state === "running") {
+  //       audioContextRef.current?.suspend(); // Pauses the audio
+  //     } else if (
+  //       !document.hidden &&
+  //       audioContextRef.current?.state === "suspended"
+  //     ) {
+  //       audioContextRef.current?.resume(); // Resumes the audio
+  //     }
+  //   };
 
-    document.addEventListener("visibilitychange", handleVisibilityChange);
+  //   document.addEventListener("visibilitychange", handleVisibilityChange);
 
-    return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-      if (audioSourceRef.current) {
-        audioSourceRef.current.stop(); // Stop audio when component unmounts
-      }
-    };
-  }, []);
+  //   return () => {
+  //     document.removeEventListener("visibilitychange", handleVisibilityChange);
+  //     if (audioSourceRef.current) {
+  //       audioSourceRef.current.stop(); // Stop audio when component unmounts
+  //     }
+  //   };
+  // }, []);
 
   useEffect(() => {
     WebApp.ready();
@@ -396,6 +401,13 @@ const handleShake = () => {
 
   return (
     <>
+      <AudioPlayer
+        src="/bgm.mp3"
+        ref={playerRef}
+        autoPlay={false}
+        loop={false}
+        className="hidden"
+      />
       {/* {isMobile ? ( */}
       <div
         className="h-[100vh]"
@@ -405,12 +417,11 @@ const handleShake = () => {
           backgroundPosition: "center",
         }}
       >
-        {Page === "Home" && <Counter count={count} energy={energy} handleshake={handleShake} />}
+        {Page === "Home" && (
+          <Counter count={count} energy={energy} handleshake={handleShake} />
+        )}
         {Page === "Tasks" && (
-          <Tasks
-            onTaskClear={fetchUserData}
-            userId={userData?.id ?? 0}
-          />
+          <Tasks onTaskClear={fetchUserData} userId={userData?.id ?? 0} />
         )}
         {userData && Page === "Profiles" && (
           <Profiles onTaskClear={fetchUserData} userData={userData} />
@@ -465,7 +476,6 @@ const handleShake = () => {
           onAllowPermission={playAudio}
           isOpen={isModalOpen.modalPermission}
         />
-
       </div>
       {/* ) : (
        <div className="h-[100vh] flex justify-center items-center bg-gray-200">

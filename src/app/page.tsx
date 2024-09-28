@@ -76,10 +76,6 @@ export default function Home() {
   const previousCount = useRef<number>(count);
   const [startParam, setStartParam] = useState("");
   const [isLogin, setIsLogin] = useState(false);
-  const playerRef = useRef(null);
-  const audioContextRef = useRef(null);
-  const audioSourceRef = useRef(null);
-
 
   const RegisterLogin = async () => {
     const formData = {
@@ -353,13 +349,13 @@ const handleShake = () => {
 
   return (
     <>
-      <AudioPlayer
+      {/* <AudioPlayer
         src="/bgm.mp3"
         ref={playerRef}
         autoPlay={true}
         loop={true}
         className="hidden"
-      />
+      /> */}
       {/* {isMobile ? ( */}
       <div
         className="h-[100vh]"

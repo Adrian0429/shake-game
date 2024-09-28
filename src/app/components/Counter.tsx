@@ -1,9 +1,7 @@
 "use client";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { BsFillLightningChargeFill } from "react-icons/bs";
+import { useEffect, useMemo, useState, useRef } from "react";
 import Header from "./Navigation/Header";
-import AudioPlayer from "react-h5-audio-player";
-
+import { BsFillLightningChargeFill } from "react-icons/bs";
 
 interface CounterProps {
   count: number;
@@ -17,51 +15,76 @@ const Counter = ({ count, energy, handleshake }: CounterProps) => {
   const [gifUrl, setGifUrl] = useState<string>("");
   const [state, setState] = useState<Status>("normal");
   const [lastCount, setLastCount] = useState<number>(count);
-  const [counter, setcounter] = useState(1);
+  const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
+  const audioBufferRef = useRef<AudioBuffer | null>(null);
 
-  // Define the paths for your GIFs
-  const gifUrls = useMemo(() => ({
-    normal: "/normal.gif",
-    tired: "/tired.gif",
-    shake: "/shake.gif",
-  }), []);
+  const gifUrls = useMemo(
+    () => ({
+      normal: "/normal.gif",
+      tired: "/tired.gif",
+      shake: "/shake.gif",
+    }),
+    []
+  );
 
+  // Preload GIFs
   useEffect(() => {
     Object.values(gifUrls).forEach((url) => {
       const img = new Image();
       img.src = url;
-      img.onload = () => {
-      };
+      img.onload = () => {};
     });
   }, [gifUrls]);
 
+  // Load the audio buffer once
   useEffect(() => {
-    
+    const initAudioContext = async () => {
+      const context = new AudioContext();
+      setAudioContext(context);
+
+      const response = await fetch("/coin.m4a");
+      const arrayBuffer = await response.arrayBuffer();
+      const audioBuffer = await context.decodeAudioData(arrayBuffer);
+      audioBufferRef.current = audioBuffer;
+    };
+
+    initAudioContext();
+
+    return () => {
+      audioContext?.close(); // Clean up the audio context on unmount
+    };
+  }, []);
+
+  const playSound = () => {
+    if (audioContext && audioBufferRef.current) {
+      const source = audioContext.createBufferSource();
+      source.buffer = audioBufferRef.current;
+      source.connect(audioContext.destination);
+      source.start(0); // Play the sound immediately
+    }
+  };
+
+  useEffect(() => {
     if (count > lastCount) {
       setState("shake");
-
+      playSound();
       const timer = setTimeout(() => {
-
-          
-          if(energy.current < 50){
-            setState("tired")
-          }else{
-            setState("normal")
-          }
+        if (energy.current < 50) {
+          setState("tired");
+        } else {
+          setState("normal");
+        }
       }, 1000);
 
       return () => clearTimeout(timer);
     }
 
     setLastCount(count);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [count, lastCount]);
 
-  // Update the GIF URL based on the current state
   useEffect(() => {
     setGifUrl(gifUrls[state]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state]);
+  }, [state, gifUrls]);
 
   return (
     <div className="w-full h-full">
@@ -91,13 +114,15 @@ const Counter = ({ count, energy, handleshake }: CounterProps) => {
           </div>
 
           <div
-
             className="w-[70%] my-4 h-16 bg-[#D5FF18] cursor-pointer select-none
       active:translate-y-1 active:[box-shadow:0_0px_0_0_#ABC340,0_0px_0_0_#ffffff]
       active:border-b-[0px] transition-all duration-150 [box-shadow:0_1.5px_0_0_#ABC340,0_4px_0_0_#ffffff]
       rounded-full border-[1px] border-[#D5FF18]"
           >
-            <span onClick={handleshake} className="flex justify-center items-center h-full text-black font-bold text-2xl">
+            <span
+              onClick={handleshake}
+              className="flex justify-center items-center h-full text-black font-bold text-2xl"
+            >
               Shake To Earn Coins
             </span>
           </div>

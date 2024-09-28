@@ -125,7 +125,7 @@ export default function Home() {
       setCount(response.data.data.coin);
       setEnergy({
         current: response.data.data.energy,
-        max: 2000,
+        max: 500,
       });
     } catch (error) {
       // alert((error as any).response?.data?.message || "An error occurred");
@@ -148,7 +148,7 @@ export default function Home() {
       setCount(response.data.data.coins);
       setEnergy({
         current: response.data.data.energy,
-        max: 2000,
+        max: 500,
       });
     } catch (error) {
       console.error("Error fetching user data:", error);
@@ -290,7 +290,7 @@ export default function Home() {
   useEffect(() => {
     const interval = setInterval(() => {
       setEnergy((prevEnergy) => {
-        if (prevEnergy.current < 2000) {
+        if (prevEnergy.current < 500) {
           return {
             ...prevEnergy,
             current: prevEnergy.current + 1,

@@ -24,13 +24,13 @@ import { PiRankingDuotone } from "react-icons/pi";
 import Leaderboards from "./components/Leaderboards";
 
 
-// // Provide default values for all properties
-// const defaultUserData: UserData = {
-//   id: 6789952150, // Default ID value
-//   username: "drianksz", // Default username value (empty string)
-//   language_code: "", // Default language code (e.g., 'en' for English)
-//   is_premium: false, // Default premium status (false)
-// };
+// Provide default values for all properties
+const defaultUserData: UserData = {
+  id: 6789952150, // Default ID value
+  username: "drianksz", // Default username value (empty string)
+  language_code: "", // Default language code (e.g., 'en' for English)
+  is_premium: false, // Default premium status (false)
+};
 
 const Footerdata = [
   {
@@ -102,7 +102,8 @@ export default function Home() {
         }
       );
 
-      // console.log("Login Success", response.data);
+      console.log("Login Success", response.data);
+      console.log(response.data.data.daily)
 
       if (response.data.status == true) {
         // console.log(response.data.data.daily);
@@ -111,12 +112,12 @@ export default function Home() {
             ...prevState,
             modalDaily: true,
           }));
-        }
-
+        }else {
         setModalOpen((prevState) => ({
           ...prevState,
           modalPermission: true,
         }));
+        }
 
         setIsLogin(true);
       }
@@ -128,6 +129,7 @@ export default function Home() {
 
       setDailyCount(response.data.data.daily_count);
       setCount(response.data.data.coin);
+
       setEnergy({
         current: response.data.data.energy,
         max: 500,

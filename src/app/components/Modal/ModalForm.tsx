@@ -233,17 +233,16 @@ function ModalForm({ onSubmit, isOpen }: ModalAllowProps) {
 
   const updateKYC = async (data: FormData) => {
     try {
-      console.log("Form Submitted Successfully", data);
-      // const response = await fetch("/api/submit", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(data),
-      // });
+      const response = await fetch("/api/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-      // const result = await response.json();
-      // console.log("Form Submitted Successfully:", result);
+      const result = await response.json();
+      console.log("Form Submitted Successfully:", result);
     } catch (error) {
       console.error("Error submitting form:", error);
     }

@@ -350,6 +350,7 @@ export default function Home() {
   };
 
   const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
+  const [audioContext2, setAudioContext2] = useState<AudioContext | null>(null);
   const audioBufferRef = useRef<AudioBuffer | null>(null);
   const audioBufferRef2 = useRef<AudioBuffer | null>(null);
   // Load the audio buffer once
@@ -398,10 +399,11 @@ export default function Home() {
     }
   };
 
+
   useEffect(() => {
-    const initAudioContext = async () => {
+    const initAudioContext2 = async () => {
       const context = new AudioContext();
-      setAudioContext(context);
+      setAudioContext2(context);
 
       const response = await fetch("/coin.m4a");
       const arrayBuffer = await response.arrayBuffer();
@@ -409,21 +411,23 @@ export default function Home() {
       audioBufferRef2.current = audioBuffer;
     };
 
-    initAudioContext();
+    initAudioContext2();
 
     return () => {
-      audioContext?.close(); // Clean up the audio context on unmount
+      audioContext2?.close(); // Clean up the audio context on unmount
     };
   }, []);
 
   const playSoundCoin = () => {
-    if (audioContext && audioBufferRef2.current) {
-      const source = audioContext.createBufferSource();
+    if (audioContext2 && audioBufferRef2.current) {
+      const source = audioContext2.createBufferSource();
       source.buffer = audioBufferRef2.current;
-      source.connect(audioContext.destination);
+      source.connect(audioContext2.destination);
       source.start(0); // Play the sound immediately
     }
   };
+
+
 
   return (
     <>

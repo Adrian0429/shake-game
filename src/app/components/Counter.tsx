@@ -15,8 +15,8 @@ const Counter = ({ count, energy, handleshake }: CounterProps) => {
   const [gifUrl, setGifUrl] = useState<string>("");
   const [state, setState] = useState<Status>("normal");
   const [lastCount, setLastCount] = useState<number>(count);
-  // const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
-  // const audioBufferRef2 = useRef<AudioBuffer | null>(null);
+  const [audioContext2, setAudioContext2] = useState<AudioContext | null>(null);
+  const audioBufferRef2 = useRef<AudioBuffer | null>(null);
 
   const gifUrls = useMemo(
     () => ({
@@ -36,32 +36,32 @@ const Counter = ({ count, energy, handleshake }: CounterProps) => {
     });
   }, [gifUrls]);
 
-  // useEffect(() => {
-  //   const initAudioContext = async () => {
-  //     const context = new AudioContext();
-  //     setAudioContext(context);
+  useEffect(() => {
+    const initAudioContext2 = async () => {
+      const context = new AudioContext();
+      setAudioContext2(context);
 
-  //     const response = await fetch("/coin.m4a");
-  //     const arrayBuffer = await response.arrayBuffer();
-  //     const audioBuffer = await context.decodeAudioData(arrayBuffer);
-  //     audioBufferRef2.current = audioBuffer;
-  //   };
+      const response = await fetch("/coin.m4a");
+      const arrayBuffer = await response.arrayBuffer();
+      const audioBuffer = await context.decodeAudioData(arrayBuffer);
+      audioBufferRef2.current = audioBuffer;
+    };
 
-  //   initAudioContext();
+    initAudioContext2();
 
-  //   return () => {
-  //     audioContext?.close(); // Clean up the audio context on unmount
-  //   };
-  // }, []);
+    return () => {
+      audioContext2?.close(); // Clean up the audio context on unmount
+    };
+  }, []);
 
-  // const playSound = () => {
-  //   if (audioContext && audioBufferRef2.current) {
-  //     const source = audioContext.createBufferSource();
-  //     source.buffer = audioBufferRef2.current;
-  //     source.connect(audioContext.destination);
-  //     source.start(0); // Play the sound immediately
-  //   }
-  // };
+  const playSound = () => {
+    if (audioContext2 && audioBufferRef2.current) {
+      const source = audioContext2.createBufferSource();
+      source.buffer = audioBufferRef2.current;
+      source.connect(audioContext2.destination);
+      source.start(0); // Play the sound immediately
+    }
+  };
 
   useEffect(() => {
     if (count > lastCount) {

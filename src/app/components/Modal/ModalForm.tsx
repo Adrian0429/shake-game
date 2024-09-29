@@ -310,7 +310,7 @@ function ModalForm({ onSubmit, isOpen }: ModalAllowProps) {
               rounded-full border-[1px] border-[#D5FF18] mb-3"
           >
             <span className="flex justify-center items-center h-full text-black font-bold text-2xl">
-              Allow
+              submit
             </span>
           </button>
         </form>

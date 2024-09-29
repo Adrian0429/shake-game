@@ -121,7 +121,7 @@ const Settings = ({userId}: props) => {
             )}
           </div>
 
-          <div className="flex h-[20%] w-full items-center justify-center">
+          <div className="flex h-full w-full items-center justify-center border">
             <h1 className="text-white text-3xl">
               Daily Login : {userDetails?.daily_count ?? 0}
             </h1>

@@ -20,6 +20,8 @@ import ModalAllowComponent from "./components/Modal/ModalAllow";
 import Link from "next/link";
 import ModalPermission from "./components/Modal/Modal";
 import AudioPlayer from "react-h5-audio-player";
+import { PiRankingDuotone } from "react-icons/pi";
+import Leaderboards from "./components/Leaderboards";
 
 
 // // Provide default values for all properties
@@ -46,6 +48,12 @@ const Footerdata = [
     ),
   },
   {
+    name: "Leaderboards",
+    icon: (
+      <PiRankingDuotone className="text-2xl mb-1 group-hover:text-[#E0FD60]" />
+    ),
+  },
+  {
     name: "Settings",
     icon: (
       <IoSettingsOutline className="text-2xl mb-1 group-hover:text-[#E0FD60]" />
@@ -54,7 +62,6 @@ const Footerdata = [
 ];
 
 export default function Home() {
-  const router = useRouter();
   const [count, setCount] = useState(0);
   const [dailyCount, setDailyCount] = useState(0);
   const [isModalOpen, setModalOpen] = useState({
@@ -67,7 +74,7 @@ export default function Home() {
   });
   const [increment, setIncrement] = useState(1);
   const [isMobile, setIsMobile] = useState(false);
-  const [Page, setPage] = useState("Home");
+  const [Page, setPage] = useState("Settings");
   const [userData, setUserData] = useState<UserData>();
   const myShakeEvent = useRef<Shake | null>(null);
   const [permissionGranted, setPermissionGranted] = useState(false);
@@ -324,7 +331,7 @@ export default function Home() {
   };
 
   const handleShake = () => {
-    
+
     // Early return if the page is not "Home"
     if (Page !== "Home") {
       return;
@@ -453,6 +460,7 @@ export default function Home() {
         )}
         {Page === "Referrals" && <Referrals userId={userData?.id ?? 0} />}
         {Page === "Settings" && <Settings userId={userData?.id ?? 0} />}
+        {Page === "Leaderboards" && <Leaderboards />}
         <div
           style={{
             backgroundImage: `url(${bg.src})`,
@@ -460,7 +468,7 @@ export default function Home() {
           }}
           className="fixed bottom-0 left-0 z-50 w-full h-[4.5rem] bg-transparent"
         >
-          <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium bg-transparent">
+          <div className="grid h-full max-w-lg grid-cols-5 mx-auto font-medium bg-transparent">
             {Footerdata.map((item, index) => {
               const isActive = Page === item.name;
               return (

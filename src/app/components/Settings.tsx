@@ -62,11 +62,10 @@ const Settings = ({userId}: props) => {
             alt=""
             className="w-16 h-16 rounded-full my-3"
           />
-          <p className="text-center text-white">{userDetails?.name}</p>
-          {/* <p className="text-center">@realsteve</p> */}
+          <p className="text-center text-white">{userDetails?.name ?? "Adrian"}</p>
         </div>
 
-        <div className="w-[90%] flex flex-col space-y-3 mt-3">
+        <div className="w-[90%] flex flex-col space-y-5 mt-3">
           <div className="flex flex-row justify-between">
             <p className="text-white">Country</p>
             <div className="flex flex-row items-center space-x-5 text-white">

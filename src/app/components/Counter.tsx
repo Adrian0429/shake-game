@@ -15,8 +15,6 @@ const Counter = ({ count, energy, handleshake }: CounterProps) => {
   const [gifUrl, setGifUrl] = useState<string>("");
   const [state, setState] = useState<Status>("normal");
   const [lastCount, setLastCount] = useState<number>(count);
-  const [audioContext2, setAudioContext2] = useState<AudioContext | null>(null);
-  const audioBufferRef2 = useRef<AudioBuffer | null>(null);
 
   const gifUrls = useMemo(
     () => ({
@@ -35,33 +33,6 @@ const Counter = ({ count, energy, handleshake }: CounterProps) => {
       img.onload = () => {};
     });
   }, [gifUrls]);
-
-  // useEffect(() => {
-  //   const initAudioContext2 = async () => {
-  //     const context = new AudioContext();
-  //     setAudioContext2(context);
-
-  //     const response = await fetch("/coin.m4a");
-  //     const arrayBuffer = await response.arrayBuffer();
-  //     const audioBuffer = await context.decodeAudioData(arrayBuffer);
-  //     audioBufferRef2.current = audioBuffer;
-  //   };
-
-  //   initAudioContext2();
-
-  //   return () => {
-  //     audioContext2?.close(); // Clean up the audio context on unmount
-  //   };
-  // }, []);
-
-  // const playSound = () => {
-  //   if (audioContext2 && audioBufferRef2.current) {
-  //     const source = audioContext2.createBufferSource();
-  //     source.buffer = audioBufferRef2.current;
-  //     source.connect(audioContext2.destination);
-  //     source.start(0); // Play the sound immediately
-  //   }
-  // };
 
   useEffect(() => {
     if (count > lastCount) {

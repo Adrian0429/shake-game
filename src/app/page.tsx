@@ -102,9 +102,12 @@ export default function Home() {
         }
       );
 
-      console.log("Login Success", response.data);
-      console.log(response.data.data.daily)
-
+      // console.log("Login Success", response.data);
+      // console.log(response.data.data.daily)
+      setCookie(null, "token", response.data.data.token, {
+        maxAge: 3 * 60 * 60,
+        path: "/",
+      });
       if (response.data.status == true) {
         // console.log(response.data.data.daily);
         if ((response.data.data.daily = "Daily")) {
@@ -122,10 +125,7 @@ export default function Home() {
         setIsLogin(true);
       }
 
-      setCookie(null, "token", response.data.data.token, {
-        maxAge: 3 * 60 * 60,
-        path: "/",
-      });
+      
 
       setDailyCount(response.data.data.daily_count);
       setCount(response.data.data.coin);

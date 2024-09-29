@@ -104,18 +104,18 @@ const Settings = ({userId}: props) => {
               </div>
             </div>
 
-            {(userDetails?.email == "" || userDetails?.regions == "") && (
+            {(!userDetails?.email || !userDetails?.regions) && (
               <div
                 className="w-[80%] my-4 h-12 bg-[#D84A4D] cursor-pointer select-none
-      active:translate-y-1 active:[box-shadow:0_0px_0_0_#ABC340,0_0px_0_0_#ffffff]
-      active:border-b-[0px] transition-all duration-150 [box-shadow:0_1.5px_0_0_#ABC340,0_4px_0_0_#ffffff]
-      rounded-full border-[1px] border-[#D84A4D]"
+    active:translate-y-1 active:[box-shadow:0_0px_0_0_#ABC340,0_0px_0_0_#ffffff]
+    active:border-b-[0px] transition-all duration-150 [box-shadow:0_1.5px_0_0_#ABC340,0_4px_0_0_#ffffff]
+    rounded-full border-[1px] border-[#D84A4D]"
               >
                 <span
                   onClick={() => setIsOpen(true)}
                   className="flex justify-center items-center h-full text-black font-bold text-2xl"
                 >
-                  Fill In your Email and Region !
+                  Fill In your Email and Region!
                 </span>
               </div>
             )}

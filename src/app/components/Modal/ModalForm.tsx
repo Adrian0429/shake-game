@@ -278,7 +278,7 @@ function ModalForm({ onSubmit, isOpen }: ModalAllowProps) {
             )}
           </div>
 
-          {/* Region dropdown with filter */}
+
           <div className="w-[80%]">
             <input
               type="text"
@@ -287,6 +287,7 @@ function ModalForm({ onSubmit, isOpen }: ModalAllowProps) {
               list="regions"
               {...register("region", { required: "Region is required" })}
             />
+
             <datalist id="regions">
               {filteredRegions.map((region) => (
                 <option key={region.code} value={region.code}>
@@ -294,6 +295,7 @@ function ModalForm({ onSubmit, isOpen }: ModalAllowProps) {
                 </option>
               ))}
             </datalist>
+
             {errors.region && (
               <p className="text-red-500">{errors.region.message}</p>
             )}

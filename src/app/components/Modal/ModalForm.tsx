@@ -278,7 +278,6 @@ function ModalForm({ onSubmit, isOpen }: ModalAllowProps) {
             )}
           </div>
 
-
           <div className="w-[80%]">
             <input
               type="text"

@@ -287,6 +287,7 @@ export default function Home() {
 
   const checkMotionPermission = async () => {
     playSound();
+    playSoundCoin();
     try {
       if (typeof (DeviceMotionEvent as any).requestPermission === "function") {
         const permissionState = await (
@@ -350,7 +351,9 @@ export default function Home() {
 
   const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
   const audioBufferRef = useRef<AudioBuffer | null>(null);
+  const audioBufferRef2 = useRef<AudioBuffer | null>(null);
   // Load the audio buffer once
+
   useEffect(() => {
     const initAudioContext = async () => {
       const context = new AudioContext();
@@ -391,6 +394,33 @@ export default function Home() {
       source.buffer = audioBufferRef.current;
       source.connect(audioContext.destination);
       source.loop = true; // Enable looping if needed
+      source.start(0); // Play the sound immediately
+    }
+  };
+
+  useEffect(() => {
+    const initAudioContext = async () => {
+      const context = new AudioContext();
+      setAudioContext(context);
+
+      const response = await fetch("/coin.m4a");
+      const arrayBuffer = await response.arrayBuffer();
+      const audioBuffer = await context.decodeAudioData(arrayBuffer);
+      audioBufferRef2.current = audioBuffer;
+    };
+
+    initAudioContext();
+
+    return () => {
+      audioContext?.close(); // Clean up the audio context on unmount
+    };
+  }, []);
+
+  const playSoundCoin = () => {
+    if (audioContext && audioBufferRef2.current) {
+      const source = audioContext.createBufferSource();
+      source.buffer = audioBufferRef2.current;
+      source.connect(audioContext.destination);
       source.start(0); // Play the sound immediately
     }
   };

@@ -102,7 +102,7 @@ export default function Home() {
         }
       );
 
-      // console.log("Login Success", response.data);
+      console.log("Login Success", response.data);
       // console.log(response.data.data.daily)
       setCookie(null, "token", response.data.data.token, {
         maxAge: 3 * 60 * 60,

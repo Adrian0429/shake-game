@@ -242,13 +242,12 @@ function ModalForm({ onSubmit, isOpen }: ModalAllowProps) {
     }
   };
 
-  // Watch for region input changes and filter regions based on the input
-  const regionInput = watch("region");
-  const filteredRegions = regions.filter(
-    (region) =>
-      region.name.toLowerCase().includes(regionInput?.toLowerCase()) ||
-      region.code.toLowerCase().includes(regionInput?.toLowerCase())
-  );
+  // const regionInput = watch("region");
+  // const filteredRegions = regions.filter(
+  //   (region) =>
+  //     region.name.toLowerCase().includes(regionInput?.toLowerCase()) ||
+  //     region.code.toLowerCase().includes(regionInput?.toLowerCase())
+  // );
 
   if (!isOpen) return null;
 
@@ -287,13 +286,15 @@ function ModalForm({ onSubmit, isOpen }: ModalAllowProps) {
               {...register("region", { required: "Region is required" })}
             />
 
-            <datalist id="regions">
+            {/* <datalist id="regions">
+
               {filteredRegions.map((region) => (
                 <option key={region.code} value={region.code}>
                   {region.name} ({region.code})
                 </option>
               ))}
-            </datalist>
+
+            </datalist> */}
 
             {errors.region && (
               <p className="text-red-500">{errors.region.message}</p>

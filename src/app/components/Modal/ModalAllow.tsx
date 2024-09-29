@@ -11,27 +11,6 @@ interface ModalAllowProps {
   isOpen: boolean;
 }
 
-const update = async () => {
-  const cookies = parseCookies();
-
-  try {
-    const response = await axios.post(
-      "https://api2.fingo.co.id/api/user/daily",
-      {}, // You can include any request body data here if needed
-      {
-        headers: {
-          Authorization: `Bearer ${cookies.token}`,
-        },
-      }
-    );
-
-    console.log("Success update daily", response.data);
-  } catch (error) {
-    console.error(
-      "Error daily:",error
-    );
-  }
-};
 
 function ModalAllowComponent({ onAllowPermission, username, daily_count, isOpen }: ModalAllowProps) {
   if (!isOpen) return null;
@@ -53,11 +32,7 @@ function ModalAllowComponent({ onAllowPermission, username, daily_count, isOpen 
             active:translate-y-2 active:[box-shadow:0_0px_0_0_#ABC340,0_0px_0_0_#ffffff]
             active:border-b-[0px] transition-all duration-150 [box-shadow:0_2px_0_0_#ABC340,0_4px_0_0_#ffffff]
             rounded-full border-[1px] border-[#D5FF18] mb-3"
-          onClick={()=>{
-            update();
-            onAllowPermission;
-          }}
-        >
+          onClick={onAllowPermission}>
           <span className="flex justify-center items-center h-full text-black font-bold text-2xl">
             Continue
           </span>

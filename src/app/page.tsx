@@ -108,7 +108,7 @@ export default function Home() {
         maxAge: 3 * 60 * 60,
         path: "/",
       });
-      
+
       if (response.data.status == true) {
         // console.log(response.data.data.daily);
         if ((response.data.data.daily = "Daily")) {
@@ -295,9 +295,33 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [permissionGranted]);
 
+
+const update = async () => {
+  const cookies = parseCookies();
+
+  try {
+    const response = await axios.post(
+      "https://api2.fingo.co.id/api/user/daily",
+      {}, // You can include any request body data here if needed
+      {
+        headers: {
+          Authorization: `Bearer ${cookies.token}`,
+        },
+      }
+    );
+
+    console.log("Success update daily", response.data);
+  } catch (error) {
+    console.error(
+      "Error daily:",error
+    );
+  }
+};
+
   const checkMotionPermission = async () => {
     playSound();
     playSoundCoin();
+    update();
     try {
       if (typeof (DeviceMotionEvent as any).requestPermission === "function") {
         const permissionState = await (

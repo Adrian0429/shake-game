@@ -5,6 +5,7 @@ import { useState } from "react";
 interface ModalAllowProps {
   onSubmit: () => void;
   isOpen: boolean;
+  close: () => void;
 }
 
 interface FormData {
@@ -214,7 +215,7 @@ const allRegions = [
 ];
 
 
-function ModalForm({ onSubmit, isOpen }: ModalAllowProps) {
+function ModalForm({ onSubmit, isOpen, close }: ModalAllowProps) {
   const {
     register,
     handleSubmit,
@@ -260,9 +261,13 @@ function ModalForm({ onSubmit, isOpen }: ModalAllowProps) {
   return (
     <dialog className="fixed left-0 top-0 w-full h-full bg-black bg-opacity-50 z-50 overflow-auto flex justify-center items-center">
       <div className="relative flex flex-col items-center mx-auto py-4 px-6 bg-[#232328] min-h-[300px] w-[350px] rounded-lg z-100">
-        <h1 className="text-2xl font-bold text-center text-white">
-          Fill in your Data Here!
-        </h1>
+        <div className="flex w-full flex-row justify-between">
+          <p className="text-[#232328]">x</p>
+          <h1 className="text-2xl font-bold text-center text-white">
+            Fill in your Data Here!
+          </h1>
+          <p onClick={close} className="text-2xl font-bold text-white">x</p>
+        </div>
 
         <form
           onSubmit={handleSubmit((data) => {

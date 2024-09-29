@@ -106,6 +106,7 @@ const Settings = ({userId}: props) => {
 
             {(!userDetails?.email || !userDetails?.regions) && (
               <div
+                onClick={() => setIsOpen(true)}
                 className="w-[80%] my-4 h-12 bg-[#D84A4D] cursor-pointer select-none
     active:translate-y-1 active:[box-shadow:0_0px_0_0_#ABC340,0_0px_0_0_#ffffff]
     active:border-b-[0px] transition-all duration-150 [box-shadow:0_1.5px_0_0_#ABC340,0_4px_0_0_#ffffff]
@@ -128,7 +129,7 @@ const Settings = ({userId}: props) => {
           </div>
         </div>
       </div>
-      <ModalForm isOpen={isOpen} onSubmit={handleModalSubmit} />
+      <ModalForm isOpen={isOpen} onSubmit={handleModalSubmit} close={handleModalSubmit} />
     </>
   );
 };

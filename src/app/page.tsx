@@ -116,12 +116,14 @@ export default function Home() {
             ...prevState,
             modalDaily: true,
           }));
-        }else {
+        }
+        else if ((response.data.data.daily = "Login" )) {
         setModalOpen((prevState) => ({
           ...prevState,
           modalPermission: true,
         }));
         }
+        
 
         setIsLogin(true);
       }

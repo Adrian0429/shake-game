@@ -58,7 +58,7 @@ const Settings = ({userId}: props) => {
 
     fetchUserData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userDetails]);
+  }, []);
 
   return (
     <>

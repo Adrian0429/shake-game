@@ -220,7 +220,14 @@ function ModalForm({ onSubmit, isOpen }: ModalAllowProps) {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<FormData>();
+    setValue,
+  } = useForm<FormData>({
+    defaultValues: {
+      email: "",
+      region: "ID", // Set the default region to Indonesia (using the code)
+    },
+  });
+
 
   const [regions, setRegions] = useState(allRegions);
 
@@ -242,12 +249,12 @@ function ModalForm({ onSubmit, isOpen }: ModalAllowProps) {
     }
   };
 
-  // const regionInput = watch("region");
-  // const filteredRegions = regions.filter(
-  //   (region) =>
-  //     region.name.toLowerCase().includes(regionInput?.toLowerCase()) ||
-  //     region.code.toLowerCase().includes(regionInput?.toLowerCase())
-  // );
+  const regionInput = watch("region");
+  const filteredRegions = regions.filter(
+    (region) =>
+      region.name.toLowerCase().includes(regionInput?.toLowerCase()) ||
+      region.code.toLowerCase().includes(regionInput?.toLowerCase())
+  );
 
   if (!isOpen) return null;
 
@@ -258,8 +265,9 @@ function ModalForm({ onSubmit, isOpen }: ModalAllowProps) {
           Fill in your Data Here!
         </h1>
 
-        <form onSubmit={handleSubmit((data) => {
-            updateKYC(data); 
+        <form
+          onSubmit={handleSubmit((data) => {
+            updateKYC(data);
             onSubmit();
           })}
           className="flex flex-col w-full items-center mt-4 space-y-4"
@@ -277,28 +285,19 @@ function ModalForm({ onSubmit, isOpen }: ModalAllowProps) {
             )}
           </div>
 
-          <div className="w-[80%]">
-            <input
-              type="text"
-              placeholder="Type or Select Region"
+          <div className="form-group w-[80%] mt-3">
+            <select
+              id="region"
               className="w-full h-12 px-3 rounded-lg text-black"
-              list="regions"
               {...register("region", { required: "Region is required" })}
-            />
-
-            {/* <datalist id="regions">
-
-              {filteredRegions.map((region) => (
+            >
+              {regions.map((region) => (
                 <option key={region.code} value={region.code}>
-                  {region.name} ({region.code})
+                  {region.name}
                 </option>
               ))}
-
-            </datalist> */}
-
-            {errors.region && (
-              <p className="text-red-500">{errors.region.message}</p>
-            )}
+            </select>
+            {errors.region && <p className="error">{errors.region.message}</p>}
           </div>
 
           {/* Submit button */}

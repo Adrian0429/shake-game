@@ -108,6 +108,7 @@ export default function Home() {
         maxAge: 3 * 60 * 60,
         path: "/",
       });
+      
       if (response.data.status == true) {
         // console.log(response.data.data.daily);
         if ((response.data.data.daily = "Daily")) {

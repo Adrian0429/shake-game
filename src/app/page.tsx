@@ -324,13 +324,14 @@ export default function Home() {
   };
 
   const handleShake = () => {
+    
     // Early return if the page is not "Home"
     if (Page !== "Home") {
       return;
     }
-
     // Only increment the count and decrement energy if energy is greater than 0
     if (energy.current > 0) {
+      playSoundCoin();
       setCount((prevCount) => prevCount + increment);
       setEnergy((prevEnergy) => ({
         ...prevEnergy,
@@ -426,8 +427,6 @@ export default function Home() {
       source.start(0); // Play the sound immediately
     }
   };
-
-
 
   return (
     <>

@@ -22,6 +22,7 @@ import ModalPermission from "./components/Modal/Modal";
 import AudioPlayer from "react-h5-audio-player";
 import { PiRankingDuotone } from "react-icons/pi";
 import Leaderboards from "./components/Leaderboards";
+import Loading from "./components/Loading";
 
 
 // Provide default values for all properties
@@ -75,13 +76,14 @@ export default function Home() {
   const [increment, setIncrement] = useState(1);
   const [isMobile, setIsMobile] = useState(false);
   const [Page, setPage] = useState("Home");
-  const [userData, setUserData] = useState<UserData>();
+  const [userData, setUserData] = useState<UserData>(defaultUserData);
   const myShakeEvent = useRef<Shake | null>(null);
   const [permissionGranted, setPermissionGranted] = useState(false);
   const [userDetails, setUserDetails] = useState<MeUser | null>(null);
   const previousCount = useRef<number>(count);
   const [startParam, setStartParam] = useState("");
   const [isLogin, setIsLogin] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const RegisterLogin = async () => {
     const formData = {
@@ -121,7 +123,6 @@ export default function Home() {
             modalPermission: true,
           }));
         }
-        
 
         setIsLogin(true);
       }
@@ -135,10 +136,20 @@ export default function Home() {
         current: response.data.data.energy,
         max: 500,
       });
+
+      triggerLoading();
+      
     } catch (error) {
       // alert((error as any).response?.data?.message || "An error occurred");
       console.error("Error Login:", error);
     }
+  };
+
+  const triggerLoading = () => {
+    // Wait for 2 seconds before setting loading to false
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
   };
 
   const fetchUserData = async () => {
@@ -462,100 +473,107 @@ const update = async () => {
     }
   };
 
-  return (
-    <>
-      <div
-        className="h-[100vh]"
-        style={{
-          backgroundImage: `url(${bg.src})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        {Page === "Home" && (
-          <Counter count={count} energy={energy} handleshake={handleShake} />
-        )}
-        {Page === "Tasks" && (
-          <Tasks
-            onTaskClear={fetchUserData}
-            userId={userData?.id ?? 0}
-            handleShake={handleShake}
-          />
-        )}
-        {userData && Page === "Profiles" && (
-          <Profiles onTaskClear={fetchUserData} userData={userData} />
-        )}
-        {Page === "Referrals" && <Referrals userId={userData?.id ?? 0} />}
-        {Page === "Settings" && <Settings userId={userData?.id ?? 0} />}
-        {Page === "Leaderboards" && <Leaderboards />}
-        <div
-          style={{
-            backgroundImage: `url(${bg.src})`,
-            width: "100%",
-          }}
-          className="fixed bottom-0 left-0 z-50 w-full h-[4.5rem] bg-transparent"
-        >
-          <div className="grid h-full max-w-lg grid-cols-5 mx-auto font-medium bg-transparent">
-            {Footerdata.map((item, index) => {
-              const isActive = Page === item.name;
-              return (
-                <button
-                  onClick={() => setPage(item.name)}
-                  key={index}
-                  className="inline-flex flex-col items-center justify-center px-5"
-                >
-                  <div
-                    className={`${
-                      isActive ? "text-[#E0FD60]" : "text-gray-400"
-                    } text-2xl mb-1 group-hover:text-[#E0FD60]`}
-                  >
-                    {item.icon}
-                  </div>
-                  <span
-                    className={`${
-                      isActive ? "text-[#E0FD60]" : "text-gray-500"
-                    } text-sm group-hover:text-[#E0FD60]`}
-                  >
-                    {item.name}
-                  </span>
-                </button>
-              );
-            })}
+ return (
+  <>
+    {loading ? (
+      <Loading />
+    ) : (
+      <>
+        {isMobile ? (
+          <div
+            className="h-[100vh]"
+            style={{
+              backgroundImage: `url(${bg.src})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          >
+            {Page === "Home" && (
+              <Counter count={count} energy={energy} handleshake={handleShake} />
+            )}
+            {Page === "Tasks" && (
+              <Tasks
+                onTaskClear={fetchUserData}
+                userId={userData?.id ?? 0}
+                handleShake={handleShake}
+              />
+            )}
+            {userData && Page === "Profiles" && (
+              <Profiles onTaskClear={fetchUserData} userData={userData} />
+            )}
+            {Page === "Referrals" && <Referrals userId={userData?.id ?? 0} />}
+            {Page === "Settings" && <Settings userId={userData?.id ?? 0} />}
+            {Page === "Leaderboards" && <Leaderboards />}
+
+            <div
+              style={{
+                backgroundImage: `url(${bg.src})`,
+                width: "100%",
+              }}
+              className="fixed bottom-0 left-0 z-50 w-full h-[4.5rem] bg-transparent"
+            >
+              <div className="grid h-full max-w-lg grid-cols-5 mx-auto font-medium bg-transparent">
+                {Footerdata.map((item, index) => {
+                  const isActive = Page === item.name;
+                  return (
+                    <button
+                      onClick={() => setPage(item.name)}
+                      key={index}
+                      className="inline-flex flex-col items-center justify-center px-5"
+                    >
+                      <div
+                        className={`${
+                          isActive ? "text-[#E0FD60]" : "text-gray-400"
+                        } text-2xl mb-1 group-hover:text-[#E0FD60]`}
+                      >
+                        {item.icon}
+                      </div>
+                      <span
+                        className={`${
+                          isActive ? "text-[#E0FD60]" : "text-gray-500"
+                        } text-sm group-hover:text-[#E0FD60]`}
+                      >
+                        {item.name}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <ModalAllowComponent
+              username={userData?.username ?? ""}
+              daily_count={dailyCount}
+              onAllowPermission={checkMotionPermission}
+              isOpen={isModalOpen.modalDaily}
+            />
+
+            <ModalPermission
+              username={userData?.username ?? ""}
+              onAllowPermission={checkMotionPermission}
+              isOpen={isModalOpen.modalPermission}
+            />
           </div>
-        </div>
-
-        <ModalAllowComponent
-          username={userData?.username ?? ""}
-          daily_count={dailyCount}
-          onAllowPermission={checkMotionPermission}
-          isOpen={isModalOpen.modalDaily}
-        />
-
-        <ModalPermission
-          username={userData?.username ?? ""}
-          onAllowPermission={checkMotionPermission}
-          isOpen={isModalOpen.modalPermission}
-        />
-      </div>
-      {/* ) : (
-       <div className="h-[100vh] flex justify-center items-center bg-gray-200">
-         <div className="text-center">
-           <h2 className="text-xl font-bold">
-             This app is designed for mobile devices only.
-           </h2>
-           <p className="mt-2 text-gray-700">
-             Please open this app on a mobile device to use its features.
-           </p>
-           <Link
-             href={"https:t.me/shakeTongamebot"}
-             className="mt-2 text-gray-700"
-           >
-             Click Here To Navigate
-           </Link>
-         </div>
-       </div>
-     )} */}
-    </>
-  );
+        ) : (
+          <div className="h-[100vh] flex justify-center items-center bg-gray-200">
+            <div className="text-center">
+              <h2 className="text-xl font-bold">
+                This app is designed for mobile devices only.
+              </h2>
+              <p className="mt-2 text-gray-700">
+                Please open this app on a mobile device to use its features.
+              </p>
+              <Link
+                href={"https://t.me/shakeTongamebot"}
+                className="mt-2 text-gray-700"
+              >
+                Click Here To Navigate
+              </Link>
+            </div>
+          </div>
+        )}
+      </>
+    )}
+  </>
+);
 }
-

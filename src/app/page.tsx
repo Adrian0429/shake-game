@@ -111,17 +111,16 @@ export default function Home() {
 
       if (response.data.status == true) {
         // console.log(response.data.data.daily);
-        if ((response.data.data.daily = "Daily")) {
+        if ((response.data.data.daily_status = false)) {
           setModalOpen((prevState) => ({
             ...prevState,
             modalDaily: true,
           }));
-        }
-        else if ((response.data.data.daily = "Login" )) {
-        setModalOpen((prevState) => ({
-          ...prevState,
-          modalPermission: true,
-        }));
+        } else {
+          setModalOpen((prevState) => ({
+            ...prevState,
+            modalPermission: true,
+          }));
         }
         
 

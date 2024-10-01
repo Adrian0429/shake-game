@@ -65,7 +65,7 @@ const Settings = ({userId}: props) => {
       <div className="w-full h-full flex flex-col items-center py-10">
         <div className="h-[calc(100vh-4.5rem)]  w-full flex flex-col items-center">
           <div className="w-full flex flex-col items-center h-[50%]">
-            <div className="mb-5 text-white">
+            <div className="flex flex-col items-center justify-center mb-5 text-white">
               <Image
                 src={bg}
                 width={100}
@@ -85,16 +85,20 @@ const Settings = ({userId}: props) => {
               <div className="flex flex-row justify-between">
                 <p className="text-white">Country</p>
                 <div className="flex flex-row items-center space-x-5 text-white">
-                  {userDetails?.region ?? "There's no country yet"}
-                  <FaChevronRight />
+                  {userDetails?.region
+                    ? userDetails.region
+                    : "There's no country yet"}
+                  
                 </div>
               </div>
 
               <div className="flex flex-row justify-between">
                 <p className="text-white">Email</p>
                 <div className="flex flex-row items-center space-x-5 text-white">
-                  {userDetails?.email ?? "There's no email yet"}
-                  <FaChevronRight />
+                  {userDetails?.email
+                    ? userDetails.email
+                    : "There's no email yet"}
+                  
                 </div>
               </div>
 
@@ -102,7 +106,7 @@ const Settings = ({userId}: props) => {
                 <p className="text-white">Exchange</p>
                 <div className="flex flex-row items-center space-x-5 text-white">
                   There&apos;s no exchanges yet
-                  <FaChevronRight />
+                  
                 </div>
               </div>
             </div>
@@ -110,7 +114,7 @@ const Settings = ({userId}: props) => {
             {(!userDetails?.email || !userDetails?.regions) && (
               <div
                 onClick={() => setIsOpen(true)}
-                className="w-[80%] my-4 h-12 bg-[#D84A4D] cursor-pointer select-none
+                className="w-[80%] my-8 h-12 bg-[#D84A4D] cursor-pointer select-none
     active:translate-y-1 active:[box-shadow:0_0px_0_0_#ABC340,0_0px_0_0_#ffffff]
     active:border-b-[0px] transition-all duration-150 [box-shadow:0_1.5px_0_0_#ABC340,0_4px_0_0_#ffffff]
     rounded-full border-[1px] border-[#D84A4D]"
@@ -125,7 +129,7 @@ const Settings = ({userId}: props) => {
             )}
           </div>
 
-          <div className="flex h-full w-full items-center justify-center border">
+          <div className="flex h-full w-full items-center justify-center">
             <h1 className="text-white text-3xl">
               Daily Login : {userDetails?.daily_count ?? 0}
             </h1>

@@ -73,7 +73,10 @@ const Settings = ({userId}: props) => {
                 alt=""
                 className="w-16 h-16 rounded-full my-3"
               />
-              <p className="text-center text-white text-3xl">
+              <p
+                onClick={() => setIsOpen(true)}
+                className="text-center text-white text-3xl"
+              >
                 {userDetails?.name ?? "Adrian"}
               </p>
             </div>
@@ -122,14 +125,18 @@ const Settings = ({userId}: props) => {
             )}
           </div>
 
-          <div className="flex h-full w-full items-center justify-center">
+          <div className="flex h-full w-full items-center justify-center border">
             <h1 className="text-white text-3xl">
               Daily Login : {userDetails?.daily_count ?? 0}
             </h1>
           </div>
         </div>
       </div>
-      <ModalForm isOpen={isOpen} onSubmit={handleModalSubmit} close={handleModalSubmit} />
+      <ModalForm
+        isOpen={isOpen}
+        onSubmit={handleModalSubmit}
+        close={handleModalSubmit}
+      />
     </>
   );
 };

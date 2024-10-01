@@ -10,10 +10,6 @@ import { FaCheckCircle } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import { useRouter } from "next/navigation";
 
-
-interface TasksProps {
-}
-
 const Loading = () => {
   return (
     <div className="w-full h-full py-5">

@@ -103,20 +103,19 @@ export default function Home() {
       );
 
       console.log("Login Success", response.data);
-      // console.log(response.data.data.daily)
       setCookie(null, "token", response.data.data.token, {
         maxAge: 3 * 60 * 60,
         path: "/",
       });
 
       if (response.data.status == true) {
-        // console.log(response.data.data.daily);
-        if ((response.data.data.daily_status = false)) {
+        console.log(response.data.data.daily_status)
+        if (response.data.data.daily_status == false) {
           setModalOpen((prevState) => ({
             ...prevState,
             modalDaily: true,
           }));
-        } else {
+        } else if (response.data.data.daily_status == true) {
           setModalOpen((prevState) => ({
             ...prevState,
             modalPermission: true,

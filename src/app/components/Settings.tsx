@@ -74,7 +74,6 @@ const Settings = ({userId}: props) => {
                 className="w-16 h-16 rounded-full my-3"
               />
               <p
-                onClick={() => setIsOpen(true)}
                 className="text-center text-white text-3xl"
               >
                 {userDetails?.name ?? "Adrian"}
@@ -88,7 +87,6 @@ const Settings = ({userId}: props) => {
                   {userDetails?.region
                     ? userDetails.region
                     : "There's no country yet"}
-                  
                 </div>
               </div>
 
@@ -98,7 +96,6 @@ const Settings = ({userId}: props) => {
                   {userDetails?.email
                     ? userDetails.email
                     : "There's no email yet"}
-                  
                 </div>
               </div>
 
@@ -106,7 +103,6 @@ const Settings = ({userId}: props) => {
                 <p className="text-white">Exchange</p>
                 <div className="flex flex-row items-center space-x-5 text-white">
                   There&apos;s no exchanges yet
-                  
                 </div>
               </div>
             </div>
@@ -114,17 +110,9 @@ const Settings = ({userId}: props) => {
             {(!userDetails?.email || !userDetails?.regions) && (
               <div
                 onClick={() => setIsOpen(true)}
-                className="w-[80%] my-8 h-12 bg-[#D84A4D] cursor-pointer select-none
-    active:translate-y-1 active:[box-shadow:0_0px_0_0_#ABC340,0_0px_0_0_#ffffff]
-    active:border-b-[0px] transition-all duration-150 [box-shadow:0_1.5px_0_0_#ABC340,0_4px_0_0_#ffffff]
-    rounded-full border-[1px] border-[#D84A4D]"
+                className="w-[80%] my-8 h-12 bg-[#D84A4D] rounded-3xl flex items-center justify-center"
               >
-                <span
-                  onClick={() => setIsOpen(true)}
-                  className="flex justify-center items-center h-full text-black font-bold text-2xl"
-                >
-                  Fill In your Email and Region!
-                </span>
+                <h1 className="text-white text-xl">Click to Fill In your Email and Region!</h1>
               </div>
             )}
           </div>

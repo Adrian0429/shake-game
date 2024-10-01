@@ -74,7 +74,7 @@ export default function Home() {
   });
   const [increment, setIncrement] = useState(1);
   const [isMobile, setIsMobile] = useState(false);
-  const [Page, setPage] = useState("Settings");
+  const [Page, setPage] = useState("Home");
   const [userData, setUserData] = useState<UserData>();
   const myShakeEvent = useRef<Shake | null>(null);
   const [permissionGranted, setPermissionGranted] = useState(false);
@@ -82,7 +82,7 @@ export default function Home() {
   const previousCount = useRef<number>(count);
   const [startParam, setStartParam] = useState("");
   const [isLogin, setIsLogin] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const RegisterLogin = async () => {
     const formData = {

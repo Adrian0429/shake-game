@@ -22,7 +22,6 @@ import ModalPermission from "./components/Modal/Modal";
 import AudioPlayer from "react-h5-audio-player";
 import { PiRankingDuotone } from "react-icons/pi";
 import Leaderboards from "./components/Leaderboards";
-import Loading from "./components/Loading";
 
 
 // Provide default values for all properties

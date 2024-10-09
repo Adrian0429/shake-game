@@ -10,8 +10,10 @@ export interface MeUser {
   tele_id: string;
   name: string;
   email: string;
-  region: string;
   energy: number;
-  coins: number;
-  referral_code: string;
+  region: string;
+  coin: number;
+  daily_status: boolean;
+  daily_count: number;
+  exchange: string;
 }

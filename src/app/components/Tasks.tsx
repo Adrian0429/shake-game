@@ -9,6 +9,9 @@ import { parseCookies } from "nookies";
 import { FaCheckCircle } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import { useRouter } from "next/navigation";
+import { MeUser } from "../constant/types";
+import OffCanvasTask from "./offcanvas/OffCanvasTask";
+import { LuYoutube } from "react-icons/lu";
 
 interface Task {
   task_id: string;
@@ -20,12 +23,18 @@ interface Task {
 
 interface TasksProps {
   userId: number;
-  handleShake: () => void;
+  userDetail: MeUser;
   onTaskClear: () => void;
 }
 
-const Tasks = ({ userId, onTaskClear, handleShake }: TasksProps) => {
+const Tasks = ({ userId, onTaskClear, userDetail }: TasksProps) => {
+  
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [isOffcanvasVisible, setIsOffcanvasVisible] = useState(false);
+  const toggleOffcanvas = () => {
+    setIsOffcanvasVisible(!isOffcanvasVisible);
+  };
+
   const router = useRouter();
   const refreshTasks = useCallback(async () => {
     const cookies = parseCookies();
@@ -49,7 +58,6 @@ const Tasks = ({ userId, onTaskClear, handleShake }: TasksProps) => {
     }
   }, []);
 
-  // Fetch tasks on component mount and when userId changes
   useEffect(() => {
     refreshTasks();
   }, [userId, refreshTasks]);
@@ -82,19 +90,68 @@ const Tasks = ({ userId, onTaskClear, handleShake }: TasksProps) => {
   };
 
   return (
-    <div className="w-full h-full py-5">
-      <div className="flex flex-col h-[calc(100vh-4.5rem)] items-center">
-        <h2 className="text-H2 text-white">Do The Task</h2>
-        <p className="mt-2 text-B2 text-white">
-          Complete your task, Claim your rewards!
-        </p>
+    <>
+      <div className="w-full h-full py-8">
+        <div className="flex flex-col h-[calc(100vh-4.5rem)] items-center">
+          <h2 className="text-D2 text-white">Do The Task</h2>
+          <p className="mt-2 text-H2 text-white">
+            Complete your task, Claim your rewards!
+          </p>
 
-        <div className="w-[90%] h-[60vh] overflow-y-scroll mt-10 space-y-3">
-          {tasks.map((task) => (
-            <div
-              key={task.task_id}
-              className="flex flex-row justify-between h-16 bg-[#232328] rounded-full px-5 py-1 items-center"
-            >
+          <p className="mt-2 text-H1 text-white py-5">
+            <span className="text-yellow-400">{userDetail.coin}</span> Coins !
+          </p>
+
+          <div className="w-[90%] h-[60vh] overflow-y-scroll mt-10 space-y-3 border">
+            {tasks.map((task) => (
+              <div
+                key={task.task_id}
+                className="flex flex-row justify-between h-16 bg-[#232328] rounded-full px-5 py-1 items-center"
+              >
+                <div className="flex flex-row w-full space-x-3">
+                  <Image
+                    src={bg}
+                    alt=""
+                    height={30}
+                    width={30}
+                    className="w-[50px] h-full"
+                  />
+                  <div className="flex flex-col text-white">
+                    <p>{task.title}</p>
+                    <p>+ {task.reward} Coins</p>
+                  </div>
+                </div>
+                <div>
+                  {task.cleared ? (
+                    <div>
+                      <IconContext.Provider
+                        value={{ color: "#D5FF18", size: "32px" }}
+                      >
+                        <FaCheckCircle />
+                      </IconContext.Provider>
+                    </div>
+                  ) : (
+                    <div
+                      className="w-24 h-8 bg-[#D5FF18]  cursor-pointer select-none
+                active:translate-y-2  active:[box-shadow:0_0px_0_0_#ABC340,0_0px_0_0_#ffffff]
+                active:border-b-[0px]
+                transition-all duration-150 [box-shadow:0_5px_0_0_#ABC340,0_8px_0_0_#ffffff]
+                rounded-full  border-[1px] border-[#D5FF18] mb-3"
+                    >
+                      <Link
+                        href={task.link || "/"}
+                        target="_blank"
+                        onClick={() => clearTask(task.task_id)}
+                        className="flex justify-center items-center h-full text-black font-bold text-base"
+                      >
+                        Claim
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+            <div className="flex flex-row justify-between h-16 bg-[#232328] rounded-full px-5 py-1 items-center">
               <div className="flex flex-row w-full space-x-3">
                 <Image
                   src={bg}
@@ -104,43 +161,32 @@ const Tasks = ({ userId, onTaskClear, handleShake }: TasksProps) => {
                   className="w-[50px] h-full"
                 />
                 <div className="flex flex-col text-white">
-                  <p>{task.title}</p>
-                  <p>+ {task.reward} Coins</p>
+                  <p>test task</p>
+                  <p>+ 1500 Coins</p>
                 </div>
               </div>
-              <div>
-                {task.cleared ? (
-                  <div>
-                    <IconContext.Provider
-                      value={{ color: "#D5FF18", size: "32px" }}
-                    >
-                      <FaCheckCircle />
-                    </IconContext.Provider>
-                  </div>
-                ) : (
-                  <div
-                    className="w-24 h-8 bg-[#D5FF18]  cursor-pointer select-none
+
+              <div
+              onClick={toggleOffcanvas}
+                className="w-24 h-8 bg-[#D5FF18]  cursor-pointer select-none
                 active:translate-y-2  active:[box-shadow:0_0px_0_0_#ABC340,0_0px_0_0_#ffffff]
                 active:border-b-[0px]
                 transition-all duration-150 [box-shadow:0_5px_0_0_#ABC340,0_8px_0_0_#ffffff]
                 rounded-full  border-[1px] border-[#D5FF18] mb-3"
-                  >
-                    <Link
-                      href={task.link || "/"}
-                      target="_blank"
-                      onClick={() => clearTask(task.task_id)}
-                      className="flex justify-center items-center h-full text-black font-bold text-base"
-                    >
-                      Claim
-                    </Link>
-                  </div>
-                )}
+              >
+                <LuYoutube className="w-full h-full text-black" />
               </div>
             </div>
-          ))}
+          </div>
         </div>
       </div>
-    </div>
+
+      <OffCanvasTask
+        userId={userId}
+        isVisible={isOffcanvasVisible}
+        onClose={toggleOffcanvas}
+      />
+    </>
   );
 };
 

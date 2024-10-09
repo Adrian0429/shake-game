@@ -20,7 +20,19 @@
   font-weight: 700;
 }
 
+h1{
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  font-weight: 700;
+}
+
 .text-H2 {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 700;
+}
+
+h2 {
   font-size: 1.5rem;
   line-height: 2rem;
   font-weight: 700;
@@ -32,7 +44,19 @@
   font-weight: 700;
 }
 
+h3{
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 700;
+}
+
 .text-H4 {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  font-weight: 700;
+}
+
+H4 {
   font-size: 1.125rem;
   line-height: 1.75rem;
   font-weight: 700;
@@ -114,5 +138,15 @@
   font-size: 8px;
   line-height: 16px;
   font-weight: 400;
+}
+
+.rich-text-content ol {
+  list-style-type: decimal; /* Numbers for ordered lists */
+  padding-left: 20px;
+}
+
+.rich-text-content ul {
+  list-style-type: disc; /* Bullets for unordered lists */
+  padding-left: 20px;
 }
 

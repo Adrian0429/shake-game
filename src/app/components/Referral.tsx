@@ -9,7 +9,7 @@ import { initUtils } from "@telegram-apps/sdk";
 import { parseCookies } from "nookies";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import Offcanvas from "./Offcanvas";
+import Offcanvas from "./offcanvas/Offcanvas";
 import { RiUserAddFill } from "react-icons/ri";
 
 interface props {
@@ -58,8 +58,7 @@ const Referrals = ({ userId }: props) => {
           },
         }
       );
-
-      console.log("API Response:", response.data);
+      console.debug("API Response:", response.data);
     } catch (error) {
       console.error("Error fetching user referral coins:", error);
     }

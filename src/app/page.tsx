@@ -37,10 +37,10 @@ const Footerdata = [
     name: "Home",
     icon: <AiFillHome className="text-2xl mb-1 group-hover:text-[#E0FD60]" />,
   },
-  {
-    name: "Tasks",
-    icon: <CgList className="text-2xl mb-1 group-hover:text-[#E0FD60]" />,
-  },
+  // {
+  //   name: "Tasks",
+  //   icon: <CgList className="text-2xl mb-1 group-hover:text-[#E0FD60]" />,
+  // },
   {
     name: "Referrals",
     icon: (
@@ -62,27 +62,21 @@ const Footerdata = [
 ];
 
 export default function Home() {
-  const [count, setCount] = useState(0);
-  const [dailyCount, setDailyCount] = useState(0);
   const [isModalOpen, setModalOpen] = useState({
     modalDaily: false,
     modalPermission: false,
   });
-  const [energy, setEnergy] = useState({
-    current: 5,
-    max: 500,
-  });
-  const [increment, setIncrement] = useState(1);
+
+  const [count, setCount] = useState(0);
+  const [dailyCount, setDailyCount] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [Page, setPage] = useState("Home");
-  const [userData, setUserData] = useState<UserData>();
-  const myShakeEvent = useRef<Shake | null>(null);
+  const [userData, setUserData] = useState<UserData>(defaultUserData);
   const [permissionGranted, setPermissionGranted] = useState(false);
   const [userDetails, setUserDetails] = useState<MeUser | null>(null);
-  const previousCount = useRef<number>(count);
   const [startParam, setStartParam] = useState("");
   const [isLogin, setIsLogin] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const RegisterLogin = async () => {
     const formData = {
@@ -104,6 +98,7 @@ export default function Home() {
       );
 
       console.log("Login Success", response.data);
+      setUserDetails(response.data.data);
       setCookie(null, "token", response.data.data.token, {
         maxAge: 3 * 60 * 60,
         path: "/",
@@ -123,29 +118,18 @@ export default function Home() {
           }));
         }
 
+        setDailyCount(response.data.data.daily_count);
+        setCount(response.data.data.coin);
         setIsLogin(true);
       }
-
-      
-
-      setDailyCount(response.data.data.daily_count);
-      setCount(response.data.data.coin);
-
-      setEnergy({
-        current: response.data.data.energy,
-        max: 500,
-      });
-
       triggerLoading();
       
     } catch (error) {
-      // alert((error as any).response?.data?.message || "An error occurred");
       console.error("Error Login:", error);
     }
   };
 
   const triggerLoading = () => {
-    // Wait for 2 seconds before setting loading to false
     setTimeout(() => {
       setLoading(false);
     }, 2000);
@@ -162,12 +146,6 @@ export default function Home() {
 
       console.log("Success Get User Data");
       setUserDetails(response.data.data);
-      setDailyCount(response.data.data.daily_count);
-      setCount(response.data.data.coins);
-      setEnergy({
-        current: response.data.data.energy,
-        max: 500,
-      });
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
@@ -202,33 +180,6 @@ export default function Home() {
     }
   };
 
-  const Update = async () => {
-    const cookies = parseCookies();
-    const formData = {
-      coins: count,
-      energy: energy.current,
-    };
-
-    try {
-      const response = await axios.post(
-        "https://api2.fingo.co.id/api/user/updateEnergy",
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${cookies.token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (response.data.status == true) {
-        console.log("update submitted successfully", response.data);
-      }
-    } catch (error) {
-      console.log("Error submitting form:", error);
-    }
-  };
-
   useEffect(() => {
     WebApp.ready();
     WebApp.expand();
@@ -246,48 +197,9 @@ export default function Home() {
       }
     }
 
-    if (count > previousCount.current && Page == "Home") {
-      Update();
-    }
-
-    previousCount.current = count;
-  }, [userData?.id, count, userData]);
-
-  useEffect(() => {
-    const updateIncrement = () => {
-      const now = new Date();
-      const hours = now.getHours();
-
-      if ((hours >= 8 && hours < 9) || (hours >= 21 && hours < 22)) {
-        setIncrement(2);
-      } else {
-        setIncrement(1);
-      }
-    };
-
-    updateIncrement();
-
-    const interval = setInterval(updateIncrement, 60 * 1000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setEnergy((prevEnergy) => {
-        if (prevEnergy.current < 500) {
-          return {
-            ...prevEnergy,
-            current: prevEnergy.current + 1,
-          };
-        }
-        return prevEnergy;
-      });
-    }, 10000);
-
-    return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [energy.current]);
+  }, [userData?.id, userData]);
+
 
   useEffect(() => {
     const isMobileDevice =
@@ -312,7 +224,7 @@ const update = async () => {
   try {
     const response = await axios.post(
       "https://api2.fingo.co.id/api/user/daily",
-      {}, // You can include any request body data here if needed
+      {}, 
       {
         headers: {
           Authorization: `Bearer ${cookies.token}`,
@@ -339,7 +251,6 @@ const update = async () => {
         ).requestPermission();
         if (permissionState === "granted") {
           setPermissionGranted(true);
-          setupShakeEvent();
 
           setModalOpen((prevState) => ({
             ...prevState,
@@ -349,7 +260,6 @@ const update = async () => {
         }
       } else {
         setPermissionGranted(true);
-        setupShakeEvent();
         setModalOpen((prevState) => ({
           ...prevState,
           modalPermission: false,
@@ -361,38 +271,6 @@ const update = async () => {
     }
   };
 
-  const setupShakeEvent = () => {
-    myShakeEvent.current = new Shake({ threshold: 10, timeout: 150 });
-    myShakeEvent.current.start();
-    window.addEventListener("shake", handleShake, false);
-  };
-
-  const handleShake = () => {
-
-    // Early return if the page is not "Home"
-    if (Page !== "Home") {
-      return;
-    }
-    // Only increment the count and decrement energy if energy is greater than 0
-    if (energy.current > 0) {
-      playSoundCoin();
-      setCount((prevCount) => prevCount + increment);
-      setEnergy((prevEnergy) => ({
-        ...prevEnergy,
-        current: prevEnergy.current - 1,
-      }));
-    }
-    // Handle the case where energy is 0
-    else if (energy.current === 0) {
-      alert("You have reached the maximum energy");
-
-      // Stop the shake event listener when energy reaches 0
-      if (myShakeEvent.current) {
-        myShakeEvent.current.stop();
-        window.removeEventListener("shake", handleShake, false);
-      }
-    }
-  };
 
   const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
   const [audioContext2, setAudioContext2] = useState<AudioContext | null>(null);
@@ -439,8 +317,8 @@ const update = async () => {
       const source = audioContext.createBufferSource();
       source.buffer = audioBufferRef.current;
       source.connect(audioContext.destination);
-      source.loop = true; // Enable looping if needed
-      source.start(0); // Play the sound immediately
+      source.loop = true; 
+      source.start(0); 
     }
   };
 
@@ -461,6 +339,7 @@ const update = async () => {
     return () => {
       audioContext2?.close(); // Clean up the audio context on unmount
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const playSoundCoin = () => {
@@ -482,7 +361,7 @@ const update = async () => {
        </div>
      ) : (
        <>
-         {isMobile ? (
+         {/* {isMobile ? ( */}
            <div
              className="h-[100vh]"
              style={{
@@ -492,17 +371,10 @@ const update = async () => {
              }}
            >
              {Page === "Home" && (
-               <Counter
-                 count={count}
-                 energy={energy}
-                 handleshake={handleShake}
-               />
-             )}
-             {Page === "Tasks" && (
                <Tasks
                  onTaskClear={fetchUserData}
                  userId={userData?.id ?? 0}
-                 handleShake={handleShake}
+                 userDetail={userDetails ?? {} as MeUser}
                />
              )}
              {userData && Page === "Profiles" && (
@@ -519,7 +391,7 @@ const update = async () => {
                }}
                className="fixed bottom-0 left-0 z-50 w-full h-[4.5rem] bg-transparent"
              >
-               <div className="grid h-full max-w-lg grid-cols-5 mx-auto font-medium bg-transparent">
+               <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium bg-transparent">
                  {Footerdata.map((item, index) => {
                    const isActive = Page === item.name;
                    return (
@@ -561,7 +433,7 @@ const update = async () => {
                isOpen={isModalOpen.modalPermission}
              />
            </div>
-         ) : (
+         {/* ) : (
            <div className="h-[100vh] flex justify-center items-center bg-gray-200">
              <div className="text-center">
                <h2 className="text-xl font-bold">
@@ -578,7 +450,7 @@ const update = async () => {
                </Link>
              </div>
            </div>
-         )}
+         )} */}
        </>
      )}
    </>

@@ -93,16 +93,17 @@ const Tasks = ({ userId, onTaskClear, userDetail }: TasksProps) => {
     <>
       <div className="w-full h-full py-8">
         <div className="flex flex-col h-[calc(100vh-4.5rem)] items-center">
-          <h2 className="text-D2 text-white">Do The Task</h2>
-          <p className="mt-2 text-H2 text-white">
-            Complete your task, Claim your rewards!
-          </p>
+          <div className="flex flex-col w-[90%] h-[20vh] text-center space-y-3">
+            <h2 className="text-D2 text-white">Do The Task</h2>
+            <p className="text-H2 text-white">
+              Complete your task, Claim your rewards!
+            </p>
+            <p className="mt-2 text-H1 text-white py-5">
+              <span className="text-yellow-400">{userDetail.coin}</span> Coins !
+            </p>
+          </div>
 
-          <p className="mt-2 text-H1 text-white py-5">
-            <span className="text-yellow-400">{userDetail.coin}</span> Coins !
-          </p>
-
-          <div className="w-[90%] h-[60vh] overflow-y-scroll mt-10 space-y-3 border">
+          <div className="w-[90%] h-[60vh] overflow-y-scroll mt-5 space-y-3">
             {tasks.map((task) => (
               <div
                 key={task.task_id}
@@ -167,7 +168,7 @@ const Tasks = ({ userId, onTaskClear, userDetail }: TasksProps) => {
               </div>
 
               <div
-              onClick={toggleOffcanvas}
+                onClick={toggleOffcanvas}
                 className="w-24 h-8 bg-[#D5FF18]  cursor-pointer select-none
                 active:translate-y-2  active:[box-shadow:0_0px_0_0_#ABC340,0_0px_0_0_#ffffff]
                 active:border-b-[0px]

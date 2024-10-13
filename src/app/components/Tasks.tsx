@@ -2,192 +2,127 @@
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
-import bg from "../../../public/logo1.png";
+import bg from "../../../public/Bg.png";
 import Image from "next/image";
 import Header from "./Navigation/Header";
 import { parseCookies } from "nookies";
-import { FaCheckCircle } from "react-icons/fa";
-import { IconContext } from "react-icons";
 import { useRouter } from "next/navigation";
 import { MeUser } from "../constant/types";
 import OffCanvasTask from "./offcanvas/OffCanvasTask";
 import { LuYoutube } from "react-icons/lu";
+import shakeboy from '../../../public/shakerboy.png'
 
-interface Task {
-  task_id: string;
+type Task = {
+  id: number;
   title: string;
-  link?: string;
+  description: string;
   reward: number;
-  cleared: boolean;
-}
+  link: string;
+  code: string;
+  video: string;
+};
 
 interface TasksProps {
+  coin: number;
   userId: number;
   userDetail: MeUser;
-  onTaskClear: () => void;
 }
 
-const Tasks = ({ userId, onTaskClear, userDetail }: TasksProps) => {
-  
+const Tasks = ({coin, userId, userDetail }: TasksProps) => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [isOffcanvasVisible, setIsOffcanvasVisible] = useState(false);
-  const toggleOffcanvas = () => {
-    setIsOffcanvasVisible(!isOffcanvasVisible);
-  };
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const router = useRouter()
 
-  const router = useRouter();
-  const refreshTasks = useCallback(async () => {
-    const cookies = parseCookies();
+  const fetchTasks = async () => {
     try {
+      const cookies = parseCookies();
       const response = await axios.get(
-        "https://api2.fingo.co.id/api/user/tasks",
+        "https://api2.fingo.co.id/api/task/user",
         {
           headers: {
             Authorization: `Bearer ${cookies.token}`,
-            "Content-Type": "application/json",
           },
         }
       );
-
-      console.log("Success Get Task", response.data); // Log the response to debug
-
-      const fetchedTasks = response.data.data?.data || [];
-      setTasks(fetchedTasks);
+      setTasks(response.data.data);
     } catch (error) {
       console.error("Error fetching tasks:", error);
     }
-  }, []);
-
-  useEffect(() => {
-    refreshTasks();
-  }, [userId, refreshTasks]);
-
-  const clearTask = async (task_Id: string) => {
-    const formData = new FormData();
-    formData.append("task_id", task_Id);
-
-    const cookies = parseCookies();
-    try {
-      const response = await axios.post(
-        "https://api2.fingo.co.id/api/user/task",
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${cookies.token}`,
-          },
-        }
-      );
-
-      console.log("Form submitted successfully", response.data);
-      router.push(tasks.find((task) => task.task_id === task_Id)?.link || "/");
-      if (response.data.status === true) {
-        refreshTasks();
-        onTaskClear();
-      }
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    }
   };
 
+  useEffect(() => {
+    fetchTasks();
+  }, []);
+
+  const toggleOffcanvas = (task: Task) => {
+    setSelectedTask(task);
+    setIsOffcanvasVisible(!isOffcanvasVisible);
+  };
+
+  const onSuccess =() =>{
+    fetchTasks()
+    setIsOffcanvasVisible(!isOffcanvasVisible);
+  }
+
   return (
-    <>
-      <div className="w-full h-full py-8">
-        <div className="flex flex-col h-[calc(100vh-4.5rem)] items-center">
-          <div className="flex flex-col w-[90%] h-[20vh] text-center space-y-3">
-            <h2 className="text-D2 text-white">Do The Task</h2>
-            <p className="text-H2 text-white">
-              Complete your task, Claim your rewards!
-            </p>
-            <p className="mt-2 text-H1 text-white py-5">
-              <span className="text-yellow-400">{userDetail.coin}</span> Coins !
-            </p>
-          </div>
-
-          <div className="w-[90%] h-[60vh] overflow-y-scroll mt-5 space-y-3">
-            {tasks.map((task) => (
-              <div
-                key={task.task_id}
-                className="flex flex-row justify-between h-16 bg-[#232328] rounded-full px-5 py-1 items-center"
-              >
-                <div className="flex flex-row w-full space-x-3">
-                  <Image
-                    src={bg}
-                    alt=""
-                    height={30}
-                    width={30}
-                    className="w-[50px] h-full"
-                  />
-                  <div className="flex flex-col text-white">
-                    <p>{task.title}</p>
-                    <p>+ {task.reward} Coins</p>
-                  </div>
-                </div>
-                <div>
-                  {task.cleared ? (
-                    <div>
-                      <IconContext.Provider
-                        value={{ color: "#D5FF18", size: "32px" }}
-                      >
-                        <FaCheckCircle />
-                      </IconContext.Provider>
-                    </div>
-                  ) : (
-                    <div
-                      className="w-24 h-8 bg-[#D5FF18]  cursor-pointer select-none
-                active:translate-y-2  active:[box-shadow:0_0px_0_0_#ABC340,0_0px_0_0_#ffffff]
-                active:border-b-[0px]
-                transition-all duration-150 [box-shadow:0_5px_0_0_#ABC340,0_8px_0_0_#ffffff]
-                rounded-full  border-[1px] border-[#D5FF18] mb-3"
-                    >
-                      <Link
-                        href={task.link || "/"}
-                        target="_blank"
-                        onClick={() => clearTask(task.task_id)}
-                        className="flex justify-center items-center h-full text-black font-bold text-base"
-                      >
-                        Claim
-                      </Link>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-            <div className="flex flex-row justify-between h-16 bg-[#232328] rounded-full px-5 py-1 items-center">
+    <div
+      className="flex h-screen w-screen"
+      style={{
+        backgroundImage: `url(${bg.src})`,
+        width: "100%",
+      }}
+    >
+      <div className="flex flex-col h-[calc(100vh-4.5rem)] w-full items-center py-5">
+        <div className="text-white w-full text-center space-y-4">
+          <Image
+            src={shakeboy}
+            alt="shake"
+            height={250}
+            width={250}
+            className="w-[50%] h-auto mx-auto"
+          />
+          <h1 className="text-H1">{coin} Coins !</h1>
+          <h2 className="text-H3">Do the task, and claim the rewards!</h2>
+        </div>
+        <div className="w-[90%] h-[calc(100vh-13rem)] overflow-y-scroll mt-5 space-y-3">
+          {tasks.map((task) => (
+            <div
+              key={task.id}
+              className="flex flex-row justify-between h-16 bg-[#232328] rounded-full px-5 py-1 items-center"
+            >
               <div className="flex flex-row w-full space-x-3">
-                <Image
-                  src={bg}
-                  alt=""
-                  height={30}
-                  width={30}
-                  className="w-[50px] h-full"
-                />
                 <div className="flex flex-col text-white">
-                  <p>test task</p>
-                  <p>+ 1500 Coins</p>
+                  <p>{task.title}</p>
+                  <p>+ {task.reward} Coins</p>
                 </div>
               </div>
 
               <div
-                onClick={toggleOffcanvas}
-                className="w-24 h-8 bg-[#D5FF18]  cursor-pointer select-none
-                active:translate-y-2  active:[box-shadow:0_0px_0_0_#ABC340,0_0px_0_0_#ffffff]
-                active:border-b-[0px]
-                transition-all duration-150 [box-shadow:0_5px_0_0_#ABC340,0_8px_0_0_#ffffff]
-                rounded-full  border-[1px] border-[#D5FF18] mb-3"
+                onClick={() => toggleOffcanvas(task)}
+                className="w-24 h-8 bg-[#D5FF18] cursor-pointer select-none
+                  active:translate-y-2  active:[box-shadow:0_0px_0_0_#ABC340,0_0px_0_0_#ffffff]
+                  active:border-b-[0px]
+                  transition-all duration-150 [box-shadow:0_5px_0_0_#ABC340,0_8px_0_0_#ffffff]
+                  rounded-full  border-[1px] border-[#D5FF18] mb-3"
               >
                 <LuYoutube className="w-full h-full text-black" />
               </div>
+              {selectedTask && (
+                <OffCanvasTask
+                  task={selectedTask}
+                  isVisible={isOffcanvasVisible}
+                  userId={userId}
+                  onClose={() => {
+                    onSuccess()
+                  }}
+                />
+              )}
             </div>
-          </div>
+          ))}
         </div>
       </div>
-
-      <OffCanvasTask
-        userId={userId}
-        isVisible={isOffcanvasVisible}
-        onClose={toggleOffcanvas}
-      />
-    </>
+    </div>
   );
 };
 

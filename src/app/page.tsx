@@ -66,12 +66,12 @@ export default function Home() {
     modalDaily: false,
     modalPermission: false,
   });
-
+  
   const [count, setCount] = useState(0);
   const [dailyCount, setDailyCount] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [Page, setPage] = useState("Home");
-  const [userData, setUserData] = useState<UserData>();
+  const [userData, setUserData] = useState<UserData>(defaultUserData);
   const [permissionGranted, setPermissionGranted] = useState(false);
   const [userDetails, setUserDetails] = useState<MeUser | null>(null);
   const [startParam, setStartParam] = useState("");
@@ -97,7 +97,6 @@ export default function Home() {
         }
       );
 
-      console.log("Login Success", response.data);
       setUserDetails(response.data.data);
       setCookie(null, "token", response.data.data.token, {
         maxAge: 3 * 60 * 60,
@@ -243,7 +242,7 @@ const update = async () => {
   const checkMotionPermission = async () => {
     playSound();
     playSoundCoin();
-    update();
+    // update();
     try {
       if (typeof (DeviceMotionEvent as any).requestPermission === "function") {
         const permissionState = await (
@@ -372,7 +371,7 @@ const update = async () => {
            >
              {Page === "Home" && (
                <Tasks
-                 onTaskClear={fetchUserData}
+                coin={count}
                  userId={userData?.id ?? 0}
                  userDetail={userDetails ?? {} as MeUser}
                />
@@ -389,7 +388,7 @@ const update = async () => {
                  backgroundImage: `url(${bg.src})`,
                  width: "100%",
                }}
-               className="fixed bottom-0 left-0 z-50 w-full h-[4.5rem] bg-transparent"
+               className="fixed bottom-0 left-0 z-30 w-full h-[4.5rem] bg-transparent"
              >
                <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium bg-transparent">
                  {Footerdata.map((item, index) => {

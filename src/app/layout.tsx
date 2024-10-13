@@ -1,18 +1,15 @@
-
 import type { Metadata } from "next";
 import { Inter, Bubblegum_Sans } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
 import dynamic from "next/dynamic";
 import PrelineScript from "./components/PrelineScript";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; 
 
 const bubblegumSans = Bubblegum_Sans({
   weight: "400",
   subsets: ["latin"],
-});
-
-const Modal = dynamic(() => import("../app/components/Modal/Modal"), {
-  ssr: false,
 });
 
 export const metadata: Metadata = {
@@ -33,10 +30,19 @@ export default function RootLayout({
           strategy="beforeInteractive"
         />
       </head>
-      <body className={bubblegumSans.className}>
-        {children}
-      </body>
+      <body className={bubblegumSans.className}>{children}</body>
       <PrelineScript />
+      <ToastContainer
+        position="top-right" 
+        autoClose={2000} 
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </html>
   );
 }

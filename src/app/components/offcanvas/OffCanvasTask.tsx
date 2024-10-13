@@ -101,7 +101,7 @@ const OffCanvasTask = ({userId, task, isVisible, onClose }: Props) => {
             <p className="text-white text-center text-B2">
               click to watch the video
             </p>
-            <Link href={task.video} className="h-32 w-40 bg-red-500 rounded-xl">
+            <Link target="blank" href={task.video} className="h-32 w-40 bg-red-500 rounded-xl">
               <LuYoutube className="w-full h-full text-white" />
             </Link>
           </div>

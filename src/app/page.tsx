@@ -71,7 +71,7 @@ export default function Home() {
   const [dailyCount, setDailyCount] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [Page, setPage] = useState("Home");
-  const [userData, setUserData] = useState<UserData>();
+  const [userData, setUserData] = useState<UserData>(defaultUserData);
   const [permissionGranted, setPermissionGranted] = useState(false);
   const [userDetails, setUserDetails] = useState<MeUser | null>(null);
   const [startParam, setStartParam] = useState("");
@@ -373,7 +373,6 @@ const update = async () => {
                <Tasks
                 coin={count}
                  userId={userData?.id ?? 0}
-                 userDetail={userDetails ?? {} as MeUser}
                />
              )}
              {userData && Page === "Profiles" && (

@@ -12,7 +12,7 @@ export interface MeUser {
   email: string;
   energy: number;
   region: string;
-  coin: number;
+  coins: number;
   daily_status: boolean;
   daily_count: number;
   exchange: string;

@@ -25,13 +25,13 @@ type Task = {
 interface TasksProps {
   coin: number;
   userId: number;
-  userDetail: MeUser;
 }
 
-const Tasks = ({coin, userId, userDetail }: TasksProps) => {
+const Tasks = ({coin, userId }: TasksProps) => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [isOffcanvasVisible, setIsOffcanvasVisible] = useState(false);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const [userDetails, setUserDetails] = useState<MeUser | null>(null);
   const router = useRouter()
 
   const fetchTasks = async () => {
@@ -51,8 +51,27 @@ const Tasks = ({coin, userId, userDetail }: TasksProps) => {
     }
   };
 
+
+  const fetchUserData = async () => {
+    try {
+      const cookies = parseCookies();
+      const response = await axios.get("https://api2.fingo.co.id/api/user/me", {
+        headers: {
+          Authorization: `Bearer ${cookies.token}`,
+        },
+      });
+
+      console.log("Success Get User Data");
+      setUserDetails(response.data.data);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
+
   useEffect(() => {
     fetchTasks();
+    fetchUserData()
   }, []);
 
   const toggleOffcanvas = (task: Task) => {
@@ -62,8 +81,10 @@ const Tasks = ({coin, userId, userDetail }: TasksProps) => {
 
   const onSuccess =() =>{
     fetchTasks()
+    fetchUserData()
     setIsOffcanvasVisible(!isOffcanvasVisible);
   }
+    console.log(userDetails);
 
   return (
     <div
@@ -73,6 +94,7 @@ const Tasks = ({coin, userId, userDetail }: TasksProps) => {
         width: "100%",
       }}
     >
+  
       <div className="flex flex-col h-[calc(100vh-4.5rem)] w-full items-center py-5">
         <div className="text-white w-full text-center space-y-4">
           <Image
@@ -82,7 +104,7 @@ const Tasks = ({coin, userId, userDetail }: TasksProps) => {
             width={250}
             className="w-[50%] h-auto mx-auto"
           />
-          <h1 className="text-H1">{coin} Coins !</h1>
+          <h1 className="text-H1">{userDetails?.coins} Coins !</h1>
           <h2 className="text-H3">Do the task, and claim the rewards!</h2>
         </div>
         <div className="w-[90%] h-[calc(100vh-13rem)] overflow-y-scroll mt-5 space-y-3">

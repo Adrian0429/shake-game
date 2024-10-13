@@ -51,7 +51,6 @@ const Tasks = ({coin, userId }: TasksProps) => {
     }
   };
 
-
   const fetchUserData = async () => {
     try {
       const cookies = parseCookies();
@@ -70,8 +69,11 @@ const Tasks = ({coin, userId }: TasksProps) => {
 
 
   useEffect(() => {
+    if(userId){
     fetchTasks();
-    fetchUserData()
+    fetchUserData();
+    }
+
   }, []);
 
   const toggleOffcanvas = (task: Task) => {

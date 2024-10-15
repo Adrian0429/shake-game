@@ -16,6 +16,7 @@ type CreateTaskRequest = {
   link: string;
   code: string;
   video: string;
+  category: string;
 };
 
 type CreateTaskResponse = {

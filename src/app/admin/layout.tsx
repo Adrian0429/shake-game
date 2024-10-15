@@ -20,7 +20,6 @@ const Footerdata = [
       <HiPlus className="text-2xl mb-1 group-hover:text-[#E0FD60]" />
     ),
   },
-
 ];
 
 export default function RootLayout({
@@ -32,7 +31,7 @@ export default function RootLayout({
     const pathname = usePathname();
 
   return (
-    <>
+    <div>
         {children}
         <div 
             style={{
@@ -69,6 +68,6 @@ export default function RootLayout({
                  })}
                </div>
             </div>
-    </>
+    </div>
   );
 }

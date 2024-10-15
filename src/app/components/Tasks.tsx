@@ -66,12 +66,12 @@ const Tasks = ({ coin, userId }: TasksProps) => {
   };
 
   useEffect(() => {
-    if (userId) {
+    if (userId && tasks.length === 0) {
       fetchUserData();
       fetchTasks();
       console.log("fetching data");
     }
-  }, [userId]);
+  }, [userId, tasks.length]);
 
   const toggleOffcanvas = (task: Task) => {
     setSelectedTask(task);
@@ -92,6 +92,13 @@ const Tasks = ({ coin, userId }: TasksProps) => {
     acc[category].push(task);
     return acc;
   }, {});
+
+  // Move "Generals" to the top, and sort other categories alphabetically
+  const orderedCategories = Object.keys(groupedTasks).sort((a, b) => {
+    if (a === "Generals") return -1;
+    if (b === "Generals") return 1;
+    return a.localeCompare(b);
+  });
 
   return (
     <div
@@ -115,10 +122,11 @@ const Tasks = ({ coin, userId }: TasksProps) => {
         </div>
 
         <div className="w-[90%] h-[calc(100vh-13rem)] overflow-y-scroll mt-5 space-y-3">
-          {Object.keys(groupedTasks).map((category) => (
+          {orderedCategories.map((category) => (
             <div key={category}>
-
-              <h3 className="text-xl text-white mb-3 w-full border-b border-slate-400">{category}</h3>
+              <h3 className="text-xl text-white mb-3 w-full border-b border-slate-400">
+                {category}
+              </h3>
 
               {/* Render tasks for this category */}
               {groupedTasks[category].map((task) => (

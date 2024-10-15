@@ -5,6 +5,7 @@ import OffCanvasTask from "@/app/components/offcanvas/OffCanvasTask";
 import { LuYoutube } from "react-icons/lu";
 import { parseCookies } from "nookies";
 import bg from '../../../public/Bg.png'
+import { useRouter } from "next/navigation";
 
 type Task = {
   id: number;
@@ -20,11 +21,14 @@ const Page = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [isOffcanvasVisible, setIsOffcanvasVisible] = useState(false);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null); 
-
+  const router = useRouter();
   useEffect(() => {
     const fetchTasks = async () => {
       try {
         const cookies = parseCookies();
+        if(!cookies.adminJwt) {
+          router.push('/admin/login')
+        };
         const response = await axios.get("https://api2.fingo.co.id/api/task", {
           headers: {
             Authorization: `Bearer ${cookies.adminJwt}`,
@@ -36,7 +40,7 @@ const Page = () => {
       }
     };
     fetchTasks();
-  }, []);
+  }, [router]);
 
   const toggleOffcanvas = (task:Task) => {
     setSelectedTask(task);

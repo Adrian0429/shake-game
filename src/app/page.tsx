@@ -71,7 +71,7 @@ export default function Home() {
   const [dailyCount, setDailyCount] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [Page, setPage] = useState("Home");
-  const [userData, setUserData] = useState<UserData>(defaultUserData);
+  const [userData, setUserData] = useState<UserData>();
   const [permissionGranted, setPermissionGranted] = useState(false);
   const [userDetails, setUserDetails] = useState<MeUser | null>(null);
   const [startParam, setStartParam] = useState("");
@@ -143,7 +143,6 @@ export default function Home() {
         },
       });
 
-      console.log("Success Get User Data");
       setUserDetails(response.data.data);
     } catch (error) {
       console.error("Error fetching user data:", error);
@@ -167,13 +166,12 @@ export default function Home() {
         {
           headers: {
             Authorization: `Bearer ${cookies.token}`,
-            "Content-Type": "application/x-www-form-urlencoded", // Send as form data
+            "Content-Type": "application/x-www-form-urlencoded", 
           },
         }
       );
 
       RegisterLogin();
-      console.log("Referral Response:", response.data); // Log the response to debug
     } catch (error) {
       RegisterLogin()
     }

@@ -9,7 +9,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { IconContext } from "react-icons";
 import { FaYoutube } from "react-icons/fa";
 import { LuYoutube } from "react-icons/lu";
-import { showSuccessToast } from "../toast";
+import { showErrorToast, showSuccessToast } from "../toast";
 
 type Task = {
   id: number;
@@ -41,7 +41,7 @@ const OffCanvasTask = ({userId, task, isVisible, onClose }: Props) => {
     mode: "onChange",
   });
 
-  const { handleSubmit } = methods;
+  const { handleSubmit, reset } = methods;
   const onSubmit = async (data: ClearRequest) => {
     data.task_id = String(task.id);
     try {
@@ -59,9 +59,12 @@ const OffCanvasTask = ({userId, task, isVisible, onClose }: Props) => {
       );
       if (response.data.status == true) {
         showSuccessToast("Success!");
+        reset();
         onClose();
       }
     } catch (error) {
+      showErrorToast("Wrong Answer!");
+      reset();
       console.error("There was a problem with the request:", error);
     }
   };

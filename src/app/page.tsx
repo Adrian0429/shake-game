@@ -2,7 +2,6 @@
 import Counter from "./components/Counter";
 import WebApp from "@twa-dev/sdk";
 import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import { HiHome, HiOutlineUsers } from "react-icons/hi";
 import Tasks from "./components/Tasks";
 import Profiles from "./components/Profiles";
@@ -12,24 +11,21 @@ import { parseCookies, setCookie } from "nookies";
 import bg from '../../public/Bg.png'
 import { UserData, MeUser } from "./constant/types";
 import { AiFillHome } from "react-icons/ai";
-import { CgList } from "react-icons/cg";
 import { IoSettingsOutline } from "react-icons/io5";
 import Referrals from "./components/Referral";
 import Settings from "./components/Settings";
 import ModalAllowComponent from "./components/Modal/ModalAllow";
-import Link from "next/link";
 import ModalPermission from "./components/Modal/Modal";
 import AudioPlayer from "react-h5-audio-player";
 import { PiRankingDuotone } from "react-icons/pi";
 import Leaderboards from "./components/Leaderboards";
 
 
-// Provide default values for all properties
 const defaultUserData: UserData = {
-  id: 6789952150, // Default ID value
-  username: "drianksz", // Default username value (empty string)
-  language_code: "", // Default language code (e.g., 'en' for English)
-  is_premium: false, // Default premium status (false)
+  id: 6789952150, 
+  username: "drianksz", 
+  language_code: "", 
+  is_premium: false, 
 };
 
 const Footerdata = [
@@ -37,10 +33,6 @@ const Footerdata = [
     name: "Home",
     icon: <AiFillHome className="text-2xl mb-1 group-hover:text-[#E0FD60]" />,
   },
-  // {
-  //   name: "Tasks",
-  //   icon: <CgList className="text-2xl mb-1 group-hover:text-[#E0FD60]" />,
-  // },
   {
     name: "Referrals",
     icon: (
@@ -71,7 +63,7 @@ export default function Home() {
   const [dailyCount, setDailyCount] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [Page, setPage] = useState("Home");
-  const [userData, setUserData] = useState<UserData>();  
+  const [userData, setUserData] = useState<UserData>(defaultUserData);  
   const [permissionGranted, setPermissionGranted] = useState(false);
   const [userDetails, setUserDetails] = useState<MeUser | null>(null);
   const [startParam, setStartParam] = useState("");

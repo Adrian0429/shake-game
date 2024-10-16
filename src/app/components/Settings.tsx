@@ -112,7 +112,7 @@ const Settings = ({userId}: props) => {
                 onClick={() => setIsOpen(true)}
                 className="w-[80%] my-8 h-12 bg-[#D84A4D] rounded-3xl flex items-center justify-center"
               >
-                <h1 className="text-white text-xl">Click to Fill In your Email and Region!</h1>
+                <h1 className="text-white text-lg">Click to Fill In your Email and Region!</h1>
               </div>
             )}
           </div>

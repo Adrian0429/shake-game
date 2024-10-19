@@ -1,20 +1,17 @@
+import { Manrope } from "next/font/google"; // Import Manrope from @next/font/google
 import type { Metadata } from "next";
-import { Inter, Bubblegum_Sans } from "next/font/google";
 import "./globals.css";
-import Script from "next/script";
-import dynamic from "next/dynamic";
-import PrelineScript from "./components/PrelineScript";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; 
+import { Toaster } from "react-hot-toast";
 
-const bubblegumSans = Bubblegum_Sans({
-  weight: "400",
+const manrope = Manrope({
   subsets: ["latin"],
+  variable: "--font-manrope",
+  weight: ["200", "300", "400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
-  title: "ShakeItShakeIt",
-  description: "Shake TON Game",
+  title: "TON Project",
+  description: "Earn by doing task!",
 };
 
 export default function RootLayout({
@@ -24,25 +21,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <Script
-          src="https://telegram.org/js/telegram-web-app.js"
-          strategy="beforeInteractive"
-        />
-      </head>
-      <body className={bubblegumSans.className}>{children}</body>
-      <PrelineScript />
-      <ToastContainer
-        position="top-right" 
-        autoClose={2000} 
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
+      <body className={`${manrope.className}`}>
+        <Toaster />
+        {children}
+      </body>
     </html>
   );
 }

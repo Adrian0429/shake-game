@@ -56,7 +56,7 @@ export const Earn = () => {
         </div>
       </div>
 
-      <div className="h-[15%] w-[90%] bg-black rounded-2xl mx-auto grid grid-cols-3 py-8 mt-5 items-center text-white text-center">
+      <div className="h-[15%] w-[90%] bg-black rounded-2xl mx-auto grid grid-cols-3 py-8 mt-6 items-center text-white text-center">
         <div className="flex flex-col ">
           <p className="text-sm font-thin">Rewards</p>
           <p className="text-xl font-medium">+ 10,000</p>

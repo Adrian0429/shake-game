@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import bg from '../../../public/bg.png'
+import bg from '../assets/bg.png'
 import Offcanvas from './OffCanvas';
 const data = [
     {
@@ -102,6 +102,7 @@ export const Earn = () => {
           </div>
         ))}
       </div>
+
       <Offcanvas
         isVisible={isOffcanvasVisible}
         onClose={() => {

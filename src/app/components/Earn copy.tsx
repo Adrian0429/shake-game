@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
 import bg from '../../../public/bg.png'
-import Offcanvas from './OffCanvas';
 const data = [
     {
         name: "Home",
@@ -37,8 +36,6 @@ const data = [
 ];
 
 export const Earn = () => {
-    const [isOffcanvasVisible, setIsOffcanvasVisible] = useState(false);
-
   return (
     <div
       className="h-[calc(100vh-4.5rem)] w-full py-8 px-5"
@@ -90,24 +87,14 @@ export const Earn = () => {
             key={index}
             className="flex flex-row w-full items-center justify-between px-5 py-2 border-b "
           >
-            <div className="flex flex-col">
-              <p className="text-lg font-normal">{item.name}</p>
-              <p className="text-lg font-extralight">{item.rewards}</p>
+            <div className='flex flex-col'>
+                <p className='text-lg font-normal'>{item.name}</p>
+                <p className='text-lg font-extralight'>{item.rewards}</p>
             </div>
-            <button className="px-5 py-2 bg-black text-white rounded-3xl" onClick={()=>{
-                setIsOffcanvasVisible(true);
-            }}>
-              Open
-            </button>
+            <button className='px-5 py-2 bg-black text-white rounded-3xl'>Open</button>
           </div>
         ))}
       </div>
-      <Offcanvas
-        isVisible={isOffcanvasVisible}
-        onClose={() => {
-         setIsOffcanvasVisible(false);
-        }}
-      />
     </div>
   );
 }

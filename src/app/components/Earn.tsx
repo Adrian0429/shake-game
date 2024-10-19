@@ -56,18 +56,18 @@ export const Earn = () => {
         </div>
       </div>
 
-      <div className="h-[15%] w-[90%] bg-black rounded-2xl mx-auto grid grid-cols-3 py-8 mt-6 items-center text-white text-center">
-        <div className="flex flex-col ">
+      <div className="h-[15%] w-[90%] bg-black rounded-2xl mx-auto grid grid-cols-3 py-5 mt-6 items-center text-white text-center">
+        <div className="flex flex-col items-center justify-center">
           <p className="text-sm font-thin">Rewards</p>
           <p className="text-xl font-medium">+ 10,000</p>
         </div>
 
-        <div className="border-x flex flex-col">
+        <div className="border-x flex flex-col items-center justify-center">
           <p className="text-sm font-thin">Rewards</p>
           <p className="text-xl font-medium">+ 10,000</p>
         </div>
 
-        <div className="flex flex-col">
+        <div className="flex flex-col items-center justify-center">
           <p className="text-sm font-thin">Invites</p>
           <p className="text-xl font-medium">+ 100</p>
         </div>

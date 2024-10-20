@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Navbar from "./components/navbar";
 import { Earn } from "./components/Earn";
+import { Profile } from "./components/Profile";
 
 export default function Home() {
   const [Page, setPage] = useState("Home");
@@ -15,7 +16,7 @@ export default function Home() {
           <div className="w-full h-full">Leaderboards Content</div>
         )}
         {Page === "Profile" && (
-          <div className="w-full h-full">Profile Content</div>
+          <Profile/>
         )}
       </div>
 

@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import Offcanvas from './Offcanvas/OffCanvas';
 import { TbCoin } from 'react-icons/tb';
 import { IoCopy } from 'react-icons/io5';
 import { FaUserGroup } from 'react-icons/fa6';
 import OffCanvasEarn from './Offcanvas/OffCanvasEarn';
+import { MdCurrencyBitcoin } from 'react-icons/md';
 
 const friends = [
     { name: "Alice", points: 200, referrals: 5 },
@@ -13,20 +13,29 @@ const friends = [
     { name: "Eve", points: 100, referrals: 5 },
 ];
 
+const data = [
+  { title: "create ton", rewards: 1000 },
+  { title: "create ton2", rewards: 1000 },
+  { title: "create ton3", rewards: 1000 },
+  { title: "create ton3", rewards: 1000 },
+  { title: "create ton3", rewards: 1000 },
+  { title: "create ton3", rewards: 1000 },
+];
+
 export const Earn = () => {
     const [isOffcanvasVisible, setIsOffcanvasVisible] = useState(false);
 
   return (
     <>
-      <div className="h-[calc(100vh-4.5rem)] w-full py-8 px-5 bg-[#17181A]">
+      <div className="h-[calc(100vh-4.5rem)] w-full pt-8 bg-[#17181A] overflow-y-scroll">
+        <div className="mx-5">
+          <h2 className="text-2xl font-semibold text-white">Refer a friend</h2>
+          <p className="text-md font-light text-[#A6A6A6]">
+            Invite More, get even more bonuses!
+          </p>
+        </div>
 
-
-        <h2 className="text-2xl font-semibold text-white">Refer a friend</h2>
-        <p className="text-md font-light text-[#A6A6A6]">
-          Invite More, get even more bonuses!
-        </p>
-
-        <div className="flex flex-row justify-between items-center bg-[#404040] rounded-xl p-4 mt-5">
+        <div className="flex flex-row justify-between mx-5 items-center bg-[#404040] rounded-xl p-4 mt-5">
           <div className="flex flex-row space-x-5">
             <div className="rounded-lg p-3 bg-[#FDFDFF] w-fit">
               <TbCoin size={32} />
@@ -48,9 +57,9 @@ export const Earn = () => {
           </button>
         </div>
 
-        <p className="my-4 text-[#CAEB45]">how it works</p>
+        <p className="my-4 mx-5 text-[#CAEB45]">how it works</p>
 
-        <div className="flex flex-col space-y-8">
+        <div className="flex flex-col space-y-8 mx-5">
           <div className="flex flex-row items-center">
             <div className="rounded-full w-12 h-12 bg-[#404040] text-white text-2xl font-light flex items-center justify-center">
               1
@@ -80,9 +89,8 @@ export const Earn = () => {
           </div>
         </div>
 
-        <p className="my-4 text-[#CAEB45]">list of your friends</p>
-
-        <div className="w-full h-[35%] rounded-3xl bg-[#404040] px-5 py-4 space-y-5">
+        <p className="my-4 text-[#CAEB45] mx-5">list of your friends</p>
+        <div className="h-[35%] rounded-3xl bg-[#404040] px-5 py-4 space-y-5 mx-5">
           <div className="w-full h-[70%] overflow-y-scroll rounded-xl space-y-5">
             {friends.map((friend, index) => (
               <div
@@ -117,6 +125,57 @@ export const Earn = () => {
             <button className="p-4 bg-[#CAEB45] rounded-2xl">
               <IoCopy size={24} />
             </button>
+          </div>
+        </div>
+
+        <div className="bg-white w-full fit text-white rounded-t-3xl mt-10 p-7">
+          <h1 className="text-xl font-medium text-black">Tasks</h1>
+
+          <div className="flex flex-row justify-between items-center bg-[#17181A] rounded-xl p-4 mt-5">
+            <div className="flex flex-row space-x-5">
+              <div className="rounded-lg p-3 bg-[#FDFDFF] w-fit">
+                <MdCurrencyBitcoin size={32} color="#17181A" />
+              </div>
+
+              <div className="flex flex-col text-start text-[#FDFDFF]">
+                <p className="text-lg font-normal">Connect TON Wallet</p>
+                <p className="text-xs font-light">+1000</p>
+              </div>
+            </div>
+
+            <button
+              onClick={() => {
+                alert("dapet coy");
+              }}
+              className="px-5 py-2 h-fit bg-[#FDFDFF] text-black rounded-3xl"
+            >
+              Open
+            </button>
+          </div>
+          <div className="w-full mt-5 flex flex-row overflow-x-scroll flex-shrink-0 space-x-5">
+            {data.map((item, index) => (
+              <div
+                key={index}
+                className={`${
+                  index % 2 !== 0
+                    ? "bg-[#CAEB45] text-black"
+                    : "bg-[#7E7EFF] text-white"
+                } min-w-48 max-w-48 min-h-48 max-h-48 rounded-2xl flex flex-col p-4`}
+              >
+                <div className="mt-auto">
+                  <p className="text-lg font-medium">{item.title}</p>
+                  <p className="text-md font-extralight">+{item.rewards}</p>
+                  <button
+                    onClick={() => {
+                      alert("dapet coy");
+                    }}
+                    className="px-5 py-2 mt-5 h-fit bg-[#17181A] text-white rounded-3xl"
+                  >
+                    Claim
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

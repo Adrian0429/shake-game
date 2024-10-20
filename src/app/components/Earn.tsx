@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import bg from '../assets/bg.png'
-import Offcanvas from './OffCanvas';
+import Offcanvas from './Offcanvas/OffCanvas';
 const data = [
     {
         name: "Home",

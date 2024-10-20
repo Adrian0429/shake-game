@@ -3,6 +3,7 @@ import { useState } from "react";
 import Navbar from "./components/navbar";
 import { Earn } from "./components/Earn";
 import { Profile } from "./components/Profile";
+import { Leaderboards } from "./components/Leaderboards";
 
 export default function Home() {
   const [Page, setPage] = useState("Home");
@@ -13,7 +14,7 @@ export default function Home() {
         {Page === "Home" && <Earn />}
         {Page === "Earn" && <div className="w-full h-full">Earn Content</div>}
         {Page === "Leaderboards" && (
-          <div className="w-full h-full">Leaderboards Content</div>
+          <Leaderboards/>
         )}
         {Page === "Profile" && (
           <Profile/>

@@ -3,10 +3,12 @@ import bg from '../assets/user.png'
 import Image from 'next/image';
 import { FaChevronRight } from 'react-icons/fa';
 import OffCanvasEmail from './Offcanvas/OffCanvasEmail';
+import OffCanvasRegion from './Offcanvas/OffCanvasRegion';
 
 
 export const Profile = () => {
       const [isOffcanvasEmailVisible, setIsOffcanvasEmailVisible] = useState(false);
+      const [isOffcanvasRegionVisible, setIsOffcanvasRegionVisible] = useState(false);
 
   return (
     <>
@@ -36,26 +38,37 @@ export const Profile = () => {
             <FaChevronRight />
           </button>
 
-          <div className="flex flex-row justify-between items-center py-4">
-            <div className="flex flex-col space-y-1">
+          <button
+            onClick={() => {
+              setIsOffcanvasRegionVisible(true);
+            }}
+            className="flex flex-row justify-between items-center py-4"
+          >
+            <div className="flex flex-col space-y-1 text-start">
               <p className="text-md font-normal">Country</p>
               <p className="text-sm font-light">No Country Yet</p>
             </div>
             <FaChevronRight />
-          </div>
+          </button>
 
-          <div className="flex flex-row justify-between items-center py-4">
-            <div className="flex flex-col space-y-1">
+          <button className="flex flex-row justify-between items-center py-4">
+            <div className="flex flex-col space-y-1 text-start">
               <p className="text-md font-normal">Exchange</p>
               <p className="text-sm font-light">No Exchange Yet</p>
             </div>
             <FaChevronRight />
-          </div>
+          </button>
+
         </div>
       </div>
+      
       <OffCanvasEmail
         isVisible={isOffcanvasEmailVisible}
         onClose={() => setIsOffcanvasEmailVisible(false)}
+      />
+      <OffCanvasRegion
+        isVisible={isOffcanvasRegionVisible}
+        onClose={() => setIsOffcanvasRegionVisible(false)}
       />
     </>
   );

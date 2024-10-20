@@ -1,7 +1,6 @@
-
-import React from "react";
+import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { MdMarkEmailRead } from "react-icons/md";
+import countries from "@/app/constant/country";
 
 interface Props {
   isVisible: boolean;
@@ -12,7 +11,9 @@ type ClearRequest = {
   email: string;
 };
 
-const OffCanvasEmail = ({ isVisible, onClose }: Props) => {
+const OffCanvasRegion = ({ isVisible, onClose }: Props) => {
+  const [activeCountry, setActiveCountry] = useState<string | null>(null); // State to track the selected country
+
   const methods = useForm<ClearRequest>({
     mode: "onChange",
   });
@@ -20,7 +21,7 @@ const OffCanvasEmail = ({ isVisible, onClose }: Props) => {
   const { handleSubmit } = methods;
 
   const onSubmit = async (data: ClearRequest) => {
-    alert(data)
+    alert(data);
   };
 
   return (
@@ -28,8 +29,6 @@ const OffCanvasEmail = ({ isVisible, onClose }: Props) => {
       className={`hs-overlay fixed bottom-0 inset-x-0 transition-all duration-300 transform px-4 py-5 ${
         isVisible ? "translate-y-0" : "translate-y-full"
       } z-[80] bg-[#1F1F1E] border-b rounded-t-lg h-[80vh] overflow-y-scroll`}
-      role="dialog"
-      aria-labelledby="hs-offcanvas-bottom-label"
     >
       <div className="flex w-full justify-end">
         <button
@@ -44,21 +43,30 @@ const OffCanvasEmail = ({ isVisible, onClose }: Props) => {
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col items-center justify-center space-y-5 py-5 rounded-2xl mt-3"
         >
-          <MdMarkEmailRead className="text-[#CAEB45]" size={72} />
-
           <p className="text-white font-semibold text-2xl">
-            Submit Your Email !
+            Choose Your Country
           </p>
 
-          <input
-            type="email"
-            id="email"
-            className="block w-full p-4 text-sm rounded-3xl bg-[#404040] text-white"
-            placeholder="Enter email"
-            {...methods.register("email")}
-          />
+          {/* Map through countries and handle active state */}
+          {countries.map((item) => (
+            <button
+              key={item.code}
+              type="button"
+              onClick={() => setActiveCountry(item.code)} // Set active country on click
+              className={`w-[90%] py-4 px-5 rounded-2xl text-start  ${
+                activeCountry === item.code
+                  ? "bg-[#CAEB45] text-black"
+                  : "bg-[#404040] text-white"
+              }`}
+            >
+              {item.name}
+            </button>
+          ))}
 
-          <button className="block w-full p-4 text-sm text-gray-900 text-md font-medium rounded-3xl bg-[#CAEB45]">
+          <button
+            type="submit"
+            className="block w-full p-4 text-sm text-gray-900 text-md font-medium rounded-3xl bg-[#CAEB45]"
+          >
             Submit
           </button>
         </form>
@@ -67,4 +75,4 @@ const OffCanvasEmail = ({ isVisible, onClose }: Props) => {
   );
 };
 
-export default OffCanvasEmail;
+export default OffCanvasRegion;

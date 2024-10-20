@@ -85,8 +85,8 @@ const data = [
 export const Leaderboards = () => {
   return (
     <>
-      <div className="h-[calc(100vh-4.5rem)] w-full py-8 px-5">
-        <div className="relative w-full h-[22%]">
+      <div className="h-[calc(100vh-4.5rem)] w-full py-8 px-5 bg-white">
+        <div className="relative w-full h-[25%]">
           <div className="absolute top-0 left-0 w-full h-24 bg-[#CAEB45] z-10 rounded-2xl px-5 py-4 space-y-3">
             <h2 className="text-xl font-semibold">Your Rank</h2>
             <div className="flex flex-row justify-between">
@@ -108,7 +108,7 @@ export const Leaderboards = () => {
           </div>
         </div>
 
-        <div className="h-[80%] overflow-y-scroll space-y-3 py-2">
+        <div className="h-[75%] mt-3 overflow-y-scroll space-y-3 py-2">
           {data.map((item) => (
             <div
               key={item.rank}

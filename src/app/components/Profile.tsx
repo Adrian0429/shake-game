@@ -10,7 +10,7 @@ export const Profile = () => {
 
   return (
     <>
-      <div className="h-[calc(100vh-4.5rem)] w-full py-8 px-5">
+      <div className="h-[calc(100vh-4.5rem)] w-full py-8 px-5 bg-white">
         <div className="flex flex-col items-center w-full">
           <Image
             src={bg}

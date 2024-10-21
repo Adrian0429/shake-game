@@ -75,13 +75,12 @@ export default function Page() {
 
 
      useEffect(() => {
-       WebApp.ready();
-       WebApp.expand();
-
-       if (WebApp.initDataUnsafe.user) {
-        //  setStartParam(WebApp.initDataUnsafe.start_param || "");
+       if (typeof window !== "undefined" && WebApp.initDataUnsafe?.user) {
+         WebApp.ready();
+         WebApp.expand();
+         //  setStartParam(WebApp.initDataUnsafe.start_param || "");
          setUserData(WebApp.initDataUnsafe.user as UserData);
-         console.log(userData)
+         console.log(userData);
          RegisterLogin();
        }
 

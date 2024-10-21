@@ -90,7 +90,8 @@ export const Earn = () => {
         </div>
 
         <p className="my-4 text-[#CAEB45] mx-5">list of your friends</p>
-        <div className="h-[38%] rounded-3xl bg-[#404040] px-5 py-4 space-y-5 mx-5">
+        
+        <div className="h-[40%] rounded-3xl bg-[#404040] px-5 py-4 space-y-5 mx-5 flex flex-col justify-between">
           <div className="w-full h-[70%] overflow-y-scroll rounded-xl space-y-5">
             {friends.map((friend, index) => (
               <div
@@ -113,7 +114,7 @@ export const Earn = () => {
               </div>
             ))}
           </div>
-          <div className="flex flex-row w-full justify-between space-x-4 border">
+          <div className="h-[30%] flex flex-row w-full justify-between space-x-4">
             <button
               onClick={() => {
                 setIsOffcanvasVisible(true);

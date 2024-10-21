@@ -5,8 +5,12 @@ import { Profile } from "./components/Profile";
 import { Leaderboards } from "./components/Leaderboards";
 import { Home } from "./components/Home";
 import { Earn } from "./components/Earn";
+import WebApp from "@twa-dev/sdk";
 
 export default function Page() {
+  WebApp.ready();
+  WebApp.expand();
+  
   const [Page, setPage] = useState("Earn");
 
   return (

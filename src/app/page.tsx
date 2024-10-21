@@ -35,8 +35,9 @@ export default function Page() {
          }
        );
 
-       setUserDetails(response.data.data);
+       console.log(response.data.data);
        console.log(userDetails)
+       setUserDetails(response.data.data);
        setCookie(null, "token", response.data.data.token, {
          maxAge: 3 * 60 * 60,
          path: "/",
@@ -74,11 +75,9 @@ export default function Page() {
         //  setStartParam(WebApp.initDataUnsafe.start_param || "");
          setUserData(WebApp.initDataUnsafe.user as UserData);
          console.log(userData)
+         RegisterLogin();
        }
 
-    if (userData?.id) {
-      RegisterLogin()
-    }
        // eslint-disable-next-line react-hooks/exhaustive-deps
      }, [userData?.id, userData]);
 

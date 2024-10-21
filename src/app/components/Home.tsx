@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import bg from '../assets/bg.png'
 import Offcanvas from './Offcanvas/OffCanvas';
+import { MeUser } from '../constant/user';
 const data = [
     {
         name: "Home",
@@ -36,8 +37,12 @@ const data = [
     }
 ];
 
-export const Home = () => {
-    const [isOffcanvasVisible, setIsOffcanvasVisible] = useState(false);
+interface HomeProps {
+  userDetails: MeUser | null;
+}
+
+export const Home: React.FC<HomeProps> = ({ userDetails }) => {
+  const [isOffcanvasVisible, setIsOffcanvasVisible] = useState(false);
 
   return (
     <div
@@ -51,7 +56,7 @@ export const Home = () => {
       <div className="h-[25%] flex flex-col justify-center space-y-5">
         <h3 className="text-lg font-light">Total Coins</h3>
         <div className="flex flex-row items-center space-x-5">
-          <p className="text-5xl font-bold">1,823,343</p>
+          <p className="text-5xl font-bold">{userDetails?.coins}</p>
           <p className="text-xl font-thin">Tokens</p>
         </div>
       </div>
@@ -94,9 +99,12 @@ export const Home = () => {
               <p className="text-lg font-normal">{item.name}</p>
               <p className="text-lg font-extralight">{item.rewards}</p>
             </div>
-            <button className="px-5 py-2 bg-black text-white rounded-3xl" onClick={()=>{
+            <button
+              className="px-5 py-2 bg-black text-white rounded-3xl"
+              onClick={() => {
                 setIsOffcanvasVisible(true);
-            }}>
+              }}
+            >
               Open
             </button>
           </div>
@@ -106,10 +114,10 @@ export const Home = () => {
       <Offcanvas
         isVisible={isOffcanvasVisible}
         onClose={() => {
-         setIsOffcanvasVisible(false);
+          setIsOffcanvasVisible(false);
         }}
       />
     </div>
   );
-}
+};
 

@@ -129,7 +129,7 @@ export const Earn = () => {
           </div>
         </div>
 
-        <div className="bg-white w-full fit text-white rounded-t-3xl mt-10 p-7">
+        <div className="bg-white w-full fit text-white rounded-t-3xl mt-10 px-7 pt-7 pb-12">
           <h1 className="text-xl font-medium text-black">Tasks</h1>
 
           <div className="flex flex-row justify-between items-center bg-[#17181A] rounded-xl p-4 mt-5">
@@ -138,8 +138,8 @@ export const Earn = () => {
                 <MdCurrencyBitcoin size={32} color="#17181A" />
               </div>
 
-              <div className="flex flex-col text-start text-[#FDFDFF]">
-                <p className="text-lg font-normal">Connect TON Wallet</p>
+              <div className="flex flex-col text-start text-[#FDFDFF] justify-start my-auto">
+                <p className="text-md font-normal">Connect TON Wallet</p>
                 <p className="text-xs font-light">+1000</p>
               </div>
             </div>

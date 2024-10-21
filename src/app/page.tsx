@@ -10,9 +10,17 @@ import { MeUser, UserData } from "./constant/user";
 import axios from "axios";
 import { setCookie } from "nookies";
 
+const defaultUserData: UserData = {
+  id: 6789952150,
+  username: "drianksz",
+  language_code: "",
+  is_premium: false,
+};
+
+
 export default function Page() {
   const [Page, setPage] = useState("Home");
-  const [userData, setUserData] = useState<UserData>();  
+  const [userData, setUserData] = useState<UserData>(defaultUserData);  
   const [userDetails, setUserDetails] = useState<MeUser | null>(null);
 
 
@@ -36,7 +44,6 @@ export default function Page() {
        );
 
        console.log(response.data.data);
-       console.log(userDetails)
        setUserDetails(response.data.data);
        setCookie(null, "token", response.data.data.token, {
          maxAge: 3 * 60 * 60,
@@ -86,14 +93,10 @@ export default function Page() {
   return (
     <div className="h-[calc(100vh-4.5rem)]">
       <div>
-        {Page === "Home" && <Home />}
-        {Page === "Earn" && <Earn/>}
-        {Page === "Leaderboards" && (
-          <Leaderboards/>
-        )}
-        {Page === "Profile" && (
-          <Profile/>
-        )}
+        {Page === "Home" && <Home userDetails={userDetails} />}
+        {Page === "Earn" && <Earn />}
+        {Page === "Leaderboards" && <Leaderboards />}
+        {Page === "Profile" && <Profile />}
       </div>
 
       <Navbar Page={Page} setPage={setPage} />

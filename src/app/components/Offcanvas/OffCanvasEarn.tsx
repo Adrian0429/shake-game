@@ -41,7 +41,6 @@ const Offcanvas = ({ userId, isVisible, onClose }: Props) => {
   };
 
   const handleShareOnInstagram = () => {
-
     const fullUrl = `https://www.instagram.com/?url=${encodeURIComponent(
       referralCode
     )}`;

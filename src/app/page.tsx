@@ -73,6 +73,7 @@ export default function Page() {
        if (WebApp.initDataUnsafe.user) {
         //  setStartParam(WebApp.initDataUnsafe.start_param || "");
          setUserData(WebApp.initDataUnsafe.user as UserData);
+         console.log(userData)
        }
 
     if (userData?.id) {

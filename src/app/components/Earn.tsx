@@ -90,7 +90,7 @@ export const Earn = () => {
         </div>
 
         <p className="my-4 text-[#CAEB45] mx-5">list of your friends</p>
-        <div className="h-[35%] rounded-3xl bg-[#404040] px-5 py-4 space-y-5 mx-5">
+        <div className="h-[38%] rounded-3xl bg-[#404040] px-5 py-4 space-y-5 mx-5">
           <div className="w-full h-[70%] overflow-y-scroll rounded-xl space-y-5">
             {friends.map((friend, index) => (
               <div
@@ -113,7 +113,7 @@ export const Earn = () => {
               </div>
             ))}
           </div>
-          <div className="flex flex-row w-full justify-between space-x-4">
+          <div className="flex flex-row w-full justify-between space-x-4 border">
             <button
               onClick={() => {
                 setIsOffcanvasVisible(true);
@@ -133,7 +133,7 @@ export const Earn = () => {
 
           <div className="flex flex-row justify-between items-center bg-[#17181A] rounded-xl p-4 mt-5">
             <div className="flex flex-row space-x-5">
-              <div className="rounded-lg p-3 bg-[#FDFDFF] w-fit">
+              <div className="rounded-lg p-3 h-fit bg-[#FDFDFF] w-fit">
                 <MdCurrencyBitcoin size={32} color="#17181A" />
               </div>
 

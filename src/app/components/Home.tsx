@@ -121,20 +121,20 @@ export const Home = () => {
     }
   };
 
-  useEffect(() => {
-
-    if (WebApp.initDataUnsafe.user && typeof window !== "undefined"){
-          WebApp.ready();
-          WebApp.expand();
-      setUserData(WebApp.initDataUnsafe.user as UserData);
-
-      if (userData?.id) {
-        RegisterLogin(); // Call RegisterLogin when userData is available
-      }
-
+ useEffect(() => {
+    if (typeof window !== "undefined" && WebApp.initDataUnsafe?.user) {
+   WebApp.ready();
+   WebApp.expand();
+    // setStartParam(WebApp.initDataUnsafe.start_param || "");
+   setUserData(WebApp.initDataUnsafe.user as UserData);
+   console.log(userData);
+    if(userData.id) {
+   RegisterLogin();
     }
 
-  }, [userData?.id]);
+    }
+   // eslint-disable-next-line react-hooks/exhaustive-deps
+ }, [userData?.id, userData]);
 
   // useEffect(() => {
   //   if (tasks.length > 0) {

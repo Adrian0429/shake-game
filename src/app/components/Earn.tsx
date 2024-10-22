@@ -27,7 +27,7 @@ export const Earn = () => {
 
   return (
     <>
-      <div className="h-[calc(100vh-4.5rem)] w-full pt-8 bg-[#17181A] overflow-y-scroll">
+      <div className="min-h-[calc(100vh-4.5rem)] w-full pt-8 bg-[#17181A] overflow-y-scroll">
         <div className="mx-5">
           <h2 className="text-2xl font-semibold text-white">Refer a friend</h2>
           <p className="text-md font-light text-[#A6A6A6]">

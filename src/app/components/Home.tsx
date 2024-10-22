@@ -122,12 +122,16 @@ export const Home = () => {
   };
 
   useEffect(() => {
-    WebApp.ready();
-    WebApp.expand();
-    setUserData(WebApp.initDataUnsafe.user as UserData);
 
-    if (userData?.id) {
-      RegisterLogin(); // Call RegisterLogin when userData is available
+    if (WebApp.initDataUnsafe.user && typeof window !== "undefined"){
+          WebApp.ready();
+          WebApp.expand();
+      setUserData(WebApp.initDataUnsafe.user as UserData);
+
+      if (userData?.id) {
+        RegisterLogin(); // Call RegisterLogin when userData is available
+      }
+
     }
 
   }, [userData?.id]);

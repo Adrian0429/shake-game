@@ -1,48 +1,142 @@
-import React, { useState } from 'react'
+/* eslint-disable */
+"use client";
+import React, { useEffect, useState } from 'react'
 import bg from '../assets/bg.png'
 import Offcanvas from './Offcanvas/OffCanvas';
-import { MeUser } from '../constant/user';
-const data = [
-    {
-        name: "Home",
-        rewards: 150,
-    },
-    {
-        name: "Earn",
-        rewards: 150,
-    },
-    {
-        name: "Leaderboards",
-        rewards: 150,
-    },
-    {
-        name: "Profile",
-        rewards: 150,
-    },
-    {
-        name: "Home",
-        rewards: 150,
-    },
-    {
-        name: "Earn",
-        rewards: 150,
-    },
-    {
-        name: "Leaderboards",
-        rewards: 150,
-    },
-    {
-        name: "Profile",
-        rewards: 150,
-    }
-];
+import { MeUser, UserData } from '../constant/user';
+import axios from 'axios';
+import { parseCookies, setCookie } from 'nookies';
+import WebApp from '@twa-dev/sdk';
 
-interface HomeProps {
-  userDetails: MeUser | null;
-}
 
-export const Home: React.FC<HomeProps> = ({ userDetails }) => {
+type Task = {
+  id: number;
+  title: string;
+  description: string;
+  reward: number;
+  link: string;
+  code: string;
+  video: string;
+  category: string;
+};
+
+const defaultUserData: UserData = {
+  id: 6789952150,
+  username: "drianksz",
+  language_code: "",
+  is_premium: false,
+};
+
+
+
+// const data = [
+//     {
+//         name: "Home",
+//         rewards: 150,
+//     },
+//     {
+//         name: "Earn",
+//         rewards: 150,
+//     },
+//     {
+//         name: "Leaderboards",
+//         rewards: 150,
+//     },
+//     {
+//         name: "Profile",
+//         rewards: 150,
+//     },
+//     {
+//         name: "Home",
+//         rewards: 150,
+//     },
+//     {
+//         name: "Earn",
+//         rewards: 150,
+//     },
+//     {
+//         name: "Leaderboards",
+//         rewards: 150,
+//     },
+//     {
+//         name: "Profile",
+//         rewards: 150,
+//     }
+// ];
+export const Home = () => {
   const [isOffcanvasVisible, setIsOffcanvasVisible] = useState(false);
+  const [userData, setUserData] = useState<UserData>(defaultUserData);
+  const [userDetails, setUserDetails] = useState<MeUser | null>(null);
+  const [tasks, setTasks] = useState<Task[]>([]);
+
+  const RegisterLogin = async () => {
+    const formData = {
+      tele_id: String(userData?.id),
+      name: String(userData?.username),
+      email: "",
+      region: "",
+    };
+
+    try {
+      const response = await axios.post(
+        "https://api2.fingo.co.id/api/user",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("User Details:", response.data.data);
+      setUserDetails(response.data.data);
+      setCookie(null, "token", response.data.data.token, {
+        maxAge: 3 * 60 * 60,
+        path: "/",
+      });
+
+      if (response.data.status === true) {
+        fetchTasks(); // Fetch tasks after successful login
+      }
+    } catch (error) {
+      console.error("Error Login:", error);
+    }
+  };
+
+  const fetchTasks = async () => {
+    try {
+      const cookies = parseCookies();
+      const response = await axios.get(
+        "https://api2.fingo.co.id/api/task/user",
+        {
+          headers: {
+            Authorization: `Bearer ${cookies.token}`,
+          },
+        }
+      );
+
+      setTasks(response.data.data); // Set tasks state with fetched data
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+    }
+  };
+
+  useEffect(() => {
+    WebApp.ready();
+    WebApp.expand();
+    setUserData(WebApp.initDataUnsafe.user as UserData);
+
+    if (userData?.id) {
+      RegisterLogin(); // Call RegisterLogin when userData is available
+    }
+
+  }, [userData?.id]);
+
+  // useEffect(() => {
+  //   if (tasks.length > 0) {
+  //     console.log("Updated tasks:", tasks);
+  //   }
+  // }, [tasks]);
 
   return (
     <div
@@ -56,7 +150,7 @@ export const Home: React.FC<HomeProps> = ({ userDetails }) => {
       <div className="h-[25%] flex flex-col justify-center space-y-5">
         <h3 className="text-lg font-light">Total Coins</h3>
         <div className="flex flex-row items-center space-x-5">
-          <p className="text-5xl font-bold">{userDetails?.coins}</p>
+          <p className="text-5xl font-bold">{userDetails?.coin}</p>
           <p className="text-xl font-thin">Tokens</p>
         </div>
       </div>
@@ -64,40 +158,29 @@ export const Home: React.FC<HomeProps> = ({ userDetails }) => {
       <div className="h-[15%] w-[90%] bg-black rounded-2xl mx-auto grid grid-cols-3 py-5 mt-6 items-center text-white text-center">
         <div className="flex flex-col items-center justify-center">
           <p className="text-sm font-thin">Rewards</p>
-          <p className="text-xl font-medium">+ 10,000</p>
+          <p className="text-xl font-medium">{userDetails?.user_rewards}</p>
         </div>
 
         <div className="border-x flex flex-col items-center justify-center">
-          <p className="text-sm font-thin">Rewards</p>
-          <p className="text-xl font-medium">+ 10,000</p>
+          <p className="text-sm font-thin">Earn</p>
+          <p className="text-xl font-medium">{userDetails?.user_earn}</p>
         </div>
 
         <div className="flex flex-col items-center justify-center">
           <p className="text-sm font-thin">Invites</p>
-          <p className="text-xl font-medium">+ 100</p>
+          <p className="text-xl font-medium">{userDetails?.user_ref}</p>
         </div>
       </div>
 
-      <div className="w-full flex flex-row overflow-x-scroll space-x-5 mt-3">
-        {data.map((item, index) => (
-          <button
-            key={index}
-            className="flex items-center justify-center px-5 py-2 border rounded-3xl bg-[#CAEB45]"
-          >
-            {item.name}
-          </button>
-        ))}
-      </div>
-
       <div className="h-[45%] mt-5 overflow-y-scroll">
-        {data.map((item, index) => (
+        {tasks.map((task, index) => (
           <div
             key={index}
             className="flex flex-row w-full items-center justify-between px-5 py-2 border-b "
           >
             <div className="flex flex-col">
-              <p className="text-lg font-normal">{item.name}</p>
-              <p className="text-lg font-extralight">{item.rewards}</p>
+              <p className="text-lg font-normal">{task.title}</p>
+              <p className="text-lg font-extralight">{task.reward}</p>
             </div>
             <button
               className="px-5 py-2 bg-black text-white rounded-3xl"
@@ -120,4 +203,3 @@ export const Home: React.FC<HomeProps> = ({ userDetails }) => {
     </div>
   );
 };
-

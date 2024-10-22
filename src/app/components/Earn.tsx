@@ -5,6 +5,7 @@ import { FaUserGroup } from 'react-icons/fa6';
 import OffCanvasEarn from './Offcanvas/OffCanvasEarn';
 import { MdCurrencyBitcoin } from 'react-icons/md';
 
+
 const friends = [
     { name: "Alice", points: 200, referrals: 5 },
     { name: "Bob", points: 150, referrals: 5 },
@@ -21,6 +22,7 @@ const data = [
   { title: "create ton3", rewards: 1000 },
   { title: "create ton3", rewards: 1000 },
 ];
+
 
 export const Earn = () => {
     const [isOffcanvasVisible, setIsOffcanvasVisible] = useState(false);

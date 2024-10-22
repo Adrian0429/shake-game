@@ -12,8 +12,12 @@ export interface MeUser {
   email: string;
   energy: number;
   region: string;
-  coins: number;
+  token:string;
+  coin: number;
   daily_status: boolean;
   daily_count: number;
   exchange: string;
+  user_rewards: number;
+  user_earn: number;
+  user_ref: number;
 }

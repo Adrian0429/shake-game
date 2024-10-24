@@ -121,6 +121,20 @@ export const Home = () => {
     }
   };
 
+  //  useEffect(() => {
+  //   //  if (typeof window !== "undefined" && WebApp.initDataUnsafe?.user) {
+  //      WebApp.ready();
+  //      WebApp.expand();
+  //      // setStartParam(WebApp.initDataUnsafe.start_param || "");
+  //      setUserData(WebApp.initDataUnsafe.user as UserData);
+  //      console.log(userData);
+  //     //  if (userData.id) {
+  //        RegisterLogin();
+  //     //  }
+  //   //  }
+  //    // eslint-disable-next-line react-hooks/exhaustive-deps
+  //  }, [userData?.id, userData]);
+
  useEffect(() => {
     if (typeof window !== "undefined" && WebApp.initDataUnsafe?.user) {
    WebApp.ready();

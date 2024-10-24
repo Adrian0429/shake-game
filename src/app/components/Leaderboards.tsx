@@ -31,7 +31,7 @@ export const Leaderboards = () => {
       try {
         const cookies = parseCookies(); 
         const response = await axios.get<LeaderboardsResponse>(
-          "https://api2.fingo.co.id/api/leaderboards", 
+          "https://api2.fingo.co.id/api/user/leaderboards", 
           {
             headers: {
               Authorization: `Bearer ${cookies.token}`,
@@ -66,8 +66,8 @@ export const Leaderboards = () => {
             <p className="font-light text-lg text-white w-full text-start">
               <span className="font-semibold text-xl text-white">
                 {leaderboards?.data.total_coins}
-              </span>{" "}
-              Holders
+              </span>{"  "}
+              Total Token
             </p>
           </div>
         </div>

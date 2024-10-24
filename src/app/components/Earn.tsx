@@ -131,7 +131,7 @@ export const Earn = () => {
           </div>
         </div>
 
-        <div className="bg-white w-full fit text-white rounded-t-3xl mt-10 px-7 pt-7 pb-12">
+        <div className="bg-white w-full fit text-white rounded-t-3xl mt-10 px-7 pt-7 pb-[10rem]">
           <h1 className="text-xl font-medium text-black">Tasks</h1>
 
           <div className="flex flex-row justify-between items-center bg-[#17181A] rounded-xl p-4 mt-5">

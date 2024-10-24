@@ -30,7 +30,7 @@ const defaultUserData: UserData = {
 
 export const Home = () => {
   const [isOffcanvasVisible, setIsOffcanvasVisible] = useState(false);
-  const [userData, setUserData] = useState<UserData>(defaultUserData);
+  const [userData, setUserData] = useState<UserData>();
   const [userDetails, setUserDetails] = useState<MeUser | null>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null); 
@@ -87,32 +87,32 @@ export const Home = () => {
     }
   };
 
-  useEffect(() => {
-    WebApp.ready();
-    WebApp.expand();
-    setUserData(WebApp.initDataUnsafe.user as UserData);
-    console.log(userData);
-    //  if (userData.id) {
-    RegisterLogin();
-    //  }
-    //  }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userData?.id, userData]);
+  // useEffect(() => {
+  //   WebApp.ready();
+  //   WebApp.expand();
+  //   setUserData(WebApp.initDataUnsafe.user as UserData);
+  //   console.log(userData);
+  //   //  if (userData.id) {
+  //   RegisterLogin();
+  //   //  }
+  //   //  }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [userData?.id, userData]);
 
-  //  useEffect(() => {
-  //     if (typeof window !== "undefined" && WebApp.initDataUnsafe?.user) {
-  //    WebApp.ready();
-  //    WebApp.expand();
-  //     // setStartParam(WebApp.initDataUnsafe.start_param || "");
-  //    setUserData(WebApp.initDataUnsafe.user as UserData);
-  //    console.log(userData);
-  //     if(userData.id) {
-  //    RegisterLogin();
-  //     }
+   useEffect(() => {
+      if (typeof window !== "undefined" && WebApp.initDataUnsafe?.user) {
+     WebApp.ready();
+     WebApp.expand();
+      // setStartParam(WebApp.initDataUnsafe.start_param || "");
+     setUserData(WebApp.initDataUnsafe.user as UserData);
+     console.log(userData);
+      if(userData.id) {
+     RegisterLogin();
+      }
 
-  //     }
-  //    // eslint-disable-next-line react-hooks/exhaustive-deps
-  //  }, [userData?.id, userData]);
+      }
+     // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [userData?.id, userData]);
 
   // useEffect(() => {
   //   if (tasks.length > 0) {

@@ -16,7 +16,7 @@ type LeaderboardsResponse = {
     data_user: {
       position: number;
       user_name: string;
-      user_coins: number;
+      coins: number;
     };
     data: LeaderboardData[];
   };
@@ -58,7 +58,7 @@ export const Leaderboards = () => {
                 <p>{leaderboards?.data.data_user.position}</p>
                 <p>{leaderboards?.data.data_user.user_name}</p>
               </div>
-              <p>{leaderboards?.data.data_user.user_coins} Tokens</p>
+              <p>{leaderboards?.data.data_user.coins} Tokens</p>
             </div>
           </div>
 

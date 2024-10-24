@@ -1,9 +1,12 @@
-import React, { useState } from 'react'
+
+import React, { useEffect, useState } from 'react'
 import { TbCoin } from 'react-icons/tb';
 import { IoCopy } from 'react-icons/io5';
 import { FaUserGroup } from 'react-icons/fa6';
 import OffCanvasEarn from './Offcanvas/OffCanvasEarn';
 import { MdCurrencyBitcoin } from 'react-icons/md';
+import { parseCookies } from 'nookies';
+import axios from 'axios';
 
 
 const friends = [
@@ -23,9 +26,46 @@ const data = [
   { title: "create ton3", rewards: 1000 },
 ];
 
+type Referral = {
+  user_name: string;
+  referred_user: number;
+  coins: number;
+};
+
+type ReferralsResponse = {
+  status: boolean;
+  message: string;
+  data: {
+    total_coins: number;
+    data: Referral[];
+  };
+};
 
 export const Earn = () => {
     const [isOffcanvasVisible, setIsOffcanvasVisible] = useState(false);
+
+    const [referrals, setReferrals] = useState<ReferralsResponse | null>(null);
+
+    useEffect(() => {
+      const fetchReferrals = async () => {
+        try {
+          const cookies = parseCookies(); 
+          const response = await axios.get<ReferralsResponse>(
+            "https://api2.fingo.co.id/api/user/getreferraldata",
+            {
+              headers: {
+                Authorization: `Bearer ${cookies.token}`,
+              },
+            }
+          );
+          setReferrals(response.data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+      fetchReferrals();
+    }, []);
 
   return (
     <>
@@ -45,7 +85,9 @@ export const Earn = () => {
 
             <div className="flex flex-col text-start text-[#FDFDFF]">
               <p className="text-lg font-normal">Referral Points</p>
-              <p className="text-md font-light">+1000</p>
+              <p className="text-md font-light">
+                + {referrals?.data.total_coins || 0}
+              </p>
             </div>
           </div>
 
@@ -92,29 +134,36 @@ export const Earn = () => {
         </div>
 
         <p className="my-4 text-[#CAEB45] mx-5">list of your friends</p>
-        
+
         <div className="h-[40%] rounded-3xl bg-[#404040] px-5 py-4 space-y-5 mx-5 flex flex-col justify-between">
           <div className="w-full h-[70%] overflow-y-scroll rounded-xl space-y-5">
-            {friends.map((friend, index) => (
-              <div
-                key={index}
-                className="flex flex-row justify-between items-center"
-              >
-                <div className="flex flex-col">
-                  <p className="text-[#FDFDFF] ml-3 text-xl font-light">
-                    {friend.name}
-                  </p>
-                  <div className="text-[#FDFDFF] ml-3 text-md font-light flex flex-row items-center space-x-2">
-                    <FaUserGroup />
-                    <p>+{friend.referrals}</p>
+            {referrals &&
+            referrals.data &&
+            referrals.data.data &&
+            referrals.data.data.length > 0 ? (
+              referrals.data.data.map((friend, index) => (
+                <div
+                  key={index}
+                  className="flex flex-row justify-between items-center"
+                >
+                  <div className="flex flex-col">
+                    <p className="text-[#FDFDFF] ml-3 text-xl font-light">
+                      {friend.user_name}
+                    </p>
+                    <div className="text-[#FDFDFF] ml-3 text-md font-light flex flex-row items-center space-x-2">
+                      <FaUserGroup />
+                      <p>+{friend.referred_user}</p>
+                    </div>
                   </div>
-                </div>
 
-                <p className="text-lg font-light text-[#FDFDFF]">
-                  +{friend.points} Points
-                </p>
-              </div>
-            ))}
+                  <p className="text-lg font-light text-[#FDFDFF]">
+                    +{friend.coins} Points
+                  </p>
+                </div>
+              ))
+            ) : (
+              <p className="text-[#FDFDFF] text-center">No referrals found.</p>
+            )}
           </div>
           <div className="h-[30%] flex flex-row w-full justify-between space-x-4">
             <button

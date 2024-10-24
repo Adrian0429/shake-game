@@ -28,46 +28,12 @@ const defaultUserData: UserData = {
 };
 
 
-
-// const data = [
-//     {
-//         name: "Home",
-//         rewards: 150,
-//     },
-//     {
-//         name: "Earn",
-//         rewards: 150,
-//     },
-//     {
-//         name: "Leaderboards",
-//         rewards: 150,
-//     },
-//     {
-//         name: "Profile",
-//         rewards: 150,
-//     },
-//     {
-//         name: "Home",
-//         rewards: 150,
-//     },
-//     {
-//         name: "Earn",
-//         rewards: 150,
-//     },
-//     {
-//         name: "Leaderboards",
-//         rewards: 150,
-//     },
-//     {
-//         name: "Profile",
-//         rewards: 150,
-//     }
-// ];
 export const Home = () => {
   const [isOffcanvasVisible, setIsOffcanvasVisible] = useState(false);
   const [userData, setUserData] = useState<UserData>(defaultUserData);
   const [userDetails, setUserDetails] = useState<MeUser | null>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null); 
 
   const RegisterLogin = async () => {
     const formData = {
@@ -121,34 +87,32 @@ export const Home = () => {
     }
   };
 
+  useEffect(() => {
+    WebApp.ready();
+    WebApp.expand();
+    setUserData(WebApp.initDataUnsafe.user as UserData);
+    console.log(userData);
+    //  if (userData.id) {
+    RegisterLogin();
+    //  }
+    //  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userData?.id, userData]);
+
   //  useEffect(() => {
-  //   //  if (typeof window !== "undefined" && WebApp.initDataUnsafe?.user) {
-  //      WebApp.ready();
-  //      WebApp.expand();
-  //      // setStartParam(WebApp.initDataUnsafe.start_param || "");
-  //      setUserData(WebApp.initDataUnsafe.user as UserData);
-  //      console.log(userData);
-  //     //  if (userData.id) {
-  //        RegisterLogin();
-  //     //  }
-  //   //  }
+  //     if (typeof window !== "undefined" && WebApp.initDataUnsafe?.user) {
+  //    WebApp.ready();
+  //    WebApp.expand();
+  //     // setStartParam(WebApp.initDataUnsafe.start_param || "");
+  //    setUserData(WebApp.initDataUnsafe.user as UserData);
+  //    console.log(userData);
+  //     if(userData.id) {
+  //    RegisterLogin();
+  //     }
+
+  //     }
   //    // eslint-disable-next-line react-hooks/exhaustive-deps
   //  }, [userData?.id, userData]);
-
- useEffect(() => {
-    if (typeof window !== "undefined" && WebApp.initDataUnsafe?.user) {
-   WebApp.ready();
-   WebApp.expand();
-    // setStartParam(WebApp.initDataUnsafe.start_param || "");
-   setUserData(WebApp.initDataUnsafe.user as UserData);
-   console.log(userData);
-    if(userData.id) {
-   RegisterLogin();
-    }
-
-    }
-   // eslint-disable-next-line react-hooks/exhaustive-deps
- }, [userData?.id, userData]);
 
   // useEffect(() => {
   //   if (tasks.length > 0) {
@@ -203,7 +167,8 @@ export const Home = () => {
             <button
               className="px-5 py-2 bg-black text-white rounded-3xl"
               onClick={() => {
-                setIsOffcanvasVisible(true);
+                setSelectedTask(task); // Set the selected task
+                setIsOffcanvasVisible(true); // Show the Offcanvas
               }}
             >
               Open
@@ -217,6 +182,7 @@ export const Home = () => {
         onClose={() => {
           setIsOffcanvasVisible(false);
         }}
+        task={selectedTask}
       />
     </div>
   );

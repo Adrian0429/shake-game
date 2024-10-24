@@ -1,10 +1,23 @@
-
+import Link from "next/link";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import { LuYoutube } from "react-icons/lu";
+
+type Task = {
+  id: number;
+  title: string;
+  description: string;
+  reward: number;
+  link: string;
+  code: string;
+  video: string;
+  category: string;
+};
 
 interface Props {
   isVisible: boolean;
   onClose: () => void;
+  task: Task | null;
 }
 
 type ClearRequest = {
@@ -12,15 +25,17 @@ type ClearRequest = {
   code: string;
 };
 
-const Offcanvas = ({ isVisible, onClose }: Props) => {
+const Offcanvas = ({ isVisible, onClose, task }: Props) => {
   const methods = useForm<ClearRequest>({
     mode: "onChange",
   });
 
-  const { handleSubmit } = methods;
+  const { handleSubmit, register } = methods;
 
   const onSubmit = async (data: ClearRequest) => {
-    alert(data)
+    const taskId = task?.id ? String(task.id) : "unknown"; // Ensure task_id is available
+    console.log("Task ID:", taskId);
+    console.log("Code:", data.code);
   };
 
   return (
@@ -45,20 +60,26 @@ const Offcanvas = ({ isVisible, onClose }: Props) => {
           className="flex flex-col items-center justify-center bg-[#404040] space-y-5 py-5 rounded-2xl mt-3"
         >
           <p className="text-center font-bold text-xl w-full text-white">
-            Enter you answer
+            Enter your answer
           </p>
 
           <label className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">
-            Search
+            Submit
           </label>
 
           <div className="relative w-[90%] rounded-lg ">
             <input
-              type="search"
-              id="search"
+              type="text"
+              id="code"
               className="block w-full p-4 text-sm text-gray-900 rounded-3xl bg-[#FDFDFF]"
               placeholder="Enter code"
-              required
+              {...register("code", { required: true })}
+            />
+
+            <input
+              type="hidden"
+              value={task?.id || ""}
+              {...register("task_id")}
             />
 
             <button
@@ -71,19 +92,41 @@ const Offcanvas = ({ isVisible, onClose }: Props) => {
         </form>
       </FormProvider>
 
-      <div
-        className="flex flex-col items-center justify-center bg-[#404040] space-y-5 py-5 px-5 rounded-2xl mt-3"
-      >
+      <div className="flex flex-col items-center justify-center bg-[#404040] space-y-5 py-5 px-5 rounded-2xl mt-3">
+        {task && task.link && (
+          <div className="w-full">
+            <img
+              alt={task.title}
+              src={task.link}
+              className="w-full h-48 rounded-xl object-cover"
+            />
+          </div>
+        )}
 
-        {/* <Image className="w-[90%]" src={}/> */}
-        <div className="bg-slate-400 w-full h-48 rounded-xl"></div>
+        {task && task.video && (
+          <div className="flex flex-col justify-center mt-5 w-full">
+            <p className="text-white text-center text-B2 font-semibold">
+              Click to watch the video
+            </p>
+            <Link
+              target="blank"
+              href={task.video}
+              className="h-48 w-full bg-red-500 rounded-xl"
+            >
+              <LuYoutube className="w-full h-full text-white" />
+            </Link>
+          </div>
+        )}
+
         <p className="font-extralight text-md w-full text-white">
-          + 150 Tokens
+          + {task?.reward} Tokens
         </p>
-        <h1 className="w-full font-bold text-2xl text-white">Join Rating Community</h1>
-        <p className="text-white font-thin w-full line">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, hic nostrum asperiores dolores ipsa eius molestiae quod sint a, eaque, voluptas impedit quisquam. At, ad fugiat. Cupiditate impedit modi, facilis beatae minima eaque ratione magnam nobis incidunt perferendis. Obcaecati quia maxime consequuntur quibusdam alias! Ducimus labore possimus architecto autem alias id fuga hic eligendi minus fugit doloribus a eum fugiat, iusto enim impedit similique molestias maiores repellat nisi aliquid facere. Possimus, perferendis earum excepturi alias quos laudantium commodi temporibus officiis quia voluptatibus reprehenderit voluptas quisquam accusantium consequuntur iure repellat voluptatem fugit. Voluptatum, porro quae natus nam debitis soluta beatae laboriosam nulla totam vel dolore minima, esse quisquam maiores enim. Natus voluptatum quisquam vitae nemo sint, sunt quibusdam fugit laboriosam, adipisci sed quam ex iste dolorem! Itaque aut eos saepe quasi blanditiis expedita voluptas aliquid voluptatibus mollitia harum, ab corporis a quidem obcaecati in atque at impedit tempore est aliquam odio totam sunt eum quisquam! Possimus esse, odio fugiat voluptas eum quidem tenetur exercitationem nesciunt optio ad ducimus, repudiandae nam neque expedita! Molestias exercitationem ipsam explicabo reprehenderit optio odio unde atque voluptatum quam quod natus, quaerat vel praesentium cum ad aspernatur debitis. Nesciunt ex accusamus debitis quaerat, incidunt numquam unde. Facere.</p>
+        <h1 className="w-full font-bold text-2xl text-white">{task?.title}</h1>
+        <div
+          className="rich-text-content list-disc list-inside text-justify text-white mt-5 px-5 font-thin w-full"
+          dangerouslySetInnerHTML={{ __html: task?.description || "" }}
+        />
       </div>
-
     </div>
   );
 };

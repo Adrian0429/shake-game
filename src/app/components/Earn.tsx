@@ -9,14 +9,6 @@ import { parseCookies } from 'nookies';
 import axios from 'axios';
 
 
-const friends = [
-    { name: "Alice", points: 200, referrals: 5 },
-    { name: "Bob", points: 150, referrals: 5 },
-    { name: "Charlie", points: 300, referrals: 5 },
-    { name: "David", points: 250, referrals: 5 },
-    { name: "Eve", points: 100, referrals: 5 },
-];
-
 const data = [
   { title: "create ton", rewards: 1000 },
   { title: "create ton2", rewards: 1000 },

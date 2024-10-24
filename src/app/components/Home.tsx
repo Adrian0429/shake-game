@@ -106,7 +106,7 @@ export const Home = () => {
       // setStartParam(WebApp.initDataUnsafe.start_param || "");
      setUserData(WebApp.initDataUnsafe.user as UserData);
      console.log(userData);
-      if(userData.id) {
+      if(userData?.id) {
      RegisterLogin();
       }
 

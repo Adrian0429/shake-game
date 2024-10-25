@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import countries from "@/app/constant/country";
+import { parseCookies } from "nookies";
+import axios from "axios";
 
 interface Props {
   isVisible: boolean;
@@ -9,20 +11,48 @@ interface Props {
 
 type ClearRequest = {
   email: string;
+  region: string; 
 };
 
 const OffCanvasRegion = ({ isVisible, onClose }: Props) => {
-  const [activeCountry, setActiveCountry] = useState<string | null>(null); // State to track the selected country
-
+  const [activeCountry, setActiveCountry] = useState<string | null>(null);
   const methods = useForm<ClearRequest>({
     mode: "onChange",
+    defaultValues: {
+      email: "",
+      region: "",
+    },
   });
 
-  const { handleSubmit } = methods;
+  const { handleSubmit, setValue } = methods;
+
+  const updateKYC = async (data: ClearRequest) => {
+    try {
+      console.log(data);
+      const cookies = parseCookies();
+      const response = await axios.patch(
+        "https://api2.fingo.co.id/api/user",
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${cookies.token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      if (response.data.status === true) {
+        console.log(response.data);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   const onSubmit = async (data: ClearRequest) => {
-    alert(data);
+    const updatedData = { ...data, region: activeCountry || "" };
+    updateKYC(updatedData);
   };
+
 
   return (
     <div
@@ -41,35 +71,35 @@ const OffCanvasRegion = ({ isVisible, onClose }: Props) => {
       <FormProvider {...methods}>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col items-center justify-center space-y-5 py-5 rounded-2xl mt-3"
+          className="h-[80%] rounded-3xl mt-5 "
         >
-          <p className="text-white font-semibold text-2xl">
-            Choose Your Country
-          </p>
-
-          {/* Map through countries and handle active state */}
-          {countries.map((item) => (
-            <button
-              key={item.code}
-              type="button"
-              onClick={() => setActiveCountry(item.code)} // Set active country on click
-              className={`w-[90%] py-4 px-5 rounded-2xl text-start  ${
-                activeCountry === item.code
-                  ? "bg-[#CAEB45] text-black"
-                  : "bg-[#404040] text-white"
-              }`}
-            >
-              {item.name}
-            </button>
-          ))}
-
-          <button
-            type="submit"
-            className="block w-full p-4 text-sm text-gray-900 text-md font-medium rounded-3xl bg-[#CAEB45]"
-          >
-            Submit
-          </button>
+          <div className="flex flex-col mx-auto h-full overflow-y-scroll space-y-5">
+            {countries.map((item) => (
+              <button
+                key={item.code}
+                type="button"
+                onClick={() => {
+                  setActiveCountry(item.code);
+                  setValue("region", item.code);
+                }}
+                className={`w-full py-4 px-5 rounded-2xl text-start  ${
+                  activeCountry === item.code
+                    ? "bg-[#CAEB45] text-black"
+                    : "bg-[#404040] text-white"
+                }`}
+              >
+                {item.name}
+              </button>
+            ))}
+          </div>
         </form>
+
+        <button
+          onClick={handleSubmit(onSubmit)}
+          className="block w-full mt-5 p-4 text-sm text-gray-900 text-md font-medium rounded-3xl bg-[#CAEB45]"
+        >
+          Submit
+        </button>
       </FormProvider>
     </div>
   );

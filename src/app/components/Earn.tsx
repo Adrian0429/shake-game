@@ -7,7 +7,6 @@ import OffCanvasEarn from './Offcanvas/OffCanvasEarn';
 import { MdCurrencyBitcoin } from 'react-icons/md';
 import { parseCookies } from 'nookies';
 import axios from 'axios';
-import { Task } from '../constant/user';
 
 
 const data = [

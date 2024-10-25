@@ -36,7 +36,6 @@ type ReferralsResponse = {
 
 export const Earn = () => {
     const [isOffcanvasVisible, setIsOffcanvasVisible] = useState(false);
-     const [selectedTask, setSelectedTask] = useState<Task | null>(null); 
     const [referrals, setReferrals] = useState<ReferralsResponse | null>(null);
 
     useEffect(() => {

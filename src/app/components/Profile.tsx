@@ -6,6 +6,7 @@ import OffCanvasEmail from './Offcanvas/OffCanvasEmail';
 import OffCanvasRegion from './Offcanvas/OffCanvasRegion';
 import axios from 'axios';
 import { parseCookies } from 'nookies';
+
 interface UserData {
   tele_id: string;
   name: string;

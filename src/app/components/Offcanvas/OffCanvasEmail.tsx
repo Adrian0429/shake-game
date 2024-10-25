@@ -1,4 +1,6 @@
 
+import axios from "axios";
+import { parseCookies } from "nookies";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { MdMarkEmailRead } from "react-icons/md";
@@ -10,17 +12,45 @@ interface Props {
 
 type ClearRequest = {
   email: string;
+  region: string;
 };
+
 
 const OffCanvasEmail = ({ isVisible, onClose }: Props) => {
   const methods = useForm<ClearRequest>({
     mode: "onChange",
+    defaultValues: {
+      email: "",
+      region: "",
+    },
   });
 
   const { handleSubmit } = methods;
 
+  const updateKYC = async (data: ClearRequest) => {
+    try {
+
+      const cookies = parseCookies();
+      const response = await axios.patch(
+        "https://api2.fingo.co.id/api/user",
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${cookies.token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      if (response.data.status === true) {
+        console.log(response.data);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   const onSubmit = async (data: ClearRequest) => {
-    alert(data)
+    updateKYC(data);
   };
 
   return (

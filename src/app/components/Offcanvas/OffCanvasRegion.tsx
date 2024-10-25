@@ -11,7 +11,7 @@ interface Props {
 
 type ClearRequest = {
   email: string;
-  region: string; 
+  country: string; 
 };
 
 const OffCanvasRegion = ({ isVisible, onClose }: Props) => {
@@ -20,7 +20,7 @@ const OffCanvasRegion = ({ isVisible, onClose }: Props) => {
     mode: "onChange",
     defaultValues: {
       email: "",
-      region: "",
+      country: "",
     },
   });
 
@@ -80,7 +80,7 @@ const OffCanvasRegion = ({ isVisible, onClose }: Props) => {
                 type="button"
                 onClick={() => {
                   setActiveCountry(item.code);
-                  setValue("region", item.code);
+                  setValue("country", item.code);
                 }}
                 className={`w-full py-4 px-5 rounded-2xl text-start  ${
                   activeCountry === item.code

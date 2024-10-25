@@ -96,12 +96,25 @@ export const Home = () => {
     }
   };
 
+  // useEffect(() => {
+  //   WebApp.ready();
+  //   WebApp.expand();
+  //   setUserData(WebApp.initDataUnsafe.user as UserData);
+  //   RegisterLogin();
+  // }, [userData?.id, userData]);
+
+
   useEffect(() => {
-    WebApp.ready();
-    WebApp.expand();
-    setUserData(WebApp.initDataUnsafe.user as UserData);
-    RegisterLogin();
-  }, [userData?.id, userData]);
+    if (
+      typeof window !== "undefined" &&
+      WebApp.initDataUnsafe.user
+    ) {
+      WebApp.ready();
+      WebApp.expand();
+      setUserData(WebApp.initDataUnsafe.user as UserData);
+      RegisterLogin();
+    }
+  }, []);
 
   const methods = useForm<ClearRequest>({
     mode: "onChange",

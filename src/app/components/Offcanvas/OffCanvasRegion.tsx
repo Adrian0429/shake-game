@@ -74,7 +74,7 @@ const OffCanvasRegion = ({ isVisible, onClose, onSuccess }: Props) => {
       <FormProvider {...methods}>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="h-[80%] rounded-3xl mt-5 "
+          className="h-[70%] rounded-3xl mt-5 "
         >
           <div className="flex flex-col mx-auto h-full overflow-y-scroll space-y-5">
             {countries.map((item) => (

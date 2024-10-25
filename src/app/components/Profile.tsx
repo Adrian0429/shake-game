@@ -55,13 +55,15 @@ export const Profile = () => {
             height={60}
             className="rounded-full"
           />
-          <p className="text-lg font-semibold mt-3">{userDetails?.name}</p>
+          <p className="text-xl font-semibold mt-3">{userDetails?.name}</p>
         </div>
 
         <div className="bg-[#17181A] grid grid-rows-3 text-white rounded-3xl mt-5 p-8">
           <button
             onClick={() => {
-              setIsOffcanvasEmailVisible(true);
+              if (!userDetails?.region) {
+                setIsOffcanvasEmailVisible(true);
+              }
             }}
             className="flex flex-row justify-between items-center py-4"
           >
@@ -71,12 +73,14 @@ export const Profile = () => {
                 {userDetails?.email || "No Email Yet"}
               </p>
             </div>
-            <FaChevronRight />
+            {userDetails?.email ? null : <FaChevronRight />}
           </button>
 
           <button
             onClick={() => {
-              setIsOffcanvasRegionVisible(true);
+              if (!userDetails?.region) {
+                setIsOffcanvasRegionVisible(true);
+              }
             }}
             className="flex flex-row justify-between items-center py-4"
           >
@@ -86,7 +90,7 @@ export const Profile = () => {
                 {userDetails?.region || "No Country Yet"}
               </p>
             </div>
-            <FaChevronRight />
+            {userDetails?.email ? null : <FaChevronRight />}
           </button>
 
           <button className="flex flex-row justify-between items-center py-4">
@@ -110,7 +114,7 @@ export const Profile = () => {
       <OffCanvasRegion
         onSuccess={() => {
           fetchUserData();
-          setIsOffcanvasEmailVisible(false);
+          setIsOffcanvasRegionVisible(false);
         }}
         isVisible={isOffcanvasRegionVisible}
         onClose={() => setIsOffcanvasRegionVisible(false)}

@@ -8,6 +8,7 @@ import { MdMarkEmailRead } from "react-icons/md";
 interface Props {
   isVisible: boolean;
   onClose: () => void;
+  onSuccess: () => void;
 }
 
 type ClearRequest = {
@@ -16,7 +17,7 @@ type ClearRequest = {
 };
 
 
-const OffCanvasEmail = ({ isVisible, onClose }: Props) => {
+const OffCanvasEmail = ({ isVisible, onClose, onSuccess }: Props) => {
   const methods = useForm<ClearRequest>({
     mode: "onChange",
     defaultValues: {
@@ -25,7 +26,7 @@ const OffCanvasEmail = ({ isVisible, onClose }: Props) => {
     },
   });
 
-  const { handleSubmit } = methods;
+  const { handleSubmit, reset } = methods;
 
   const updateKYC = async (data: ClearRequest) => {
     try {
@@ -42,7 +43,9 @@ const OffCanvasEmail = ({ isVisible, onClose }: Props) => {
         }
       );
       if (response.data.status === true) {
-        console.log(response.data);
+        // console.log(response.data);
+        onSuccess();
+        reset();
       }
     } catch (error) {
       console.error("Error:", error);

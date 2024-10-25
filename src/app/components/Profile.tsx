@@ -22,7 +22,6 @@ export const Profile = () => {
       const [isOffcanvasRegionVisible, setIsOffcanvasRegionVisible] = useState(false);
       const [userDetails, setUserDetails] = useState<UserData | null>(null);
 
-    useEffect(() => {
       const fetchUserData = async () => {
         try {
           const cookies = parseCookies();
@@ -40,6 +39,7 @@ export const Profile = () => {
           console.error("Error fetching user data:", error);
         }
       };
+    useEffect(() => {
 
       fetchUserData();
     }, []);
@@ -100,10 +100,18 @@ export const Profile = () => {
       </div>
 
       <OffCanvasEmail
+        onSuccess={() => {
+          fetchUserData();
+          setIsOffcanvasEmailVisible(false);
+        }}
         isVisible={isOffcanvasEmailVisible}
         onClose={() => setIsOffcanvasEmailVisible(false)}
       />
       <OffCanvasRegion
+        onSuccess={() => {
+          fetchUserData();
+          setIsOffcanvasEmailVisible(false);
+        }}
         isVisible={isOffcanvasRegionVisible}
         onClose={() => setIsOffcanvasRegionVisible(false)}
       />

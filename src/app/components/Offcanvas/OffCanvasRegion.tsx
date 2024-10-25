@@ -7,6 +7,7 @@ import axios from "axios";
 interface Props {
   isVisible: boolean;
   onClose: () => void;
+  onSuccess: () => void;
 }
 
 type ClearRequest = {
@@ -14,7 +15,7 @@ type ClearRequest = {
   country: string; 
 };
 
-const OffCanvasRegion = ({ isVisible, onClose }: Props) => {
+const OffCanvasRegion = ({ isVisible, onClose, onSuccess }: Props) => {
   const [activeCountry, setActiveCountry] = useState<string | null>(null);
   const methods = useForm<ClearRequest>({
     mode: "onChange",
@@ -24,7 +25,7 @@ const OffCanvasRegion = ({ isVisible, onClose }: Props) => {
     },
   });
 
-  const { handleSubmit, setValue } = methods;
+  const { handleSubmit, setValue, reset } = methods;
 
   const updateKYC = async (data: ClearRequest) => {
     try {
@@ -41,6 +42,8 @@ const OffCanvasRegion = ({ isVisible, onClose }: Props) => {
         }
       );
       if (response.data.status === true) {
+        reset();
+        onSuccess();
         console.log(response.data);
       }
     } catch (error) {

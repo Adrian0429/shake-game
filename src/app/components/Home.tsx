@@ -1,13 +1,16 @@
 /* eslint-disable */
 "use client";
-import React, { useEffect, useState } from 'react'
-import bg from '../assets/bg.png'
-import Offcanvas from './Offcanvas/OffCanvas';
-import { MeUser, Task, UserData } from '../constant/user';
-import axios from 'axios';
-import { parseCookies, setCookie } from 'nookies';
-import WebApp from '@twa-dev/sdk';
-import { FormProvider, useForm } from 'react-hook-form';
+import React, { useEffect, useState } from "react";
+import bg from "../assets/bg.png";
+import Offcanvas from "./Offcanvas/OffCanvas";
+import { MeUser, Task, UserData } from "../constant/user";
+import axios from "axios";
+import { parseCookies, setCookie } from "nookies";
+import WebApp from "@twa-dev/sdk";
+import { FormProvider, useForm } from "react-hook-form";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import Link from "next/link";
+import { LuYoutube } from "react-icons/lu";
 
 type ClearRequest = {
   task_id: string;
@@ -21,25 +24,26 @@ const defaultUserData: UserData = {
   is_premium: false,
 };
 
-
 export const Home = () => {
-  const [isOffcanvasVisible, setIsOffcanvasVisible] = useState(false);
   const [userData, setUserData] = useState<UserData>(defaultUserData);
   const [userDetails, setUserDetails] = useState<MeUser | null>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
-   const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [activeFilter, setActiveFilter] = useState("daily");
+  const filters = ["daily", "weekly", "monthly"];
+  const currentTask = tasks[currentIndex];
 
-   const nextSlide = () => {
-     setCurrentIndex((prevIndex) =>
-       prevIndex === tasks.length - 1 ? 0 : prevIndex + 1
-     );
-   };
+  const nextSlide = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === tasks.length - 1 ? 0 : prevIndex + 1
+    );
+  };
 
-   const prevSlide = () => {
-     setCurrentIndex((prevIndex) =>
-       prevIndex === 0 ? tasks.length - 1 : prevIndex - 1
-     );
-   };
+  const prevSlide = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? tasks.length - 1 : prevIndex - 1
+    );
+  };
 
   const RegisterLogin = async () => {
     const formData = {
@@ -60,7 +64,6 @@ export const Home = () => {
         }
       );
 
-      console.log("User Details:", response.data.data);
       setUserDetails(response.data.data);
       setCookie(null, "token", response.data.data.token, {
         maxAge: 3 * 60 * 60,
@@ -68,7 +71,7 @@ export const Home = () => {
       });
 
       if (response.data.status === true) {
-        fetchTasks(); // Fetch tasks after successful login
+        fetchTasks();
       }
     } catch (error) {
       console.error("Error Login:", error);
@@ -87,7 +90,7 @@ export const Home = () => {
         }
       );
 
-      setTasks(response.data.data); // Set tasks state with fetched data
+      setTasks(response.data.data);
     } catch (error) {
       console.error("Error fetching tasks:", error);
     }
@@ -97,28 +100,8 @@ export const Home = () => {
     WebApp.ready();
     WebApp.expand();
     setUserData(WebApp.initDataUnsafe.user as UserData);
-    console.log(userData);
-    //  if (userData.id) {
     RegisterLogin();
-    //  }
-    //  }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData?.id, userData]);
-
-  //  useEffect(() => {
-  //     if (typeof window !== "undefined" && WebApp.initDataUnsafe?.user) {
-  //    WebApp.ready();
-  //    WebApp.expand();
-  //     // setStartParam(WebApp.initDataUnsafe.start_param || "");
-  //    setUserData(WebApp.initDataUnsafe.user as UserData);
-  //    console.log(userData);
-  //     if(userData?.id) {
-  //    RegisterLogin();
-  //     }
-
-  //     }
-  //    // eslint-disable-next-line react-hooks/exhaustive-deps
-  //  }, [userData?.id, userData]);
 
   const methods = useForm<ClearRequest>({
     mode: "onChange",
@@ -127,10 +110,10 @@ export const Home = () => {
   const { handleSubmit, register } = methods;
 
   const onSubmit = async (data: ClearRequest) => {
-    // const taskId = task?.id ? String(task.id) : "unknown"; // Ensure task_id is available
-    // console.log("Task ID:", taskId);
     console.log("Code:", data.code);
   };
+
+
 
   return (
     <div
@@ -166,18 +149,29 @@ export const Home = () => {
         </div>
       </div>
 
-      <div className="flex w-full flex-col mt-5 overflow-x-scroll space-y-5 pb-[6rem]">
+      <div className="flex w-full flex-col mt-5 overflow-x-scroll space-y-5">
         <div className="flex w-full justify-around px-2 font-medium">
-          <button className="border-2 rounded-3xl px-7 py-3">Daily</button>
-          <button className="border-2 rounded-3xl px-7 py-3">Weekly</button>
-          <button className="border-2 rounded-3xl px-7 py-3">Monthly</button>
+          {filters.map((filter) => (
+            <button
+              key={filter}
+              className={`border border-black rounded-3xl px-7 py-3 ${
+                activeFilter === filter ? "bg-[#CAEB45] text-black" : ""
+              }`}
+              onClick={() => setActiveFilter(filter)}
+            >
+              {filter.charAt(0).toUpperCase() + filter.slice(1)}
+            </button>
+          ))}
         </div>
 
-        <div className="w-screen">
-          <div
-            className={`px-4 py-5 
-             bg-[#1F1F1E] rounded-t-lg`}
-          >
+        <div className="py-5 bg-[#1F1F1E] rounded-t-lg flex flex-row justify-between items-center pb-[6rem]">
+          <FaChevronLeft
+            onClick={prevSlide}
+            className="h-full w-fit px-2"
+            size={26}
+            color="white"
+          />
+          <div className="w-full">
             <FormProvider {...methods}>
               <form
                 onSubmit={handleSubmit(onSubmit)}
@@ -186,10 +180,6 @@ export const Home = () => {
                 <p className="text-center font-bold text-xl w-full text-white">
                   Enter your answer
                 </p>
-
-                <label className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">
-                  Submit
-                </label>
 
                 <div className="relative w-[90%] rounded-lg ">
                   <input
@@ -202,7 +192,7 @@ export const Home = () => {
 
                   <input
                     type="hidden"
-                    // value={task?.id || ""}
+                    value={currentTask?.id || ""}
                     {...register("task_id")}
                   />
 
@@ -215,53 +205,54 @@ export const Home = () => {
                 </div>
               </form>
             </FormProvider>
-
             <div className="flex flex-col items-center justify-center bg-[#404040] space-y-5 py-5 px-5 rounded-2xl mt-3">
-              {/* {task && task.link && (
+              {currentTask && currentTask.link && (
                 <div className="w-full">
                   <img
-                    alt={task.title}
-                    src={task.link}
+                    alt={currentTask.title}
+                    src={currentTask.link}
                     className="w-full h-48 rounded-xl object-cover"
                   />
                 </div>
-              )} */}
-              <div className="w-full h-48 bg-blue-300 rounded-xl"></div>
+              )}
 
-              {/* {task && task.video && (
+              {currentTask && currentTask.video && (
                 <div className="flex flex-col justify-center mt-5 w-full">
                   <p className="text-white text-center text-B2 font-semibold">
                     Click to watch the video
                   </p>
                   <Link
                     target="blank"
-                    href={task.video}
+                    href={currentTask.video}
                     className="h-48 w-full bg-red-500 rounded-xl"
                   >
                     <LuYoutube className="w-full h-full text-white" />
                   </Link>
                 </div>
-              )} */}
-
-              <div className="w-full h-48 bg-red-300 rounded-xl"></div>
+              )}
 
               <p className="font-extralight text-md w-full text-white">
-                {/* + {task?.reward} Tokens */}
-                +100 tokens
+                + {currentTask?.reward} Tokens
               </p>
               <h1 className="w-full font-bold text-2xl text-white">
-                {/* {task?.title} */}
-                title nih
+                {currentTask?.title}
               </h1>
-              {/* <div
-                className="rich-text-content list-disc list-inside text-justify text-white mt-5 px-5 font-thin w-full"
-                dangerouslySetInnerHTML={{ __html: task?.description || "" }}
-              /> */}
+              <div
+                className="rich-text-content list-disc list-inside text-justify text-white mt-5 font-thin w-full"
+                dangerouslySetInnerHTML={{
+                  __html: currentTask?.description || "",
+                }}
+              />
             </div>
           </div>
+          <FaChevronRight
+            onClick={nextSlide}
+            className="h-full w-fit px-2"
+            size={26}
+            color="white"
+          />
         </div>
       </div>
-
     </div>
   );
 };

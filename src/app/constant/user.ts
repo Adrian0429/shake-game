@@ -21,3 +21,14 @@ export interface MeUser {
   user_earn: number;
   user_ref: number;
 }
+
+export type Task = {
+  id: number;
+  title: string;
+  description: string;
+  reward: number;
+  link: string;
+  code: string;
+  video: string;
+  category: string;
+};

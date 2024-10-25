@@ -7,6 +7,7 @@ import OffCanvasEarn from './Offcanvas/OffCanvasEarn';
 import { MdCurrencyBitcoin } from 'react-icons/md';
 import { parseCookies } from 'nookies';
 import axios from 'axios';
+import { Task } from '../constant/user';
 
 
 const data = [
@@ -35,7 +36,7 @@ type ReferralsResponse = {
 
 export const Earn = () => {
     const [isOffcanvasVisible, setIsOffcanvasVisible] = useState(false);
-
+     const [selectedTask, setSelectedTask] = useState<Task | null>(null); 
     const [referrals, setReferrals] = useState<ReferralsResponse | null>(null);
 
     useEffect(() => {
@@ -196,29 +197,22 @@ export const Earn = () => {
               Open
             </button>
           </div>
-          <div className="w-full mt-5 flex flex-row overflow-x-scroll flex-shrink-0 space-x-5">
+          <div className="w-full max-h-[35vh] mt-5 flex flex-col overflow-y-scroll flex-shrink-0 space-y-5">
             {data.map((item, index) => (
-              <div
+               <div
                 key={index}
-                className={`${
-                  index % 2 !== 0
-                    ? "bg-[#CAEB45] text-black"
-                    : "bg-[#7E7EFF] text-white"
-                } min-w-48 max-w-48 min-h-48 max-h-48 rounded-2xl flex flex-col p-4`}
-              >
-                <div className="mt-auto">
-                  <p className="text-lg font-medium">{item.title}</p>
-                  <p className="text-md font-extralight">+{item.rewards}</p>
-                  <button
-                    onClick={() => {
-                      alert("dapet coy");
-                    }}
-                    className="px-5 py-2 mt-5 h-fit bg-[#17181A] text-white rounded-3xl"
-                  >
-                    Claim
-                  </button>
-                </div>
-              </div>
+                className="flex flex-row w-full items-center justify-between px-5 py-2 border-b "
+                >
+            <div className="flex flex-col text-black">
+              <p className="text-lg font-normal">{item.title}</p>
+              <p className="text-lg font-extralight">{item.rewards}</p>
+            </div>
+            <button
+              className="px-5 py-2 bg-black text-white rounded-3xl"
+            >
+              Open
+            </button>
+          </div>
             ))}
           </div>
         </div>

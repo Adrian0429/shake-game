@@ -3,6 +3,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import countries from "@/app/constant/country";
 import { parseCookies } from "nookies";
 import axios from "axios";
+import { toast } from "react-hot-toast";
 
 interface Props {
   isVisible: boolean;
@@ -42,11 +43,13 @@ const OffCanvasRegion = ({ isVisible, onClose, onSuccess }: Props) => {
         }
       );
       if (response.data.status === true) {
+        toast.success("successfully set region!");
         reset();
         onSuccess();
-        console.log(response.data);
+        // console.log(response.data);
       }
     } catch (error) {
+      toast.error("Error setting region");
       console.error("Error:", error);
     }
   };

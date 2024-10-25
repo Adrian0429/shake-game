@@ -3,6 +3,7 @@ import axios from "axios";
 import { parseCookies } from "nookies";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { MdMarkEmailRead } from "react-icons/md";
 
 interface Props {
@@ -44,10 +45,12 @@ const OffCanvasEmail = ({ isVisible, onClose, onSuccess }: Props) => {
       );
       if (response.data.status === true) {
         // console.log(response.data);
+        toast.success("successfully set email!");
         onSuccess();
         reset();
       }
     } catch (error) {
+      toast.error("Error setting email");
       console.error("Error:", error);
     }
   };

@@ -51,7 +51,7 @@ const Offcanvas = ({ userId, isVisible, onClose }: Props) => {
     <div
       className={`hs-overlay fixed bottom-0 inset-x-0 transition-all duration-300 transform ${
         isVisible ? "translate-y-0" : "translate-y-full"
-      } h-[40vh] z-[80] bg-[#D5FF18] border-b rounded-t-3xl px-3 py-5`}
+      } h-[55vh] z-[80] bg-[#D5FF18] border-b rounded-t-3xl px-3 py-5`}
       role="dialog"
       aria-labelledby="hs-offcanvas-bottom-label"
     >

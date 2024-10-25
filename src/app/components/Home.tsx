@@ -11,6 +11,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import Link from "next/link";
 import { LuYoutube } from "react-icons/lu";
+import toast from "react-hot-toast";
 
 type ClearRequest = {
   task_id: string;
@@ -123,9 +124,8 @@ export const Home = () => {
   const { handleSubmit, register } = methods;
 
   const onSubmit = async (data: ClearRequest) => {
-    console.log("Code:", data.code);
+    toast.success(`task success ${data.code}`);
   };
-
 
 
   return (

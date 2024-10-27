@@ -96,16 +96,16 @@ export const Home = () => {
       console.error("Error fetching tasks:", error);
     }
   };
-
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
-    WebApp.ready();
-    WebApp.expand();
-    setUserData(WebApp.initDataUnsafe.user as UserData);
-    RegisterLogin();
+    if (typeof window !== "undefined") {
+      WebApp.ready();
+      WebApp.expand();
+      setUserData(WebApp.initDataUnsafe.user as UserData);
+      RegisterLogin();
+    }
   }, [userData?.id, userData]);
   /* eslint-enable react-hooks/exhaustive-deps */
-
 
   // useEffect(() => {
   //   if (

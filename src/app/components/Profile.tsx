@@ -6,7 +6,6 @@ import OffCanvasEmail from './Offcanvas/OffCanvasEmail';
 import OffCanvasRegion from './Offcanvas/OffCanvasRegion';
 import axios from 'axios';
 import { parseCookies } from 'nookies';
-import Offcanvas from './Offcanvas/OffCanvas';
 import OffCanvasExchange from './Offcanvas/OffCanvasExchange';
 
 interface UserData {

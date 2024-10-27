@@ -48,12 +48,12 @@ const CreateTaskAdmin = () => {
       try {
         const cookies = parseCookies()
         const response = await axios.post<CreateTaskResponse>(
-          "https://api2.fingo.co.id/api/task",
+          "http://127.0.0.1:8888/api/task",
           data,
           {
             headers: {
               "Content-Type": "application/json",
-                Authorization: `Bearer ${cookies.adminJwt}`,
+              Authorization: `Bearer ${cookies.adminJwt}`,
             },
           }
         );   
@@ -173,6 +173,7 @@ const CreateTaskAdmin = () => {
 
             <button
               type="submit"
+              onClick={handleSubmit(onSubmit)}
               className="w-full mt-5 py-2 px-4 rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               Create!

@@ -30,8 +30,8 @@ export const Home = () => {
   const [userDetails, setUserDetails] = useState<MeUser | null>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [activeFilter, setActiveFilter] = useState("daily");
-  const filters = ["daily", "weekly", "monthly"];
+  const [activeFilter, setActiveFilter] = useState("Daily");
+  const filters = ["Daily", "Weekly", "Monthly"];
   const currentTask = tasks[currentIndex];
 
   const nextSlide = () => {
@@ -83,7 +83,7 @@ export const Home = () => {
     try {
       const cookies = parseCookies();
       const response = await axios.get(
-        "https://api2.fingo.co.id/api/task/user",
+        `https://api2.fingo.co.id/api/task/user/${activeFilter}`,
         {
           headers: {
             Authorization: `Bearer ${cookies.token}`,

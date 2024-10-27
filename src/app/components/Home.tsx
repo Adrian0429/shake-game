@@ -97,14 +97,16 @@ export const Home = () => {
     }
   };
 
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     WebApp.ready();
     WebApp.expand();
     setUserData(WebApp.initDataUnsafe.user as UserData);
     RegisterLogin();
   }, [userData?.id, userData]);
+  /* eslint-enable react-hooks/exhaustive-deps */
 
-  
+
   // useEffect(() => {
   //   if (
   //     typeof window !== "undefined" &&

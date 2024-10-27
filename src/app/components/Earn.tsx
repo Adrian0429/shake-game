@@ -221,7 +221,7 @@ export const Earn = () => {
             >
               Share with friends
             </button>
-            <button className="p-4 bg-[#CAEB45] rounded-2xl">
+            <button onClick={copyReferralCode} className="p-4 bg-[#CAEB45] rounded-2xl">
               <IoCopy size={24} />
             </button>
           </div>

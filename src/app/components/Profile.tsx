@@ -6,6 +6,8 @@ import OffCanvasEmail from './Offcanvas/OffCanvasEmail';
 import OffCanvasRegion from './Offcanvas/OffCanvasRegion';
 import axios from 'axios';
 import { parseCookies } from 'nookies';
+import Offcanvas from './Offcanvas/OffCanvas';
+import OffCanvasExchange from './Offcanvas/OffCanvasExchange';
 
 interface UserData {
   tele_id: string;
@@ -15,11 +17,14 @@ interface UserData {
   energy: number;
   coins: number;
   referral_code: string;
+  exchange: string;
 }
 
 export const Profile = () => {
       const [isOffcanvasEmailVisible, setIsOffcanvasEmailVisible] = useState(false);
       const [isOffcanvasRegionVisible, setIsOffcanvasRegionVisible] = useState(false);
+      const [isOffcanvasEchangeVisible, setIsOffcanvasEchangeVisible] =
+        useState(false);
       const [userDetails, setUserDetails] = useState<UserData | null>(null);
 
       const fetchUserData = async () => {
@@ -93,12 +98,21 @@ export const Profile = () => {
             {userDetails?.email ? null : <FaChevronRight />}
           </button>
 
-          <button className="flex flex-row justify-between items-center py-4">
+          <button
+            className="flex flex-row justify-between items-center py-4"
+            onClick={() => {
+              if (!userDetails?.exchange) {
+                setIsOffcanvasEchangeVisible(true);
+              }
+            }}
+          >
             <div className="flex flex-col space-y-1 text-start">
               <p className="text-md font-normal">Exchange</p>
-              <p className="text-sm font-light">No Exchange Yet</p>
+              <p className="text-sm font-light">
+                {userDetails?.exchange || "No Exchange Yet"}
+              </p>
             </div>
-            <FaChevronRight />
+            {userDetails?.exchange ? null : <FaChevronRight />}
           </button>
         </div>
       </div>
@@ -118,6 +132,14 @@ export const Profile = () => {
         }}
         isVisible={isOffcanvasRegionVisible}
         onClose={() => setIsOffcanvasRegionVisible(false)}
+      />
+      <OffCanvasExchange
+        onSuccess={() => {
+          fetchUserData();
+          setIsOffcanvasEchangeVisible(false);
+        }}
+        isVisible={isOffcanvasEchangeVisible}
+        onClose={() => setIsOffcanvasEchangeVisible(false)}
       />
     </>
   );

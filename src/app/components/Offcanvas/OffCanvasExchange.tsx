@@ -13,7 +13,17 @@ interface Props {
 type ClearRequest = {
   email: string;
   region: string;
+  exchange: string;
 };
+
+const exchangeOptions = [
+  { name: "Binance" },
+  { name: "OKK" },
+  { name: "Tokocrypto" },
+  { name: "ByBit" },
+  { name: "Phantom" },
+  { name: "Others" },
+];
 
 const OffCanvasExchange = ({ isVisible, onClose, onSuccess }: Props) => {
   const methods = useForm<ClearRequest>({
@@ -21,10 +31,12 @@ const OffCanvasExchange = ({ isVisible, onClose, onSuccess }: Props) => {
     defaultValues: {
       email: "",
       region: "",
+      exchange: "",
     },
   });
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, setValue, watch } = methods;
+  const selectedExchange = watch("exchange");
 
   const updateKYC = async (data: ClearRequest) => {
     try {
@@ -40,7 +52,6 @@ const OffCanvasExchange = ({ isVisible, onClose, onSuccess }: Props) => {
         }
       );
       if (response.data.status === true) {
-        // console.log(response.data);
         onSuccess();
         reset();
       }
@@ -75,20 +86,29 @@ const OffCanvasExchange = ({ isVisible, onClose, onSuccess }: Props) => {
           className="flex flex-col items-center justify-center space-y-5 py-5 rounded-2xl mt-3"
         >
           <MdMarkEmailRead className="text-[#CAEB45]" size={72} />
-
           <p className="text-white font-semibold text-2xl">
-            Submit Your Email !
+            Choose your exchange
           </p>
 
-          <input
-            type="email"
-            id="email"
-            className="block w-full p-4 text-sm rounded-3xl bg-[#404040] text-white"
-            placeholder="Enter email"
-            {...methods.register("email")}
-          />
-
-          <button className="block w-full p-4 text-sm text-gray-900 text-md font-medium rounded-3xl bg-[#CAEB45]">
+          <div className="w-[90%] grid grid-cols-2 gap-4">
+            {exchangeOptions.map((item) => (
+              <div
+                key={item.name}
+                onClick={() => setValue("exchange", item.name)}
+                className={`flex flex-row justify-between items-center px-5 py-4 rounded-3xl text-lg font-light cursor-pointer ${
+                  selectedExchange === item.name
+                    ? "bg-[#CAEB45] text-black"
+                    : "bg-[#F3F3F3]"
+                }`}
+              >
+                <p className="text-lg font-normal">{item.name}</p>
+              </div>
+            ))}
+          </div>
+          <button
+            type="submit"
+            className="block w-full p-4 text-md font-medium rounded-3xl bg-[#CAEB45]"
+          >
             Submit
           </button>
         </form>

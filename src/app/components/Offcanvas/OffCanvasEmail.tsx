@@ -15,6 +15,7 @@ interface Props {
 type ClearRequest = {
   email: string;
   region: string;
+  exchange: string;
 };
 
 
@@ -24,6 +25,7 @@ const OffCanvasEmail = ({ isVisible, onClose, onSuccess }: Props) => {
     defaultValues: {
       email: "",
       region: "",
+      exchange: "",
     },
   });
 

@@ -244,7 +244,7 @@ export const Earn = () => {
 
             <button
               onClick={() => {
-                alert("dapet coy");
+                toast.success("connected!");
               }}
               className="px-5 py-2 h-fit bg-[#FDFDFF] text-black rounded-3xl"
             >

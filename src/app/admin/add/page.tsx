@@ -48,12 +48,12 @@ const CreateTaskAdmin = () => {
       try {
         const cookies = parseCookies()
         const response = await axios.post<CreateTaskResponse>(
-          "http://127.0.0.1:8888/api/task",
+          "https://api2.fingo.co.id/api/task",
           data,
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${cookies.adminJwt}`,
+                Authorization: `Bearer ${cookies.adminJwt}`,
             },
           }
         );   
@@ -100,9 +100,9 @@ const CreateTaskAdmin = () => {
       <FormProvider {...methods}>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="h-[100vh] w-screen flex items-center flex-col py-6 "
+          className="h-[calc(100vh-4.5rem)] w-screen flex items-center flex-col py-6 overflow-y-scroll"
         >
-          <div className="space-y-4 w-[90%]">
+          <div className="space-y-4 w-[90%] ">
             <div>
               <p className="">Title</p>
               <input
@@ -112,6 +112,20 @@ const CreateTaskAdmin = () => {
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
             </div>
+
+            <div>
+              <p className="">Category</p>
+              <select
+                id="category"
+                {...methods.register("category", { required: true })}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              >
+                <option value="General">General</option>
+                <option value="TON">TON</option>
+                <option value="Knowledge">Knowledge</option>
+              </select>
+            </div>
+
             <div>
               <p className="">Rewards</p>
               <div className="relative">

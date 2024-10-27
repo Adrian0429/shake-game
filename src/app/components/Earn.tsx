@@ -7,6 +7,8 @@ import OffCanvasEarn from './Offcanvas/OffCanvasEarn';
 import { MdCurrencyBitcoin } from 'react-icons/md';
 import { parseCookies } from 'nookies';
 import axios from 'axios';
+import toast from 'react-hot-toast';
+import { UserData } from '../constant/user';
 
 
 const data = [
@@ -36,11 +38,44 @@ type ReferralsResponse = {
 export const Earn = () => {
     const [isOffcanvasVisible, setIsOffcanvasVisible] = useState(false);
     const [referrals, setReferrals] = useState<ReferralsResponse | null>(null);
+    const [userDetails, setUserDetails] = useState<UserData | null>(null);
+    const referralCode = `t.me/shakeTongamebot/start?startapp=${userDetails?.id}`; 
 
-    useEffect(() => {
+      const copyReferralCode = () => {
+        navigator.clipboard
+          .writeText(referralCode)
+          .then(() => {
+            toast.success("Referral code copied to clipboard!");
+          })
+          .catch(() => {
+            toast.error("Failed to copy referral code");
+          });
+      };
+
+          const fetchUserData = async () => {
+            try {
+              const cookies = parseCookies();
+              const response = await axios.get(
+                "https://api2.fingo.co.id/api/user/me",
+                {
+                  headers: {
+                    Authorization: `Bearer ${cookies.token}`,
+                  },
+                }
+              );
+
+              setUserDetails(response.data.data);
+            } catch (error) {
+              console.error("Error fetching user data:", error);
+            }
+          };
+          useEffect(() => {
+            
+          }, []);
+
       const fetchReferrals = async () => {
         try {
-          const cookies = parseCookies(); 
+          const cookies = parseCookies();
           const response = await axios.get<ReferralsResponse>(
             "https://api2.fingo.co.id/api/user/getreferraldata",
             {
@@ -55,6 +90,27 @@ export const Earn = () => {
         }
       };
 
+  const claimCoins = async () => {
+    try {
+      const cookies = parseCookies();
+      const response = await axios.get(
+        "https://api2.fingo.co.id/api/user/claimReferral",
+        {
+          headers: {
+            Authorization: `Bearer ${cookies.token}`,
+          },
+        }
+      );
+      if (response.data.status === true) {
+        toast.success("successfully Claimed!");
+      }
+    } catch (error) {
+      console.error("Error fetching user referral coins:", error);
+    }
+  };
+  
+    useEffect(() => {
+      fetchUserData();  
       fetchReferrals();
     }, []);
 
@@ -84,7 +140,7 @@ export const Earn = () => {
 
           <button
             onClick={() => {
-              alert("dapet coy");
+              claimCoins();
             }}
             className="px-5 py-2 h-fit bg-[#FDFDFF] text-black rounded-3xl"
           >
@@ -217,7 +273,7 @@ export const Earn = () => {
       </div>
 
       <OffCanvasEarn
-        userId={123123}
+        userId={userDetails?.id ?? 0}
         isVisible={isOffcanvasVisible}
         onClose={() => {
           setIsOffcanvasVisible(false);

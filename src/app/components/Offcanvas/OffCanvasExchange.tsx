@@ -2,6 +2,7 @@ import axios from "axios";
 import { parseCookies } from "nookies";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { MdMarkEmailRead } from "react-icons/md";
 
 interface Props {
@@ -52,6 +53,7 @@ const OffCanvasExchange = ({ isVisible, onClose, onSuccess }: Props) => {
         }
       );
       if (response.data.status === true) {
+        toast.success("successfully set exchange!");
         onSuccess();
         reset();
       }

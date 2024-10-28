@@ -69,9 +69,6 @@ export const Earn = () => {
               console.error("Error fetching user data:", error);
             }
           };
-          useEffect(() => {
-            
-          }, []);
 
       const fetchReferrals = async () => {
         try {

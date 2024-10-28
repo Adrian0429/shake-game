@@ -2,7 +2,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import bg from "../assets/bg.png";
-import Offcanvas from "./Offcanvas/OffCanvas";
 import { MeUser, Task, UserData } from "../constant/user";
 import axios from "axios";
 import { parseCookies, setCookie } from "nookies";
@@ -81,7 +80,6 @@ export const Home = () => {
     setActiveFilter(filter);
   };
 
-  // Fetch tasks whenever `activeFilter` updates
   useEffect(() => {
     const fetchFilteredTasks = async () => {
       try {
@@ -133,7 +131,10 @@ export const Home = () => {
       WebApp.ready();
       WebApp.expand();
       setUserData(WebApp.initDataUnsafe.user as UserData);
+      if(userData?.id){
       RegisterLogin();
+      }
+
     }
   }, [userData?.id, userData]);
 
@@ -144,7 +145,26 @@ export const Home = () => {
   const { handleSubmit, register } = methods;
 
   const onSubmit = async (data: ClearRequest) => {
-    toast.success(`Task completed: ${data.code}`);
+    console.log(data);
+    try {
+      const cookies = parseCookies();
+      const response = await axios.post(
+        `https://api2.fingo.co.id/api/task/clear`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${cookies.token}`,
+          },
+        }
+      );
+      if(response.data.status === true){
+        toast.success("successfully completed task!");
+        fetchTasks();
+      }
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+    }
+    
   };
 
   return (

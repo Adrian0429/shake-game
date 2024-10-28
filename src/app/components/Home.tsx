@@ -17,22 +17,21 @@ type ClearRequest = {
   code: string;
 };
 
-//   const defaultUserData: UserData = {
-//   id: 6789952150,
-//   username: "drianksz",
-//   language_code: "",
-//   is_premium: false,
-// };
+  const defaultUserData: UserData = {
+  id: 6789952150,
+  username: "drianksz",
+  language_code: "",
+  is_premium: false,
+};
 
 export const Home = () => {
-  const [userData, setUserData] = useState<UserData>();
+  const [userData, setUserData] = useState<UserData>(defaultUserData);
   const [userDetails, setUserDetails] = useState<MeUser | null>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [activeFilter, setActiveFilter] = useState("Daily");
   const filters = ["Daily", "Weekly", "Monthly"];
   const currentTask = tasks && tasks.length > 0 ? tasks[currentIndex] : null;
-
 
   const nextSlide = () => {
     setCurrentIndex((prevIndex) =>
@@ -65,6 +64,7 @@ export const Home = () => {
         }
       );
       fetchTasks();
+      console.log("user details", response.data.data);
       setUserDetails(response.data.data);
       setCookie(null, "token", response.data.data.token, {
         maxAge: 3 * 60 * 60,
@@ -92,8 +92,6 @@ export const Home = () => {
             },
           }
         );
-        console.log("Fetched tasks for:", activeFilter);
-        console.log(response.data.data);
         setTasks(response.data.data || []);
         setCurrentIndex(0);
       } catch (error) {
@@ -104,8 +102,25 @@ export const Home = () => {
     fetchFilteredTasks();
   }, [activeFilter]); 
 
+      const fetchUserData = async () => {
+        try {
+          const cookies = parseCookies();
+          const response = await axios.get(
+            "https://api2.fingo.co.id/api/user/me",
+            {
+              headers: {
+                Authorization: `Bearer ${cookies.token}`,
+              },
+            }
+          );
+          setUserDetails(response.data.data);
+          console.log("user details", userDetails);
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      };
+      
   const fetchTasks = async () => {
-    
     try {
       const cookies = parseCookies();
       const response = await axios.get(
@@ -116,8 +131,6 @@ export const Home = () => {
           },
         }
       );
-      console.log(activeFilter)
-      console.log(response.data.data)
       setTasks(response.data.data || []);
       setCurrentIndex(0); 
     } catch (error) {
@@ -142,7 +155,7 @@ export const Home = () => {
     mode: "onChange",
   });
 
-  const { handleSubmit, register } = methods;
+  const { handleSubmit, register, reset } = methods;
 
   const onSubmit = async (data: ClearRequest) => {
     console.log(data);
@@ -158,9 +171,11 @@ export const Home = () => {
         }
       );
       if(response.data.status === true){
+        reset()
         toast.success("successfully completed task!");
         fetchTasks();
         setCurrentIndex(currentIndex + 1);
+        fetchUserData();
       }
     } catch (error) {
       console.error("Error fetching tasks:", error);
@@ -180,7 +195,7 @@ export const Home = () => {
       <div className="h-[25%] flex flex-col justify-center space-y-5 px-5">
         <h3 className="text-lg font-light">Total Coins</h3>
         <div className="flex flex-row items-center space-x-5">
-          <p className="text-5xl font-bold">{userDetails?.coin}</p>
+          <p className="text-5xl font-bold">{userDetails?.coins}</p>
           <p className="text-xl font-thin">Tokens</p>
         </div>
       </div>

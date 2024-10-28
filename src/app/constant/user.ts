@@ -13,7 +13,7 @@ export interface MeUser {
   energy: number;
   region: string;
   token:string;
-  coin: number;
+  coins: number;
   daily_status: boolean;
   daily_count: number;
   exchange: string;

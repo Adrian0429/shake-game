@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -30,12 +31,11 @@ const Offcanvas = ({ isVisible, onClose, task }: Props) => {
     mode: "onChange",
   });
 
-  const { handleSubmit, register } = methods;
+  const { handleSubmit } = methods;
 
   const onSubmit = async (data: ClearRequest) => {
-    const taskId = task?.id ? String(task.id) : "unknown"; // Ensure task_id is available
-    console.log("Task ID:", taskId);
-    console.log("Code:", data.code);
+    console.log(data.code)
+    console.log(data.task_id)
   };
 
   return (
@@ -60,11 +60,11 @@ const Offcanvas = ({ isVisible, onClose, task }: Props) => {
           className="flex flex-col items-center justify-center bg-[#404040] space-y-5 py-5 rounded-2xl mt-3"
         >
           <p className="text-center font-bold text-xl w-full text-white">
-            Enter your answer
+            Enter you answer
           </p>
 
           <label className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">
-            Submit
+            submit
           </label>
 
           <div className="relative w-[90%] rounded-lg ">
@@ -73,13 +73,7 @@ const Offcanvas = ({ isVisible, onClose, task }: Props) => {
               id="code"
               className="block w-full p-4 text-sm text-gray-900 rounded-3xl bg-[#FDFDFF]"
               placeholder="Enter code"
-              {...register("code", { required: true })}
-            />
-
-            <input
-              type="hidden"
-              value={task?.id || ""}
-              {...register("task_id")}
+              required
             />
 
             <button
@@ -93,6 +87,8 @@ const Offcanvas = ({ isVisible, onClose, task }: Props) => {
       </FormProvider>
 
       <div className="flex flex-col items-center justify-center bg-[#404040] space-y-5 py-5 px-5 rounded-2xl mt-3">
+        {/* <Image className="w-[90%]" src={}/> */}
+
         {task && task.link && (
           <div className="w-full">
             <img
@@ -106,7 +102,7 @@ const Offcanvas = ({ isVisible, onClose, task }: Props) => {
         {task && task.video && (
           <div className="flex flex-col justify-center mt-5 w-full">
             <p className="text-white text-center text-B2 font-semibold">
-              Click to watch the video
+              click to watch the video
             </p>
             <Link
               target="blank"
@@ -118,6 +114,7 @@ const Offcanvas = ({ isVisible, onClose, task }: Props) => {
           </div>
         )}
 
+        {/* <div className="bg-slate-400 w-full h-48 rounded-xl"></div> */}
         <p className="font-extralight text-md w-full text-white">
           + {task?.reward} Tokens
         </p>

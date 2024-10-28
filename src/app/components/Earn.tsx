@@ -9,6 +9,7 @@ import { parseCookies } from 'nookies';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { UserData } from '../constant/user';
+import Link from 'next/link';
 
 
 const data = [
@@ -19,6 +20,14 @@ const data = [
   { title: "create ton3", rewards: 1000 },
   { title: "create ton3", rewards: 1000 },
 ];
+
+interface Task {
+  task_id: string;
+  title: string;
+  link: string | null;
+  reward: number;
+  cleared: boolean;
+}
 
 type Referral = {
   user_name: string;
@@ -40,6 +49,8 @@ export const Earn = () => {
     const [referrals, setReferrals] = useState<ReferralsResponse | null>(null);
     const [userDetails, setUserDetails] = useState<UserData | null>(null);
     const referralCode = `t.me/shakeTongamebot/start?startapp=${userDetails?.id}`; 
+    const [tasks, setTasks] = useState<Task[]>([]);
+
 
       const copyReferralCode = () => {
         navigator.clipboard
@@ -106,9 +117,30 @@ export const Earn = () => {
     }
   };
   
+    const GetTasks = async () => {
+      try {
+        const cookies = parseCookies();
+        const response = await axios.get(
+          "https://api2.fingo.co.id/api/user/tasks",
+          {
+            headers: {
+              Authorization: `Bearer ${cookies.token}`,
+            },
+          }
+        );
+        if (response.data.status === true) {
+          console.log("task fetched")
+          setTasks(response.data.data.data);
+        }
+      } catch (error) {
+        console.error("Error fetching user referral coins:", error);
+      }
+    };
+  
     useEffect(() => {
       fetchUserData();  
       fetchReferrals();
+      GetTasks();
     }, []);
 
   return (
@@ -218,7 +250,10 @@ export const Earn = () => {
             >
               Share with friends
             </button>
-            <button onClick={copyReferralCode} className="p-4 bg-[#CAEB45] rounded-2xl">
+            <button
+              onClick={copyReferralCode}
+              className="p-4 bg-[#CAEB45] rounded-2xl"
+            >
               <IoCopy size={24} />
             </button>
           </div>
@@ -249,21 +284,27 @@ export const Earn = () => {
             </button>
           </div>
           <div className="w-full max-h-[35vh] mt-5 flex flex-col overflow-y-scroll flex-shrink-0 space-y-5">
-            {data.map((item, index) => (
-               <div
+            {tasks.map((item, index) => (
+              <div
                 key={index}
                 className="flex flex-row w-full items-center justify-between px-5 py-2 border-b "
-                >
-            <div className="flex flex-col text-black">
-              <p className="text-lg font-normal">{item.title}</p>
-              <p className="text-lg font-extralight">{item.rewards}</p>
-            </div>
-            <button
-              className="px-5 py-2 bg-black text-white rounded-3xl"
-            >
-              Open
-            </button>
-          </div>
+              >
+                <div className="flex flex-col text-black">
+                  <p className="text-lg font-normal">{item.title}</p>
+                  <p className="text-lg font-extralight">
+                    + {item.reward} Token
+                  </p>
+                </div>
+                {item.link && (
+                  <Link
+                    href={item.link}
+                    target="_blank"
+                    className="px-5 py-2 bg-black text-white rounded-3xl"
+                  >
+                    Open
+                  </Link>
+                )}
+              </div>
             ))}
           </div>
         </div>

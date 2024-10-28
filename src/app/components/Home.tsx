@@ -17,7 +17,7 @@ type ClearRequest = {
   code: string;
 };
 
-const defaultUserData: UserData = {
+  const defaultUserData: UserData = {
   id: 6789952150,
   username: "drianksz",
   language_code: "",
@@ -25,7 +25,7 @@ const defaultUserData: UserData = {
 };
 
 export const Home = () => {
-  const [userData, setUserData] = useState<UserData>();
+  const [userData, setUserData] = useState<UserData>(defaultUserData);
   const [userDetails, setUserDetails] = useState<MeUser | null>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);

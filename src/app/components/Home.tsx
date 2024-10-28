@@ -252,6 +252,7 @@ export const Home = () => {
                         />
 
                         <button
+                        onClick={handleSubmit(onSubmit)}
                           type="submit"
                           className="text-black absolute end-2.5 bottom-2 bg-[#CAEB45] font-medium rounded-3xl text-sm px-4 py-2"
                         >

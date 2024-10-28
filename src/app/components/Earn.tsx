@@ -11,16 +11,6 @@ import toast from 'react-hot-toast';
 import { UserData } from '../constant/user';
 import Link from 'next/link';
 
-
-const data = [
-  { title: "create ton", rewards: 1000 },
-  { title: "create ton2", rewards: 1000 },
-  { title: "create ton3", rewards: 1000 },
-  { title: "create ton3", rewards: 1000 },
-  { title: "create ton3", rewards: 1000 },
-  { title: "create ton3", rewards: 1000 },
-];
-
 interface Task {
   task_id: string;
   title: string;

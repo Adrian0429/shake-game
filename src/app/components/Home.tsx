@@ -11,27 +11,29 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import { LuYoutube } from "react-icons/lu";
+import ModalDaily from "./Modals/ModalDaily";
 
 type ClearRequest = {
   task_id: string;
   code: string;
 };
 
-//   const defaultUserData: UserData = {
-//   id: 6789952150,
-//   username: "drianksz",
-//   language_code: "",
-//   is_premium: false,
-// };
+  const defaultUserData: UserData = {
+  id: 6789952150,
+  username: "drianksz",
+  language_code: "",
+  is_premium: false,
+};
 
 export const Home = () => {
-  const [userData, setUserData] = useState<UserData>();
+  const [userData, setUserData] = useState<UserData>(defaultUserData);
   const [userDetails, setUserDetails] = useState<MeUser | null>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [activeFilter, setActiveFilter] = useState("Daily");
   const filters = ["Daily", "Weekly", "Monthly"];
   const currentTask = tasks && tasks.length > 0 ? tasks[currentIndex] : null;
+  const [modalOpen, setModalOpen] = useState(false);
 
   const nextSlide = () => {
     setCurrentIndex((prevIndex) =>
@@ -64,8 +66,8 @@ export const Home = () => {
         }
       );
       fetchTasks();
-      console.log("user details", response.data.data);
       setUserDetails(response.data.data);
+
       setCookie(null, "token", response.data.data.token, {
         maxAge: 3 * 60 * 60,
         path: "/",
@@ -150,6 +152,12 @@ export const Home = () => {
 
     }
   }, [userData?.id, userData]);
+
+  useEffect(() => {
+    if (userDetails && userDetails.daily_status === false) {
+      setModalOpen(true);
+    }
+  }, [userDetails]);
 
   const methods = useForm<ClearRequest>({
     mode: "onChange",
@@ -333,6 +341,12 @@ export const Home = () => {
             )}
           </div>
       </div>
+      <ModalDaily
+        username={userData?.username || ""}
+        daily_count={userDetails?.daily_count || 0}
+        isOpen={modalOpen}
+        onclick={() => setModalOpen(false)}
+      />
     </div>
   );
 };

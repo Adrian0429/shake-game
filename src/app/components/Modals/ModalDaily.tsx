@@ -3,23 +3,22 @@ import { parseCookies } from "nookies";
 import axios from "axios";
 
 const update = async () => {
-  const cookies = parseCookies();
+    const cookies = parseCookies();
 
-  try {
-    const response = await axios.post(
-      "https://api2.fingo.co.id/api/user/daily",
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${cookies.token}`,
-        },
-      }
-    );
+    try {
+        await axios.post(
+            "https://api2.fingo.co.id/api/user/daily",
+            {},
+            {
+                headers: {
+                    Authorization: `Bearer ${cookies.token}`,
+                },
+            }
+        );
 
-    // console.log("Success update daily", response.data);
-  } catch (error) {
-    console.error("Error daily:", error);
-  }
+    } catch (error) {
+        console.error("Error daily:", error);
+    }
 };
 
 interface ModalAllowProps {

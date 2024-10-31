@@ -18,15 +18,15 @@ type ClearRequest = {
   code: string;
 };
 
-  const defaultUserData: UserData = {
-  id: 6789952150,
-  username: "drianksz",
-  language_code: "",
-  is_premium: false,
-};
+//   const defaultUserData: UserData = {
+//   id: 6789952150,
+//   username: "drianksz",
+//   language_code: "",
+//   is_premium: false,
+// };
 
 export const Home = () => {
-  const [userData, setUserData] = useState<UserData>(defaultUserData);
+  const [userData, setUserData] = useState<UserData>();
   const [userDetails, setUserDetails] = useState<MeUser | null>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);

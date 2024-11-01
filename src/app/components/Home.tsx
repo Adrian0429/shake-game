@@ -47,6 +47,32 @@ export const Home = () => {
     );
   };
 
+  const daily = () => {
+    console.log("tutup");
+    setModalOpen(false);
+    update();
+    fetchUserData();
+  }
+
+  const update = async () => {
+    const cookies = parseCookies();
+
+    try {
+      await axios.post(
+        "https://api2.fingo.co.id/api/user/daily",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${cookies.token}`,
+          },
+        }
+      );
+      toast.success("Daily Login !");
+    } catch (error) {
+      console.error("Error daily:", error);
+    }
+  };
+  
   const RegisterLogin = async () => {
     const formData = {
       tele_id: String(userData?.id),
@@ -67,7 +93,6 @@ export const Home = () => {
       );
       fetchTasks();
       setUserDetails(response.data.data);
-
       setCookie(null, "token", response.data.data.token, {
         maxAge: 3 * 60 * 60,
         path: "/",
@@ -345,7 +370,9 @@ export const Home = () => {
         username={userData?.username || ""}
         daily_count={userDetails?.daily_count || 0}
         isOpen={modalOpen}
-        onclick={() => setModalOpen(false)}
+        onClose={()=>{
+          daily();
+        }}
       />
     </div>
   );

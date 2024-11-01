@@ -1,38 +1,22 @@
 "use client";
 import { parseCookies } from "nookies";
 import axios from "axios";
+import toast from "react-hot-toast";
 
-const update = async () => {
-    const cookies = parseCookies();
 
-    try {
-        await axios.post(
-            "https://api2.fingo.co.id/api/user/daily",
-            {},
-            {
-                headers: {
-                    Authorization: `Bearer ${cookies.token}`,
-                },
-            }
-        );
-
-    } catch (error) {
-        console.error("Error daily:", error);
-    }
-};
 
 interface ModalAllowProps {
   username: string;
   daily_count: number;
   isOpen: boolean;
-  onclick: () => void;  
+  onClose: () => void;  
 }
 
 function ModalDaily({
   username,
   daily_count,
   isOpen,
-  onclick
+  onClose
 }: ModalAllowProps) {
   if (!isOpen) return null;
 
@@ -53,9 +37,8 @@ function ModalDaily({
             active:translate-y-2 active:[box-shadow:0_0px_0_0_#ABC340,0_0px_0_0_#ffffff]
             active:border-b-[0px] transition-all duration-150 [box-shadow:0_2px_0_0_#ABC340,0_4px_0_0_#ffffff]
             rounded-full border-[1px] border-[#D5FF18] mb-3"
-          onClick={()=>{
-            update();
-            onclick();
+          onClick={() => {
+            onClose();
           }}
         >
           <span className="flex justify-center items-center h-full text-black font-bold text-2xl">

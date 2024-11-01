@@ -1,10 +1,3 @@
-"use client";
-import { parseCookies } from "nookies";
-import axios from "axios";
-import toast from "react-hot-toast";
-
-
-
 interface ModalAllowProps {
   username: string;
   daily_count: number;

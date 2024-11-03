@@ -56,8 +56,6 @@ export const Earn = () => {
     const referralCode = `t.me/shakeTongamebot/start?startapp=${userDetails?.id}`; 
     const [tasks, setTasks] = useState<TasksResponse>({ data: [], task: [] });
 
-
-
       const copyReferralCode = () => {
         navigator.clipboard
           .writeText(referralCode)
@@ -146,6 +144,31 @@ export const Earn = () => {
       console.error("Error fetching user referral coins:", error);
     }
   };
+  
+const EarnClear = async (taskId: string) => {
+  try {
+    const cookies = parseCookies();
+    const response = await axios.post(
+      "https://api2.fingo.co.id/api/user/tasks/follow/clear",
+      new URLSearchParams({ task_id: taskId }), // Use URLSearchParams to format as form data
+      {
+        headers: {
+          Authorization: `Bearer ${cookies.token}`,
+          "Content-Type": "application/x-www-form-urlencoded", // Set the correct content type
+        },
+      }
+    );
+
+    if (response.data.status === true) {
+      toast.success("Task Cleared!");
+      GetTasks(); // Refresh the tasks
+    }
+  } catch (error) {
+    console.error("Error clearing task:", error);
+    toast.error("Failed to clear task.");
+  }
+};
+
 
   
     useEffect(() => {
@@ -316,6 +339,7 @@ export const Earn = () => {
                   item.link && (
                     <Link
                       href={item.link}
+                      onClick={() => {EarnClear(item.task_id);}}
                       target="_blank"
                       className="px-5 py-2 bg-black text-white rounded-3xl"
                     >

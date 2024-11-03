@@ -1,7 +1,19 @@
 "use client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { parseCookies } from "nookies";
 
 const HomePage = () => {
+  const router = useRouter();
+
+  useEffect(() => {
+    const cookies = parseCookies();
+    if (!cookies.adminJwt) {
+      router.push("/admin/login");
+    }
+  }, [router]);
+
   return (
     <div className="flex h-screen w-screen justify-center items-center">
       <div className="flex flex-col space-y-4 w-full px-10 justify-center items-center">

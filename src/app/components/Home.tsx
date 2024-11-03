@@ -34,6 +34,7 @@ export const Home = () => {
   const filters = ["Daily", "Weekly", "Monthly"];
   const currentTask = tasks && tasks.length > 0 ? tasks[currentIndex] : null;
   const [modalOpen, setModalOpen] = useState(false);
+  const [startParam, setStartParam] = useState("");
 
   const nextSlide = () => {
     setCurrentIndex((prevIndex) =>
@@ -54,6 +55,7 @@ export const Home = () => {
     fetchUserData();
   }
 
+  
   const update = async () => {
     const cookies = parseCookies();
 
@@ -99,6 +101,35 @@ export const Home = () => {
       });
     } catch (error) {
       console.error("Error Login:", error);
+    }
+  };
+
+
+  const postReferral = async () => {
+    try {
+      const cookies = parseCookies();
+      const formData = {
+        referred_id: String(userData?.id),
+        referrer_id: String(startParam),
+        name: String(userData?.username),
+        email: "",
+        region: "",
+      };
+
+      const response = await axios.post(
+        `https://api2.fingo.co.id/api/user/referral`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${cookies.token}`,
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      );
+
+      RegisterLogin();
+    } catch (error) {
+      RegisterLogin();
     }
   };
 
@@ -171,8 +202,14 @@ export const Home = () => {
       WebApp.ready();
       WebApp.expand();
       setUserData(WebApp.initDataUnsafe.user as UserData);
+      setStartParam(WebApp.initDataUnsafe.start_param || "");
       if(userData?.id){
-      RegisterLogin();
+        if(startParam){
+          postReferral();
+        }
+        else{
+          RegisterLogin();
+        }
       }
 
     }

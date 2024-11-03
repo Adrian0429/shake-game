@@ -336,7 +336,7 @@ export const Home = () => {
                       </div>
                     )}
 
-                    <p className="font-extralight text-md w-full text-white">
+                    <p className="text-md w-full text-green-500 font-normal">
                       + {currentTask?.reward} Tokens
                     </p>
                     <h1 className="w-full font-bold text-2xl text-white">

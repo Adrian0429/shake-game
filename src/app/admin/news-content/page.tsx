@@ -1,13 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
 import axios from "axios";
-// import OffCanvasTask from "@/app/components/offcanvas/OffCanvasTask";
-import { LuYoutube } from "react-icons/lu";
 import { parseCookies } from "nookies";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type Task = {
-  id: number;
+  new_task_id: number;
   title: string;
   description: string;
   reward: number;
@@ -18,9 +17,6 @@ type Task = {
 
 const Page = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
-
-  // const [isOffcanvasVisible, setIsOffcanvasVisible] = useState(false);
-  // const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
   const router = useRouter();
   useEffect(() => {
@@ -45,10 +41,12 @@ const Page = () => {
 
   return (
     <div className="flex h-screen w-screen">
-      <div className="flex flex-col h-[calc(100vh-4.5rem)] w-full items-center">
+      <div className="flex flex-col h-[calc(100vh-4.5rem)] w-full items-center py-5 ">
+        <Link className="bg-blue-500 text-white py-4 w-[90%] rounded-xl text-center" href={"/admin/news-content/create"}>Create New Task</Link>
         <div className="w-[90%] h-[calc(100vh-10rem)] overflow-y-scroll mt-5 space-y-3">
           {tasks.map((task, index) => (
-            <div
+            <Link
+            href={`/admin/news-content/${task.new_task_id}`}
               key={index}
               className="flex flex-row justify-between h-16 bg-[#232328] rounded-full px-5 py-1 items-center"
             >
@@ -59,26 +57,8 @@ const Page = () => {
                 </div>
               </div>
 
-              <div
-                // onClick={() => toggleOffcanvas(task)}
-                className="w-24 h-8 bg-[#D5FF18] cursor-pointer select-none
-                  active:translate-y-2  active:[box-shadow:0_0px_0_0_#ABC340,0_0px_0_0_#ffffff]
-                  active:border-b-[0px]
-                  transition-all duration-150 [box-shadow:0_5px_0_0_#ABC340,0_8px_0_0_#ffffff]
-                  rounded-full  border-[1px] border-[#D5FF18] mb-3"
-              >
-                <LuYoutube className="w-full h-full text-black" />
-              </div>
-
-              {/* {selectedTask && (
-                <OffCanvasTask
-                  userId={123123}
-                  task={selectedTask}
-                  isVisible={isOffcanvasVisible}
-                  onClose={() => setIsOffcanvasVisible(false)} 
-                />
-              )} */}
-            </div>
+              <button className="px-5 py-3 bg-red-500 rounded-xl">Delete</button>
+            </Link>
           ))}
         </div>
       </div>

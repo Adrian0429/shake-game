@@ -20,7 +20,7 @@ const Page = () => {
     const fetchTasks = async () => {
       try {
         const cookies = parseCookies();
-        const token = cookies.token;
+        const token = cookies.adminJwt;
 
         const response = await axios.get(
           "https://api2.fingo.co.id/api/user/tasks/follow",
@@ -45,7 +45,7 @@ const Page = () => {
   const handleDeleteTask = async (taskId: string) => {
     try {
       const cookies = parseCookies();
-      const token = cookies.token;
+      const token = cookies.adminJwt;
 
       const response = await axios.delete(
         `https://api2.fingo.co.id/api/user/tasks/follow/delete/${taskId}`,

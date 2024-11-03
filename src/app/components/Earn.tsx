@@ -10,14 +10,29 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { UserData } from '../constant/user';
 import Link from 'next/link';
+import { FaCheckCircle } from 'react-icons/fa';
 
-interface Task {
+interface Earn {
   task_id: string;
   title: string;
   link: string | null;
   reward: number;
   cleared: boolean;
 }
+
+interface TaskListAuto {
+  task_id: string;
+  title: string;
+  count: number;
+  reward: number;
+  cleared: boolean;
+}
+
+interface TasksResponse {
+  data: Earn[];
+  task: TaskListAuto[];
+}
+
 
 type Referral = {
   user_name: string;
@@ -39,7 +54,8 @@ export const Earn = () => {
     const [referrals, setReferrals] = useState<ReferralsResponse | null>(null);
     const [userDetails, setUserDetails] = useState<UserData | null>(null);
     const referralCode = `t.me/shakeTongamebot/start?startapp=${userDetails?.id}`; 
-    const [tasks, setTasks] = useState<Task[]>([]);
+    const [tasks, setTasks] = useState<TasksResponse>({ data: [], task: [] });
+
 
 
       const copyReferralCode = () => {
@@ -106,26 +122,31 @@ export const Earn = () => {
       console.error("Error fetching user referral coins:", error);
     }
   };
-  
-    const GetTasks = async () => {
-      try {
-        const cookies = parseCookies();
-        const response = await axios.get(
-          "https://api2.fingo.co.id/api/user/tasks",
-          {
-            headers: {
-              Authorization: `Bearer ${cookies.token}`,
-            },
-          }
-        );
-        if (response.data.status === true) {
-          console.log("task fetched")
-          setTasks(response.data.data.data);
+
+  const GetTasks = async () => {
+    try {
+      const cookies = parseCookies();
+      const response = await axios.get(
+        "https://api2.fingo.co.id/api/user/earn",
+        {
+          headers: {
+            Authorization: `Bearer ${cookies.token}`,
+          },
         }
-      } catch (error) {
-        console.error("Error fetching user referral coins:", error);
+      );
+
+      if (response.data.status === true) {
+        console.log("Earn tasks fetched", response.data);
+        setTasks({
+          data: response.data.data.data,
+          task: response.data.data.task,
+        });
       }
-    };
+    } catch (error) {
+      console.error("Error fetching user referral coins:", error);
+    }
+  };
+
   
     useEffect(() => {
       fetchUserData();  
@@ -273,8 +294,10 @@ export const Earn = () => {
               Open
             </button>
           </div>
+
           <div className="w-full max-h-[35vh] mt-5 flex flex-col overflow-y-scroll flex-shrink-0 space-y-5">
-            {tasks.map((item, index) => (
+            {/* Map through tasks (Earn tasks) */}
+            {tasks.data.map((item, index) => (
               <div
                 key={index}
                 className="flex flex-row w-full items-center justify-between px-5 py-2 border-b "
@@ -285,14 +308,40 @@ export const Earn = () => {
                     + {item.reward} Token
                   </p>
                 </div>
-                {item.link && (
-                  <Link
-                    href={item.link}
-                    target="_blank"
-                    className="px-5 py-2 bg-black text-white rounded-3xl"
-                  >
-                    Open
-                  </Link>
+                {item.cleared ? (
+                  <div className="flex items-center justify-center bg-[#CAEB45] rounded-full p-2">
+                    <FaCheckCircle className="text-black" />
+                  </div>
+                ) : (
+                  item.link && (
+                    <Link
+                      href={item.link}
+                      target="_blank"
+                      className="px-5 py-2 bg-black text-white rounded-3xl"
+                    >
+                      Open
+                    </Link>
+                  )
+                )}
+              </div>
+            ))}
+
+            {/* Map through task list auto (task news and referrals) */}
+            {tasks.task.map((item, index) => (
+              <div
+                key={index}
+                className="flex flex-row w-full items-center justify-between px-5 py-2 border-b "
+              >
+                <div className="flex flex-col text-black">
+                  <p className="text-lg font-normal">{item.title}</p>
+                  <p className="text-lg font-extralight">
+                    + {item.reward} Token
+                  </p>
+                </div>
+                {item.cleared && (
+                  <div className="flex items-center justify-center bg-[#CAEB45] rounded-full p-2">
+                    <FaCheckCircle className="text-black" />
+                  </div>
                 )}
               </div>
             ))}

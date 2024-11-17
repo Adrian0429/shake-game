@@ -296,7 +296,7 @@ const EarnClear = async (taskId: string) => {
         <div className="bg-white w-full fit text-white rounded-t-3xl mt-10 px-7 pt-7 pb-[1rem]">
           <h1 className="text-xl font-medium text-black">Tasks</h1>
 
-          <div className="flex flex-row justify-between items-center bg-[#17181A] rounded-xl p-4 mt-5">
+          <div className="hidden flex-row justify-between items-center bg-[#17181A] rounded-xl p-4 mt-5">
             <div className="flex flex-row space-x-5">
               <div className="rounded-lg p-3 h-fit bg-[#FDFDFF] w-fit">
                 <MdCurrencyBitcoin size={32} color="#17181A" />

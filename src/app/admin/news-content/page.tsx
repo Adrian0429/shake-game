@@ -42,24 +42,35 @@ const Page = () => {
   return (
     <div className="flex h-screen w-screen">
       <div className="flex flex-col h-[calc(100vh-4.5rem)] w-full items-center py-5 ">
-        <Link className="bg-blue-500 text-white py-4 w-[90%] rounded-xl text-center" href={"/admin/news-content/create"}>Create New Task</Link>
+        <Link
+          className="bg-blue-500 text-white py-4 w-[90%] rounded-xl text-center"
+          href={"/admin/news-content/create"}
+        >
+          Create New Task
+        </Link>
         <div className="w-[90%] h-[calc(100vh-10rem)] overflow-y-scroll mt-5 space-y-3">
-          {tasks.map((task, index) => (
-            <Link
-            href={`/admin/news-content/${task.new_task_id}`}
-              key={index}
-              className="flex flex-row justify-between h-16 bg-[#232328] rounded-full px-5 py-1 items-center"
-            >
-              <div className="flex flex-row w-full space-x-3">
-                <div className="flex flex-col text-white">
-                  <p>{task.title}</p>
-                  <p>+ {task.reward} Coins</p>
+          {tasks && tasks.length > 0 ? (
+            tasks.map((task, index) => (
+              <Link
+                href={`/admin/news-content/${task.new_task_id}`}
+                key={index}
+                className="flex flex-row justify-between h-16 bg-[#232328] rounded-full px-5 py-1 items-center"
+              >
+                <div className="flex flex-row w-full space-x-3">
+                  <div className="flex flex-col text-white">
+                    <p>{task.title}</p>
+                    <p>+ {task.reward} Coins</p>
+                  </div>
                 </div>
-              </div>
 
-              <button className="px-5 py-3 bg-red-500 rounded-xl">Delete</button>
-            </Link>
-          ))}
+                <button className="px-5 py-3 bg-red-500 rounded-xl">
+                  Delete
+                </button>
+              </Link>
+            ))
+          ) : (
+            <p className="text-black">No tasks available</p>
+          )}
         </div>
       </div>
     </div>

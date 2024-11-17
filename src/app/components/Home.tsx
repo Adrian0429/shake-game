@@ -266,14 +266,14 @@ export const Home = () => {
     >
       <div className="h-[25%] flex flex-col px-5 items-start">
         <div className="mt-auto">
-          <Image
+          {/* <Image
             src={AppLogo}
             alt="app logo"
             className="h-16 w-16"
             height={200}
             width={200}
             priority
-          />
+          /> */}
           <h3 className="text-lg font-light mt-4">Total Coins</h3>
           <div className="flex flex-row items-center space-x-5">
             <p className="text-5xl font-bold">{userDetails?.coins}</p>

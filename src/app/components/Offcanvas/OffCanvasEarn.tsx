@@ -14,7 +14,7 @@ interface Props {
 }
 
 const Offcanvas = ({ userId, isVisible, onClose }: Props) => {
-  const referralCode = `t.me/shakeTongamebot/start?startapp=${userId}`;
+  const referralCode = `t.me/BlockReadersTonBot/read?startapp=${userId}`;
 
   const handleShareOnTwitter = () => {
     const shareText = "Join me to play this Amazing Game!";

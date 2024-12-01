@@ -53,7 +53,7 @@ export const Earn = () => {
     const [isOffcanvasVisible, setIsOffcanvasVisible] = useState(false);
     const [referrals, setReferrals] = useState<ReferralsResponse | null>(null);
     const [userDetails, setUserDetails] = useState<UserData | null>(null);
-    const referralCode = `t.me/shakeTongamebot/start?startapp=${userDetails?.id}`; 
+    const referralCode = `t.me/BlockReadersTonBot/read?startapp=${userDetails?.id}`; 
     const [tasks, setTasks] = useState<TasksResponse>({ data: [], task: [] });
 
       const copyReferralCode = () => {

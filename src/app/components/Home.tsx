@@ -20,12 +20,12 @@ type ClearRequest = {
   code: string;
 };
 
-//   const defaultUserData: UserData = {
-//   id: 6789952150,
-//   username: "drianksz",
-//   language_code: "",
-//   is_premium: false,
-// };
+  const defaultUserData: UserData = {
+  id: 6789952150,
+  username: "drianksz",
+  language_code: "",
+  is_premium: false,
+};
 
 export const Home = () => {
   const [userData, setUserData] = useState<UserData>();

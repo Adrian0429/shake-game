@@ -133,17 +133,20 @@ export const Earn = () => {
         }
       );
 
-      if (response.data.status === true) {
-        console.log("Earn tasks fetched", response.data);
+      if (response.data.status === true && response.data.data) {
         setTasks({
-          data: response.data.data.data,
-          task: response.data.data.task,
+          data: response.data.data.data || [],
+          task: response.data.data.task || [],
         });
+      } else {
+        setTasks({ data: [], task: [] });
       }
     } catch (error) {
-      console.error("Error fetching user referral coins:", error);
+      console.error("Error fetching tasks:", error);
+      setTasks({ data: [], task: [] }); // Set fallback in case of error
     }
   };
+
   
 const EarnClear = async (taskId: string) => {
   try {

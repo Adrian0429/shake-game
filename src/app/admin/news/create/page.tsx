@@ -28,7 +28,7 @@ const CreateNewsTaskPage = () => {
         taskData,
         {
           headers: {
-            Authorization: `Bearer ${cookies.token}`,
+            Authorization: `Bearer ${cookies.adminJwt}`,
           },
         }
       );

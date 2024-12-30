@@ -22,13 +22,14 @@ const CreateFollowTaskPage = () => {
     };
 
     try {
-      const cookies = parseCookies();
+       const cookies = parseCookies();
+       const token = cookies.adminJwt;
       const response = await axios.post(
         "https://api2.fingo.co.id/api/user/tasks/follow/create",
         taskData,
         {
           headers: {
-            Authorization: `Bearer ${cookies.token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );

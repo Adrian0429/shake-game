@@ -7,11 +7,13 @@ export interface UserData {
 }
 
 export interface MeUser {
+  id: string;
   tele_id: string;
   name: string;
   email: string;
   energy: number;
   region: string;
+  phone: string;
   token:string;
   coins: number;
   daily_status: boolean;

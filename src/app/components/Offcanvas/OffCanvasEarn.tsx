@@ -8,7 +8,7 @@ import {
 import { initUtils } from "@telegram-apps/sdk";
 
 interface Props {
-  userId: number;
+  userId: string;
   isVisible: boolean;
   onClose: () => void;
 }

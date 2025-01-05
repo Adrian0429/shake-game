@@ -12,10 +12,12 @@ interface Props {
   onSuccess: () => void;
 }
 
+
 type ClearRequest = {
   email: string;
-  region: string;
   exchange: string;
+  country: string;
+  phone: string;
 };
 
 
@@ -24,8 +26,9 @@ const OffCanvasEmail = ({ isVisible, onClose, onSuccess }: Props) => {
     mode: "onChange",
     defaultValues: {
       email: "",
-      region: "",
+      country: "",
       exchange: "",
+      phone: "",
     },
   });
 
@@ -46,7 +49,6 @@ const OffCanvasEmail = ({ isVisible, onClose, onSuccess }: Props) => {
         }
       );
       if (response.data.status === true) {
-        // console.log(response.data);
         toast.success("successfully set email!");
         onSuccess();
         reset();

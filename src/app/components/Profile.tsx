@@ -7,24 +7,17 @@ import OffCanvasRegion from './Offcanvas/OffCanvasRegion';
 import axios from 'axios';
 import { parseCookies } from 'nookies';
 import OffCanvasExchange from './Offcanvas/OffCanvasExchange';
+import { MeUser } from '../constant/user';
+import OffCanvasPhone from './Offcanvas/OffCanvasPhone';
 
-interface UserData {
-  tele_id: string;
-  name: string;
-  email: string;
-  region: string;
-  energy: number;
-  coins: number;
-  referral_code: string;
-  exchange: string;
-}
 
 export const Profile = () => {
+      const [isOffcanvasPhoneVisible, setIsOffcanvasPhoneVisible] = useState(false);
       const [isOffcanvasEmailVisible, setIsOffcanvasEmailVisible] = useState(false);
       const [isOffcanvasRegionVisible, setIsOffcanvasRegionVisible] = useState(false);
       const [isOffcanvasEchangeVisible, setIsOffcanvasEchangeVisible] =
         useState(false);
-      const [userDetails, setUserDetails] = useState<UserData | null>(null);
+      const [userDetails, setUserDetails] = useState<MeUser | null>(null);
 
       const fetchUserData = async () => {
         try {
@@ -102,6 +95,23 @@ export const Profile = () => {
             className="flex flex-row justify-between items-center py-4"
             onClick={() => {
               if (!userDetails?.exchange) {
+                setIsOffcanvasPhoneVisible(true);
+              }
+            }}
+          >
+            <div className="flex flex-col space-y-1 text-start">
+              <p className="text-md font-normal">Phone Number</p>
+              <p className="text-sm font-light">
+                {userDetails?.phone || "No Phone Number Yet"}
+              </p>
+            </div>
+            {userDetails?.phone ? null : <FaChevronRight />}
+          </button>
+
+          <button
+            className="flex flex-row justify-between items-center py-4"
+            onClick={() => {
+              if (!userDetails?.exchange) {
                 setIsOffcanvasEchangeVisible(true);
               }
             }}
@@ -117,6 +127,14 @@ export const Profile = () => {
         </div>
       </div>
 
+      <OffCanvasPhone
+        onSuccess={() => {
+          fetchUserData();
+          setIsOffcanvasPhoneVisible(false);
+        }}
+        isVisible={isOffcanvasPhoneVisible}
+        onClose={() => setIsOffcanvasPhoneVisible(false)}
+      />
       <OffCanvasEmail
         onSuccess={() => {
           fetchUserData();

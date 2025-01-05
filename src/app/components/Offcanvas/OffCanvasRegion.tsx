@@ -11,10 +11,12 @@ interface Props {
   onSuccess: () => void;
 }
 
+
 type ClearRequest = {
   email: string;
-  country: string; 
+  country: string;
   exchange: string;
+  phone: string;
 };
 
 const OffCanvasRegion = ({ isVisible, onClose, onSuccess }: Props) => {
@@ -25,6 +27,7 @@ const OffCanvasRegion = ({ isVisible, onClose, onSuccess }: Props) => {
       email: "",
       country: "",
       exchange: "",
+      phone: "",
     },
   });
 

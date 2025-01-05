@@ -8,7 +8,7 @@ import { MdCurrencyBitcoin } from 'react-icons/md';
 import { parseCookies } from 'nookies';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { UserData } from '../constant/user';
+import { MeUser } from '../constant/user';
 import Link from 'next/link';
 import { FaCheckCircle } from 'react-icons/fa';
 
@@ -52,7 +52,7 @@ type ReferralsResponse = {
 export const Earn = () => {
     const [isOffcanvasVisible, setIsOffcanvasVisible] = useState(false);
     const [referrals, setReferrals] = useState<ReferralsResponse | null>(null);
-    const [userDetails, setUserDetails] = useState<UserData | null>(null);
+    const [userDetails, setUserDetails] = useState<MeUser | null>(null);
     const referralCode = `t.me/BlockReadersTonBot/read?startapp=${userDetails?.id}`; 
     const [tasks, setTasks] = useState<TasksResponse>({ data: [], task: [] });
 
@@ -79,6 +79,7 @@ export const Earn = () => {
                 }
               );
 
+              console.log(response.data.data);
               setUserDetails(response.data.data);
             } catch (error) {
               console.error("Error fetching user data:", error);
@@ -377,7 +378,7 @@ const EarnClear = async (taskId: string) => {
       </div>
 
       <OffCanvasEarn
-        userId={userDetails?.id ?? 0}
+        userId={String(userDetails?.tele_id ?? 0)}
         isVisible={isOffcanvasVisible}
         onClose={() => {
           setIsOffcanvasVisible(false);

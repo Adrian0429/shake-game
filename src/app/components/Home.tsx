@@ -229,7 +229,7 @@ export const Home = () => {
   const { handleSubmit, register, reset } = methods;
 
   const onSubmit = async (data: ClearRequest) => {
-    reset();
+
     try {
       const cookies = parseCookies();
       const response = await axios.post(
@@ -241,6 +241,7 @@ export const Home = () => {
           },
         }
       );
+      reset();
       if(response.data.status === true){
 
         toast.success("successfully completed task!");

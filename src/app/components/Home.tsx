@@ -248,6 +248,9 @@ export const Home = () => {
         fetchTasks();
         setCurrentIndex(currentIndex + 1);
         fetchUserData();
+      } else if(response.data.status === false){
+        console.log("failed");
+        toast.error(response.data.error);
       }
     } catch (error) {
       console.error("Error fetching tasks:", error);

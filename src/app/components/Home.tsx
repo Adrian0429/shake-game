@@ -241,9 +241,9 @@ export const Home = () => {
           },
         }
       );
-      reset();
+      
       if(response.data.status === true){
-
+        reset();
         toast.success("successfully completed task!");
         fetchTasks();
         setCurrentIndex(currentIndex + 1);

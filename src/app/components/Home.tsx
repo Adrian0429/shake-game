@@ -26,7 +26,7 @@ type ClearRequest = {
   };
 
 export const Home = () => {
-  const [userData, setUserData] = useState<UserData>(defaultUserData);
+  const [userData, setUserData] = useState<UserData>();
   const [userDetails, setUserDetails] = useState<MeUser | null>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);

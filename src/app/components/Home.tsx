@@ -241,19 +241,20 @@ export const Home = () => {
           },
         }
       );
-      reset();
-      if(response.data.status === true){
-        console.log("success");
+
+      if (response.data.status === true) {
         toast.success("successfully completed task!");
         fetchTasks();
         setCurrentIndex(currentIndex + 1);
         fetchUserData();
-      } else if(response.data.status === false){
-        console.log("failed");
-        toast.error(response.data.error);
       }
     } catch (error) {
-      console.error("Error fetching tasks:", error);
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data?.error || "Something went wrong");
+      } else {
+        console.log("Unexpected error:", error);
+        toast.error("Unexpected error occurred");
+      }
     }
     
   };

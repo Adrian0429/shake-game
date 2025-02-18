@@ -191,7 +191,9 @@ export const Home = () => {
         }
       );
       setTasks(response.data.data || []);
-      setCurrentIndex(0); 
+      console.log("tasks", tasks);
+      console.log("current index", currentIndex);
+      console.log("current task", currentTask);
     } catch (error) {
       console.error("Error fetching tasks:", error);
     }
@@ -241,12 +243,12 @@ export const Home = () => {
           },
         }
       );
-      
+
       if (response.data.status === true) {
         toast.success("successfully completed task!");
         fetchTasks();
-        setCurrentIndex(currentIndex + 1);
         fetchUserData();
+        setCurrentIndex(0);
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -256,7 +258,6 @@ export const Home = () => {
         toast.error("Unexpected error occurred");
       }
     }
-    
   };
 
   return (

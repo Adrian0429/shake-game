@@ -12,8 +12,6 @@ import toast from "react-hot-toast";
 import Link from "next/link";
 import { LuYoutube } from "react-icons/lu";
 import ModalDaily from "./Modals/ModalDaily";
-import Image from "next/image";
-import AppLogo from "../../../public/AppLogo.png";
 
 type ClearRequest = {
   task_id: string;
@@ -231,7 +229,7 @@ export const Home = () => {
   const { handleSubmit, register, reset } = methods;
 
   const onSubmit = async (data: ClearRequest) => {
-    console.log(data);
+    reset();
     try {
       const cookies = parseCookies();
       const response = await axios.post(
@@ -244,7 +242,7 @@ export const Home = () => {
         }
       );
       if(response.data.status === true){
-        reset()
+
         toast.success("successfully completed task!");
         fetchTasks();
         setCurrentIndex(currentIndex + 1);

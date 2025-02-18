@@ -26,7 +26,7 @@ type ClearRequest = {
   };
 
 export const Home = () => {
-  const [userData, setUserData] = useState<UserData>();
+  const [userData, setUserData] = useState<UserData>(defaultUserData);
   const [userDetails, setUserDetails] = useState<MeUser | null>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -241,9 +241,9 @@ export const Home = () => {
           },
         }
       );
-      
+      reset();
       if(response.data.status === true){
-        reset();
+        console.log("success");
         toast.success("successfully completed task!");
         fetchTasks();
         setCurrentIndex(currentIndex + 1);

@@ -26,7 +26,7 @@ type ClearRequest = {
   };
 
 export const Home = () => {
-  const [userData, setUserData] = useState<UserData>();
+  const [userData, setUserData] = useState<UserData>(defaultUserData);
   const [userDetails, setUserDetails] = useState<MeUser | null>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -173,7 +173,7 @@ export const Home = () => {
             }
           );
           setUserDetails(response.data.data);
-          console.log("user details", userDetails);
+          // console.log("user details", userDetails);
         } catch (error) {
           console.error("Error fetching user data:", error);
         }
@@ -229,7 +229,7 @@ export const Home = () => {
   const { handleSubmit, register, reset } = methods;
 
   const onSubmit = async (data: ClearRequest) => {
-
+    reset();
     try {
       const cookies = parseCookies();
       const response = await axios.post(
@@ -241,7 +241,7 @@ export const Home = () => {
           },
         }
       );
-
+      
       if (response.data.status === true) {
         toast.success("successfully completed task!");
         fetchTasks();

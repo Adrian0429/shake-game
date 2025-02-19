@@ -1,8 +1,7 @@
 
 import React, { useEffect, useState } from 'react'
-import { TbCoin } from 'react-icons/tb';
+import { TbCoin, TbUserUp } from 'react-icons/tb';
 import { IoCopy } from 'react-icons/io5';
-import { FaUserGroup } from 'react-icons/fa6';
 import OffCanvasEarn from './Offcanvas/OffCanvasEarn';
 import { MdCurrencyBitcoin } from 'react-icons/md';
 import { parseCookies } from 'nookies';
@@ -36,7 +35,7 @@ interface TasksResponse {
 
 type Referral = {
   user_name: string;
-  referred_user: number;
+  level: number;
   coins: number;
 };
 
@@ -103,24 +102,24 @@ export const Earn = () => {
         }
       };
 
-  const claimCoins = async () => {
-    try {
-      const cookies = parseCookies();
-      const response = await axios.get(
-        "https://api2.fingo.co.id/api/user/claimReferral",
-        {
-          headers: {
-            Authorization: `Bearer ${cookies.token}`,
-          },
-        }
-      );
-      if (response.data.status === true) {
-        toast.success("successfully Claimed!");
-      }
-    } catch (error) {
-      console.error("Error fetching user referral coins:", error);
-    }
-  };
+  // const claimCoins = async () => {
+  //   try {
+  //     const cookies = parseCookies();
+  //     const response = await axios.get(
+  //       "https://api2.fingo.co.id/api/user/claimReferral",
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${cookies.token}`,
+  //         },
+  //       }
+  //     );
+  //     if (response.data.status === true) {
+  //       toast.success("successfully Claimed!");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching user referral coins:", error);
+  //   }
+  // };
 
   const GetTasks = async () => {
     try {
@@ -205,14 +204,14 @@ const EarnClear = async (taskId: string) => {
             </div>
           </div>
 
-          <button
+          {/* <button
             onClick={() => {
               claimCoins();
             }}
             className="px-5 py-2 h-fit bg-[#FDFDFF] text-black rounded-3xl"
           >
             Claim
-          </button>
+          </button> */}
         </div>
 
         <p className="my-4 mx-5 text-[#CAEB45]">how it works</p>
@@ -265,8 +264,8 @@ const EarnClear = async (taskId: string) => {
                       {friend.user_name}
                     </p>
                     <div className="text-[#FDFDFF] ml-3 text-md font-light flex flex-row items-center space-x-2">
-                      <FaUserGroup />
-                      <p>+{friend.referred_user}</p>
+                      <TbUserUp />
+                      <p>{friend.level}</p>
                     </div>
                   </div>
 
@@ -343,7 +342,9 @@ const EarnClear = async (taskId: string) => {
                   item.link && (
                     <Link
                       href={item.link}
-                      onClick={() => {EarnClear(item.task_id);}}
+                      onClick={() => {
+                        EarnClear(item.task_id);
+                      }}
                       target="_blank"
                       className="px-5 py-2 bg-black text-white rounded-3xl"
                     >

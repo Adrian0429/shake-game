@@ -19,8 +19,8 @@ type ClearRequest = {
 };
 
   const defaultUserData: UserData = {
-    id: 6789952150,
-    username: "AnaknyaRudyJudy",
+    id: 497589299,
+    username: "",
     language_code: "",
     is_premium: false,
   };

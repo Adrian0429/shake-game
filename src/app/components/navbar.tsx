@@ -20,12 +20,12 @@ const Footerdata = [
     icon: <HiMiniTrophy className="text-2xl mb-1 group-hover:text-black" />,
   },
   {
-    name: "Profil",
+    name: "Profile",
     icon: <FaUser className="text-2xl mb-1 group-hover:text-black" />,
   },
 ];
 
-// Navbar component that receives the current Page and the setPage function as props
+
 export const Navbar = ({
   Page,
   setPage,

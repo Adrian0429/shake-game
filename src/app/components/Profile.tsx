@@ -15,8 +15,7 @@ export const Profile = () => {
       const [isOffcanvasPhoneVisible, setIsOffcanvasPhoneVisible] = useState(false);
       const [isOffcanvasEmailVisible, setIsOffcanvasEmailVisible] = useState(false);
       const [isOffcanvasRegionVisible, setIsOffcanvasRegionVisible] = useState(false);
-      const [isOffcanvasEchangeVisible, setIsOffcanvasEchangeVisible] =
-        useState(false);
+      const [isOffcanvasEchangeVisible, setIsOffcanvasEchangeVisible] = useState(false);
       const [userDetails, setUserDetails] = useState<MeUser | null>(null);
 
       const fetchUserData = async () => {

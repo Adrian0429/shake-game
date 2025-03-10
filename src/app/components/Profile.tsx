@@ -68,7 +68,7 @@ export const Profile = () => {
             <div className="flex flex-col space-y-1 text-start">
               <p className="text-md font-normal">Email</p>
               <p className="text-sm font-light">
-                {userDetails?.email || "No Email Yet"}
+                {userDetails?.email || "Belum Ada email"}
               </p>
             </div>
             {userDetails?.email ? null : <FaChevronRight />}
@@ -83,9 +83,9 @@ export const Profile = () => {
             className="flex flex-row justify-between items-center py-4"
           >
             <div className="flex flex-col space-y-1 text-start">
-              <p className="text-md font-normal">Country</p>
+              <p className="text-md font-normal">Negara</p>
               <p className="text-sm font-light">
-                {userDetails?.region || "No Country Yet"}
+                {userDetails?.region || "Belum Ada Negara"}
               </p>
             </div>
             {userDetails?.email ? null : <FaChevronRight />}
@@ -100,9 +100,9 @@ export const Profile = () => {
             }}
           >
             <div className="flex flex-col space-y-1 text-start">
-              <p className="text-md font-normal">Phone Number</p>
+              <p className="text-md font-normal">Nomor Telepon</p>
               <p className="text-sm font-light">
-                {userDetails?.phone || "No Phone Number Yet"}
+                {userDetails?.phone || "Belum Ada Nomor Telepon"}
               </p>
             </div>
             {userDetails?.phone ? null : <FaChevronRight />}
@@ -119,7 +119,7 @@ export const Profile = () => {
             <div className="flex flex-col space-y-1 text-start">
               <p className="text-md font-normal">Exchange</p>
               <p className="text-sm font-light">
-                {userDetails?.exchange || "No Exchange Yet"}
+                {userDetails?.exchange || "Belum Ada Exchange"}
               </p>
             </div>
             {userDetails?.exchange ? null : <FaChevronRight />}

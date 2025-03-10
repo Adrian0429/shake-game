@@ -52,13 +52,13 @@ export const Leaderboards = () => {
       <div className="h-[calc(100vh-4.5rem)] w-full py-8 px-5 bg-white">
         <div className="relative w-full h-[25%]">
           <div className="absolute top-0 left-0 w-full h-24 bg-[#CAEB45] z-10 rounded-2xl px-5 py-4 space-y-3">
-            <h2 className="text-xl font-semibold">Your Rank</h2>
+            <h2 className="text-xl font-semibold">Peringkat Anda</h2>
             <div className="flex flex-row justify-between">
               <div className="flex flex-row space-x-5">
                 <p>{leaderboards?.data.data_user.position}</p>
                 <p>{leaderboards?.data.data_user.user_name}</p>
               </div>
-              <p>{leaderboards?.data.data_user.coins} Tokens</p>
+              <p>{leaderboards?.data.data_user.coins} CATS</p>
             </div>
           </div>
 
@@ -67,7 +67,7 @@ export const Leaderboards = () => {
               <span className="font-semibold text-xl text-white">
                 {leaderboards?.data.total_coins}
               </span>{"  "}
-              Total Token
+              Total CATS
             </p>
           </div>
         </div>
@@ -84,7 +84,7 @@ export const Leaderboards = () => {
                 <p>{item.position}</p>
                 <p>{item.user_name}</p>
               </div>
-              <p className="font-light">{item.coins} Tokens</p>
+              <p className="font-light">{item.coins} CATS</p>
             </div>
           ))}
         </div>

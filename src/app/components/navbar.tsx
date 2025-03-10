@@ -8,7 +8,7 @@ import { TbCoinFilled } from "react-icons/tb";
 // Footer data with icons
 const Footerdata = [
   {
-    name: "Home",
+    name: "Beranda",
     icon: <RiHome5Fill className="text-2xl mb-1 group-hover:text-black" />,
   },
   {
@@ -20,7 +20,7 @@ const Footerdata = [
     icon: <HiMiniTrophy className="text-2xl mb-1 group-hover:text-black" />,
   },
   {
-    name: "Profile",
+    name: "Profil",
     icon: <FaUser className="text-2xl mb-1 group-hover:text-black" />,
   },
 ];

@@ -87,7 +87,7 @@ const OffCanvasEmail = ({ isVisible, onClose, onSuccess }: Props) => {
           <MdMarkEmailRead className="text-[#CAEB45]" size={72} />
 
           <p className="text-white font-semibold text-2xl">
-            Submit Your Email !
+            Kirimkan Email Anda!
           </p>
 
           <input
@@ -99,7 +99,7 @@ const OffCanvasEmail = ({ isVisible, onClose, onSuccess }: Props) => {
           />
 
           <button className="block w-full p-4 text-sm text-gray-900 text-md font-medium rounded-3xl bg-[#CAEB45]">
-            Submit
+            Kirim
           </button>
         </form>
       </FormProvider>

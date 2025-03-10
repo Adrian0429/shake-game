@@ -17,7 +17,7 @@ const Offcanvas = ({ userId, isVisible, onClose }: Props) => {
   const referralCode = `t.me/BlockReadersTonBot/read?startapp=${userId}`;
 
   const handleShareOnTwitter = () => {
-    const shareText = "Join me to play this Amazing Game!";
+    const shareText = "Bergabung dengan saya untuk bermain!";
     const fullUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
       shareText
     )}&url=${encodeURIComponent(referralCode)}`;
@@ -33,7 +33,7 @@ const Offcanvas = ({ userId, isVisible, onClose }: Props) => {
 
   const handleInviteFriend = () => {
     const utils = initUtils();
-    const shareText = "Join me to play this Amazing Game!\n";
+    const shareText = "Bergabung dengan saya untuk bermain!\n";
     const fullUrl = `https://t.me/share/url?url=${encodeURIComponent(
       referralCode
     )}&text=${encodeURIComponent(shareText)}`;
@@ -85,12 +85,12 @@ const Offcanvas = ({ userId, isVisible, onClose }: Props) => {
             id="hs-offcanvas-bottom-label"
             className="text-3xl font-medium text-black w-full text-center"
           >
-            Choose Your Social Media
+            Pilih Media Sosial Anda
           </h3>
         </div>
 
         <p className="text-black w-full text-center text-base mt-5">
-          You can only share it on one of your social media
+          Anda hanya bisa memilih satu media sosial dalam satu waktu
         </p>
       </div>
       <div className="my-5 flex flex-row justify-between px-5">

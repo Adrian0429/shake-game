@@ -184,9 +184,9 @@ const EarnClear = async (taskId: string) => {
     <>
       <div className="min-h-[calc(100vh-4.5rem)] w-full pt-8 bg-[#17181A] overflow-y-scroll pb-[4.5rem]">
         <div className="mx-5">
-          <h2 className="text-2xl font-semibold text-white">Refer a friend</h2>
+          <h2 className="text-2xl font-semibold text-white">Ajak Teman</h2>
           <p className="text-md font-light text-[#A6A6A6]">
-            Invite More, get even more bonuses!
+            Undang lebih banyak, dapatkan bonus lebih besar!
           </p>
         </div>
 
@@ -197,7 +197,7 @@ const EarnClear = async (taskId: string) => {
             </div>
 
             <div className="flex flex-col text-start text-[#FDFDFF]">
-              <p className="text-lg font-normal">Referral Points</p>
+              <p className="text-lg font-normal">Poin Referral</p>
               <p className="text-md font-light">
                 + {referrals?.data.total_coins || 0}
               </p>
@@ -214,7 +214,7 @@ const EarnClear = async (taskId: string) => {
           </button> */}
         </div>
 
-        <p className="my-4 mx-5 text-[#CAEB45]">how it works</p>
+        <p className="my-4 mx-5 text-[#CAEB45]">cara kerja</p>
 
         <div className="flex flex-col space-y-8 mx-5">
           <div className="flex flex-row items-center">
@@ -223,10 +223,10 @@ const EarnClear = async (taskId: string) => {
             </div>
             <div className="flex flex-col">
               <p className="text-[#FDFDFF] ml-3 text-xl font-light">
-                Share your invitation link
+                Bagikan tautan undangan anda
               </p>
               <p className="text-[#A6A6A6] ml-3 font-light">
-                Invite friends get rewards!
+                Ajak teman, dapatkan hadiah!
               </p>
             </div>
           </div>
@@ -237,16 +237,16 @@ const EarnClear = async (taskId: string) => {
             </div>
             <div className="flex flex-col">
               <p className="text-[#FDFDFF] ml-3 text-xl font-light">
-                Score 10% from buddies
+                Dapatkan 10% dari teman anda
               </p>
               <p className="text-[#A6A6A6] ml-3 font-light">
-                + 5% from their referrals
+                + 5% dari referral mereka!
               </p>
             </div>
           </div>
         </div>
 
-        <p className="my-4 text-[#CAEB45] mx-5">list of your friends</p>
+        <p className="my-4 text-[#CAEB45] mx-5">Daftar teman anda</p>
 
         <div className="h-[40%] rounded-3xl bg-[#404040] px-5 py-4 space-y-5 mx-5 flex flex-col justify-between">
           <div className="w-full h-[70%] overflow-y-scroll rounded-xl space-y-5">
@@ -270,12 +270,12 @@ const EarnClear = async (taskId: string) => {
                   </div>
 
                   <p className="text-lg font-light text-[#FDFDFF]">
-                    +{friend.coins} Points
+                    +{friend.coins} Poin
                   </p>
                 </div>
               ))
             ) : (
-              <p className="text-[#FDFDFF] text-center">No referrals found.</p>
+              <p className="text-[#FDFDFF] text-center">Belum ada referral...</p>
             )}
           </div>
           <div className="h-[30%] flex flex-row w-full justify-between space-x-4">
@@ -285,7 +285,7 @@ const EarnClear = async (taskId: string) => {
               }}
               className="w-full rounded-3xl bg-[#FDFDFF]"
             >
-              Share with friends
+              Bagikan dengan teman
             </button>
             <button
               onClick={copyReferralCode}
@@ -297,7 +297,7 @@ const EarnClear = async (taskId: string) => {
         </div>
 
         <div className="bg-white w-full fit text-white rounded-t-3xl mt-10 px-7 pt-7 pb-[1rem]">
-          <h1 className="text-xl font-medium text-black">Tasks</h1>
+          <h1 className="text-xl font-medium text-black">Tugas</h1>
 
           <div className="hidden flex-row justify-between items-center bg-[#17181A] rounded-xl p-4 mt-5">
             <div className="flex flex-row space-x-5">
@@ -306,7 +306,7 @@ const EarnClear = async (taskId: string) => {
               </div>
 
               <div className="flex flex-col text-start text-[#FDFDFF] justify-start my-auto">
-                <p className="text-md font-normal">Connect TON Wallet</p>
+                <p className="text-md font-normal">Hubungkan TON Wallet</p>
                 <p className="text-xs font-light">+1000</p>
               </div>
             </div>
@@ -317,7 +317,7 @@ const EarnClear = async (taskId: string) => {
               }}
               className="px-5 py-2 h-fit bg-[#FDFDFF] text-black rounded-3xl"
             >
-              Open
+              Klaim
             </button>
           </div>
 
@@ -331,7 +331,7 @@ const EarnClear = async (taskId: string) => {
                 <div className="flex flex-col text-black">
                   <p className="text-lg font-normal">{item.title}</p>
                   <p className="text-lg font-extralight">
-                    + {item.reward} Token
+                    + {item.reward} CATS
                   </p>
                 </div>
                 {item.cleared ? (
@@ -348,7 +348,7 @@ const EarnClear = async (taskId: string) => {
                       target="_blank"
                       className="px-5 py-2 bg-black text-white rounded-3xl"
                     >
-                      Open
+                      Buka
                     </Link>
                   )
                 )}
@@ -364,7 +364,7 @@ const EarnClear = async (taskId: string) => {
                 <div className="flex flex-col text-black">
                   <p className="text-lg font-normal">{item.title}</p>
                   <p className="text-lg font-extralight">
-                    + {item.reward} Token
+                    + {item.reward} CATS
                   </p>
                 </div>
                 {item.cleared && (

@@ -90,7 +90,7 @@ const OffCanvasExchange = ({ isVisible, onClose, onSuccess }: Props) => {
         >
           <MdMarkEmailRead className="text-[#CAEB45]" size={72} />
           <p className="text-white font-semibold text-2xl">
-            Choose your exchange
+            Pilih Exchange Anda 
           </p>
 
           <div className="w-[90%] grid grid-cols-2 gap-4">
@@ -112,7 +112,7 @@ const OffCanvasExchange = ({ isVisible, onClose, onSuccess }: Props) => {
             type="submit"
             className="block w-full p-4 text-md font-medium rounded-3xl bg-[#CAEB45]"
           >
-            Submit
+            Kirim
           </button>
         </form>
       </FormProvider>

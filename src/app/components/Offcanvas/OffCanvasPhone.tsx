@@ -86,19 +86,19 @@ const OffCanvasPhone = ({ isVisible, onClose, onSuccess }: Props) => {
           <MdPhoneInTalk className="text-[#CAEB45]" size={72} />
 
           <p className="text-white font-semibold text-2xl">
-            Submit Your Phone Number !
+            Kirimkan Nomor Telepon Anda!
           </p>
 
           <input
             type="text"
             id="phone"
             className="block w-full p-4 text-sm rounded-3xl bg-[#404040] text-white"
-            placeholder="Enter Phone"
+            placeholder="Masukkan Nomor Telepon"
             {...methods.register("phone")}
           />
 
           <button className="block w-full p-4 text-sm text-gray-900 text-md font-medium rounded-3xl bg-[#CAEB45]">
-            Submit
+            Kirim
           </button>
         </form>
       </FormProvider>

@@ -279,27 +279,27 @@ export const Home = () => {
             width={200}
             priority
           /> */}
-          <h3 className="text-lg font-light mt-4">Total Coins</h3>
+          <h3 className="text-lg font-light mt-4">Jumlah Cats</h3>
           <div className="flex flex-row items-center space-x-5">
             <p className="text-5xl font-bold">{userDetails?.coins}</p>
-            <p className="text-xl font-thin">Tokens</p>
+            <p className="text-xl font-thin">Cats</p>
           </div>
         </div>
       </div>
 
       <div className="h-[15%] w-[90%] bg-black rounded-2xl mx-auto grid grid-cols-3 py-5 mt-6 items-center text-white text-center">
         <div className="flex flex-col items-center justify-center">
-          <p className="text-sm font-thin">Rewards</p>
+          <p className="text-sm font-thin">Hadiah</p>
           <p className="text-xl font-medium">{userDetails?.user_rewards}</p>
         </div>
 
         <div className="border-x flex flex-col items-center justify-center">
-          <p className="text-sm font-thin">Earn</p>
+          <p className="text-sm font-thin">Tugas</p>
           <p className="text-xl font-medium">{userDetails?.user_earn}</p>
         </div>
 
         <div className="flex flex-col items-center justify-center">
-          <p className="text-sm font-thin">Invites</p>
+          <p className="text-sm font-thin">Undangan</p>
           <p className="text-xl font-medium">{userDetails?.user_ref}</p>
         </div>
       </div>
@@ -307,17 +307,25 @@ export const Home = () => {
       <div className="flex w-full flex-col mt-5 overflow-x-scroll space-y-5">
         <div className="flex w-full justify-around px-2 font-medium">
           {/* button filter */}
-          {filters.map((filter) => (
-            <button
+            {filters.map((filter) => {
+            const filterLabel =
+              filter === "Daily"
+              ? "Harian"
+              : filter === "Weekly"
+              ? "Mingguan"
+              : "Bulanan";
+            return (
+              <button
               key={filter}
               className={`border border-black rounded-3xl px-7 py-3 ${
                 activeFilter === filter ? "bg-[#CAEB45] text-black" : ""
               }`}
               onClick={() => changeFilter(filter)}
-            >
-              {filter}
-            </button>
-          ))}
+              >
+              {filterLabel}
+              </button>
+            );
+            })}
         </div>
 
         <div className="w-full">
@@ -336,7 +344,7 @@ export const Home = () => {
                     className="flex flex-col items-center justify-center bg-[#404040] space-y-5 py-5 rounded-2xl mt-3"
                   >
                     <p className="text-center font-bold text-xl w-full text-white">
-                      Enter your answer
+                      Masukkan Kode Rahasia
                     </p>
 
                     <div className="relative w-[90%] rounded-lg ">
@@ -359,7 +367,7 @@ export const Home = () => {
                         type="submit"
                         className="text-black absolute end-2.5 bottom-2 bg-[#CAEB45] font-medium rounded-3xl text-sm px-4 py-2"
                       >
-                        Submit
+                        Kirim
                       </button>
                     </div>
                   </form>
@@ -378,7 +386,7 @@ export const Home = () => {
                   {currentTask && currentTask.video && (
                     <div className="flex flex-col justify-center mt-5 w-full">
                       <p className="text-white text-center text-B2 font-semibold">
-                        Click to watch the video
+                        Klik untuk menonton video
                       </p>
                       <Link
                         target="blank"
@@ -391,7 +399,7 @@ export const Home = () => {
                   )}
 
                   <p className="text-md w-full text-green-500 font-normal">
-                    + {currentTask?.reward} Tokens
+                    + {currentTask?.reward} Cats
                   </p>
                   <h1 className="w-full font-bold text-2xl text-white">
                     {currentTask?.title}
@@ -414,7 +422,7 @@ export const Home = () => {
           ) : (
             <div className="flex flex-col items-center justify-center bg-[#404040] space-y-5 py-5 px-5 mx-5 rounded-2xl mt-3">
               <p className="text-center font-bold text-xl text-white">
-                No task available
+                Tidak ada tugas tersedia
               </p>
             </div>
           )}

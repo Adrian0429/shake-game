@@ -109,7 +109,7 @@ const OffCanvasRegion = ({ isVisible, onClose, onSuccess }: Props) => {
           onClick={handleSubmit(onSubmit)}
           className="block w-full mt-5 p-4 text-sm text-gray-900 text-md font-medium rounded-3xl bg-[#CAEB45]"
         >
-          Submit
+          Kirim
         </button>
       </FormProvider>
     </div>

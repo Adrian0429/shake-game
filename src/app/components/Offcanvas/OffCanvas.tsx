@@ -60,11 +60,11 @@ const Offcanvas = ({ isVisible, onClose, task }: Props) => {
           className="flex flex-col items-center justify-center bg-[#404040] space-y-5 py-5 rounded-2xl mt-3"
         >
           <p className="text-center font-bold text-xl w-full text-white">
-            Enter you answer
+            Masukkan Jawaban Anda
           </p>
 
           <label className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">
-            submit
+            Kirim
           </label>
 
           <div className="relative w-[90%] rounded-lg ">
@@ -80,7 +80,7 @@ const Offcanvas = ({ isVisible, onClose, task }: Props) => {
               type="submit"
               className="text-black absolute end-2.5 bottom-2 bg-[#CAEB45] font-medium rounded-3xl text-sm px-4 py-2"
             >
-              Submit
+              Kirim
             </button>
           </div>
         </form>
@@ -102,7 +102,7 @@ const Offcanvas = ({ isVisible, onClose, task }: Props) => {
         {task && task.video && (
           <div className="flex flex-col justify-center mt-5 w-full">
             <p className="text-white text-center text-B2 font-semibold">
-              click to watch the video
+              Klik untuk membuka video
             </p>
             <Link
               target="blank"
@@ -116,7 +116,7 @@ const Offcanvas = ({ isVisible, onClose, task }: Props) => {
 
         {/* <div className="bg-slate-400 w-full h-48 rounded-xl"></div> */}
         <p className="font-extralight text-md w-full text-white">
-          + {task?.reward} Tokens
+          + {task?.reward} CATS
         </p>
         <h1 className="w-full font-bold text-2xl text-white">{task?.title}</h1>
         <div

@@ -20,7 +20,7 @@ const Footerdata = [
     icon: <HiMiniTrophy className="text-2xl mb-1 group-hover:text-black" />,
   },
   {
-    name: "Profile",
+    name: "Profil",
     icon: <FaUser className="text-2xl mb-1 group-hover:text-black" />,
   },
 ];

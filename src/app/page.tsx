@@ -9,15 +9,15 @@ import { Earn } from "./components/Earn";
 
 
 export default function Page() {
-  const [Page, setPage] = useState("Home");
+  const [Page, setPage] = useState("Beranda");
 
   return (
     <div className="h-[calc(100vh-4.5rem)]">
       <div>
-        {Page === "Home" && <Home/>}
+        {Page === "Beranda" && <Home/>}
         {Page === "Earn" && <Earn />}
         {Page === "Leaderboards" && <Leaderboards />}
-        {Page === "Profile" && <Profile />}
+        {Page === "Profil" && <Profile />}
       </div>
 
       <Navbar Page={Page} setPage={setPage} />

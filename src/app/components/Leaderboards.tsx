@@ -58,7 +58,7 @@ export const Leaderboards = () => {
                 <p>{leaderboards?.data.data_user.position}</p>
                 <p>{leaderboards?.data.data_user.user_name}</p>
               </div>
-              <p>{leaderboards?.data.data_user.coins} CATS</p>
+              <p>{leaderboards?.data.data_user.coins} GULD</p>
             </div>
           </div>
 
@@ -67,7 +67,7 @@ export const Leaderboards = () => {
               <span className="font-semibold text-xl text-white">
                 {leaderboards?.data.total_coins}
               </span>{"  "}
-              Total CATS
+              Total Guld Score
             </p>
           </div>
         </div>
@@ -84,7 +84,7 @@ export const Leaderboards = () => {
                 <p>{item.position}</p>
                 <p>{item.user_name}</p>
               </div>
-              <p className="font-light">{item.coins} CATS</p>
+              <p className="font-light">{item.coins} GULD SCORE</p>
             </div>
           ))}
         </div>

@@ -279,10 +279,10 @@ export const Home = () => {
             width={200}
             priority
           /> */}
-          <h3 className="text-lg font-light mt-4">Jumlah Cats</h3>
+          <h3 className="text-lg font-light mt-4">Jumlah Guld</h3>
           <div className="flex flex-row items-center space-x-5">
             <p className="text-5xl font-bold">{userDetails?.coins}</p>
-            <p className="text-xl font-thin">Cats</p>
+            <p className="text-xl font-thin">Guld</p>
           </div>
         </div>
       </div>
@@ -399,7 +399,7 @@ export const Home = () => {
                   )}
 
                   <p className="text-md w-full text-green-500 font-normal">
-                    + {currentTask?.reward} Cats
+                    + {currentTask?.reward} Guld
                   </p>
                   <h1 className="w-full font-bold text-2xl text-white">
                     {currentTask?.title}

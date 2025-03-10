@@ -331,7 +331,7 @@ const EarnClear = async (taskId: string) => {
                 <div className="flex flex-col text-black">
                   <p className="text-lg font-normal">{item.title}</p>
                   <p className="text-lg font-extralight">
-                    + {item.reward} CATS
+                    + {item.reward} GULD
                   </p>
                 </div>
                 {item.cleared ? (
@@ -364,7 +364,7 @@ const EarnClear = async (taskId: string) => {
                 <div className="flex flex-col text-black">
                   <p className="text-lg font-normal">{item.title}</p>
                   <p className="text-lg font-extralight">
-                    + {item.reward} CATS
+                    + {item.reward} GULD
                   </p>
                 </div>
                 {item.cleared && (

@@ -116,7 +116,7 @@ const Offcanvas = ({ isVisible, onClose, task }: Props) => {
 
         {/* <div className="bg-slate-400 w-full h-48 rounded-xl"></div> */}
         <p className="font-extralight text-md w-full text-white">
-          + {task?.reward} CATS
+          + {task?.reward} GULD
         </p>
         <h1 className="w-full font-bold text-2xl text-white">{task?.title}</h1>
         <div

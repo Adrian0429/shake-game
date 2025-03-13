@@ -197,7 +197,7 @@ const EarnClear = async (taskId: string) => {
             </div>
 
             <div className="flex flex-col text-start text-[#FDFDFF]">
-              <p className="text-lg font-normal">Poin Referral</p>
+              <p className="text-lg font-normal">Poin Undangan</p>
               <p className="text-md font-light">
                 + {referrals?.data.total_coins || 0}
               </p>
@@ -240,7 +240,7 @@ const EarnClear = async (taskId: string) => {
                 Dapatkan 10% dari teman anda
               </p>
               <p className="text-[#A6A6A6] ml-3 font-light">
-                + 5% dari referral mereka!
+                + 5% dari undangan mereka!
               </p>
             </div>
           </div>
@@ -275,7 +275,9 @@ const EarnClear = async (taskId: string) => {
                 </div>
               ))
             ) : (
-              <p className="text-[#FDFDFF] text-center">Belum ada referral...</p>
+              <p className="text-[#FDFDFF] text-center">
+                Belum ada undangan...
+              </p>
             )}
           </div>
           <div className="h-[30%] flex flex-row w-full justify-between space-x-4">
@@ -322,58 +324,39 @@ const EarnClear = async (taskId: string) => {
           </div>
 
           <div className="w-full max-h-[35vh] mt-5 flex flex-col overflow-y-scroll flex-shrink-0 space-y-5">
-            {/* Map through tasks (Earn tasks) */}
-            {tasks.data.map((item, index) => (
-              <div
-                key={index}
-                className="flex flex-row w-full items-center justify-between px-5 py-2 border-b "
-              >
-                <div className="flex flex-col text-black">
-                  <p className="text-lg font-normal">{item.title}</p>
-                  <p className="text-lg font-extralight">
-                    + {item.reward} GULD
-                  </p>
-                </div>
-                {item.cleared ? (
-                  <div className="flex items-center justify-center bg-[#CAEB45] rounded-full p-2">
-                    <FaCheckCircle className="text-black" />
+            {[...tasks.data, ...tasks.task]
+              .sort((a, b) => Number(a.cleared) - Number(b.cleared)) // Sort uncleared first
+              .map((item, index) => (
+                <div
+                  key={index}
+                  className="flex flex-row w-full items-center justify-between px-5 py-2 border-b"
+                >
+                  <div className="flex flex-col text-black">
+                    <p className="text-lg font-normal">{item.title}</p>
+                    <p className="text-lg font-extralight">
+                      + {item.reward} GULD
+                    </p>
                   </div>
-                ) : (
-                  item.link && (
-                    <Link
-                      href={item.link}
-                      onClick={() => {
-                        EarnClear(item.task_id);
-                      }}
-                      target="_blank"
-                      className="px-5 py-2 bg-black text-white rounded-3xl"
-                    >
-                      Buka
-                    </Link>
-                  )
-                )}
-              </div>
-            ))}
-
-            {/* Map through task list auto (task news and referrals) */}
-            {tasks.task.map((item, index) => (
-              <div
-                key={index}
-                className="flex flex-row w-full items-center justify-between px-5 py-2 border-b "
-              >
-                <div className="flex flex-col text-black">
-                  <p className="text-lg font-normal">{item.title}</p>
-                  <p className="text-lg font-extralight">
-                    + {item.reward} GULD
-                  </p>
+                  {item.cleared ? (
+                    <div className="flex items-center justify-center bg-[#CAEB45] rounded-full p-2">
+                      <FaCheckCircle className="text-black" />
+                    </div>
+                  ) : (
+                    'link' in item && item.link && (
+                      <Link
+                        href={item.link}
+                        onClick={() => {
+                          EarnClear(item.task_id);
+                        }}
+                        target="_blank"
+                        className="px-5 py-2 bg-black text-white rounded-3xl"
+                      >
+                        Buka
+                      </Link>
+                    )
+                  )}
                 </div>
-                {item.cleared && (
-                  <div className="flex items-center justify-center bg-[#CAEB45] rounded-full p-2">
-                    <FaCheckCircle className="text-black" />
-                  </div>
-                )}
-              </div>
-            ))}
+              ))}
           </div>
         </div>
       </div>

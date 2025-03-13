@@ -87,19 +87,19 @@ const OffCanvasRegion = ({ isVisible, onClose, onSuccess }: Props) => {
           <div className="flex flex-col mx-auto h-full overflow-y-scroll space-y-5">
             {countries.map((item) => (
               <button
-                key={item.code}
+                key={item} // Using index as key since we don't have unique codes
                 type="button"
                 onClick={() => {
-                  setActiveCountry(item.code);
-                  setValue("country", item.code);
+                  setActiveCountry(item);
+                  setValue("country", item);
                 }}
-                className={`w-full py-4 px-5 rounded-2xl text-start  ${
-                  activeCountry === item.code
+                className={`w-full py-4 px-5 rounded-2xl text-start ${
+                  activeCountry === item
                     ? "bg-[#CAEB45] text-black"
                     : "bg-[#404040] text-white"
                 }`}
               >
-                {item.name}
+                {item}
               </button>
             ))}
           </div>

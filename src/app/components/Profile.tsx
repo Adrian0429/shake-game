@@ -6,7 +6,7 @@ import OffCanvasEmail from './Offcanvas/OffCanvasEmail';
 import OffCanvasRegion from './Offcanvas/OffCanvasRegion';
 import axios from 'axios';
 import { parseCookies } from 'nookies';
-import OffCanvasExchange from './Offcanvas/OffCanvasExchange';
+// import OffCanvasExchange from './Offcanvas/OffCanvasExchange';
 import { MeUser } from '../constant/user';
 import OffCanvasPhone from './Offcanvas/OffCanvasPhone';
 
@@ -15,7 +15,7 @@ export const Profile = () => {
       const [isOffcanvasPhoneVisible, setIsOffcanvasPhoneVisible] = useState(false);
       const [isOffcanvasEmailVisible, setIsOffcanvasEmailVisible] = useState(false);
       const [isOffcanvasRegionVisible, setIsOffcanvasRegionVisible] = useState(false);
-      const [isOffcanvasEchangeVisible, setIsOffcanvasEchangeVisible] = useState(false);
+      // const [isOffcanvasEchangeVisible, setIsOffcanvasEchangeVisible] = useState(false);
       const [userDetails, setUserDetails] = useState<MeUser | null>(null);
 
       const fetchUserData = async () => {
@@ -82,9 +82,9 @@ export const Profile = () => {
             className="flex flex-row justify-between items-center py-4"
           >
             <div className="flex flex-col space-y-1 text-start">
-              <p className="text-md font-normal">Negara</p>
+              <p className="text-md font-normal">Kota</p>
               <p className="text-sm font-light">
-                {userDetails?.region || "Belum Ada Negara"}
+                {userDetails?.region || "Belum Ada Kota"}
               </p>
             </div>
             {userDetails?.email ? null : <FaChevronRight />}
@@ -107,7 +107,7 @@ export const Profile = () => {
             {userDetails?.phone ? null : <FaChevronRight />}
           </button>
 
-          <button
+          {/* <button
             className="flex flex-row justify-between items-center py-4"
             onClick={() => {
               if (!userDetails?.exchange) {
@@ -122,7 +122,7 @@ export const Profile = () => {
               </p>
             </div>
             {userDetails?.exchange ? null : <FaChevronRight />}
-          </button>
+          </button> */}
         </div>
       </div>
 
@@ -150,14 +150,14 @@ export const Profile = () => {
         isVisible={isOffcanvasRegionVisible}
         onClose={() => setIsOffcanvasRegionVisible(false)}
       />
-      <OffCanvasExchange
+      {/* <OffCanvasExchange
         onSuccess={() => {
           fetchUserData();
           setIsOffcanvasEchangeVisible(false);
         }}
         isVisible={isOffcanvasEchangeVisible}
         onClose={() => setIsOffcanvasEchangeVisible(false)}
-      />
+      /> */}
     </>
   );
 }

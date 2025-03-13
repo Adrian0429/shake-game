@@ -19,7 +19,7 @@ type ClearRequest = {
 };
 
   const defaultUserData: UserData = {
-    id: 497589299,
+    id: 123123123,
     username: "",
     language_code: "",
     is_premium: false,
@@ -331,13 +331,14 @@ export const Home = () => {
         <div className="w-full">
           {currentTask ? (
             <div className="py-5 bg-[#1F1F1E] rounded-t-lg flex flex-row justify-between items-center pb-[6rem]">
+              
               <FaChevronLeft
                 onClick={prevSlide}
                 className="h-full w-fit px-2"
                 size={26}
                 color="white"
               />
-              <div className="w-full">
+              <div className="w-[80%]">
                 <FormProvider {...methods}>
                   <form
                     onSubmit={handleSubmit(onSubmit)}
@@ -405,7 +406,7 @@ export const Home = () => {
                     {currentTask?.title}
                   </h1>
                   <div
-                    className="rich-text-content list-disc list-inside text-justify text-white mt-5 font-thin w-full"
+                    className="rich-text-content list-disc list-inside text-justify text-white mt-5 font-thin w-full break-words"
                     dangerouslySetInnerHTML={{
                       __html: currentTask?.description || "",
                     }}
